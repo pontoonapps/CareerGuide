@@ -1,0 +1,11 @@
+{
+  "name": "test-node-api",
+  "version": "0.0.1",
+  "description": "testing node api functionality for pontoon",
+  "main": "index.js",
+  "author": "Jacek Kopecky <jacek@jacek.cz>",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mysql2": "^2.1.0"
+  }
+}
