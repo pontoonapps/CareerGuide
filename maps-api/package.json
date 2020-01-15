@@ -5,7 +5,9 @@
   "main": "index.js",
   "author": "Jacek Kopecky <jacek@jacek.cz>",
   "dependencies": {
+    "cookie-parser": "^1.4.4",
     "express": "^4.17.1",
-    "mysql2": "^2.1.0"
+    "mysql2": "^2.1.0",
+    "node-fetch": "^2.6.0"
   }
 }

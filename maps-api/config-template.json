@@ -2,5 +2,6 @@
   "DB_USER": "",
   "DB_PASSWORD": "",
   "DB_DATABASE": "",
-  "DEPLOYMENT_ROOT": "/testnodeapi2/"
+  "DEPLOYMENT_ROOT": "/testnodeapi2/",
+  "LOGIN_CHECK_URL": "https://pontoonapps.com/is_logged_in.php"
 }
