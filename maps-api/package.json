@@ -5,10 +5,10 @@
   "main": "index.js",
   "author": "Jacek Kopecky <jacek@jacek.cz>",
   "dependencies": {
-    "cookie-parser": "^1.4.4",
     "express": "^4.17.1",
-    "mysql2": "^2.1.0",
-    "node-fetch": "^2.6.0"
+    "express-basic-auth": "^1.2.0",
+    "hashy": "^0.8.0",
+    "mysql2": "^2.1.0"
   },
   "devDependencies": {
     "semistandard": "^14.2.0"

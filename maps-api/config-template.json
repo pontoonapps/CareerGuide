@@ -3,6 +3,9 @@
   "DB_PASSWORD": "",
   "DB_DATABASE": "",
   "DEPLOYMENT_ROOT": "/testnodeapi2/",
-  "LOGIN_CHECK_URL": "https://pontoonapps.com/is_logged_in.php",
-  "LOGIN_URL": "https://pontoonapps.com/login.php"
+  "RECOGNISED_API_KEYS": {
+    "D0087291-8AFD-4A64-9550-A7A969BA887E": {
+      "comment": "testing user, do not use this API KEY"
+    }
+  }
 }
