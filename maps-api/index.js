@@ -12,7 +12,6 @@ const app = express.Router({
 
 rootApp.use(config.DEPLOYMENT_ROOT || '/', app);
 
-
 app.get('/', msg('hi, testing'));
 // app.get('/env', msg(JSON.stringify(process.env)));
 // app.get('/cook', cookieParser(), showCookies);
@@ -22,18 +21,17 @@ app.get('/count', sqlCount);
 rootApp.use(express.static('public'));
 rootApp.listen(process.env.PORT || undefined);
 
-
 function msg(...message) {
   message = message.join('\n');
   return (req, res) => {
     res.type('text/plain');
     res.send(`${message}\n${new Date()}`);
-  }
+  };
 }
 
-function showCookies(req, res) {
-  res.json(req.cookies);
-}
+// function showCookies(req, res) {
+//   res.json(req.cookies);
+// }
 
 async function isLoggedIn(req, res) {
   const fetchResp = await fetch(config.LOGIN_CHECK_URL, {
@@ -66,9 +64,9 @@ async function sqlCount(req, res) {
 
 function init() {
   return mysql.createConnection({
-    "host": "localhost",
-    "user": config.DB_USER,
-    "password": config.DB_PASSWORD,
-    "database": config.DB_DATABASE,
+    host: 'localhost',
+    user: config.DB_USER,
+    password: config.DB_PASSWORD,
+    database: config.DB_DATABASE,
   });
 }

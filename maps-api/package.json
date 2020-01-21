@@ -9,5 +9,8 @@
     "express": "^4.17.1",
     "mysql2": "^2.1.0",
     "node-fetch": "^2.6.0"
+  },
+  "devDependencies": {
+    "semistandard": "^14.2.0"
   }
 }
