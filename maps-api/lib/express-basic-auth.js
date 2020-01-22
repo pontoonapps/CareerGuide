@@ -46,8 +46,10 @@ function buildMiddleware(options) {
   assert(typeof authorizer === 'function', 'Expected a function for the basic auth authorizer, found ' + typeof authorizer + ' instead');
 
   function staticUsersAuthorizer(username, password) {
-    for (const i in users) {
-      if (safeCompare(username, i) & safeCompare(password, users[i])) { return true; }
+    for (const i of Object.keys(users)) {
+      if (safeCompare(username, i) & safeCompare(password, users[i])) {
+        return true;
+      }
     }
 
     return false;
