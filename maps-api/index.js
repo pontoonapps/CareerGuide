@@ -1,9 +1,7 @@
 const express = require('express');
-const mysql = require('mysql2/promise');
-const hashy = require('hashy');
 
 const basicAuth = require('./lib/express-basic-auth');
-
+const db = require('./db');
 const config = require('./config');
 
 const rootApp = express();
@@ -13,7 +11,7 @@ const app = express.Router({
 });
 
 const auth = basicAuth({
-  authorizer: checkDBUser,
+  authorizer: db.checkDBUser,
 });
 
 rootApp.use(config.DEPLOYMENT_ROOT || '/', app);
@@ -24,10 +22,12 @@ app.use(checkApiKey);
 app.get('/ping', msg('hi, api key working'));
 
 app.use(auth);
-app.get('/count', sqlCount);
+app.get('/count', db.sqlCount);
 
 rootApp.use(express.static('public'));
 rootApp.listen(process.env.PORT || undefined);
+
+// server functions
 
 function msg(...message) {
   message = message.join('\n');
@@ -37,52 +37,10 @@ function msg(...message) {
   };
 }
 
-async function sqlCount(req, res) {
-  const sql = await initDB();
-  const [rows] = await sql.query('SELECT COUNT(*) AS count FROM `users`');
-  const count = Number(rows[0].count);
-  res.send(`hi, there are ${count} users as of ${new Date()}\n`);
-}
-
-function initDB() {
-  return mysql.createConnection({
-    host: 'localhost',
-    user: config.DB_USER,
-    password: config.DB_PASSWORD,
-    database: config.DB_DATABASE,
-  });
-}
-
 function checkApiKey(req, res, next) {
   if (req.query.apiKey in config.RECOGNISED_API_KEYS) {
     next();
   } else {
     res.sendStatus(403);
-  }
-}
-
-async function checkDBUser(user, pwd, authObj) {
-  try {
-    const sql = await initDB();
-    const query = `SELECT id, hashed_password
-                   FROM users
-                   WHERE email = ?`;
-
-    const [rows] = await sql.query(query, [user]);
-    if (rows.length === 0) {
-      return false;
-    }
-
-    const hash = rows[0].hashed_password;
-    const match = await hashy.verify(pwd, hash);
-
-    if (match) {
-      authObj.id = rows[0].id;
-      return true;
-    } else {
-      return false;
-    }
-  } catch (e) {
-    return false;
   }
 }
