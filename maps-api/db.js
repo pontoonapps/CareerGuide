@@ -11,14 +11,14 @@ function initDB() {
   });
 }
 
-async function sqlCount(req, res) {
+async function testCount() {
   const sql = await initDB();
   const [rows] = await sql.query('SELECT COUNT(*) AS count FROM `users`');
   const count = Number(rows[0].count);
-  res.send(`hi, there are ${count} users as of ${new Date()}\n`);
+  return count;
 }
 
-async function checkDBUser(user, pwd, authObj) {
+async function findUser(user, pwd) {
   try {
     const sql = await initDB();
     const query = `SELECT id, hashed_password
@@ -27,24 +27,23 @@ async function checkDBUser(user, pwd, authObj) {
 
     const [rows] = await sql.query(query, [user]);
     if (rows.length === 0) {
-      return false;
+      return null;
     }
 
     const hash = rows[0].hashed_password;
     const match = await hashy.verify(pwd, hash);
 
     if (match) {
-      authObj.id = rows[0].id;
-      return true;
+      return rows[0].id;
     } else {
-      return false;
+      return null;
     }
   } catch (e) {
-    return false;
+    return null;
   }
 }
 
 module.exports = {
-  sqlCount,
-  checkDBUser,
+  testCount,
+  findUser,
 };
