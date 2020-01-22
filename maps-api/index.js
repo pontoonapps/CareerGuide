@@ -1,7 +1,8 @@
 const express = require('express');
 const mysql = require('mysql2/promise');
-const basicAuth = require('express-basic-auth');
 const hashy = require('hashy');
+
+const basicAuth = require('./lib/express-basic-auth');
 
 const config = require('./config');
 
@@ -13,7 +14,6 @@ const app = express.Router({
 
 const auth = basicAuth({
   authorizer: checkDBUser,
-  authorizeAsync: true,
 });
 
 rootApp.use(config.DEPLOYMENT_ROOT || '/', app);
@@ -61,21 +61,28 @@ function checkApiKey(req, res, next) {
   }
 }
 
-async function checkDBUser(user, pwd, cb) {
+async function checkDBUser(user, pwd, authObj) {
   try {
     const sql = await initDB();
-    const query = `SELECT hashed_password
+    const query = `SELECT id, hashed_password
                    FROM users
                    WHERE email = ?`;
+
     const [rows] = await sql.query(query, [user]);
     if (rows.length === 0) {
-      cb(null, false);
-      return;
+      return false;
     }
+
     const hash = rows[0].hashed_password;
     const match = await hashy.verify(pwd, hash);
-    cb(null, match === true);
+
+    if (match) {
+      authObj.id = rows[0].id;
+      return true;
+    } else {
+      return false;
+    }
   } catch (e) {
-    cb(null, false);
+    return false;
   }
 }

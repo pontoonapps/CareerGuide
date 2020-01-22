@@ -5,8 +5,8 @@
   "main": "index.js",
   "author": "Jacek Kopecky <jacek@jacek.cz>",
   "dependencies": {
+    "basic-auth": "^2.0.1",
     "express": "^4.17.1",
-    "express-basic-auth": "^1.2.0",
     "hashy": "^0.8.0",
     "mysql2": "^2.1.0"
   },
