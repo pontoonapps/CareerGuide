@@ -65,7 +65,7 @@ function buildMiddleware(options) {
         user: authentication.name,
       };
 
-      const approved = await authorizer(authentication.name, authentication.pass, req.auth);
+      const approved = await authorizer(authentication.name, authentication.pass, authObj);
 
       if (approved) {
         req.auth = authObj;
