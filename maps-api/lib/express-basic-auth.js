@@ -1,6 +1,11 @@
 /*
  * Simple Express.js HTTP basic auth middleware.
  *
+ * Extended by Jacek Kopecky github/@jacekkopecky with the following changes:
+ * - give req.auth to the authorizer,
+ * - use async authorizers automatically,
+ * - authorizer cannot use callback anymore
+ *
  * copied from https://raw.githubusercontent.com/LionC/express-basic-auth/00bb29fdd638f5cda8025d4398be97d528ce3f6f/index.js
  */
 
@@ -34,7 +39,6 @@ function buildMiddleware(options) {
   const challenge = options.challenge !== undefined ? !!options.challenge : false;
   const users = options.users || {};
   const authorizer = options.authorizer || staticUsersAuthorizer;
-  const isAsync = options.authorizeAsync !== undefined ? !!options.authorizeAsync : false;
   const getResponseBody = ensureFunction(options.unauthorizedResponse, '');
   const realm = ensureFunction(options.realm);
 
@@ -49,7 +53,7 @@ function buildMiddleware(options) {
     return false;
   }
 
-  return function authMiddleware(req, res, next) {
+  return async function authMiddleware(req, res, next) {
     const authentication = auth(req);
 
     if (!authentication) { return unauthorized(); }
@@ -59,9 +63,12 @@ function buildMiddleware(options) {
       password: authentication.pass,
     };
 
-    if (isAsync) { return authorizer(authentication.name, authentication.pass, authorizerCallback); } else if (!authorizer(authentication.name, authentication.pass)) { return unauthorized(); }
-
-    return next();
+    try {
+      const approved = await authorizer(authentication.name, authentication.pass, req.auth);
+      return approved ? next() : unauthorized();
+    } catch (e) {
+      next(e);
+    }
 
     function unauthorized() {
       if (challenge) {
@@ -79,14 +86,6 @@ function buildMiddleware(options) {
       if (typeof response === 'string') { return res.status(401).send(response); }
 
       return res.status(401).json(response);
-    }
-
-    function authorizerCallback(err, approved) {
-      assert.ifError(err);
-
-      if (approved) { return next(); }
-
-      return unauthorized();
     }
   };
 }
