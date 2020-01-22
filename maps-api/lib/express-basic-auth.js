@@ -60,14 +60,19 @@ function buildMiddleware(options) {
 
     if (!authentication) { return unauthorized(); }
 
-    req.auth = {
-      user: authentication.name,
-      password: authentication.pass,
-    };
-
     try {
+      const authObj = {
+        user: authentication.name,
+      };
+
       const approved = await authorizer(authentication.name, authentication.pass, req.auth);
-      return approved ? next() : unauthorized();
+
+      if (approved) {
+        req.auth = authObj;
+        return next();
+      } else {
+        return unauthorized();
+      }
     } catch (e) {
       next(e);
     }
