@@ -22,7 +22,6 @@ app.get('/', msg('hi, testing'));
 
 app.use(checkApiKey);
 app.get('/ping', msg('hi, api key working'));
-// app.get('/lasterr', (req, res) => res.json(globalLastError || 'none'));
 
 app.use(auth);
 app.get('/count', sqlCount);
@@ -62,28 +61,21 @@ function checkApiKey(req, res, next) {
   }
 }
 
-// let globalLastError;
-
 async function checkDBUser(user, pwd, cb) {
   try {
-    // globalLastError = {};
     const sql = await initDB();
     const query = `SELECT hashed_password
                    FROM users
                    WHERE email = ?`;
     const [rows] = await sql.query(query, [user]);
-    // globalLastError.rows = rows;
     if (rows.length === 0) {
       cb(null, false);
       return;
     }
     const hash = rows[0].hashed_password;
-    // globalLastError.hash = hash;
     const match = await hashy.verify(pwd, hash);
-    // globalLastError.match = match;
     cb(null, match === true);
   } catch (e) {
-    // globalLastError.exception = e;
     cb(null, false);
   }
 }
