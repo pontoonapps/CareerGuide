@@ -75,5 +75,5 @@ async function deletePin(req, res, next) {
 }
 
 async function getUserPins(req, res, next) {
-  res.sendStatus(501);
+  res.json(await db.listUserPins(req.auth.id));
 }
