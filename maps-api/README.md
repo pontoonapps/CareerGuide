@@ -20,19 +20,19 @@ If you want to install the API at pontoonapps.com:
 
 ## API structure
 
-The API runs on pontoonapps.com (initially at https://pontoonapps.com/testnodeapi2/ ). Authentication mechanisms are detailed further below.
+The API runs on pontoonapps.com (initially at https://pontoonapps.com/testnodeapi2/ ). Data structures and authentication mechanisms are detailed further below.
 
 * GET `<root>/ping` – returns a successful response if the API key is accepted
 * GET `<root>/pins` – return array of all pins visible to this user
 * POST `<root>/pins` – add a user pin (accepts JSON)
-* POST `<root>/pins/delete` – delete a pin identified by name and created by the calling (pin name is unique for a user; a user can only delete their own pins)
+* POST `<root>/pins/delete` – remove a pin identified by name and created by the calling user (a user can only delete their own pins) – the incoming JSON should only be `{ name: ... }`
 
 ### Data structures
 
 A pin is represented in the API with the following data structure:
 ```
 {
-  name:                      String (max 40 chars),
+  name:                      String (max 40 chars) – unique for the user,
   category:       (optional) Number,
   description:    (optional) String (max 255 chars),
   phone:          (optional) String (max 25 chars),
@@ -68,5 +68,8 @@ Users in the app use their pontoonapps.com account details. The app uses these a
 
 ## To-Do
 
+* read again spec from Niall Fraser to see if we cover everything
 * recognized API keys probably could be in the database rather than in the config file
 * users are not connected to training centres yet so the API does not return any training centre pins
+* remove `testCount` functionality
+* handle the possibility of broken MySQL connection (pools seem to solve that)
