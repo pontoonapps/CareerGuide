@@ -20,11 +20,11 @@ app.use(checkApiKey);
 app.get('/ping', msg('hi, api key working'));
 
 app.use(auth);
-app.get('/testcount', testCount);
+app.get('/testcount', promiseWrap(testCount));
 
-app.post('/pins', express.json(), addPin);
-app.post('/pins/delete', express.json(), deletePin);
-app.get('/pins', getUserPins);
+app.post('/pins', express.json(), promiseWrap(addPin));
+app.post('/pins/delete', express.json(), promiseWrap(deletePin));
+app.get('/pins', promiseWrap(getUserPins));
 
 // server functions
 
@@ -33,6 +33,13 @@ function msg(...message) {
   return (req, res) => {
     res.type('text/plain');
     res.send(`${message}\n${new Date()}\n`);
+  };
+}
+
+function promiseWrap(f) {
+  return (req, res, next) => {
+    Promise.resolve(f(req, res, next))
+      .catch((e) => next(e || new Error()));
   };
 }
 
@@ -55,34 +62,18 @@ async function checkDBUser(user, pwd, authObj) {
 }
 
 async function testCount(req, res, next) {
-  try {
-    const count = await db.testCount();
-    res.send(`hi, there are ${count} users as of ${new Date()}\n`);
-  } catch (e) {
-    next(e);
-  }
+  const count = await db.testCount();
+  res.send(`hi, there are ${count} users as of ${new Date()}\n`);
 }
 
 async function addPin(req, res, next) {
-  try {
-    res.sendStatus(501);
-  } catch (e) {
-    next(e);
-  }
+  res.sendStatus(501);
 }
 
 async function deletePin(req, res, next) {
-  try {
-    res.sendStatus(501);
-  } catch (e) {
-    next(e);
-  }
+  res.sendStatus(501);
 }
 
 async function getUserPins(req, res, next) {
-  try {
-    res.sendStatus(501);
-  } catch (e) {
-    next(e);
-  }
+  res.sendStatus(501);
 }
