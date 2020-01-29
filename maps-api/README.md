@@ -25,7 +25,11 @@ The API runs on pontoonapps.com (initially at https://pontoonapps.com/testnodeap
 * GET `<root>/ping` – returns a successful response if the API key is accepted
 * GET `<root>/pins` – return array of all pins visible to this user
 * POST `<root>/pins` – add a user pin (accepts JSON)
+  * returns 204 No Content on success
+  * returns 400 Bad Request when data is malformed
 * POST `<root>/pins/delete` – remove a pin identified by name and created by the calling user (a user can only delete their own pins) – the incoming JSON should only be `{ name: ... }`
+  * returns 204 No Content on success (even if pin with the name didn't exist)
+  * returns 400 Bad Request when data is malformed
 
 ### Data structures
 
@@ -73,3 +77,4 @@ Users in the app use their pontoonapps.com account details. The app uses these a
 * users are not connected to training centres yet so the API does not return any training centre pins
 * remove `testCount` functionality
 * handle the possibility of broken MySQL connection (pools seem to solve that)
+* check that in cpanel we can't have more fine-grained access control than db-wide privileges

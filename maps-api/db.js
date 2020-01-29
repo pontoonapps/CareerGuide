@@ -76,8 +76,18 @@ async function listUserPins(userId) {
   return pins;
 }
 
+async function deleteUserPin(userId, pinName) {
+  const sql = await dbConn;
+  const query = `DELETE
+                 FROM map_pins
+                 WHERE user_id = ? AND name = ?`;
+  const [rows] = await sql.query(query, [userId, pinName]);
+  return rows.affectedRows > 0;
+}
+
 module.exports = {
   testCount,
   findUser,
   listUserPins,
+  deleteUserPin,
 };

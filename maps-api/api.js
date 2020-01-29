@@ -71,7 +71,16 @@ async function addPin(req, res, next) {
 }
 
 async function deletePin(req, res, next) {
-  res.sendStatus(501);
+  if (!req.body ||
+      !req.body.name ||
+      typeof req.body.name !== 'string' ||
+      req.body.name.length < 1) {
+    res.sendStatus(400);
+    return;
+  }
+
+  await db.deleteUserPin(req.auth.id, req.body.name);
+  res.sendStatus(204);
 }
 
 async function getUserPins(req, res, next) {
