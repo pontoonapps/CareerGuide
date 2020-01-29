@@ -11,11 +11,11 @@ If you want to install the API at pontoonapps.com:
 0. create a Node.js application in the cpanel
 1. `npm install` to load all dependencies
 2. make sure there's a MySQL database user available for this API implementation to use
-  * the database must contain the table `users` (as per PONToonapps.com)
-  * the database must contain the table `map_pins` (see `sql-init.sql` to create it)
-  * the database user should be suitably constrained (only select from `users`, select/insert/update/delete in `map_pins`)
+   * the database must contain the table `users` (as per PONToonapps.com)
+   * the database must contain the table `map_pins` (see `sql-init.sql` to create it)
+   * the database user should be suitably constrained (only select from `users`, select/insert/update/delete in `map_pins`)
 3. edit `config.json` (possibly create one from `config-template.json`)
-  * create and give _API keys_ to app developer(s)
+   * create and give _API keys_ to app developer(s)
 
 
 ## API structure
@@ -68,13 +68,28 @@ Users in the app use their pontoonapps.com account details. The app uses these a
 ## Assumptions
 
 * pontoonapps.com always uses HTTPS, which prevents replay attacks.
-* training centres can easily be added as a special type of user, with an extra DB table that ties normal users to their training centre(s)
 
 ## To-Do
 
-* read again spec from Niall Fraser to see if we cover everything
-* recognized API keys probably could be in the database rather than in the config file
-* users are not connected to training centres yet so the API does not return any training centre pins
-* remove `testCount` functionality
+### first stage (followed by delivery)
+
 * handle the possibility of broken MySQL connection (pools seem to solve that)
+* deploy at `pontoonapps.com/community-api`
+* add addPin
+* read again spec from Niall Fraser to see if we cover everything
+
+### second stage – adding training centres
+
+* remove `testCount` functionality
+* training centres (see notes in `sql-init-for-training-centres.sql`)
+  * in the existing `recruiters` table
+  * needs an extra DB table (`training_centre_assignments`) that ties normal users to their training centre(s)
+  * training centre pins will live in `training_centre_map_pins`
+  * user pins table `map_pins` becomes `user_map_pins`
+  * retrieval needs to take these into account
+  * this file needs to reflect these changes
+
+### future considerations
+
+* recognized API keys probably could be in the database rather than in the config file
 * check that in cpanel we can't have more fine-grained access control than db-wide privileges
