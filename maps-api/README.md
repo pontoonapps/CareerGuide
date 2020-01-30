@@ -74,18 +74,18 @@ Users in the app use their pontoonapps.com account details. The app uses these a
 ### first stage (followed by delivery)
 
 * add addPin
-* read again spec from Niall Fraser to see if we cover everything
 
 ### second stage – adding training centres
 
 * remove `testCount` functionality
 * training centres (see notes in `sql-init-for-training-centres.sql`)
   * in the existing `recruiters` table
+  * login must check the `recruiters` table as well
   * needs an extra DB table (`training_centre_assignments`) that ties normal users to their training centre(s)
   * training centre pins will live in `training_centre_map_pins`
   * user pins table `map_pins` becomes `user_map_pins`
   * retrieval needs to take these into account
-  * this file needs to reflect these changes
+  * this README needs to reflect these changes
 
 ### future considerations
 
