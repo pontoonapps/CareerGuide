@@ -21,8 +21,6 @@ app.use(checkApiKey);
 app.get('/ping', msg('api key accepted'));
 
 app.use(auth);
-app.get('/testcount', promiseWrap(testCount));
-
 app.post('/pins', express.json(), promiseWrap(addPin));
 app.post('/pins/delete', express.json(), promiseWrap(deletePin));
 app.get('/pins', promiseWrap(getUserPins));
@@ -60,11 +58,6 @@ async function checkDBUser(user, pwd, authObj) {
   } else {
     return false;
   }
-}
-
-async function testCount(req, res, next) {
-  const count = await db.testCount();
-  res.send(`hi, there are ${count} users as of ${new Date()}\n`);
 }
 
 async function addPin(req, res, next) {

@@ -77,7 +77,6 @@ Users in the app use their pontoonapps.com account details. The app uses these a
 
 ### second stage – adding training centres
 
-* remove `testCount` functionality
 * make lat/lon NOT NULL in SQL
 * training centres (see notes in `sql-init-for-training-centres.sql`)
   * in the existing `recruiters` table

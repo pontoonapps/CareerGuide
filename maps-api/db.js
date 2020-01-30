@@ -9,13 +9,6 @@ const dbConn = mysql.createPool({
   database: config.DB_DATABASE,
 });
 
-async function testCount() {
-  const sql = await dbConn;
-  const [rows] = await sql.query('SELECT COUNT(*) AS count FROM `users`');
-  const count = Number(rows[0].count);
-  return count;
-}
-
 async function findUser(user, pwd) {
   try {
     const sql = await dbConn;
@@ -86,7 +79,6 @@ async function deleteUserPin(userId, pinName) {
 }
 
 module.exports = {
-  testCount,
   findUser,
   listUserPins,
   deleteUserPin,
