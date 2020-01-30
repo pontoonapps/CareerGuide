@@ -67,11 +67,49 @@ async function testCount(req, res, next) {
 }
 
 async function addPin(req, res, next) {
+  const pin = req.body;
+  const validationProblems = '' +
+    (checkStringRequired(pin.name, 40) ? '' : 'StringRequired(pin.name, max 40 chars) ') +
+    (checkNumberRequired(pin.latitude) ? '' : 'NumberRequired(pin.latitude) ') +
+    (checkNumberRequired(pin.longitude) ? '' : 'NumberRequired(pin.longitude) ') +
+    (checkNumberOptional(pin.category) ? '' : 'NumberOptional(pin.category) ') +
+    (checkStringOptional(pin.description, 255) ? '' : 'StringOptional(pin.description, max 255 chars) ') +
+    (checkStringOptional(pin.phone, 25) ? '' : 'StringOptional(pin.phone, max 25 chars) ') +
+    (checkStringOptional(pin.website, 255) ? '' : 'StringOptional(pin.website, max 255 chars) ') +
+    (checkStringOptional(pin.email, 255) ? '' : 'StringOptional(pin.email, max 255 chars) ') +
+    (checkStringOptional(pin.address_line_1, 255) ? '' : 'StringOptional(pin.address_line_1, max 255 chars) ') +
+    (checkStringOptional(pin.address_line_2, 255) ? '' : 'StringOptional(pin.address_line_2, max 255 chars) ') +
+    (checkStringOptional(pin.postcode, 12) ? '' : 'StringOptional(pin.postcode, max 12 chars) ') +
+    (checkStringOptional(pin.notes, 255) ? '' : 'StringOptional(pin.notes, max 255 chars) ');
+  if (validationProblems) {
+    res.status(400).send(validationProblems);
+    return;
+  }
+
   res.sendStatus(501);
 }
 
-function checkStringRequired(value) {
-  return typeof value === 'string' && value.length > 0;
+function checkStringOptional(value, maxLen = 0) {
+  if (value == null) return true;
+  if (typeof value !== 'string') return false;
+  if (maxLen && value.length > maxLen) return false;
+  return true;
+}
+
+function checkStringRequired(value, maxLen = 0) {
+  if (value == null) return false;
+  if (typeof value !== 'string') return false;
+  if (value.length === 0) return false;
+  if (maxLen && value.length > maxLen) return false;
+  return true;
+}
+
+function checkNumberOptional(value) {
+  return value == null || typeof value === 'number';
+}
+
+function checkNumberRequired(value) {
+  return typeof value === 'number';
 }
 
 async function deletePin(req, res, next) {

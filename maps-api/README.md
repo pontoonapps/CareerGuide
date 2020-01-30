@@ -37,6 +37,8 @@ A pin is represented in the API with the following data structure:
 ```
 {
   name:                      String (max 40 chars) – unique for the user,
+  latitude:                  Number,
+  longitude:                 Number,
   category:       (optional) Number,
   description:    (optional) String (max 255 chars),
   phone:          (optional) String (max 25 chars),
@@ -45,8 +47,6 @@ A pin is represented in the API with the following data structure:
   address_line_1: (optional) String (max 255 chars),
   address_line_2: (optional) String (max 255 chars),
   postcode:       (optional) String (max 12 chars),
-  latitude:       (optional) Number,
-  longitude:      (optional) Number,
   notes:          (optional) String (max 255 chars),
 }
 ```
@@ -78,6 +78,7 @@ Users in the app use their pontoonapps.com account details. The app uses these a
 ### second stage – adding training centres
 
 * remove `testCount` functionality
+* make lat/lon NOT NULL in SQL
 * training centres (see notes in `sql-init-for-training-centres.sql`)
   * in the existing `recruiters` table
   * login must check the `recruiters` table as well
