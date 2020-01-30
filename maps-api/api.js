@@ -84,7 +84,8 @@ async function addPin(req, res, next) {
     return;
   }
 
-  res.sendStatus(501);
+  await db.addUpdateUserPin(req.auth.id, pin);
+  res.sendStatus(204);
 }
 
 async function deletePin(req, res, next) {

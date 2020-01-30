@@ -69,6 +69,30 @@ async function listUserPins(userId) {
   return pins;
 }
 
+async function addUpdateUserPin(userId, pin) {
+  const sql = await dbConn;
+  const query =
+    `INSERT INTO map_pins (user_id, name, category,
+       description, phone, website, email, address_line_1,
+       address_line_2, postcode, latitude, longitude, notes)
+     VALUES (?)
+     ON DUPLICATE KEY UPDATE
+       category = VALUES(category),
+       description = VALUES(description),
+       phone = VALUES(phone),
+       website = VALUES(website),
+       email = VALUES(email),
+       address_line_1 = VALUES(address_line_1),
+       address_line_2 = VALUES(address_line_2),
+       postcode = VALUES(postcode),
+       latitude = VALUES(latitude),
+       longitude = VALUES(longitude),
+       notes = VALUES(notes)`;
+  await sql.query(query, [[userId, pin.name, pin.category,
+    pin.description, pin.phone, pin.website, pin.email, pin.address_line_1,
+    pin.address_line_2, pin.postcode, pin.latitude, pin.longitude, pin.notes]]);
+}
+
 async function deleteUserPin(userId, pinName) {
   const sql = await dbConn;
   const query = `DELETE
@@ -81,5 +105,6 @@ async function deleteUserPin(userId, pinName) {
 module.exports = {
   findUser,
   listUserPins,
+  addUpdateUserPin,
   deleteUserPin,
 };
