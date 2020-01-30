@@ -40,7 +40,7 @@ function buildMiddleware(options) {
   const challenge = options.challenge !== undefined ? !!options.challenge : false;
   const users = options.users || {};
   const authorizer = options.authorizer || staticUsersAuthorizer;
-  const getResponseBody = ensureFunction(options.unauthorizedResponse, '');
+  const getResponseBody = ensureFunction(options.unauthorizedResponse, 'Unauthorized');
   const realm = ensureFunction(options.realm);
 
   assert(typeof users === 'object', 'Expected an object for the basic auth users, found ' + typeof users + ' instead');
