@@ -70,11 +70,12 @@ async function addPin(req, res, next) {
   res.sendStatus(501);
 }
 
+function checkStringRequired(value) {
+  return typeof value === 'string' && value.length > 0;
+}
+
 async function deletePin(req, res, next) {
-  if (!req.body ||
-      !req.body.name ||
-      typeof req.body.name !== 'string' ||
-      req.body.name.length < 1) {
+  if (!checkStringRequired(req.body.name)) {
     res.sendStatus(400);
     return;
   }
