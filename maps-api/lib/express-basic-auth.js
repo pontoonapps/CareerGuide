@@ -7,6 +7,7 @@
  * - authorizer cannot use callback anymore
  *
  * copied from https://raw.githubusercontent.com/LionC/express-basic-auth/00bb29fdd638f5cda8025d4398be97d528ce3f6f/index.js
+ * the original does not include a licence file, but does say "ISC" in package.json
  */
 
 const auth = require('basic-auth');
