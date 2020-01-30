@@ -73,7 +73,6 @@ Users in the app use their pontoonapps.com account details. The app uses these a
 
 ### first stage (followed by delivery)
 
-* handle the possibility of broken MySQL connection (pools seem to solve that)
 * deploy at `pontoonapps.com/community-api`
 * add addPin
 * read again spec from Niall Fraser to see if we cover everything

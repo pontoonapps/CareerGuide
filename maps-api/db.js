@@ -2,7 +2,7 @@ const mysql = require('mysql2/promise');
 const hashy = require('hashy');
 const config = require('./config');
 
-const dbConn = mysql.createConnection({
+const dbConn = mysql.createPool({
   host: 'localhost',
   user: config.DB_USER,
   password: config.DB_PASSWORD,
