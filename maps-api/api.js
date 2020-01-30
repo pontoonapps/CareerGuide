@@ -14,10 +14,10 @@ const auth = basicAuth({
   authorizer: checkDBUser,
 });
 
-app.get('/', msg('hi, testing'));
+app.get('/', msg('working'));
 
 app.use(checkApiKey);
-app.get('/ping', msg('hi, api key working'));
+app.get('/ping', msg('api key accepted'));
 
 app.use(auth);
 app.get('/testcount', promiseWrap(testCount));
