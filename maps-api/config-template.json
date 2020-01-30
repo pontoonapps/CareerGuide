@@ -2,7 +2,7 @@
   "DB_USER": "",
   "DB_PASSWORD": "",
   "DB_DATABASE": "",
-  "DEPLOYMENT_ROOT": "/testnodeapi2/",
+  "DEPLOYMENT_ROOT": "/community-api/",
   "RECOGNISED_API_KEYS": {
     "D0087291-8AFD-4A64-9550-A7A969BA887E": {
       "comment": "testing user, do not use this API KEY"

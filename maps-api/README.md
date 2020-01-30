@@ -20,7 +20,7 @@ If you want to install the API at pontoonapps.com:
 
 ## API structure
 
-The API runs on pontoonapps.com (initially at https://pontoonapps.com/testnodeapi2/ ). Data structures and authentication mechanisms are detailed further below.
+The API runs at https://pontoonapps.com/community-api/ . Data structures and authentication mechanisms are detailed further below.
 
 * GET `<root>/ping` – returns a successful response if the API key is accepted
 * GET `<root>/pins` – return array of all pins visible to this user
@@ -73,7 +73,6 @@ Users in the app use their pontoonapps.com account details. The app uses these a
 
 ### first stage (followed by delivery)
 
-* deploy at `pontoonapps.com/community-api`
 * add addPin
 * read again spec from Niall Fraser to see if we cover everything
 
