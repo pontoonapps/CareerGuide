@@ -1,6 +1,7 @@
 const express = require('express');
 
 const basicAuth = require('./lib/express-basic-auth');
+const checks = require('./checks');
 const db = require('./db');
 const config = require('./config');
 
@@ -68,19 +69,23 @@ async function testCount(req, res, next) {
 
 async function addPin(req, res, next) {
   const pin = req.body;
-  const validationProblems = '' +
-    (checkStringRequired(pin.name, 40) ? '' : 'StringRequired(pin.name, max 40 chars) ') +
-    (checkNumberRequired(pin.latitude) ? '' : 'NumberRequired(pin.latitude) ') +
-    (checkNumberRequired(pin.longitude) ? '' : 'NumberRequired(pin.longitude) ') +
-    (checkNumberOptional(pin.category) ? '' : 'NumberOptional(pin.category) ') +
-    (checkStringOptional(pin.description, 255) ? '' : 'StringOptional(pin.description, max 255 chars) ') +
-    (checkStringOptional(pin.phone, 25) ? '' : 'StringOptional(pin.phone, max 25 chars) ') +
-    (checkStringOptional(pin.website, 255) ? '' : 'StringOptional(pin.website, max 255 chars) ') +
-    (checkStringOptional(pin.email, 255) ? '' : 'StringOptional(pin.email, max 255 chars) ') +
-    (checkStringOptional(pin.address_line_1, 255) ? '' : 'StringOptional(pin.address_line_1, max 255 chars) ') +
-    (checkStringOptional(pin.address_line_2, 255) ? '' : 'StringOptional(pin.address_line_2, max 255 chars) ') +
-    (checkStringOptional(pin.postcode, 12) ? '' : 'StringOptional(pin.postcode, max 12 chars) ') +
-    (checkStringOptional(pin.notes, 255) ? '' : 'StringOptional(pin.notes, max 255 chars) ');
+
+  /* eslint-disable no-multi-spaces, space-in-parens */
+  let validationProblems = '';
+  if (!checks.stringRequired(pin.name,            40)) validationProblems += 'StringRequired(pin.name, max 40 chars) ';
+  if (!checks.numberRequired(pin.latitude           )) validationProblems += 'NumberRequired(pin.latitude) ';
+  if (!checks.numberRequired(pin.longitude          )) validationProblems += 'NumberRequired(pin.longitude) ';
+  if (!checks.numberOptional(pin.category           )) validationProblems += 'NumberOptional(pin.category) ';
+  if (!checks.stringOptional(pin.description,    255)) validationProblems += 'StringOptional(pin.description, max 255 chars) ';
+  if (!checks.stringOptional(pin.phone,           25)) validationProblems += 'StringOptional(pin.phone, max 25 chars) ';
+  if (!checks.stringOptional(pin.website,        255)) validationProblems += 'StringOptional(pin.website, max 255 chars) ';
+  if (!checks.stringOptional(pin.email,          255)) validationProblems += 'StringOptional(pin.email, max 255 chars) ';
+  if (!checks.stringOptional(pin.address_line_1, 255)) validationProblems += 'StringOptional(pin.address_line_1, max 255 chars) ';
+  if (!checks.stringOptional(pin.address_line_2, 255)) validationProblems += 'StringOptional(pin.address_line_2, max 255 chars) ';
+  if (!checks.stringOptional(pin.postcode,        12)) validationProblems += 'StringOptional(pin.postcode, max 12 chars) ';
+  if (!checks.stringOptional(pin.notes,          255)) validationProblems += 'StringOptional(pin.notes, max 255 chars) ';
+  /* eslint-enable no-multi-spaces, space-in-parens */
+
   if (validationProblems) {
     res.status(400).send(validationProblems);
     return;
@@ -89,31 +94,8 @@ async function addPin(req, res, next) {
   res.sendStatus(501);
 }
 
-function checkStringOptional(value, maxLen = 0) {
-  if (value == null) return true;
-  if (typeof value !== 'string') return false;
-  if (maxLen && value.length > maxLen) return false;
-  return true;
-}
-
-function checkStringRequired(value, maxLen = 0) {
-  if (value == null) return false;
-  if (typeof value !== 'string') return false;
-  if (value.length === 0) return false;
-  if (maxLen && value.length > maxLen) return false;
-  return true;
-}
-
-function checkNumberOptional(value) {
-  return value == null || typeof value === 'number';
-}
-
-function checkNumberRequired(value) {
-  return typeof value === 'number';
-}
-
 async function deletePin(req, res, next) {
-  if (!checkStringRequired(req.body.name)) {
+  if (!checks.stringRequired(req.body.name)) {
     res.sendStatus(400);
     return;
   }
