@@ -35,8 +35,8 @@ The API runs at https://pontoonapps.com/community-api (referred to as `<root>` b
 
 Status and check routes:
 
-* GET `<root>/` – returns a successful response if the API is running
-* GET `<root>/ping` – returns a successful response if the API key is accepted
+* GET `<root>/` – returns a successful response if the API is running (no authentication needed)
+* GET `<root>/ping` – returns a successful response if the API key is accepted (only API key needed)
 
 
 ### Data structures
@@ -66,9 +66,13 @@ A pin returned by the API can also have a field `userPin` (Boolean) – `true` 
 
 The API must only be accessed over HTTPS.
 
-The API uses an API key; this key should be kept privately by the developers of the mobile app(s). If a key is found to be misused, it can be revoked. With the wrong key, the API returns 403 Forbidden.
+The API uses an **API key provided as a URL query parameter** `apiKey`; this key should be kept privately by the developers of the mobile app(s). If a key is found to be misused, it can be revoked. With the wrong key, the API returns 403 Forbidden.
 
-Users in the app use their pontoonapps.com account details. The app uses these account details (email and password) with HTTP Basic Authentication in all API requests. Without valid credentials, the API returns 401 Unauthorized.
+If your key is ABCDEFGH, you can check the API at https://pontoonapps.com/community-api/ping?apiKey=ABCDEFGH
+
+Users in the app use their pontoonapps.com account details. The app uses these account details (email and password) with **HTTP Basic Authentication** in all API requests (except `ping`). Without valid credentials, the API returns 401 Unauthorized.
+
+Any registered pontoon.com user can request their map pins at `<root>/pins`; if they have never submitted any, this will return an empty array.
 
 _NB: There is no dedicated login API call, and there are no sessions._
 
