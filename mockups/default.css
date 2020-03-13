@@ -1,0 +1,90 @@
+* {
+  font-family: sans-serif;
+  margin: 0em;
+  padding: 0em;
+  background-color: transparent;
+}
+
+#mainContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 30em;
+  margin: auto; 
+  text-align: center;
+  height: 100vh;
+  background-color: lightskyblue;
+}
+
+#titleContainer {
+  display: grid;
+  grid-template-rows: auto auto;
+}
+
+#jobInfoContainer {
+  padding: 1em;
+}
+
+body {
+  background-color: lavender;
+}
+
+#header {
+  padding: 1em;
+}
+
+.shortlist {
+  text-align: right;
+  border: none;
+  padding: 0.5em;
+}
+
+h2 {
+  font-size: 2.3em;
+  letter-spacing: 0.2em;
+  font-weight: normal;
+}
+
+#jobDescription {
+  padding: 1em;
+  margin: auto;
+  background-color: rgb(198, 233, 255);
+}
+
+p {
+  font-size: 1.6em;
+}
+
+.buttonContainer {
+  display: flex;
+  justify-content: space-between;
+}
+
+.button {
+  flex-grow: 1;
+  font-weight: bold;
+  color: whitesmoke;
+  padding: 1em;
+  border: none;
+  padding: 2em;
+}
+
+.buttonLabel {
+  width: 5em;
+}
+
+.dislike {
+  background-color: tomato;
+}
+
+.like {
+  background-color: yellowgreen;
+}
+
+.ignore {
+  background-color: mediumslateblue;
+}
+
+.nav {
+  background-color: mediumslateblue;
+}
