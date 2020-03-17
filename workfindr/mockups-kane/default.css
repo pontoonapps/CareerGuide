@@ -3,9 +3,12 @@
   margin: 0em;
   padding: 0em;
   background-color: transparent;
+
+
 }
 
 #mainContainer {
+  background-image: url(styleImages/Artboard\ 1.png);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -13,30 +16,53 @@
   margin: auto; 
   text-align: center;
   height: 100vh;
-  background-color: lightskyblue;
 }
 
 #titleContainer {
   display: grid;
   grid-template-rows: auto auto;
+  grid-template-columns: auto auto auto auto;
+  align-self: top;
+}
+
+.jobTitle {
+  grid-column-start: 1;
+  grid-column-end: 5;
+  grid-row-start: 0;
+  grid-row-end: 1;
+  padding: 1em;
+  
+}
+
+.shortlist {
+  padding: 0.5em;
+  border: none;
+  grid-column-start: 4;
+  grid-column-end: 5;
+  grid-row-start: 1;
+  grid-row-end: 2;
+  box-shadow: 0em 0em 0.5em rgb(228, 152, 21);
+  border-radius: 1em;
+  background-color: white;
 }
 
 #jobInfoContainer {
   padding: 1em;
+  flex-grow: 1;
+  display: flex;
+  justify-content: space-between;
+}
+
+#jobDescription {
+  background-color: white;
 }
 
 body {
-  background-color: lavender;
+  background-color: whitesmoke;
 }
 
 #header {
   padding: 1em;
-}
-
-.shortlist {
-  text-align: right;
-  border: none;
-  padding: 0.5em;
 }
 
 h2 {
@@ -48,7 +74,8 @@ h2 {
 #jobDescription {
   padding: 1em;
   margin: auto;
-  background-color: rgb(198, 233, 255);
+  box-shadow: 0em 0em 0.5em rgb(178, 207, 101);
+  border-radius: 2em;
 }
 
 p {
@@ -57,34 +84,47 @@ p {
 
 .buttonContainer {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
+  align-self: top;
 }
 
 .button {
-  flex-grow: 1;
   font-weight: bold;
   color: whitesmoke;
-  padding: 1em;
+  background-color: white;
   border: none;
-  padding: 2em;
+  padding: 1em 2em;
+  border-radius: 2em;
+  display: flex;
+  justify-content: center;
+  margin: 1em;
 }
 
 .buttonLabel {
-  width: 5em;
+  display: flex;
+  justify-content: center;
+  width: 3em;
 }
 
 .dislike {
-  background-color: tomato;
+  box-shadow: 0em 0em 0.5em rgb(232, 73, 31);
+  border: rgb(232, 73, 31) 0.2em solid;
+  color: rgb(232, 73, 31);
 }
 
 .like {
-  background-color: yellowgreen;
+  box-shadow: 0em 0em 0.5em rgb(178, 207, 101);
+  border: rgb(178, 207, 101) 0.2em solid;
+  color: rgb(178, 207, 101);
 }
 
 .ignore {
-  background-color: mediumslateblue;
+  box-shadow: 0em 0em 0.5em rgb(228, 152, 21);
+  border: rgb(228, 152, 21) 0.2em solid;
+  color: rgb(228, 152, 21);
 }
 
 .nav {
-  background-color: mediumslateblue;
+  background-color: rgb(127, 185, 230);
+  box-shadow: 0em 0em 0.5em rgb(127, 185, 230);
 }
