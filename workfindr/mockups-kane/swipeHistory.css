@@ -34,7 +34,6 @@ h2 {
 .buttonContainer {
   display: flex;
   justify-content: space-around;
-  align-self: top;
 }
 
 .button {
@@ -44,15 +43,13 @@ h2 {
   border: none;
   padding: 1em 2em;
   border-radius: 2em;
-  display: flex;
-  justify-content: center;
   margin: 1em;
 }
 
 .buttonLabel {
   display: flex;
   justify-content: center;
-  width: 3em;
+  width: 2em;
 }
 
 .nav {
@@ -61,7 +58,6 @@ h2 {
 }
 
 #swipeHistoryList {
-  flex-grow: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -75,7 +71,7 @@ h2 {
   height: 6em; 
   margin-top: 0.5em;
   margin-bottom: 0.5em;
-  padding: 1em;
+  padding: 0.5em;
   background-color: white;
   box-shadow: 0em 0em 0.5em rgb(178, 207, 101);
   border: rgb(178, 207, 101) 0.1em solid;
@@ -94,7 +90,6 @@ h2 {
 .swipeHistoryItemImage {
   max-height: 4em;
   max-width: 4em;
-  background: blueviolet;
   border-radius: 3em;
 }
 
@@ -146,8 +141,4 @@ h2 {
   padding: 0.3em;
   text-align: left;
   overflow: none;
-}
-
-#titleContainer {
-  align-self: top;
 }
