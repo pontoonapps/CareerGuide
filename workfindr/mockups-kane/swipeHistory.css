@@ -13,7 +13,7 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  width: 30em;
+  width: 100vw;
   margin: auto; 
   text-align: center;
   height: 100vh;
@@ -34,7 +34,7 @@ h2 {
 }
 
 .button > p {
-  font-size: 1.6em;
+  font-size: 1.2em;
 }
 
 .buttonContainer {
@@ -71,6 +71,7 @@ h2 {
   display: flex;
   flex-direction: column;
   align-items: center;
+  overflow: scroll;
 }
 
 .swipeHistoryItem {
@@ -78,7 +79,8 @@ h2 {
   grid-template-rows: 0.5fr 1fr;
   grid-template-columns: 0.3fr 1fr 0.3fr;
   height: 6em; 
-  margin: 0.5em;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
   padding: 1em;
   background-color: white;
   box-shadow: 0em 0em 0.5em rgb(178, 207, 101);
@@ -96,8 +98,8 @@ h2 {
 }
 
 .swipeHistoryItemImage {
-  max-height: 5em;
-  max-width: 5em;
+  max-height: 4em;
+  max-width: 4em;
   background: blueviolet;
   border-radius: 3em;
 }
@@ -113,8 +115,8 @@ h2 {
 }
 
 .swipeHistoryChoice {
-  height: 5em;
-  width: 5em;
+  height: 4em;
+  width: 4em;
   border-radius: 3em;
   display: flex;
   align-items: center;
@@ -149,6 +151,7 @@ h2 {
   grid-row-end: 3;
   padding: 0.3em;
   text-align: left;
+  overflow: none;
 }
 
 #titleContainer {
