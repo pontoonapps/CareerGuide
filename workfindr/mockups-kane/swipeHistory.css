@@ -12,19 +12,13 @@
   background-image: url(styleImages/Artboard\ 1.png);
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   width: 100vw;
-  margin: auto; 
   text-align: center;
   height: 100vh;
 }
 
 body {
   background-color: whitesmoke;
-}
-
-#header {
-  padding: 1em;
 }
 
 h2 {
