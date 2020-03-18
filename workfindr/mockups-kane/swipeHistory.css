@@ -1,0 +1,156 @@
+@import url('https://fonts.googleapis.com/css?family=Varela+Round&display=swap');
+
+* {
+  font-family: sans-serif;
+  margin: 0em;
+  padding: 0em;
+  background-color: transparent;
+  font-family: 'Varela Round', sans-serif;
+}
+
+#mainContainer {
+  background-image: url(styleImages/Artboard\ 1.png);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 30em;
+  margin: auto; 
+  text-align: center;
+  height: 100vh;
+}
+
+body {
+  background-color: whitesmoke;
+}
+
+#header {
+  padding: 1em;
+}
+
+h2 {
+  font-size: 2.3em;
+  letter-spacing: 0.2em;
+  font-weight: normal;
+}
+
+.button > p {
+  font-size: 1.6em;
+}
+
+.buttonContainer {
+  display: flex;
+  justify-content: space-around;
+  align-self: top;
+}
+
+.button {
+  font-weight: bold;
+  color: whitesmoke;
+  background-color: white;
+  border: none;
+  padding: 1em 2em;
+  border-radius: 2em;
+  display: flex;
+  justify-content: center;
+  margin: 1em;
+}
+
+.buttonLabel {
+  display: flex;
+  justify-content: center;
+  width: 3em;
+}
+
+.nav {
+  background-color: rgb(127, 185, 230);
+  box-shadow: 0em 0em 0.5em rgb(127, 185, 230);
+}
+
+#swipeHistoryList {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.swipeHistoryItem {
+  display: grid;
+  grid-template-rows: 0.5fr 1fr;
+  grid-template-columns: 0.3fr 1fr 0.3fr;
+  height: 6em; 
+  margin: 0.5em;
+  padding: 1em;
+  background-color: white;
+  box-shadow: 0em 0em 0.5em rgb(178, 207, 101);
+  border: rgb(178, 207, 101) 0.1em solid;
+}
+
+.swipeHistoryItemImageContainer {
+  grid-column-start: 1;
+  grid-column-end: 2;
+  grid-row-start: 1;
+  grid-row-end: 3;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.swipeHistoryItemImage {
+  max-height: 5em;
+  max-width: 5em;
+  background: blueviolet;
+  border-radius: 3em;
+}
+
+.swipeHistoryChoiceContainer {
+  grid-column-start: 3;
+  grid-column-end: 4;
+  grid-row-start: 1;
+  grid-row-end: 3;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.swipeHistoryChoice {
+  height: 5em;
+  width: 5em;
+  border-radius: 3em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.swipeHistoryChoiceContainer > .liked {
+  background: rgb(178, 207, 101);
+}
+
+.swipeHistoryChoiceContainer > .disliked {
+  background: rgb(232, 73, 31);
+}
+
+.swipeHistoryIndicator {
+  font-size: 2em;
+}
+
+.swipeHistoryItemTitle {
+  grid-column-start: 2;
+  grid-column-end: 3;
+  grid-row-start: 1;
+  grid-row-end: 2;
+  padding: 0.3em;
+  text-align: left;
+}
+
+.swipeHistoryItemDescription {
+  grid-column-start: 2;
+  grid-column-end: 3;
+  grid-row-start: 2;
+  grid-row-end: 3;
+  padding: 0.3em;
+  text-align: left;
+}
+
+#titleContainer {
+  align-self: top;
+}
