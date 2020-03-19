@@ -1,0 +1,220 @@
+/* index2.css */
+
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&family=Varela+Round&display=swap');
+
+:root {
+    --main-bg-colour: #F8F9FB;
+    --colour1: #36B6B0;
+    --colour2: #7fb9e6;
+    --colour3: #e8491f;
+    --colour4: #B2CF65;
+    --colour5: #E69911;
+
+    --title-font: 'Varela Round';
+    --text-font: 'Open Sans';
+}
+
+body {
+    font-family: var(--title-font);
+    font-size: 15px;
+    padding: 0;
+    margin: 0;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    text-align: center;
+    box-shadow: 0px 0 10px 1px rgba(104, 104, 104, 0.315);
+    width: 100vw;
+    height: 7.5vh;
+    flex-wrap: nowrap;
+}
+
+.navbtn {
+    margin: 1rem 1.25rem 1rem 0;
+}
+
+.logo {
+    width: 40%;
+    height: 80%;
+    object-fit: scale-down;
+    margin-top: 0.25rem;
+    margin-left: 0.25rem;
+}
+
+.background {
+    position: fixed;
+    opacity: 0.9;
+    z-index: -1;
+    object-fit: none;
+    top: 0;
+    left: 0;
+}
+
+.wrapper {
+    display: flex;
+    flex: 1 1 auto;
+}
+
+.column {
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: space-around;
+}
+
+.row {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}
+
+.info {
+    height: 40vh;
+    max-height: 40vh;
+    overflow: hidden;
+    background-color: #f9f8fb5e;
+    margin-left: 7.5%;
+    margin-right: 7.5%;
+    border-radius: 8px;
+}
+
+.info-text {
+    font-size: 1.5rem;
+    text-overflow: ellipsis;
+    font-family: var(--text-font);
+}
+
+
+#job-title {
+    font-size: 3rem;
+    text-align: center;
+    color: var(--colour3);
+    margin: 2rem 0 2rem;
+}
+
+
+hr {
+    width: 85%;
+    opacity: 24%;
+}
+
+.shortlistbtn {
+    padding: 0;
+    margin: 0;
+    float: right;
+    margin-right: 5%;
+    background-color: transparent;
+    border: 0;
+    font-family: var(--text-font);
+    font-size: 125%;
+    color: var(--colour1);
+}
+
+.shortlistbtn:hover {
+    cursor: pointer;
+}
+
+.main-button, .main-button-inverse {
+    color: #F8F9FB;
+    border: solid 1.25px;
+    padding: 12px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-family: var(--text-font);
+    font-size: 0.8rem;
+    font-weight: 1000; /* medium */
+    border-radius: 8px;
+    outline: none;
+    margin: 0 0.25rem 0 0.25rem;
+
+    background-color: var(--colour3);
+
+    /* Prevents button from getting marked */
+    -webkit-user-select: none;  /* Chrome all / Safari all */
+    -moz-user-select: none;     /* Firefox all */
+    -ms-user-select: none;      /* IE 10+ */
+    user-select: none;          /* Likely future */  
+}
+
+.main-button:hover {
+    cursor: pointer;
+}
+
+
+
+.btn-group {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-shrink: 1;
+    margin-top: 1.25rem;
+    margin-bottom: 2rem;
+}
+
+#btn-type1 {
+    background-color: var(--colour3);
+    border: 2px solid var(--colour3);
+    flex-shrink: 1;
+}
+
+#btn-type1:hover {
+    background-color: #e84b1fd8;
+}
+
+#btn-type1:active {
+    color: var(--colour3);
+    background-color: #F9F8FB;
+}
+
+#btn-type2 {
+    background-color: #F9F8FB;
+    color: var(--colour2);
+    border: 2px solid var(--colour2);
+}
+
+#btn-type2:hover {
+    background-color: #f9f8fb;
+}
+
+#btn-type2:active {
+    color: #F9F8FB;
+    background-color: var(--colour2);
+}
+
+#btn-type3 {
+    background-color: var(--colour4);
+    border: 2px solid var(--colour4);
+}
+
+#btn-type3:hover {
+    background-color: #B2CF65D8;
+}
+
+#btn-type3:active {
+    color: var(--colour4);
+    background-color: #F9F8FB;
+}
+
+.card {
+    width: 18rem;
+    display: flex;
+    flex-direction: column;
+    /* top right bottom left*/
+    margin: 2rem 0.5rem 0 1rem;
+    box-shadow: 2px 2px 5px 1px #ccc;
+    border-radius: 8px;
+    background-color: var(--main-bg-colour);
+}
+
+.card .btn-group {
+    margin-top: 0;
+}
+
+@media only screen 
+and (max-device-width : 800px) {
+    .row {
+        justify-content: center;
+    }
+}
