@@ -1,0 +1,25 @@
+.column {
+    align-items: center;
+}
+
+.card {
+    flex-direction: row;
+    background-color: var(--main-bg-colour);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.5);
+}
+
+.card:hover {
+    opacity: 1;
+    cursor: pointer;
+}
+
+#job-title {
+    color: black;
+    font-size: 1.5rem;
+    text-align: left;
+    margin: 1rem 0;
+}
+
+hr {
+    margin-bottom: 2rem;
+}
