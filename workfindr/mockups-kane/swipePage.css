@@ -1,24 +1,25 @@
 @import url('https://fonts.googleapis.com/css?family=Varela+Round&display=swap');
 
 * {
-  font-family: sans-serif;
   margin: 0em;
   padding: 0em;
-  background-color: transparent;
-  font-family: 'Varela Round', sans-serif;
+  font-family: 'Varela Round';
 }
 
 #mainContainer {
-  background-image: url(styleImages/Artboard\ 1.png);
+  background-image: url(styleImages/Artboard1.png);
   display: flex;
   flex-direction: column;
   width: 100vw;
   text-align: center;
+  align-items: center;
   height: 100vh;
 }
 
 #titleContainer {
-  padding:1em;
+  width: 90vw;
+  flex-grow: 0.1;
+  padding: 1em;
   display: grid;
   grid-template-rows: auto auto;
   grid-template-columns: auto auto auto auto;
@@ -44,14 +45,22 @@
   background-color: white;
 }
 
+.shortlist:hover {
+  cursor: pointer;
+}
+
 #jobInfoContainer {
   padding: 1em;
-  flex-grow: 1;
+  flex-grow: 0.5;
   display: flex;
   justify-content: space-between;
 }
 
 #jobDescription {
+  padding: 1em;
+  margin: auto;
+  box-shadow: 0em 0em 0.5em rgb(178, 207, 101);
+  border-radius: 2em;
   background-color: white;
 }
 
@@ -65,13 +74,6 @@ h2 {
   font-weight: normal;
 }
 
-#jobDescription {
-  padding: 1em;
-  margin: auto;
-  box-shadow: 0em 0em 0.5em rgb(178, 207, 101);
-  border-radius: 2em;
-}
-
 p {
   font-size: 1.2em;
 }
@@ -79,11 +81,11 @@ p {
 .buttonContainer {
   display: flex;
   justify-content: space-evenly;
+  max-width: 25em;
 }
 
 .button {
   font-weight: bold;
-  color: whitesmoke;
   background-color: white;
   border: none;
   padding: 1em 2em;
@@ -91,6 +93,10 @@ p {
   display: flex;
   justify-content: center;
   margin: 1em;
+}
+
+.button:hover {
+  cursor: pointer;
 }
 
 .buttonLabel {
@@ -120,4 +126,5 @@ p {
 .nav {
   background-color: rgb(127, 185, 230);
   box-shadow: 0em 0em 0.5em rgb(127, 185, 230);
+  color: whitesmoke;
 }

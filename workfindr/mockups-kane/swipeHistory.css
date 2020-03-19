@@ -1,24 +1,19 @@
 @import url('https://fonts.googleapis.com/css?family=Varela+Round&display=swap');
 
 * {
-  font-family: sans-serif;
   margin: 0em;
   padding: 0em;
-  background-color: transparent;
-  font-family: 'Varela Round', sans-serif;
+  font-family: 'Varela Round';
 }
 
 #mainContainer {
-  background-image: url(styleImages/Artboard\ 1.png);
+  background-image: url(styleImages/Artboard1.png);
   display: flex;
   flex-direction: column;
   width: 100vw;
   text-align: center;
+  align-items: center;
   height: 100vh;
-}
-
-body {
-  background-color: whitesmoke;
 }
 
 h2 {
@@ -61,7 +56,7 @@ h2 {
   display: flex;
   flex-direction: column;
   align-items: center;
-  overflow: scroll;
+  overflow: auto;
 }
 
 .swipeHistoryItem {
@@ -77,51 +72,47 @@ h2 {
   border: rgb(178, 207, 101) 0.1em solid;
 }
 
-.swipeHistoryItemImageContainer {
+.swipeHistoryItemImage {
   grid-column-start: 1;
   grid-column-end: 2;
   grid-row-start: 1;
   grid-row-end: 3;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
 
-.swipeHistoryItemImage {
-  max-height: 4em;
-  max-width: 4em;
+  max-height: 100%;
+  max-width: 100%;
   border-radius: 3em;
+
+  display: flex;
+  justify-self: center;
+  align-self: center;
 }
 
-.swipeHistoryChoiceContainer {
+.swipeHistoryChoice {
   grid-column-start: 3;
   grid-column-end: 4;
   grid-row-start: 1;
   grid-row-end: 3;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
 
-.swipeHistoryChoice {
-  height: 4em;
-  width: 4em;
+  max-height: 100%;
+  max-width: 100%;
+  padding: 0.8em;
   border-radius: 3em;
+
   display: flex;
   align-items: center;
   justify-content: center;
+  justify-self: center;
+  align-self: center;
+
+  font-size: 2em;
 }
 
-.swipeHistoryChoiceContainer > .liked {
+.liked {
   background: rgb(178, 207, 101);
 }
 
-.swipeHistoryChoiceContainer > .disliked {
+.disliked {
   background: rgb(232, 73, 31);
-}
-
-.swipeHistoryIndicator {
-  font-size: 2em;
 }
 
 .swipeHistoryItemTitle {
@@ -140,5 +131,5 @@ h2 {
   grid-row-end: 3;
   padding: 0.3em;
   text-align: left;
-  overflow: none;
+  overflow: hidden;
 }
