@@ -51,9 +51,10 @@ function checkApiKey(req, res, next) {
 }
 
 async function checkDBUser(user, pwd, authObj) {
-  const userFound = await db.findUser(user, pwd);
-  if (userFound != null) {
-    authObj.id = userFound;
+  const userRole = await db.findUserRole(user, pwd);
+  if (userRole != null) {
+    authObj.id = userRole.id;
+    authObj.role = userRole.role;
     return true;
   } else {
     return false;
