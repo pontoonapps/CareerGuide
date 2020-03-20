@@ -39,7 +39,7 @@ async function listUserPins(userId) {
   const query = `SELECT name, category, description, phone, website,
                         email, address_line_1, address_line_2,
                         postcode, latitude, longitude, notes
-                 FROM map_pins
+                 FROM user_map_pins
                  WHERE user_id = ?`;
   const [rows] = await sql.query(query, [userId]);
   const pins = [];
@@ -72,7 +72,7 @@ async function listUserPins(userId) {
 async function addUpdateUserPin(userId, pin) {
   const sql = await dbConn;
   const query =
-    `INSERT INTO map_pins (user_id, name, category,
+    `INSERT INTO user_map_pins (user_id, name, category,
        description, phone, website, email, address_line_1,
        address_line_2, postcode, latitude, longitude, notes)
      VALUES (?)
@@ -96,7 +96,7 @@ async function addUpdateUserPin(userId, pin) {
 async function deleteUserPin(userId, pinName) {
   const sql = await dbConn;
   const query = `DELETE
-                 FROM map_pins
+                 FROM user_map_pins
                  WHERE user_id = ? AND name = ?`;
   const [rows] = await sql.query(query, [userId, pinName]);
   return rows.affectedRows > 0;
