@@ -63,7 +63,7 @@ function buildMiddleware(options) {
 
     try {
       const authObj = {
-        user: authentication.name,
+        displayName: authentication.name,
       };
 
       const approved = await authorizer(authentication.name, authentication.pass, authObj);
