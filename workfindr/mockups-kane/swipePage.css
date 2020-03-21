@@ -17,6 +17,7 @@
 }
 
 #titleContainer {
+  max-width: 35em;
   width: 90vw;
   flex-grow: 0.1;
   padding: 1em;
@@ -54,6 +55,7 @@
   flex-grow: 0.5;
   display: flex;
   justify-content: space-between;
+  max-width: 30em;
 }
 
 #jobDescription {
