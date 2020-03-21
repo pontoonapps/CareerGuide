@@ -16,7 +16,6 @@
 
 body {
     font-family: var(--title-font);
-    font-size: 15px;
     padding: 0;
     margin: 0;
 }
@@ -37,7 +36,7 @@ hr {
     display: flex;
     justify-content: space-between;
     text-align: center;
-    box-shadow: 0px 0 10px 1px rgba(104, 104, 104, 0.315);
+    box-shadow: 0 0 10px 1px rgba(104, 104, 104, 0.315);
     width: 100vw;
     height: 7.5vh;
     flex-wrap: nowrap;
@@ -104,7 +103,7 @@ hr {
 }
 
 .main-button, .main-button-inverse {
-    color: #F8F9FB;
+    color: var(--main-bg-colour);
     border: solid 1.25px;
     padding: 12px 32px;
     text-align: center;
@@ -112,7 +111,7 @@ hr {
     display: inline-block;
     font-family: var(--text-font);
     font-size: 0.8rem;
-    font-weight: 1000; /* medium */
+    font-weight: 1000; /* Bold */
     border-radius: 8px;
     outline: none;
     margin: 0 0.25rem 0 0.25rem;
@@ -151,17 +150,17 @@ hr {
 
 #btn-type1:active {
     color: var(--colour3);
-    background-color: #F9F8FB;
+    background-color: var(--main-bg-colour);
 }
 
 #btn-type2 {
-    background-color: #F9F8FB;
+    background-color: var(--main-bg-colour);
     color: var(--colour2);
     border: 2px solid var(--colour2);
 }
 
 #btn-type2:hover {
-    background-color: #f9f8fb;
+    background-color: var(--main-bg-colour);
 }
 
 #btn-type2:active {
@@ -180,7 +179,7 @@ hr {
 
 #btn-type3:active {
     color: var(--colour4);
-    background-color: #F9F8FB;
+    background-color: var(--main-bg-colour);
 }
 
 .card {
@@ -211,7 +210,7 @@ hr {
 
 
 @media only screen 
-and (max-device-width : 800px) {
+and (max-width : 800px) {
     .card-container {
         width: 100vw;
     }
