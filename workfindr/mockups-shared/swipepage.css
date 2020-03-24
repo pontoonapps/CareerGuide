@@ -1,0 +1,19 @@
+.shortlistbtn {
+    padding: 0;
+    margin: 0;
+    float: right;
+    margin-right: 5%;
+    background-color: transparent;
+    border: 0;
+    font-family: var(--text-font);
+    font-size: 125%;
+    color: var(--colour1);
+}
+
+.shortlistbtn:hover {
+    cursor: pointer;
+}
+
+.column {
+    justify-content: space-around;
+}

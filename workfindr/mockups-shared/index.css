@@ -1,0 +1,187 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&family=Varela+Round&display=swap');
+
+:root {
+    --main-bg-colour: #F8F9FB;
+    --verdigris: #36B6B0;
+    --teagreen: #7FB9E6;
+    --flame: #E8491F;
+    --middlegreenyellow: #B2CF65;
+    --gamboge: #E69911;
+
+    --title-font: 'Varela Round';
+    --text-font: 'Open Sans';
+}
+
+body {
+    font-family: var(--title-font);
+    padding: 0;
+    margin: 0;
+}
+
+#navbar-top {
+    display: block;
+    position: relative;
+    justify-content: space-between;
+    text-align: center;
+    box-shadow: 0 0 10px 1px rgba(104, 104, 104, 0.315);
+    width: 100vw;
+    height: 7.5vh;
+    flex-wrap: nowrap;
+    z-index: 3;
+}
+
+#nav-btn {
+    right: 0;
+    margin: 1rem 1.25rem 1rem 0;
+}
+
+#navbar-slide {
+    position: absolute;
+    height: 92.5vh;
+    width: 25%;
+    background-color: black;
+
+    transition: .4s;
+    right: -25%;
+}
+
+#navbar-slide.active {
+    right: 0;
+}
+
+#navbar-slide ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.navbar-slide-item {
+    display: block;
+    color: white;
+    text-decoration: none;
+    margin: 0;
+    padding: 2rem;
+    text-align: center;
+}
+
+.navbar-slide-item:hover {
+    background-color: purple;
+}
+
+#nav-btn {
+    position: absolute;
+
+    top: 2rem;
+    left: 2rem;
+}
+
+#nav-btn span {
+    width: 5rem;
+    height: 1.5rem;
+}
+
+#nav-btn {
+    border: 1px solid red;
+}
+
+#nav-btn:hover {
+    cursor: pointer;
+}
+
+#logo {
+    width: 40%;
+    height: 80%;
+    object-fit: scale-down;
+    margin-top: 0.25em;
+    margin-left: 0.25em;
+}
+
+#title {
+    width: 75vw;
+    font-size: 2rem;
+    color: var(--flame);
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.info {
+    height: 70vh;
+    max-height: 70vh;
+    overflow: hidden;
+    background-color: #f9f8fb5e;
+    margin-left: 7.5%;
+    margin-right: 7.5%;
+    border-radius: em;
+}
+
+.info-text {
+    font-size: 1.5rem;
+    text-overflow: ellipsis;
+    font-family: var(--text-font);
+}
+
+#column {
+    flex-direction: column;
+    flex-wrap: nowrap;
+}
+
+#row {
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.main-button {
+    color: var(--main-bg-colour);
+    border: solid 1.25px;
+    text-decoration: none;
+
+    display: inline-block;
+    font-family: var(--text-font);
+    font-size: 0.9rem;
+    font-weight: 1000; /* Bold */
+    border-radius: 0.4em;
+    outline: none;
+    margin: 0 0.25em 0 0.25em;
+    width: 10em;
+    height: 3em;
+
+    background-color: var(--verdigris);
+
+    /* Prevents button from getting marked */
+    -webkit-user-select: none;  /* Chrome all / Safari all */
+    -moz-user-select: none;     /* Firefox all */
+    -ms-user-select: none;      /* IE 10+ */
+    user-select: none;          /* Likely future */  
+}
+
+.main-button p {
+    margin: auto;
+    text-align: center;
+}
+
+#wrapper {
+    position: relative;
+    margin: 0;
+    display: inline-flex;
+    flex: 1 1 auto;
+}
+
+#btn-group {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-shrink: 1;
+    margin-top: 1.25em;
+    margin-bottom: 2em;
+}
+
+#background {
+    position: fixed;
+    opacity: 0.9;
+    z-index: -1;
+    object-fit: none;
+    top: 0;
+    left: 0;
+    overflow-y: hidden;
+}
