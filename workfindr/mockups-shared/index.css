@@ -1,8 +1,6 @@
 /* index2.css */
 
-/* TODO-1: Change all px to rem or em*/
-/* TODO-2: Update all colours and/or add variables for them */
-/* TODO-3: Make the colours for the navigation menu match the rest of the pages*/
+/* TODO: Cleanup CSS, remove potential unnecessary code.*/
 
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans&family=Varela+Round&display=swap');
 
@@ -26,7 +24,7 @@ body {
     margin: 0;
 }
 
-
+/* TODO: Make the colours for the navbar-slide menu match the rest of the pages. */
 #navbar-slide {
     position: absolute;
     height: 92.5vh;
@@ -114,7 +112,8 @@ body {
     flex-wrap: wrap;
 }
 
-.info {
+/*TODO: Update background-color, create variable?*/
+#info {
     height: 40vh;
     max-height: 40vh;
     overflow: hidden;
@@ -124,13 +123,13 @@ body {
     border-radius: 8px;
 }
 
-.info-text {
+#info-text {
     font-size: 1.5rem;
     text-overflow: ellipsis;
     font-family: var(--text-font);
 }
 
-
+/* TODO: Make Text in #info-text ellipse instead of being cut off. */
 #job-title {
     font-size: 3rem;
     text-align: center;
@@ -167,7 +166,7 @@ body {
     cursor: pointer;
 }
 
-.btn-group {
+#btn-group {
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -176,12 +175,14 @@ body {
     margin-bottom: 2rem;
 }
 
+/* TODO: Create better button names. */
 #btn-type1 {
     background-color: var(--flame);
     border: 2px solid var(--flame);
     flex-shrink: 1;
 }
 
+/*TODO: Update background-color, create variable?*/
 #btn-type1:hover {
     background-color: #e84b1fd8;
 }
@@ -191,6 +192,7 @@ body {
     background-color: var(--main-bg-colour);
 }
 
+/* TODO: Change px to em, rem or percentage. */
 #btn-type2 {
     background-color: var(--main-bg-colour);
     color: var(--teagreen);
@@ -206,11 +208,13 @@ body {
     background-color: var(--teagreen);
 }
 
+/* TODO: Change px to em, rem or percentage. */
 #btn-type3 {
     background-color: var(--middlegreenyellow);
     border: 2px solid var(--middlegreenyellow);
 }
 
+/*TODO: Update background-color, create variable?*/
 #btn-type3:hover {
     background-color: #B2CF65D8;
 }
@@ -220,6 +224,7 @@ body {
     background-color: var(--main-bg-colour);
 }
 
+/* TODO: Change px to em, rem or percentage. */
 .card {
     width: 100%;
     display: flex;
@@ -238,6 +243,7 @@ body {
     margin-right: 1.5rem;
 }
 
+/*TODO: Update background-color, create variable?*/
 .card-container {
     width: 50vw;
     max-width: 100vw;
