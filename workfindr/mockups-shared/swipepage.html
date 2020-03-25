@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <link rel="stylesheet" type="text/css" href="index2.css">
+    <link rel="stylesheet" type="text/css" href="index.css">
     <link rel="stylesheet" type="text/css" href="swipepage.css">
 
     <meta charset="UTF-8">
@@ -11,15 +11,24 @@
 </head>
 
 <body>
-    <img class="background" src="img/pontoon-webbanner-bg-blur-final.png">
-    <section class="navbar">
-        <img id="navbar-item" class="logo" src="img/PONToon-logo-1200.png">
-        <object id="navbar-item" class="navbtn" type="image/svg+xml" data="img/navbtn.svg"></object>
+    <img id="bgr" src="img/pontoon-webbanner-bg-blur-final.png">
+    <section id="navbar">
+        <section id="navbar-top">
+            <img class="navbar-item" id="logo" src="img/PONToon-logo-1200.png">
+            <img class="navbar-item" id="nav-btn" src="icon/navbtn.svg">
+        </section>
+        <nav id="navbar-slide">
+            <ul>
+                <li><a class="navbar-slide-item" href="#">ITEM</a></li>
+                <li><a class="navbar-slide-item" href="#">ITEM</a></li>
+                <li><a class="navbar-slide-item" href="#">ITEM</a></li>
+                <li><a class="navbar-slide-item" href="#">ITEM</a></li>
+                <li><a class="navbar-slide-item" href="#">ITEM</a></li>
+            </ul>
+        </nav>
     </section>
-
-    <section class="wrapper column">
+    <section id="wrapper column">
         <h1 id="title">Job Title</h1>
-        <hr>
         <div class="info">
             <button class="shortlistbtn">Add to shortlist +</button>
             <p class="info-text">
@@ -28,13 +37,13 @@
                 Lectus sit amet est placerat. Tincidunt dui ut ornare lectus sit. Massa tempor nec feugiat nisl pretium fusce id velit. Amet commodo nulla facilisi nullam vehicula ipsum a arcu. Volutpat consequat mauris nunc congue nisi vitae suscipit tellus mauris. Massa sapien faucibus et molestie. Odio ut enim blandit volutpat. Urna cursus eget nunc scelerisque viverra mauris in. Egestas tellus rutrum tellus pellentesque eu tincidunt. Eu feugiat pretium nibh ipsum. Nulla pellentesque dignissim enim sit amet venenatis urna cursus eget. Netus et malesuada fames ac turpis egestas integer. Nec feugiat nisl pretium fusce. Rhoncus dolor purus non enim. Dui vivamus arcu felis bibendum ut tristique et.
             </p>
         </div>
-        <hr>
         <div class="btn-group">
             <button class="main-button" id="btn-type1">DISLIKE</button>
             <button class="main-button" id="btn-type2">Show Later</button>
             <button class="main-button" id="btn-type3">LIKE</button>
         </div>
     </section>
+        <script src="index.js"></script>
 </body>
 
 </html>

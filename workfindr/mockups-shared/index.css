@@ -1,5 +1,11 @@
+/* index2.css */
+
+/* TODO-1: Change all px to rem or em*/
+/* TODO-2: Update all colours and/or add variables for them */
+/* TODO-3: Make the colours for the navigation menu match the rest of the pages*/
 
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans&family=Varela+Round&display=swap');
+
 
 :root {
     --main-bg-colour: #F8F9FB;
@@ -8,6 +14,7 @@
     --flame: #E8491F;
     --middlegreenyellow: #B2CF65;
     --gamboge: #E69911;
+    --davys-gray: #333333;
 
     --title-font: 'Varela Round';
     --text-font: 'Open Sans';
@@ -19,22 +26,6 @@ body {
     margin: 0;
 }
 
-#navbar-top {
-    display: block;
-    position: relative;
-    justify-content: space-between;
-    text-align: center;
-    box-shadow: 0 0 10px 1px rgba(104, 104, 104, 0.315);
-    width: 100vw;
-    height: 7.5vh;
-    flex-wrap: nowrap;
-    z-index: 3;
-}
-
-#nav-btn {
-    right: 0;
-    margin: 1rem 1.25rem 1rem 0;
-}
 
 #navbar-slide {
     position: absolute;
@@ -42,11 +33,12 @@ body {
     width: 25%;
     background-color: black;
 
-    transition: .4s;
     right: -25%;
+    display: none;
 }
 
 #navbar-slide.active {
+    display: block;
     right: 0;
 }
 
@@ -57,7 +49,7 @@ body {
 
 .navbar-slide-item {
     display: block;
-    color: white;
+    color: var(--main-bg-colour);
     text-decoration: none;
     margin: 0;
     padding: 2rem;
@@ -65,60 +57,51 @@ body {
 }
 
 .navbar-slide-item:hover {
-    background-color: purple;
+    background-color: var(--verdigris);
+}
+
+
+#title {
+    font-size: 2rem;
+    color: var(--flame);
+    text-align: center;
+}
+
+#navbar-top {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    text-align: center;
+    box-shadow: 0 0 0.25rem 0.01rem var(--davys-gray);
+    width: 100vw;
+    height: 7.5vh;
+    flex-wrap: nowrap;
 }
 
 #nav-btn {
-    position: absolute;
-
-    top: 2rem;
-    left: 2rem;
-}
-
-#nav-btn span {
-    width: 5rem;
-    height: 1.5rem;
-}
-
-#nav-btn {
-    border: 1px solid red;
-}
-
-#nav-btn:hover {
-    cursor: pointer;
+    margin: 1rem 1.25rem 1rem 0;
 }
 
 #logo {
     width: 40%;
     height: 80%;
     object-fit: scale-down;
-    margin-top: 0.25em;
-    margin-left: 0.25em;
+    margin-top: 0.25rem;
+    margin-left: 0.25rem;
 }
 
-#title {
-    width: 75vw;
-    font-size: 2rem;
-    color: var(--flame);
-    text-align: center;
-    margin-left: auto;
-    margin-right: auto;
+#bgr {
+    position: fixed;
+    opacity: 0.9;
+    z-index: -1;
+    object-fit: none;
+    top: 0;
+    left: 0;
 }
 
-.info {
-    height: 70vh;
-    max-height: 70vh;
-    overflow: hidden;
-    background-color: #f9f8fb5e;
-    margin-left: 7.5%;
-    margin-right: 7.5%;
-    border-radius: em;
-}
-
-.info-text {
-    font-size: 1.5rem;
-    text-overflow: ellipsis;
-    font-family: var(--text-font);
+#wrapper {
+    display: flex;
+    flex: 1 1 auto;
 }
 
 #column {
@@ -131,22 +114,47 @@ body {
     flex-wrap: wrap;
 }
 
-.main-button {
+.info {
+    height: 40vh;
+    max-height: 40vh;
+    overflow: hidden;
+    background-color: #f9f8fb5e;
+    margin-left: 7.5%;
+    margin-right: 7.5%;
+    border-radius: 8px;
+}
+
+.info-text {
+    font-size: 1.5rem;
+    text-overflow: ellipsis;
+    font-family: var(--text-font);
+}
+
+
+#job-title {
+    font-size: 3rem;
+    text-align: center;
+    color: var(--flame);
+    margin: 2rem 0 2rem;
+}
+
+.main-button, .main-button-inverse {
     color: var(--main-bg-colour);
     border: solid 1.25px;
+    padding: 12px 32px;
+    text-align: center;
     text-decoration: none;
-
     display: inline-block;
     font-family: var(--text-font);
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     font-weight: 1000; /* Bold */
-    border-radius: 0.4em;
+    border-radius: 8px;
     outline: none;
-    margin: 0 0.25em 0 0.25em;
-    width: 10em;
-    height: 3em;
+    margin: 0 0.25rem 0 0.25rem;
+    width: 10rem;
+    max-width: 10rem;
 
-    background-color: var(--verdigris);
+    background-color: var(--flame);
 
     /* Prevents button from getting marked */
     -webkit-user-select: none;  /* Chrome all / Safari all */
@@ -155,33 +163,100 @@ body {
     user-select: none;          /* Likely future */  
 }
 
-.main-button p {
-    margin: auto;
-    text-align: center;
+.main-button:hover {
+    cursor: pointer;
 }
 
-#wrapper {
-    position: relative;
-    margin: 0;
-    display: inline-flex;
-    flex: 1 1 auto;
-}
-
-#btn-group {
+.btn-group {
     display: flex;
     flex-direction: row;
     justify-content: center;
     flex-shrink: 1;
-    margin-top: 1.25em;
-    margin-bottom: 2em;
+    margin-top: 1.25rem;
+    margin-bottom: 2rem;
 }
 
-#background {
-    position: fixed;
-    opacity: 0.9;
-    z-index: -1;
-    object-fit: none;
-    top: 0;
-    left: 0;
-    overflow-y: hidden;
+#btn-type1 {
+    background-color: var(--flame);
+    border: 2px solid var(--flame);
+    flex-shrink: 1;
+}
+
+#btn-type1:hover {
+    background-color: #e84b1fd8;
+}
+
+#btn-type1:active {
+    color: var(--flame);
+    background-color: var(--main-bg-colour);
+}
+
+#btn-type2 {
+    background-color: var(--main-bg-colour);
+    color: var(--teagreen);
+    border: 2px solid var(--teagreen);
+}
+
+#btn-type2:hover {
+    background-color: var(--main-bg-colour);
+}
+
+#btn-type2:active {
+    color: var(--main-bg-colour);
+    background-color: var(--teagreen);
+}
+
+#btn-type3 {
+    background-color: var(--middlegreenyellow);
+    border: 2px solid var(--middlegreenyellow);
+}
+
+#btn-type3:hover {
+    background-color: #B2CF65D8;
+}
+
+#btn-type3:active {
+    color: var(--colour4);
+    background-color: var(--main-bg-colour);
+}
+
+.card {
+    width: 100%;
+    display: flex;
+    /* top right bottom left*/
+    box-shadow: 2px 2px 5px #ccc;
+    opacity: 0.95;
+}
+
+.card:hover {
+    opacity: 1;
+}
+
+.card-info {
+    width: 100vw;
+    margin-left: 1.5rem;
+    margin-right: 1.5rem;
+}
+
+.card-container {
+    width: 50vw;
+    max-width: 100vw;
+    max-height: 75vh;
+    overflow: auto;
+    background-color: #f9f8fb80;
+}
+
+
+@media only screen 
+and (max-width : 800px) {
+    .card-container {
+        width: 100vw;
+    }
+    .card-container::-webkit-scrollbar {
+        display: none;
+    }
+    .card {
+        width: 100vw;
+        margin: 0;
+    }
 }
