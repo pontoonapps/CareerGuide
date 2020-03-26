@@ -83,13 +83,6 @@ h1 {
   margin: 0.25rem;
 }
 
-#logo {
-  width: 15em;
-  height: 3em;
-  object-fit: scale-down;
-  margin: 0.25rem;
-}
-
 #mainContainer {
   background-image: url('img/pontoon-webbanner-bg-blur-final.png');
   display: flex;

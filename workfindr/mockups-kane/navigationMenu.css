@@ -1,0 +1,104 @@
+@import url('https://fonts.googleapis.com/css?family=Varela+Round&display=swap');
+
+:root {
+  --main-bg-colour: #F8F9FB;
+  --PONTBlue: #36B6B0; /*renamed from verdigris to PONTBlue (though it is more turqoise so blue may not be the best choice)*/
+  --PONTLightBlue: #7FB9E6; /*renamed from teagreen to PONTLightBlue*/
+  --PONTRed: #E8491F; /*renamed from flame to PONTRed*/
+  --PONTGreen: #B2CF65; /*renamed from middlegreenyellow to PONTGreen*/
+  --PONTOrange: #E69911; /*rename from gamboge to PONTOrange*/
+  --davys-gray: #333333;
+
+  --title-font: 'Varela Round';
+  --text-font: 'Open Sans';
+}
+
+* {
+  margin: 0em;
+  padding: 0em;
+  font-family: 'Varela Round';
+}
+
+#navbar {
+  box-shadow: 0 0 0.25rem 0.01rem var(--davys-gray);
+  width: 100vw;
+  height: 4em;
+  display: flex;
+  justify-content: center;
+  background-color: var(--main-bg-colour);
+}
+
+#navbar-top {
+  display: flex;
+  justify-content: space-between;
+  min-width: 20em;
+  width: 50%;
+  max-width: 50em;
+}
+
+#logo {
+  width: 15em;
+  height: 3em;
+  object-fit: scale-down;
+  margin: 0.25rem;
+}
+
+#mainContainer {
+  background-image: url(styleImages/Artboard1.png);
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  align-items: center;
+  height: 100vh;
+  max-width: 100vw;
+}
+
+.title {
+  font-size: 2rem;
+  color: var(--PONTRed);
+  text-align: center;
+}
+
+h1 {
+  margin: 0.5em;
+}
+
+.navigationMenu {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+
+  background-color: var(--main-bg-colour);
+  box-shadow: 0em 0em 0.5em rgb(178, 207, 101);
+  border: rgb(178, 207, 101) 0.1em solid;
+  min-width: 20em;
+  max-width: 30em;
+  padding: 1em;
+}
+
+.navigationItem {
+  display: grid;
+  grid-template-columns: 0.3fr 1fr;
+
+  height: 3em; 
+  padding: 2em 0.5em; 
+  
+  border-top: 0.1em solid var(--PONTLightBlue);
+}
+
+.navIcon {
+  max-height: 100%;
+  max-width: 100%;
+  border-radius: 3em;
+}
+
+.navLabel {
+  padding: 0.3em;
+  margin: auto;
+  font-size: 1.5em;
+  color: var(--PONTBlue)
+}
+
+.navLabel:hover {
+  cursor: pointer;
+}

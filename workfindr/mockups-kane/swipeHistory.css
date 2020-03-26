@@ -59,6 +59,7 @@ h2 {
   margin-top: 0.5em;
   margin-bottom: 0.5em;
   padding: 0.5em;
+  max-width: 50em;
   
   background-color: white;
   box-shadow: 0em 0em 0.5em rgb(178, 207, 101);
