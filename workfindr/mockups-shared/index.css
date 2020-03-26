@@ -1,268 +1,212 @@
-/* index2.css */
-
 /* TODO: Cleanup CSS, remove potential unnecessary code.*/
 
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans&family=Varela+Round&display=swap');
 
-
 :root {
-    --main-bg-colour: #F8F9FB;
-    --verdigris: #36B6B0;
-    --teagreen: #7FB9E6;
-    --flame: #E8491F;
-    --middlegreenyellow: #B2CF65;
-    --gamboge: #E69911;
-    --davys-gray: #333333;
+  --main-bg-colour: #F8F9FB;
+  --PONTBlue: #36B6B0; /*renamed from verdigris to PONTBlue (though it is more turqoise so blue may not be the best choice)*/
+  --PONTLightBlue: #7FB9E6; /*renamed from teagreen to PONTLightBlue*/
+  --PONTRed: #E8491F; /*renamed from flame to PONTRed*/
+  --PONTGreen: #B2CF65; /*renamed from middlegreenyellow to PONTGreen*/
+  --PONTOrange: #E69911; /*rename from gamboge to PONTOrange*/
+  --davys-gray: #333333;
 
-    --title-font: 'Varela Round';
-    --text-font: 'Open Sans';
+  --title-font: 'Varela Round';
+  --text-font: 'Open Sans';
 }
 
+* {
+  padding: 0em;
+  margin: 0em; 
+  font-family: var(--title-font);
+} /*set global margin and padding to 0 so defaults don't interfer with layout*/
+
 body {
-    font-family: var(--title-font);
-    padding: 0;
-    margin: 0;
+  background-image: url('img/pontoon-webbanner-bg-blur-final.png');
+  padding: 0em;
+  margin: 0em;
 }
 
 /* TODO: Make the colours for the navbar-slide menu match the rest of the pages. */
 #navbar-slide {
-    position: absolute;
-    height: 92.5vh;
-    width: 25%;
-    background-color: black;
-
-    right: -25%;
-    display: none;
+  position: absolute;
+  width: 20em;
+  height: 92.5vh;
+  background-color: var(--davys-gray); 
+  display: none;
 }
 
 #navbar-slide.active {
-    display: block;
-    right: 0;
+  display: flex;
+  flex-direction: column;
+  right: 0;
 }
 
 #navbar-slide ul {
-    list-style-type: none;
-    padding: 0;
+  list-style-type: none;
 }
 
 .navbar-slide-item {
-    display: block;
-    color: var(--main-bg-colour);
-    text-decoration: none;
-    margin: 0;
-    padding: 2rem;
-    text-align: center;
+  display: block;
+  color: var(--main-bg-colour);
+  text-decoration: none;
+  margin: 0;
+  padding: 2rem;
+  text-align: center;
 }
 
 .navbar-slide-item:hover {
-    background-color: var(--verdigris);
+  background-color: var(--PONTBlue);
 }
 
-
 #title {
-    font-size: 2rem;
-    color: var(--flame);
-    text-align: center;
+  font-size: 2rem;
+  color: var(--PONTRed);
+  text-align: center;
+}
+
+h1 {
+  margin: 0.5em;
+}
+
+#navbar {
+  box-shadow: 0 0 0.25rem 0.01rem var(--davys-gray);
+  width: 100vw;
+  height: 4em;
+  display: flex;
+  justify-content: center;
 }
 
 #navbar-top {
-    position: relative;
-    display: flex;
-    justify-content: space-between;
-    text-align: center;
-    box-shadow: 0 0 0.25rem 0.01rem var(--davys-gray);
-    width: 100vw;
-    height: 7.5vh;
-    flex-wrap: nowrap;
-}
-
-#nav-btn {
-    margin: 1rem 1.25rem 1rem 0;
+  display: flex;
+  justify-content: space-between;
+  min-width: 20em;
+  width: 50%;
+  max-width: 50em;
 }
 
 #logo {
-    width: 40%;
-    height: 80%;
-    object-fit: scale-down;
-    margin-top: 0.25rem;
-    margin-left: 0.25rem;
-}
-
-#bgr {
-    position: fixed;
-    opacity: 0.9;
-    z-index: -1;
-    object-fit: none;
-    top: 0;
-    left: 0;
+  width: 15em;
+  height: 3em;
+  object-fit: scale-down;
+  margin: 0.25rem;
 }
 
 #wrapper {
-    display: flex;
-    flex: 1 1 auto;
-}
-
-#column {
-    flex-direction: column;
-    flex-wrap: nowrap;
-}
-
-#row {
-    flex-direction: row;
-    flex-wrap: wrap;
+  display: flex;
+  flex-direction: column;
 }
 
 /*TODO: Update background-color, create variable?*/
 #info {
-    height: 40vh;
-    max-height: 40vh;
-    overflow: hidden;
-    background-color: #f9f8fb5e;
-    margin-left: 7.5%;
-    margin-right: 7.5%;
-    border-radius: 8px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  grid-template-rows: 4em auto;
+  max-height: 50vh;
+  max-width: 30em;
+  padding: 1em;
+  margin: auto;
+  background-color: var(--main-bg-colour);
+}
+
+#shortlistbtn {
+  grid-column-start: 5;
+  grid-column-end: 6;
+  grid-row-start: 1;
+  grid-row-end: 2;
+  padding: 1em;
+  margin: 0.5em;
+  width: 11em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 #info-text {
-    font-size: 1.5rem;
-    text-overflow: ellipsis;
-    font-family: var(--text-font);
+  font-size: 1.5rem;
+  overflow: hidden; /*maybe limit text length in this box with JS??*/
+  font-family: var(--text-font);
+  grid-column-start: 1;
+  grid-column-end: 6;
+  grid-row-start: 2;
+  grid-row-end: 3;
 }
 
 /* TODO: Make Text in #info-text ellipse instead of being cut off. */
 #job-title {
-    font-size: 3rem;
-    text-align: center;
-    color: var(--flame);
-    margin: 2rem 0 2rem;
+  font-size: 3rem;
+  text-align: center;
+  color: var(--PONTRed);
+  margin: 2rem 0 2rem;
 }
 
-.main-button, .main-button-inverse {
-    color: var(--main-bg-colour);
-    border: solid 1.25px;
-    padding: 12px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-family: var(--text-font);
-    font-size: 0.8rem;
-    font-weight: 1000; /* Bold */
-    border-radius: 8px;
-    outline: none;
-    margin: 0 0.25rem 0 0.25rem;
-    width: 10rem;
-    max-width: 10rem;
+.button {
+  color: var(--main-bg-colour);
+  padding: 0.75em 2em;
+  font-size: 0.8rem;
+  font-weight: bold;
+  border-radius: 0.5em;
+  margin: 0 0.25rem;
+  width: 10rem;
+  min-height: 4.5em; /*allows buttons to look the same in mobile and desktop view (can be removed to allow for thinner buttons in desktop view)*/
 
-    background-color: var(--flame);
-
-    /* Prevents button from getting marked */
-    -webkit-user-select: none;  /* Chrome all / Safari all */
-    -moz-user-select: none;     /* Firefox all */
-    -ms-user-select: none;      /* IE 10+ */
-    user-select: none;          /* Likely future */  
+  /* Prevents button from getting marked */
+  -webkit-user-select: none;  /* Chrome all / Safari all */
+  -moz-user-select: none;     /* Firefox all */
+  -ms-user-select: none;      /* IE 10+ */
+  user-select: none;          /* Likely future */  
 }
 
-.main-button:hover {
-    cursor: pointer;
+.button:hover {
+  cursor: pointer;
 }
 
 #btn-group {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    flex-shrink: 1;
-    margin-top: 1.25rem;
-    margin-bottom: 2rem;
+  display: flex;
+  justify-content: center;
+  margin-top: 1.25rem;
+  margin-bottom: 1em;
 }
 
-/* TODO: Create better button names. */
-#btn-type1 {
-    background-color: var(--flame);
-    border: 2px solid var(--flame);
-    flex-shrink: 1;
+.btn-type1 {
+  background-color: var(--PONTRed);
+  border: 0.2em solid var(--PONTRed);
 }
 
-/*TODO: Update background-color, create variable?*/
-#btn-type1:hover {
-    background-color: #e84b1fd8;
+.btn-type1:hover {
+  background-color: #e84b1fd8; /*do we need hover?*/
 }
 
-#btn-type1:active {
-    color: var(--flame);
-    background-color: var(--main-bg-colour);
+.btn-type1:active {
+  color: var(--PONTRed);
+  background-color: var(--main-bg-colour);
 }
 
-/* TODO: Change px to em, rem or percentage. */
-#btn-type2 {
-    background-color: var(--main-bg-colour);
-    color: var(--teagreen);
-    border: 2px solid var(--teagreen);
+.btn-type2 {
+  background-color: var(--main-bg-colour);
+  color: var(--PONTLightBlue);
+  border: 0.2em solid var(--PONTLightBlue);
 }
 
-#btn-type2:hover {
-    background-color: var(--main-bg-colour);
+.btn-type2:hover {
+  background-color: var(--main-bg-colour);
 }
 
-#btn-type2:active {
-    color: var(--main-bg-colour);
-    background-color: var(--teagreen);
+.btn-type2:active {
+  color: var(--main-bg-colour);
+  background-color: var(--PONTLightBlue);
 }
 
-/* TODO: Change px to em, rem or percentage. */
-#btn-type3 {
-    background-color: var(--middlegreenyellow);
-    border: 2px solid var(--middlegreenyellow);
+.btn-type3 {
+  background-color: var(--PONTGreen);
+  border: 0.2em solid var(--PONTGreen);
 }
 
-/*TODO: Update background-color, create variable?*/
-#btn-type3:hover {
-    background-color: #B2CF65D8;
+.btn-type3:hover {
+  background-color: #B2CF65D8;
 }
 
-#btn-type3:active {
-    color: var(--colour4);
-    background-color: var(--main-bg-colour);
-}
-
-/* TODO: Change px to em, rem or percentage. */
-.card {
-    width: 100%;
-    display: flex;
-    /* top right bottom left*/
-    box-shadow: 2px 2px 5px #ccc;
-    opacity: 0.95;
-}
-
-.card:hover {
-    opacity: 1;
-}
-
-.card-info {
-    width: 100vw;
-    margin-left: 1.5rem;
-    margin-right: 1.5rem;
-}
-
-/*TODO: Update background-color, create variable?*/
-.card-container {
-    width: 50vw;
-    max-width: 100vw;
-    max-height: 75vh;
-    overflow: auto;
-    background-color: #f9f8fb80;
-}
-
-
-@media only screen 
-and (max-width : 800px) {
-    .card-container {
-        width: 100vw;
-    }
-    .card-container::-webkit-scrollbar {
-        display: none;
-    }
-    .card {
-        width: 100vw;
-        margin: 0;
-    }
+.btn-type3:active {
+  color: var(--colour4);
+  background-color: var(--main-bg-colour);
 }

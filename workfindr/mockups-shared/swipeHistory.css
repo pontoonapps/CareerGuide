@@ -1,0 +1,214 @@
+@import url('https://fonts.googleapis.com/css?family=Varela+Round&display=swap');
+
+:root {
+  --main-bg-colour: #F8F9FB;
+  --PONTBlue: #36B6B0; /*renamed from verdigris to PONTBlue (though it is more turqoise so blue may not be the best choice)*/
+  --PONTLightBlue: #7FB9E6; /*renamed from teagreen to PONTLightBlue*/
+  --PONTRed: #E8491F; /*renamed from flame to PONTRed*/
+  --PONTGreen: #B2CF65; /*renamed from middlegreenyellow to PONTGreen*/
+  --PONTOrange: #E69911; /*rename from gamboge to PONTOrange*/
+  --davys-gray: #333333;
+
+  --title-font: 'Varela Round';
+  --text-font: 'Open Sans';
+}
+
+* {
+  margin: 0em;
+  padding: 0em;
+  font-family: 'Varela Round';
+}
+
+#navbar-slide {
+  position: absolute;
+  width: 20em;
+  height: 92.5vh;
+  background-color: var(--davys-gray); 
+  display: none;
+}
+
+#navbar-slide.active {
+  display: flex;
+  flex-direction: column;
+  right: 0;
+}
+
+#navbar-slide ul {
+  list-style-type: none;
+}
+
+.navbar-slide-item {
+  display: block;
+  color: var(--main-bg-colour);
+  text-decoration: none;
+  margin: 0;
+  padding: 2rem;
+  text-align: center;
+}
+
+.navbar-slide-item:hover {
+  background-color: var(--PONTBlue);
+}
+
+#title {
+  font-size: 2rem;
+  color: var(--PONTRed);
+  text-align: center;
+}
+
+h1 {
+  margin: 0.5em;
+}
+
+#navbar {
+  box-shadow: 0 0 0.25rem 0.01rem var(--davys-gray);
+  width: 100vw;
+  height: 4em;
+  display: flex;
+  justify-content: center;
+}
+
+#navbar-top {
+  display: flex;
+  justify-content: space-between;
+  min-width: 20em;
+  width: 50%;
+  max-width: 50em;
+}
+
+#logo {
+  width: 15em;
+  height: 3em;
+  object-fit: scale-down;
+  margin: 0.25rem;
+}
+
+#logo {
+  width: 15em;
+  height: 3em;
+  object-fit: scale-down;
+  margin: 0.25rem;
+}
+
+#mainContainer {
+  background-image: url('img/pontoon-webbanner-bg-blur-final.png');
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.title {
+  font-size: 2rem;
+  color: var(--PONTRed);
+  text-align: center;
+}
+
+.button > p {
+  font-size: 1.2em;
+}
+
+.buttonContainer {
+  display: flex;
+  justify-content: space-around;
+}
+
+.button {
+  font-weight: bold;
+  color: whitesmoke;
+  border: none;
+  padding: 1em 2em;
+  border-radius: 2em;
+  margin: 1em;
+}
+
+.buttonLabel {
+  display: flex;
+  justify-content: center;
+  width: 2em;
+}
+
+.nav {
+  background-color: rgb(127, 185, 230);
+  box-shadow: 0em 0em 0.5em rgb(127, 185, 230);
+}
+
+.swipeHistoryItem {
+  display: grid;
+  grid-template-rows: 0.5fr 1fr;
+  grid-template-columns: 0.3fr 1fr 0.3fr;
+
+  height: 6em; 
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+  padding: 0.5em;
+  
+  background-color: white;
+  box-shadow: 0em 0em 0.5em rgb(178, 207, 101);
+  border: rgb(178, 207, 101) 0.1em solid;
+}
+
+.swipeHistoryItemImage {
+  grid-column-start: 1;
+  grid-column-end: 2;
+  grid-row-start: 1;
+  grid-row-end: 3;
+
+  max-height: 100%;
+  max-width: 100%;
+  border-radius: 3em;
+
+  display: flex;
+  justify-self: center;
+  align-self: center;
+}
+
+.swipeHistoryChoice {
+  grid-column-start: 3;
+  grid-column-end: 4;
+  grid-row-start: 1;
+  grid-row-end: 3;
+
+  max-height: 100%;
+  max-width: 100%;
+  padding: 0.5em;
+  border-radius: 3em;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  justify-self: center;
+  align-self: center;
+
+  font-size: 2em;
+}
+
+.liked {
+  background: rgb(178, 207, 101);
+}
+
+.disliked {
+  background: rgb(232, 73, 31);
+}
+
+.swipeHistoryItemTitle {
+  grid-column-start: 2;
+  grid-column-end: 3;
+  grid-row-start: 1;
+  grid-row-end: 2;
+
+  padding: 0.3em;
+  text-align: left;
+}
+
+.swipeHistoryItemDescription {
+  grid-column-start: 2;
+  grid-column-end: 3;
+  grid-row-start: 2;
+  grid-row-end: 3;
+
+  padding: 0.3em;
+  text-align: left;
+  overflow: hidden;
+}
