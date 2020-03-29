@@ -96,6 +96,20 @@ _NB: There is no dedicated login API call, and there are no sessions._
   * retrieval needs to take these into account
   * this README needs to reflect these changes
 
+  * training centres are "recruiters" at least for now
+  * a recruiter can manage a list of email addresses of their users who will then get the pins of this recruiter automatically
+  * new API:
+    - login (really who-am-i – user or recruiter – and which training centre do I belong to);
+    - list my users (if recruiter) – array of emails,
+    - add users (an array) and remove users (an array) (one POST route)
+
+  * questions and assumptions:
+    - should training centres be able to find out user name for nicer display? (assumption: no)
+    - what should happen if a user is already assigned to another training centre? (assumption: they should ask the previous training centre to remove them first; alternative: they could remove themselves from a training centre)
+      - this means the app should check all the email addresses it meant to add and if some aren't added, either the address is wrong or it's assigned to a different training centre already
+    - should user be able to find out which training centre they are connected to? (assumption: yes)
+    - as part of the above, should the user be able to find out some things about the training centre? (assumption: first name, last name, email)
+
 ### future considerations
 
 * make lat/lon NOT NULL in SQL
