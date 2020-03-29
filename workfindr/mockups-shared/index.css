@@ -39,7 +39,6 @@ body {
 #navbar-slide.active {
   display: flex;
   flex-direction: column;
-  right: 0;
 }
 
 #navbar-slide ul {
