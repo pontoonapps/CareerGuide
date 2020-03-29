@@ -100,5 +100,14 @@ async function deletePin(req, res, next) {
 }
 
 async function getUserPins(req, res, next) {
-  res.json(await db.listUserPins(req.auth.id));
+  switch (req.auth.role) {
+    case 'user':
+      res.json(await db.listUserPins(req.auth.id));
+      break;
+    case 'recruiter':
+      res.json(await db.listTrainingCentrePins(req.auth.id));
+      break;
+    default:
+      res.status(403).send('unrecognized user role');
+  }
 }

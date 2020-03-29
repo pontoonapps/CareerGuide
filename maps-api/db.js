@@ -62,6 +62,24 @@ async function listUserPins(userId) {
                  FROM user_map_pins
                  WHERE user_id = ?`;
   const [rows] = await sql.query(query, [userId]);
+
+  return extractPinInfo(rows);
+}
+
+async function listTrainingCentrePins(tcId) {
+  const sql = await dbConn;
+  const query = `SELECT name, category, description, phone, website,
+                        email, address_line_1, address_line_2,
+                        postcode, latitude, longitude, notes
+                 FROM training_centre_map_pins
+                 WHERE training_centre_id = ?`;
+  const [rows] = await sql.query(query, [tcId]);
+
+  return extractPinInfo(rows);
+}
+
+
+function extractPinInfo(rows) {
   const pins = [];
   for (const row of rows) {
     const pin = {};
@@ -125,6 +143,7 @@ async function deleteUserPin(userId, pinName) {
 module.exports = {
   findUserRole,
   listUserPins,
+  listTrainingCentrePins,
   addUpdateUserPin,
   deleteUserPin,
 };
