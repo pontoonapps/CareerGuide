@@ -96,8 +96,7 @@ h1 {
   display: flex;
   flex-direction: column;
   align-items: center; 
-  margin: auto;
-  max-width: 90vw;
+
 }
 
 /*TODO: Update background-color, create variable?*/
@@ -135,12 +134,13 @@ h1 {
   grid-row-end: 3;
 }
 
-.swipeHistoryItem {
+.listItemContainer {
   display: grid;
   grid-template-rows: 0.5fr 1fr;
   grid-template-columns: 0.3fr 1fr 0.3fr;
 
   height: 6em; 
+  max-width: 40em; /*could be a touch wider*/
   margin-top: 0.5em;
   margin-bottom: 0.5em;
   padding: 0.5em;
