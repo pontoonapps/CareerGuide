@@ -19,6 +19,13 @@
   font-family: 'Varela Round';
 }
 
+body {
+  background-image: url('img/pontoon-webbanner-bg-blur-final.png');
+  padding: 0em;
+  margin: 0em;
+}
+
+
 #navbar-slide {
   position: absolute;
   width: 20em;
@@ -63,7 +70,7 @@ h1 {
 #navbar {
   box-shadow: 0 0 0.25rem 0.01rem var(--davys-gray);
   width: 100vw;
-  height: 4em;
+  height: 5em;
   display: flex;
   justify-content: center;
 }
@@ -71,8 +78,9 @@ h1 {
 #navbar-top {
   display: flex;
   justify-content: space-between;
+  padding: 0.5em;
   min-width: 20em;
-  width: 50%;
+  width: inherit;
   max-width: 50em;
 }
 
@@ -83,48 +91,45 @@ h1 {
   margin: 0.25rem;
 }
 
-#mainContainer {
-  background-image: url('img/pontoon-webbanner-bg-blur-final.png');
+#wrapper {
   display: flex;
   flex-direction: column;
-  text-align: center;
   align-items: center;
-  height: 100vh;
 }
 
-.title {
-  font-size: 2rem;
-  color: var(--PONTRed);
-  text-align: center;
+/*TODO: Update background-color, create variable?*/
+#info {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  grid-template-rows: 4em auto;
+  max-height: 50vh;
+  max-width: 30em;
+  padding: 1em;
+  margin: auto;
+  background-color: var(--main-bg-colour);
 }
 
-.button > p {
-  font-size: 1.2em;
-}
-
-.buttonContainer {
+#shortlistbtn {
+  grid-column-start: 5;
+  grid-column-end: 6;
+  grid-row-start: 1;
+  grid-row-end: 2;
+  padding: 1em;
+  margin: 0.5em;
+  width: 11em;
   display: flex;
-  justify-content: space-around;
-}
-
-.button {
-  font-weight: bold;
-  color: whitesmoke;
-  border: none;
-  padding: 1em 2em;
-  border-radius: 2em;
-  margin: 1em;
-}
-
-.buttonLabel {
-  display: flex;
+  align-items: center;
   justify-content: center;
-  width: 2em;
 }
 
-.nav {
-  background-color: rgb(127, 185, 230);
-  box-shadow: 0em 0em 0.5em rgb(127, 185, 230);
+#info-text {
+  font-size: 1rem;
+  overflow: hidden; /*maybe limit text length in this box with JS??*/
+  font-family: var(--text-font);
+  grid-column-start: 1;
+  grid-column-end: 6;
+  grid-row-start: 2;
+  grid-row-end: 3;
 }
 
 .swipeHistoryItem {
