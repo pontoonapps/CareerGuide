@@ -25,6 +25,8 @@ app.post('/pins', express.json(), promiseWrap(addPin));
 app.post('/pins/delete', express.json(), promiseWrap(deletePin));
 app.get('/pins', promiseWrap(getUserPins));
 
+app.get('/login', promiseWrap(getUserRole));
+
 // server functions
 
 function msg(...message) {
@@ -131,4 +133,15 @@ async function getUserPins(req, res, next) {
     default:
       res.status(403).send('unrecognized user role');
   }
+}
+
+async function getUserRole(req, res, next) {
+  const retval = { role: req.auth.role };
+
+  if (retval.role === 'user') {
+    const tc = await db.findUserTrainingCentre(req.auth.id);
+    if (tc) retval.trainingCentre = tc;
+  }
+
+  res.json(retval);
 }

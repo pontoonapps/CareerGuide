@@ -183,8 +183,30 @@ async function deleteTrainingCentrePin(tcId, pinName) {
   return rows.affectedRows > 0;
 }
 
+async function findUserTrainingCentre(userId) {
+  const sql = await dbConn;
+  const query = `SELECT first_name, last_name, email
+                 FROM recruiters
+                 JOIN training_centre_assignments
+                   ON recruiters.id = training_centre_assignments.training_centre_id
+                 WHERE user_id = ?
+                 LIMIT 1`; // we only expect one
+  const [rows] = await sql.query(query, [userId]);
+
+  if (!rows.length === 0) return null;
+
+  const r = rows[0];
+  return {
+    name: {
+      first: r.first_name,
+      last: r.last_name,
+    },
+    email: r.email,
+  };
+}
 module.exports = {
   findUserRole,
+  findUserTrainingCentre,
   listUserPins,
   listTrainingCentrePins,
   addUpdateUserPin,
