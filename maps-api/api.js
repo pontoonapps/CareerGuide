@@ -28,6 +28,7 @@ app.get('/pins', promiseWrap(getUserPins));
 
 app.get('/login', promiseWrap(getUserRole));
 app.get('/training-centre/users', promiseWrap(getTrainingCentreUsers));
+app.post('/training-centre/users', express.json(), promiseWrap(updateTrainingCentreUsers));
 
 // server functions
 
@@ -155,4 +156,29 @@ async function getTrainingCentreUsers(req, res, next) {
   }
 
   res.json(await db.listTrainingCentreUsers(req.auth.id));
+}
+
+async function updateTrainingCentreUsers(req, res, next) {
+  if (req.auth.role !== 'recruiter') {
+    res.sendStatus(403);
+    return;
+  }
+
+  const { add, remove } = req.body;
+
+  let validationProblems = '';
+  if (!checks.arrayOptional(add, checks.stringRequired)) {
+    validationProblems += 'ArrayOptional(body.add, all members String)';
+  }
+  if (!checks.arrayOptional(remove, checks.stringRequired)) {
+    validationProblems += 'ArrayOptional(body.remove, all members String)';
+  }
+
+  if (validationProblems) {
+    res.status(400).send(validationProblems);
+    return;
+  }
+
+  await db.updateTrainingCentreUsers(req.auth.id, add, remove);
+  return getTrainingCentreUsers(req, res, next);
 }

@@ -214,7 +214,43 @@ async function listTrainingCentreUsers(tcId) {
                  WHERE training_centre_id = ?`;
   const [rows] = await sql.query(query, [tcId]);
 
-  return rows.map(r => ({ email: r.email }));
+  return rows.map(r => r.email);
+}
+
+async function updateTrainingCentreUsers(tcId, add, remove) {
+  add = add || [];
+  remove = remove || [];
+
+  const sqlPool = await dbConn;
+  const sqlConn = await sqlPool.getConnection();
+  try {
+    await sqlConn.beginTransaction();
+
+    if (remove.length > 0) {
+      const removeQuery = `DELETE FROM training_centre_assignments
+                           WHERE training_centre_id = ?
+                           AND user_id IN (SELECT id
+                                           FROM users
+                                           WHERE email IN (?)
+                                          )`;
+      await sqlConn.query(removeQuery, [tcId, remove]);
+    }
+
+    if (add.length > 0) {
+      const addQuery = `INSERT IGNORE
+                        INTO training_centre_assignments
+                             (user_id, training_centre_id)
+                        SELECT id AS user_id, ? AS training_centre_id
+                        FROM users
+                        WHERE email IN (?)`;
+      await sqlConn.query(addQuery, [tcId, add]);
+    }
+    await sqlConn.commit();
+  } catch (err) {
+    await sqlConn.rollback();
+  } finally {
+    sqlConn.release();
+  }
 }
 
 module.exports = {
@@ -227,4 +263,5 @@ module.exports = {
   deleteUserPin,
   deleteTrainingCentrePin,
   listTrainingCentreUsers,
+  updateTrainingCentreUsers,
 };
