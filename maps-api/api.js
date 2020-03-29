@@ -85,7 +85,18 @@ async function addPin(req, res, next) {
     return;
   }
 
-  await db.addUpdateUserPin(req.auth.id, pin);
+  switch (req.auth.role) {
+    case 'user':
+      await db.addUpdateUserPin(req.auth.id, pin);
+      break;
+    case 'recruiter':
+      await db.addUpdateTrainingCentrePin(req.auth.id, pin);
+      break;
+    default:
+      res.status(403).send('unrecognized user role');
+      return;
+  }
+
   res.sendStatus(204);
 }
 
@@ -95,7 +106,17 @@ async function deletePin(req, res, next) {
     return;
   }
 
-  await db.deleteUserPin(req.auth.id, req.body.name);
+  switch (req.auth.role) {
+    case 'user':
+      await db.deleteUserPin(req.auth.id, req.body.name);
+      break;
+    case 'recruiter':
+      await db.deleteTrainingCentrePin(req.auth.id, req.body.name);
+      break;
+    default:
+      res.status(403).send('unrecognized user role');
+      return;
+  }
   res.sendStatus(204);
 }
 
