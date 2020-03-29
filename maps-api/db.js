@@ -204,6 +204,19 @@ async function findUserTrainingCentre(userId) {
     email: r.email,
   };
 }
+
+async function listTrainingCentreUsers(tcId) {
+  const sql = await dbConn;
+  const query = `SELECT email
+                 FROM users
+                 JOIN training_centre_assignments
+                   ON users.id = training_centre_assignments.user_id
+                 WHERE training_centre_id = ?`;
+  const [rows] = await sql.query(query, [tcId]);
+
+  return rows.map(r => ({ email: r.email }));
+}
+
 module.exports = {
   findUserRole,
   findUserTrainingCentre,
@@ -213,4 +226,5 @@ module.exports = {
   addUpdateTrainingCentrePin,
   deleteUserPin,
   deleteTrainingCentrePin,
+  listTrainingCentreUsers,
 };

@@ -21,11 +21,13 @@ app.use(checkApiKey);
 app.get('/ping', msg('api key accepted'));
 
 app.use(auth);
+
 app.post('/pins', express.json(), promiseWrap(addPin));
 app.post('/pins/delete', express.json(), promiseWrap(deletePin));
 app.get('/pins', promiseWrap(getUserPins));
 
 app.get('/login', promiseWrap(getUserRole));
+app.get('/training-centre/users', promiseWrap(getTrainingCentreUsers));
 
 // server functions
 
@@ -144,4 +146,13 @@ async function getUserRole(req, res, next) {
   }
 
   res.json(retval);
+}
+
+async function getTrainingCentreUsers(req, res, next) {
+  if (req.auth.role !== 'recruiter') {
+    res.sendStatus(403);
+    return;
+  }
+
+  res.json(await db.listTrainingCentreUsers(req.auth.id));
 }
