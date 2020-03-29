@@ -23,6 +23,7 @@ body {
   background-image: url('img/pontoon-webbanner-bg-blur-final.png');
   padding: 0em;
   margin: 0em;
+  overflow-x: hidden; /*to prevent the horizontal scrollbar turning on automatically with the vertical scroll bar*/
 }
 
 /* TODO: Make the colours for the navbar-slide menu match the rest of the pages. */
@@ -37,6 +38,7 @@ body {
 #navbar-slide.active {
   display: flex;
   flex-direction: column;
+  right: 0;
 }
 
 #navbar-slide ul {
@@ -93,7 +95,9 @@ h1 {
 #wrapper {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: center; 
+  margin: auto;
+  max-width: 90vw;
 }
 
 /*TODO: Update background-color, create variable?*/
