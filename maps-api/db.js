@@ -41,12 +41,12 @@ async function findUserInTable(user, pwd, table) {
  * If no such user is found, returns null.
  */
 async function findUserRole(user, pwd) {
-  const recruiterId = findUserInTable(user, pwd, 'recruiters');
+  const recruiterId = await findUserInTable(user, pwd, 'recruiters');
   if (recruiterId != null) {
     return { id: recruiterId, role: 'recruiter' };
   }
 
-  const userId = findUserInTable(user, pwd, 'users');
+  const userId = await findUserInTable(user, pwd, 'users');
   if (userId != null) {
     return { id: userId, role: 'user' };
   }
