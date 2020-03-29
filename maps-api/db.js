@@ -59,14 +59,14 @@ async function listUserPins(userId) {
   const query = `SELECT name, category, description, phone, website,
                         email, address_line_1, address_line_2,
                         postcode, latitude, longitude, notes,
-                        true as user_pin
+                        true AS user_pin
                  FROM user_map_pins
                  WHERE user_id = ?
                  UNION
                  SELECT name, category, description, phone, website,
                         email, address_line_1, address_line_2,
                         postcode, latitude, longitude, notes,
-                        false as user_pin
+                        false AS user_pin
                  FROM training_centre_map_pins
                  JOIN training_centre_assignments
                  USING (training_centre_id)
@@ -80,7 +80,7 @@ async function listTrainingCentrePins(tcId) {
   const query = `SELECT name, category, description, phone, website,
                         email, address_line_1, address_line_2,
                         postcode, latitude, longitude, notes,
-                        true as user_pin
+                        true AS user_pin
                  FROM training_centre_map_pins
                  WHERE training_centre_id = ?`;
   const [rows] = await sql.query(query, [tcId]);
