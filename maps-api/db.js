@@ -194,7 +194,7 @@ async function findUserTrainingCentre(userId) {
                  LIMIT 1`; // we only expect one
   const [rows] = await sql.query(query, [userId]);
 
-  if (!rows.length === 0) return null;
+  if (rows.length === 0) return null;
 
   const r = rows[0];
   return {
