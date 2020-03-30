@@ -157,6 +157,7 @@ h1 {
   grid-row-end: 2;
 
   text-align: center;
+  border-bottom: 0.15em dashed var(--PONTLightBlue);
 }
 
 .questionnaireAnswer {
@@ -171,8 +172,6 @@ h1 {
   max-width: 100%;
   width: 50em;
   margin: 0.5em 0em;
-
-  border-top: 0.15em dashed var(--PONTLightBlue);
 
 }
 
