@@ -139,7 +139,7 @@ h1 {
   grid-template-rows: 0.5fr 1fr;
   grid-template-columns: 0.3fr 1fr 0.3fr;
 
-  height: 6em; 
+  min-height: 6em; 
   max-width: 40em; /*could be a touch wider*/
   margin-top: 0.5em;
   margin-bottom: 0.5em;
@@ -150,13 +150,65 @@ h1 {
   border: rgb(178, 207, 101) 0.1em solid;
 }
 
+.questionnaireReviewTitle {
+  grid-column-start: 1;
+  grid-column-end: 4;
+  grid-row-start: 1;
+  grid-row-end: 2;
+
+  text-align: center;
+}
+
+.questionnaireAnswer {
+  grid-column-start: 1;
+  grid-column-end: 4;
+  grid-row-start: 2;
+  grid-row-end: 3;
+
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  max-width: 100%;
+  width: 50em;
+  margin: 0.5em 0em;
+
+  border-top: 0.15em dashed var(--PONTLightBlue);
+
+}
+
+.questionnaireAnswer > * {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: inherit;
+  max-width: 40%;
+  height: 3em;
+  margin: 0.5em 0em;
+
+  border-radius: 3em;
+  opacity: 30%;
+}
+
+.questionnaireAnswer > .yes {
+  background: var(--PONTGreen);
+}
+
+.questionnaireAnswer > .no {
+  background: var(--PONTRed);
+}
+
+.questionnaireAnswer > .selected {
+  opacity: 100%;
+}
+
 .swipeHistoryItemImage {
   grid-column-start: 1;
   grid-column-end: 2;
   grid-row-start: 1;
   grid-row-end: 3;
 
-  max-height: 100%;
+  height: 6em;
   max-width: 100%;
   border-radius: 3em;
 
@@ -193,7 +245,7 @@ h1 {
   background: rgb(232, 73, 31);
 }
 
-.swipeHistoryItemTitle {
+.listItemTitle {
   grid-column-start: 2;
   grid-column-end: 3;
   grid-row-start: 1;
@@ -250,7 +302,7 @@ h1 {
   margin-bottom: 1em;
 }
 
-.btn-type1 {
+.btn-type1 { /*TODO get better button variable names (red button, blue button etc maybe)*/
   background-color: var(--PONTRed);
   border: 0.2em solid var(--PONTRed);
 }
