@@ -7,6 +7,7 @@ const dbConn = mysql.createPool({
   user: config.DB_USER,
   password: config.DB_PASSWORD,
   database: config.DB_DATABASE,
+  socketPath: config.DB_SOCKETPATH,
 });
 
 async function findUserInTable(user, pwd, table) {

@@ -143,7 +143,7 @@ async function getUserRole(req, res, next) {
 
   if (retval.role === 'user') {
     const tc = await db.findUserTrainingCentre(req.auth.id);
-    if (tc) retval.trainingCentre = tc;
+    if (tc) retval.training_centre = tc;
   }
 
   res.json(retval);
