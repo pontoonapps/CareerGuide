@@ -1,15 +1,4 @@
 {
-    "extends": "semistandard",
-    "env": {
-        "node": true
-    },
-    "rules": {
-      "comma-dangle": ["error", "always-multiline"],
-      "space-before-function-paren": ["error", {
-        "anonymous": "always",
-        "named": "never",
-        "asyncArrow": "always"
-      }],
-      "no-var": ["error"]
-    }
+    "extends": "portsoc",
+    "root": true
 }

@@ -21,9 +21,17 @@ app.use(checkApiKey);
 app.get('/ping', msg('api key accepted'));
 
 app.use(auth);
+
 app.post('/pins', express.json(), promiseWrap(addPin));
 app.post('/pins/delete', express.json(), promiseWrap(deletePin));
 app.get('/pins', promiseWrap(getUserPins));
+
+app.get('/login', promiseWrap(getUserRole));
+app.get('/training-centre/users', promiseWrap(getTrainingCentreUsers));
+app.post('/training-centre/users', express.json(), promiseWrap(updateTrainingCentreUsers));
+
+app.get('/user/training-centres', promiseWrap(getUserTrainingCentres));
+app.post('/user/training-centres/remove', express.json(), promiseWrap(removeUserFromTrainingCentre));
 
 // server functions
 
@@ -51,9 +59,10 @@ function checkApiKey(req, res, next) {
 }
 
 async function checkDBUser(user, pwd, authObj) {
-  const userFound = await db.findUser(user, pwd);
-  if (userFound != null) {
-    authObj.id = userFound;
+  const userRole = await db.findUserRole(user, pwd);
+  if (userRole != null) {
+    authObj.id = userRole.id;
+    authObj.role = userRole.role;
     return true;
   } else {
     return false;
@@ -84,7 +93,18 @@ async function addPin(req, res, next) {
     return;
   }
 
-  await db.addUpdateUserPin(req.auth.id, pin);
+  switch (req.auth.role) {
+    case 'user':
+      await db.addUpdateUserPin(req.auth.id, pin);
+      break;
+    case 'recruiter':
+      await db.addUpdateTrainingCentrePin(req.auth.id, pin);
+      break;
+    default:
+      res.status(403).send('unrecognized user role');
+      return;
+  }
+
   res.sendStatus(204);
 }
 
@@ -94,10 +114,102 @@ async function deletePin(req, res, next) {
     return;
   }
 
-  await db.deleteUserPin(req.auth.id, req.body.name);
+  switch (req.auth.role) {
+    case 'user':
+      await db.deleteUserPin(req.auth.id, req.body.name);
+      break;
+    case 'recruiter':
+      await db.deleteTrainingCentrePin(req.auth.id, req.body.name);
+      break;
+    default:
+      res.status(403).send('unrecognized user role');
+      return;
+  }
   res.sendStatus(204);
 }
 
 async function getUserPins(req, res, next) {
-  res.json(await db.listUserPins(req.auth.id));
+  switch (req.auth.role) {
+    case 'user':
+      res.json(await db.listUserPins(req.auth.id));
+      break;
+    case 'recruiter':
+      res.json(await db.listTrainingCentrePins(req.auth.id));
+      break;
+    default:
+      res.status(403).send('unrecognized user role');
+  }
+}
+
+async function getUserRole(req, res, next) {
+  const retval = { role: req.auth.role };
+
+  if (retval.role === 'user') {
+    const tc = await db.findUserTrainingCentres(req.auth.id);
+    retval.training_centres = tc;
+  }
+
+  res.json(retval);
+}
+
+async function getTrainingCentreUsers(req, res, next) {
+  if (req.auth.role !== 'recruiter') {
+    res.sendStatus(403);
+    return;
+  }
+
+  res.json(await db.listTrainingCentreUsers(req.auth.id));
+}
+
+async function updateTrainingCentreUsers(req, res, next) {
+  if (req.auth.role !== 'recruiter') {
+    res.sendStatus(403);
+    return;
+  }
+
+  const { add, remove } = req.body;
+
+  let validationProblems = '';
+  if (!checks.arrayOptional(add, checks.stringRequired)) {
+    validationProblems += 'ArrayOptional(body.add, all members String)';
+  }
+  if (!checks.arrayOptional(remove, checks.stringRequired)) {
+    validationProblems += 'ArrayOptional(body.remove, all members String)';
+  }
+
+  if (validationProblems) {
+    res.status(400).send(validationProblems);
+    return;
+  }
+
+  await db.updateTrainingCentreUsers(req.auth.id, add, remove);
+  return getTrainingCentreUsers(req, res, next);
+}
+
+async function getUserTrainingCentres(req, res, next) {
+  if (req.auth.role !== 'user') {
+    res.sendStatus(403);
+    return;
+  }
+
+  const tc = await db.findUserTrainingCentres(req.auth.id);
+
+  res.json(tc);
+}
+
+async function removeUserFromTrainingCentre(req, res, next) {
+  if (req.auth.role !== 'user') {
+    res.sendStatus(403);
+    return;
+  }
+
+  const tcEmail = req.body.email;
+  if (!checks.stringRequired(tcEmail)) {
+    res.sendStatus(400);
+    return;
+  }
+
+  await db.removeUserFromTrainingCentre(req.auth.id, tcEmail);
+
+  res.sendStatus(204);
 }

@@ -25,9 +25,18 @@ function numberRequired(value) {
   return typeof value === 'number';
 }
 
+function arrayOptional(value, memberCheck) {
+  if (value == null) return true;
+  if (!Array.isArray(value)) return false;
+
+  // can't just do every(memberCheck) because every gives too many params
+  return value.every((x) => memberCheck(x));
+}
+
 module.exports = {
   stringOptional,
   stringRequired,
   numberOptional,
   numberRequired,
+  arrayOptional,
 };

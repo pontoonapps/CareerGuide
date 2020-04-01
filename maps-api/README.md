@@ -22,6 +22,8 @@ If you want to install the API at pontoonapps.com:
 
 The API runs at https://pontoonapps.com/community-api (referred to as `<root>` below) . Data structures and authentication mechanisms are detailed in further sections. The main routes are:
 
+### Map Pin routes
+
 * GET `<root>/pins` – return array of all pins visible to this user
 * POST `<root>/pins` – add a user pin (accepts JSON)
   * if the user already has a pin with this name, the pin information is all updated
@@ -33,13 +35,7 @@ The API runs at https://pontoonapps.com/community-api (referred to as `<root>` b
   * returns 204 No Content on success (even if pin with the name didn't exist)
   * returns 400 Bad Request when data is malformed
 
-Status and check routes:
-
-* GET `<root>/` – returns a successful response if the API is running (no authentication needed)
-* GET `<root>/ping` – returns a successful response if the API key is accepted (only API key needed)
-
-
-### Data structures
+#### Data structures
 
 A pin is represented in the API with the following data structure:
 ```
@@ -59,8 +55,60 @@ A pin is represented in the API with the following data structure:
 }
 ```
 
-A pin returned by the API can also have a field `userPin` (Boolean) – `true` if this pin was submitted by the user, and `false` if it comes from their training centre.
+A pin returned by the API can also have a field `userPin` (Boolean) – `true` if this pin was submitted by the user, and `false` if it comes from their training centre. Training centre pins also have `training_centre_email` so the app can show which training centre provided this pin.
 
+
+### Training Centre routes:
+
+These routes return `403 Forbidden` if the current user is not a training centre (role "recruiter").
+
+* GET `<root>/training-centre/users` – return array of emails of the users assigned to the authenticated training centre
+* POST `<root>/training-centre/users` – add (assign) and remove (unassign) users to this training centre. Input data:
+  ```
+  {
+    add:     (optional)  [ email strings ],
+    remove:  (optional)  [ email strings ],
+  }
+  ```
+  - removal is processed first, then addition – if both arrays contain the same email address, the user will be added;
+  - users that do not exist in the database will be ignored (the client should report the email addresses that weren't added);
+  - users that are already assigned to a different training centre will be ignored (a user can only be assigned to one training centre);
+  - removing users that were not assigned to the training centre is also ignored;
+  - returns the result list of users assigned to the training centre (like the GET method above).
+
+### User routes:
+
+These routes return `403 Forbidden` if the current user is not a normal user (i.e. if they are a training centre).
+
+* GET `<root>/user/training-centres` – return array of training centres of the given user (same data structure as in `training_centres` at `<root>/login` below)
+* POST `<root>/user/training-centres/remove` – remove the calling user from the given training centre (accepts JSON)
+  * the incoming JSON should only be `{ "email": "..." }`
+  * returns 204 No Content on success (even if the user wasn't in the given training centre)
+  * returns 400 Bad Request when data is malformed
+
+### Status and check routes:
+
+* GET `<root>/` – returns a successful response if the API is running (no authentication needed)
+* GET `<root>/ping` – returns a successful response if the API key is accepted (only API key needed)
+* GET `<root>/login` – (optional) returns information about the user, in the following format:
+  ```
+  {
+    role:                "user" or "recruiter",
+    training_centres: [
+      {
+        email:           String,
+        name: {
+          first:         String,
+          last:          String,
+        }
+      },
+      …
+    ]
+  }
+  ```
+  - notes
+    - in pontoonapps, training centres have "recruiter" role;
+    - `training_centres` is there only if the role is "user"; if the user is not assigned to any training centre, it will be an empty array.
 
 ### Authentication
 
@@ -70,11 +118,13 @@ The API uses an **API key provided as a URL query parameter** `apiKey`; this key
 
 If your key is ABCDEFGH, you can check the API at https://pontoonapps.com/community-api/ping?apiKey=ABCDEFGH
 
-Users in the app use their pontoonapps.com account details. The app uses these account details (email and password) with **HTTP Basic Authentication** in all API requests (except `ping`). Without valid credentials, the API returns 401 Unauthorized.
+Users in the app use their pontoonapps.com account details: the API accepts pontoonapps.com "job seekers" (internally under the role _user_) and "recruiters".
 
-Any registered pontoon.com user can request their map pins at `<root>/pins`; if they have never submitted any, this will return an empty array.
+The app uses these account details (email and password) with **HTTP Basic Authentication** in all API requests (except `ping`). Without valid credentials, the API returns 401 Unauthorized.
 
-_NB: There is no dedicated login API call, and there are no sessions._
+Any user can request their map pins at `<root>/pins`; if they have never submitted any, this will return an empty array.
+
+_NB: There login API call is only for checking role and training centres and is not required; there are no sessions and every API request contains the credentials._
 
 
 
@@ -82,21 +132,9 @@ _NB: There is no dedicated login API call, and there are no sessions._
 ## Assumptions
 
 * pontoonapps.com always uses HTTPS, which should be sufficient for network security (in particular, it should be OK to use Basic Auth)
+* pontoonapps.com recruiters act as training centres for the community map API.
 
-## To-Do
-
-### adding training centres
-
-* training centres (see notes in `sql-init-for-training-centres.sql`)
-  * in the existing `recruiters` table
-  * login must check the `recruiters` table as well
-  * needs an extra DB table (`training_centre_assignments`) that ties normal users to their training centre(s)
-  * training centre pins will live in `training_centre_map_pins`
-  * user pins table `map_pins` becomes `user_map_pins`
-  * retrieval needs to take these into account
-  * this README needs to reflect these changes
-
-### future considerations
+## Future considerations
 
 * make lat/lon NOT NULL in SQL
 * recognized API keys probably could be in the database rather than in the config file
