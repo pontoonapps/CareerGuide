@@ -30,6 +30,9 @@ app.get('/login', promiseWrap(getUserRole));
 app.get('/training-centre/users', promiseWrap(getTrainingCentreUsers));
 app.post('/training-centre/users', express.json(), promiseWrap(updateTrainingCentreUsers));
 
+app.get('/user/training-centres', promiseWrap(getUserTrainingCentres));
+app.post('/user/training-centres/remove', express.json(), promiseWrap(removeUserFromTrainingCentre));
+
 // server functions
 
 function msg(...message) {
@@ -142,8 +145,8 @@ async function getUserRole(req, res, next) {
   const retval = { role: req.auth.role };
 
   if (retval.role === 'user') {
-    const tc = await db.findUserTrainingCentre(req.auth.id);
-    if (tc) retval.training_centre = tc;
+    const tc = await db.findUserTrainingCentres(req.auth.id);
+    retval.training_centres = tc;
   }
 
   res.json(retval);
@@ -181,4 +184,32 @@ async function updateTrainingCentreUsers(req, res, next) {
 
   await db.updateTrainingCentreUsers(req.auth.id, add, remove);
   return getTrainingCentreUsers(req, res, next);
+}
+
+async function getUserTrainingCentres(req, res, next) {
+  if (req.auth.role !== 'user') {
+    res.sendStatus(403);
+    return;
+  }
+
+  const tc = await db.findUserTrainingCentres(req.auth.id);
+
+  res.json(tc);
+}
+
+async function removeUserFromTrainingCentre(req, res, next) {
+  if (req.auth.role !== 'user') {
+    res.sendStatus(403);
+    return;
+  }
+
+  const tcEmail = req.body.email;
+  if (!checks.stringRequired(tcEmail)) {
+    res.sendStatus(400);
+    return;
+  }
+
+  await db.removeUserFromTrainingCentre(req.auth.id, tcEmail);
+
+  res.sendStatus(204);
 }

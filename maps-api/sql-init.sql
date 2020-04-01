@@ -40,5 +40,5 @@ CREATE TABLE training_centre_assignments (
   training_centre_id INT             NOT NULL,
   FOREIGN KEY (user_id) REFERENCES users(id),
   FOREIGN KEY (training_centre_id) REFERENCES recruiters(id),
-  PRIMARY KEY (user_id) -- a user can only have a single training centre
+  PRIMARY KEY (user_id, training_centre_id)
 );

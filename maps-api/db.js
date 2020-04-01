@@ -60,17 +60,19 @@ async function listUserPins(userId) {
   const query = `SELECT name, category, description, phone, website,
                         email, address_line_1, address_line_2,
                         postcode, latitude, longitude, notes,
-                        true AS user_pin
+                        null as tc_email
                  FROM user_map_pins
                  WHERE user_id = ?
                  UNION
-                 SELECT name, category, description, phone, website,
-                        email, address_line_1, address_line_2,
-                        postcode, latitude, longitude, notes,
-                        false AS user_pin
-                 FROM training_centre_map_pins
-                 JOIN training_centre_assignments
+                 SELECT p.name, p.category, p.description, p.phone, p.website,
+                        p.email, p.address_line_1, p.address_line_2,
+                        p.postcode, p.latitude, p.longitude, p.notes,
+                        r.email as tc_email
+                 FROM training_centre_map_pins p
+                 JOIN training_centre_assignments a
                  USING (training_centre_id)
+                 JOIN recruiters r
+                   ON r.id = a.training_centre_id
                  WHERE user_id = ?`;
   const [rows] = await sql.query(query, [userId, userId]);
   return extractPinInfo(rows);
@@ -81,7 +83,7 @@ async function listTrainingCentrePins(tcId) {
   const query = `SELECT name, category, description, phone, website,
                         email, address_line_1, address_line_2,
                         postcode, latitude, longitude, notes,
-                        true AS user_pin
+                        null as tc_email
                  FROM training_centre_map_pins
                  WHERE training_centre_id = ?`;
   const [rows] = await sql.query(query, [tcId]);
@@ -98,22 +100,23 @@ function extractPinInfo(rows) {
 
     // copy non-empty values only, formatted for maintainability
     /* eslint-disable no-multi-spaces */
-    if (row.name != null)           pin.name           = row.name;
-    if (row.category != null)       pin.category       = row.category;
-    if (row.description != null)    pin.description    = row.description;
-    if (row.phone != null)          pin.phone          = row.phone;
-    if (row.website != null)        pin.website        = row.website;
-    if (row.email != null)          pin.email          = row.email;
-    if (row.address_line_1 != null) pin.address_line_1 = row.address_line_1;
-    if (row.address_line_2 != null) pin.address_line_2 = row.address_line_2;
-    if (row.postcode != null)       pin.postcode       = row.postcode;
-    if (row.latitude != null)       pin.latitude       = row.latitude;
-    if (row.longitude != null)      pin.longitude      = row.longitude;
-    if (row.notes != null)          pin.notes          = row.notes;
+    if (row.name != null)           pin.name            = row.name;
+    if (row.category != null)       pin.category        = row.category;
+    if (row.description != null)    pin.description     = row.description;
+    if (row.phone != null)          pin.phone           = row.phone;
+    if (row.website != null)        pin.website         = row.website;
+    if (row.email != null)          pin.email           = row.email;
+    if (row.address_line_1 != null) pin.address_line_1  = row.address_line_1;
+    if (row.address_line_2 != null) pin.address_line_2  = row.address_line_2;
+    if (row.postcode != null)       pin.postcode        = row.postcode;
+    if (row.latitude != null)       pin.latitude        = row.latitude;
+    if (row.longitude != null)      pin.longitude       = row.longitude;
+    if (row.notes != null)          pin.notes           = row.notes;
+    if (row.tc_email != null) pin.training_centre_email = row.tc_email;
     /* eslint-enable no-multi-spaces */
 
     // userPin is always there
-    pin.userPin = !!row.user_pin;
+    pin.userPin = row.tc_email == null;
   }
   return pins;
 }
@@ -184,26 +187,24 @@ async function deleteTrainingCentrePin(tcId, pinName) {
   return rows.affectedRows > 0;
 }
 
-async function findUserTrainingCentre(userId) {
+async function findUserTrainingCentres(userId) {
   const sql = await dbConn;
   const query = `SELECT first_name, last_name, email
                  FROM recruiters
                  JOIN training_centre_assignments
                    ON recruiters.id = training_centre_assignments.training_centre_id
-                 WHERE user_id = ?
-                 LIMIT 1`; // we only expect one
+                 WHERE user_id = ?`;
   const [rows] = await sql.query(query, [userId]);
 
-  if (rows.length === 0) return null;
-
-  const r = rows[0];
-  return {
-    name: {
-      first: r.first_name,
-      last: r.last_name,
-    },
-    email: r.email,
-  };
+  return rows.map(r => (
+    {
+      name: {
+        first: r.first_name,
+        last: r.last_name,
+      },
+      email: r.email,
+    }
+  ));
 }
 
 async function listTrainingCentreUsers(tcId) {
@@ -254,9 +255,22 @@ async function updateTrainingCentreUsers(tcId, add, remove) {
   }
 }
 
+async function removeUserFromTrainingCentre(userId, tcEmail) {
+  const sql = await dbConn;
+  const removeQuery = `DELETE FROM training_centre_assignments
+                       WHERE user_id = ?
+                       AND training_centre_id IN
+                         (SELECT id
+                          FROM recruiters
+                          WHERE email = ?
+                         )`;
+  const [rows] = await sql.query(removeQuery, [userId, tcEmail]);
+  return rows.affectedRows > 0;
+}
+
 module.exports = {
   findUserRole,
-  findUserTrainingCentre,
+  findUserTrainingCentres,
   listUserPins,
   listTrainingCentrePins,
   addUpdateUserPin,
@@ -265,4 +279,5 @@ module.exports = {
   deleteTrainingCentrePin,
   listTrainingCentreUsers,
   updateTrainingCentreUsers,
+  removeUserFromTrainingCentre,
 };
