@@ -1,7 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans&family=Varela+Round&display=swap');
 
 :root {
-  --main-bg-colour: #F8F9FB;
+  --main-bg-color: white;
+  --main-color: black; /* where we set background we also need to set color */
   --PONTBlue: #36B6B0; /*renamed from verdigris to PONTBlue (though it is more turqoise so blue may not be the best choice)*/
   --PONTLightBlue: #7FB9E6; /*renamed from teagreen to PONTLightBlue*/
   --PONTRed: #E8491F; /*renamed from flame to PONTRed*/
@@ -9,17 +10,19 @@
   --PONTOrange: #E69911; /*rename from gamboge to PONTOrange*/
   --davys-gray: #333333;
 
-  --title-font: 'Varela Round';
-  --text-font: 'Open Sans';
+  --title-font: 'Varela Round', sans-serif;
+  --text-font: 'Open Sans', sans-serif; /* defaults before the fonts load */
 }
 
 * {
   padding: 0em;
-  margin: 0em; 
+  margin: 0em;
   font-family: var(--title-font);
 } /*set global margin and padding to 0 so defaults don't interfer with layout*/
 
 body {
+  background-color: var(--main-bg-color);
+  color: var(--main-color);
   background-image: url('img/pontoon-webbanner-bg-blur-final.png');
   overflow-x: hidden; /*to prevent the horizontal scrollbar turning on automatically with the vertical scroll bar*/
 }
@@ -28,8 +31,9 @@ body {
 #navbar-slide {
   position: absolute;
   width: 20em;
-  height: 92.5vh;
-  background-color: var(--davys-gray); 
+  top: 5em; /* just under the navbar */
+  bottom: 0; /* bottom of screen because the <nav> doesn't count */
+  background-color: var(--davys-gray);
   display: none;
 }
 
@@ -37,15 +41,16 @@ body {
   display: flex;
   flex-direction: column;
   right: 0;
+  z-index: 1;
 }
 
 #navbar-slide ul {
-  list-style-type: none;
+  list-style: none;
 }
 
 .navbar-slide-item {
   display: block;
-  color: var(--main-bg-colour);
+  color: var(--main-bg-color);
   text-decoration: none;
   margin: 0;
   padding: 2rem;
@@ -94,10 +99,10 @@ h1 {
   margin: 0em 0.5rem;
 }
 
-#wrapper {
+main {
   display: flex;
   flex-direction: column;
-  align-items: center; 
+  align-items: center;
 
 }
 
@@ -110,7 +115,7 @@ h1 {
   max-width: 30em;
   padding: 1em;
   margin: auto;
-  background-color: var(--main-bg-colour);
+  background-color: var(--main-bg-color);
 }
 
 #shortlistbtn {
@@ -127,7 +132,6 @@ h1 {
 }
 
 #info-text {
-  font-size: 1.5rem;
   overflow: hidden; /*maybe limit text length in this box with JS??*/
   font-family: var(--text-font);
   grid-column-start: 1;
@@ -141,12 +145,12 @@ h1 {
   grid-template-rows: 0.5fr 1fr;
   grid-template-columns: 0.3fr 1fr 0.3fr;
 
-  min-height: 6em; 
+  min-height: 6em;
   max-width: 40em; /*could be a touch wider*/
   margin-top: 0.5em;
   margin-bottom: 0.5em;
   padding: 0.5em;
-  
+
   background-color: white;
 
   /*TODO: Remove the border and the 'glow' effect?? Or make separate glow effect for swipeHistory that match the colours of the individual buttons at the swipe-page. */
@@ -177,7 +181,6 @@ h1 {
   max-width: 100%;
   width: 50em;
   margin: 0.5em 0em;
-
 }
 
 .questionnaireAnswer > * {
@@ -191,21 +194,17 @@ h1 {
   margin: 0.5em 0em;
 
   border-radius: 3em;
-  opacity: 30%;
+  border: thin solid var(--davys-gray);
 
   text-transform: capitalize; /*TODO: Capitalize or uppercase?*/
 }
 
-.questionnaireAnswer > .yes {
+.questionnaireAnswer > .selected.yes {
   background: var(--PONTGreen);
 }
 
-.questionnaireAnswer > .no {
+.questionnaireAnswer > .selected.no {
   background: var(--PONTRed);
-}
-
-.questionnaireAnswer > .selected {
-  opacity: 100%;
 }
 
 .swipeItemImg {
@@ -281,7 +280,7 @@ h1 {
 }
 
 .button {
-  color: var(--main-bg-colour);
+  color: var(--main-bg-color);
   padding: 0.75em 2em;
   font-size: 0.8rem;
   font-weight: bold;
@@ -294,7 +293,7 @@ h1 {
   -webkit-user-select: none;  /* Chrome all / Safari all */
   -moz-user-select: none;     /* Firefox all */
   -ms-user-select: none;      /* IE 10+ */
-  user-select: none;          /* Likely future */  
+  user-select: none;          /* Likely future */
 }
 
 .button:hover {
@@ -319,21 +318,21 @@ h1 {
 
 .btn-type1:active {
   color: var(--PONTRed);
-  background-color: var(--main-bg-colour);
+  background-color: var(--main-bg-color);
 }
 
 .btn-type2 {
-  background-color: var(--main-bg-colour);
+  background-color: var(--main-bg-color);
   color: var(--PONTLightBlue);
   border: 0.2em solid var(--PONTLightBlue);
 }
 
 .btn-type2:hover {
-  background-color: var(--main-bg-colour);
+  background-color: var(--main-bg-color);
 }
 
 .btn-type2:active {
-  color: var(--main-bg-colour);
+  color: var(--main-bg-color);
   background-color: var(--PONTLightBlue);
 }
 
@@ -347,6 +346,6 @@ h1 {
 }
 
 .btn-type3:active {
-  color: var(--colour4);
-  background-color: var(--main-bg-colour);
+  color: var(--color4); /* there is no color4 */
+  background-color: var(--main-bg-color);
 }
