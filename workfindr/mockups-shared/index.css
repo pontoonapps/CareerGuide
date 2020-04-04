@@ -27,7 +27,7 @@ body {
   overflow-x: hidden; /*to prevent the horizontal scrollbar turning on automatically with the vertical scroll bar*/
 }
 
-/* TODO: Make the colours for the navbar-slide menu match the rest of the pages. */
+/* TODO: Make the colors for the navbar-slide menu match the rest of the pages. */
 #navbar-slide {
   position: absolute;
   width: 20em;
@@ -35,6 +35,7 @@ body {
   bottom: 0; /* bottom of screen because the <nav> doesn't count */
   background-color: var(--davys-gray);
   display: none;
+  list-style: none;
 }
 
 #navbar-slide.active {
@@ -42,10 +43,6 @@ body {
   flex-direction: column;
   right: 0;
   z-index: 1;
-}
-
-#navbar-slide ul {
-  list-style: none;
 }
 
 .navbar-slide-item {
@@ -82,6 +79,7 @@ h1 {
 #navbar-top {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   padding: 0.5em;
   min-width: 20em;
   width: inherit;
@@ -143,7 +141,7 @@ main {
 .listItemContainer {
   display: grid;
   grid-template-rows: 0.5fr 1fr;
-  grid-template-columns: 0.3fr 1fr 0.3fr;
+  grid-template-columns: 5em 1fr 25%; /*allows for button on shortlist to be mobile friendly*/
 
   min-height: 6em;
   max-width: 40em; /*could be a touch wider*/
@@ -153,7 +151,7 @@ main {
 
   background-color: white;
 
-  /*TODO: Remove the border and the 'glow' effect?? Or make separate glow effect for swipeHistory that match the colours of the individual buttons at the swipe-page. */
+  /*TODO: Remove the border and the 'glow' effect?? Or make separate glow effect for swipeHistory that match the colors of the individual buttons at the swipe-page. */
   box-shadow: 0em 0em 0.5em rgb(178, 207, 101);
   /* border: rgb(178, 207, 101) 0.1em solid; */
 }
@@ -242,6 +240,19 @@ main {
   font-size: 2em;
 }
 
+.viewMore {
+  grid-column-start: 3;
+  grid-column-end: 4;
+  grid-row-start: 1;
+  grid-row-end: 3;
+
+  max-width: 100%;
+  max-height: 2em;
+
+  justify-self: center;
+  align-self: center;
+}
+
 .liked {
   background: var(--PONTGreen);
 }
@@ -286,7 +297,8 @@ main {
   font-weight: bold;
   border-radius: 0.5em;
   margin: 0 0.25rem;
-  width: 10rem;
+  width: 100%;
+  max-width: 10rem;
   min-height: 4.5em; /*allows buttons to look the same in mobile and desktop view (can be removed to allow for thinner buttons in desktop view)*/
 
   /* Prevents button from getting marked */
@@ -303,6 +315,8 @@ main {
 #btn-group {
   display: flex;
   justify-content: center;
+  width: 100%;
+  max-width: 30em;
   margin-top: 1.25rem;
   margin-bottom: 1em;
 }
@@ -346,6 +360,6 @@ main {
 }
 
 .btn-type3:active {
-  color: var(--color4); /* there is no color4 */
+  color: var(--PONTGreen); /* there is no color4 */
   background-color: var(--main-bg-color);
 }
