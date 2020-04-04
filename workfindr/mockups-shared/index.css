@@ -104,7 +104,6 @@ main {
 
 }
 
-/*TODO: Update background-color, create variable?*/
 #info {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
@@ -326,9 +325,13 @@ main {
   border: 0.2em solid var(--PONTRed);
 }
 
+/*do we need hover?*/
+/*
 .btn-type1:hover {
-  background-color: #e84b1fd8; /*do we need hover?*/
+  background-color: #e84b1fd8;
 }
+*/
+
 
 .btn-type1:active {
   color: var(--PONTRed);
@@ -341,9 +344,12 @@ main {
   border: 0.2em solid var(--PONTLightBlue);
 }
 
+/*
 .btn-type2:hover {
-  background-color: var(--main-bg-color);
+  background-color: var(--PONTLightBlue);
+  color: var(--main-bg-color);
 }
+*/
 
 .btn-type2:active {
   color: var(--main-bg-color);
@@ -355,9 +361,12 @@ main {
   border: 0.2em solid var(--PONTGreen);
 }
 
+/*
 .btn-type3:hover {
-  background-color: #B2CF65D8;
+  background-color: var(--main-bg-color);
+  color: var(--PONTGreen);
 }
+*/
 
 .btn-type3:active {
   color: var(--PONTGreen); /* there is no color4 */
