@@ -3,28 +3,33 @@
 :root {
   --main-bg-color: white;
   --main-color: black; /* where we set background we also need to set color */
-  --PONTBlue: #36B6B0; /*renamed from verdigris to PONTBlue (though it is more turqoise so blue may not be the best choice)*/
-  --PONTLightBlue: #7FB9E6; /*renamed from teagreen to PONTLightBlue*/
-  --PONTRed: #E8491F; /*renamed from flame to PONTRed*/
-  --PONTGreen: #B2CF65; /*renamed from middlegreenyellow to PONTGreen*/
-  --PONTOrange: #E69911; /*rename from gamboge to PONTOrange*/
-  --davys-gray: #333333;
-
+  --PONTBlue: #36b6b0; /* renamed from verdigris to PONTBlue (though it is more turqoise so blue may not be the best choice) */
+  --PONTLightBlue: #7fb9e6; /* renamed from teagreen to PONTLightBlue */
+  --PONTRed: #e8491f; /* renamed from flame to PONTRed */
+  --PONTGreen: #b2cf65; /* renamed from middlegreenyellow to PONTGreen */
+  --PONTOrange: #e69911; /* rename from gamboge to PONTOrange */
+  --davys-gray: #333;
   --title-font: 'Varela Round', sans-serif;
-  --text-font: 'Open Sans', sans-serif; /* defaults before the fonts load */
+  --text-font: 'Open Sans', sans-serif;
+
+  /* defaults before the fonts load */
 }
 
 * {
-  padding: 0em;
-  margin: 0em;
+  padding: 0;
+  margin: 0;
   font-family: var(--title-font);
-} /*set global margin and padding to 0 so defaults don't interfer with layout*/
+}
+
+/* set global margin and padding to 0 so defaults don't interfer with layout */
 
 body {
   background-color: var(--main-bg-color);
   color: var(--main-color);
   background-image: url('img/pontoon-webbanner-bg-blur-final.png');
-  overflow-x: hidden; /*to prevent the horizontal scrollbar turning on automatically with the vertical scroll bar*/
+  overflow-x: hidden;
+
+  /* to prevent the horizontal scrollbar turning on automatically with the vertical scroll bar */
 }
 
 /* TODO: Make the colors for the navbar-slide menu match the rest of the pages. */
@@ -94,14 +99,13 @@ h1 {
 }
 
 #nav-btn {
-  margin: 0em 0.5rem;
+  margin: 0 0.5rem;
 }
 
 main {
   display: flex;
   flex-direction: column;
   align-items: center;
-
 }
 
 #info {
@@ -128,8 +132,8 @@ main {
   justify-content: center;
 }
 
-#info-text {
-  overflow: hidden; /*maybe limit text length in this box with JS??*/
+#info-text { /* maybe limit text length in this box with JS?? */
+  overflow: hidden;
   font-family: var(--text-font);
   grid-column-start: 1;
   grid-column-end: 6;
@@ -140,19 +144,16 @@ main {
 .listItemContainer {
   display: grid;
   grid-template-rows: 0.5fr 1fr;
-  grid-template-columns: 5em 1fr 25%; /*allows for button on shortlist to be mobile friendly*/
-
+  grid-template-columns: 5em 1fr 25%; /* allows for button on shortlist to be mobile friendly */
   min-height: 6em;
-  max-width: 40em; /*could be a touch wider*/
+  max-width: 40em; /* could be a touch wider */
   margin-top: 0.5em;
   margin-bottom: 0.5em;
   padding: 0.5em;
-
   background-color: white;
 
-  /*TODO: Remove the border and the 'glow' effect?? Or make separate glow effect for swipeHistory that match the colors of the individual buttons at the swipe-page. */
-  box-shadow: 0em 0em 0.5em rgb(178, 207, 101);
-  /* border: rgb(178, 207, 101) 0.1em solid; */
+  /* TODO: Remove the border and the 'glow' effect?? Or make separate glow effect for swipeHistory that match the colors of the individual buttons at the swipe-page. */
+  box-shadow: 0 0 0.5em rgb(178, 207, 101);
 }
 
 .questionnaireReviewTitle {
@@ -160,7 +161,6 @@ main {
   grid-column-end: 4;
   grid-row-start: 1;
   grid-row-end: 2;
-
   padding: 0.3em;
   text-align: center;
   border-bottom: 0.15em dashed var(--PONTLightBlue);
@@ -171,29 +171,25 @@ main {
   grid-column-end: 4;
   grid-row-start: 2;
   grid-row-end: 3;
-
   display: flex;
   justify-content: space-around;
   align-items: center;
   max-width: 100%;
   width: 50em;
-  margin: 0.5em 0em;
+  margin: 0.5em 0;
 }
 
 .questionnaireAnswer > * {
   display: flex;
   align-items: center;
   justify-content: center;
-
   width: inherit;
   max-width: 40%;
   height: 3em;
-  margin: 0.5em 0em;
-
+  margin: 0.5em 0;
   border-radius: 3em;
   border: thin solid var(--davys-gray);
-
-  text-transform: capitalize; /*TODO: Capitalize or uppercase?*/
+  text-transform: capitalize; /* TODO: Capitalize or uppercase? */
 }
 
 .questionnaireAnswer > .selected.yes {
@@ -209,11 +205,9 @@ main {
   grid-column-end: 2;
   grid-row-start: 1;
   grid-row-end: 3;
-
   max-height: 80%;
   max-width: 80%;
   border-radius: 3em;
-
   display: flex;
   justify-self: center;
   align-self: center;
@@ -224,18 +218,15 @@ main {
   grid-column-end: 4;
   grid-row-start: 1;
   grid-row-end: 3;
-
   max-height: 100%;
   max-width: 100%;
   padding: 0.5em;
   border-radius: 3em;
-
   display: flex;
   align-items: center;
   justify-content: center;
   justify-self: center;
   align-self: center;
-
   font-size: 2em;
 }
 
@@ -244,10 +235,8 @@ main {
   grid-column-end: 4;
   grid-row-start: 1;
   grid-row-end: 3;
-
   max-width: 100%;
   max-height: 2em;
-
   justify-self: center;
   align-self: center;
 }
@@ -265,7 +254,6 @@ main {
   grid-column-end: 3;
   grid-row-start: 1;
   grid-row-end: 2;
-
   padding: 0.3em;
   text-align: left;
 }
@@ -275,7 +263,6 @@ main {
   grid-column-end: 3;
   grid-row-start: 2;
   grid-row-end: 3;
-
   padding: 0.3em;
   text-align: left;
   overflow: hidden;
@@ -298,13 +285,15 @@ main {
   margin: 0 0.25rem;
   width: 100%;
   max-width: 10rem;
-  min-height: 4.5em; /*allows buttons to look the same in mobile and desktop view (can be removed to allow for thinner buttons in desktop view)*/
+  min-height: 4.5em;
+
+  /* allows buttons to look the same in mobile and desktop view (can be removed to allow for thinner buttons in desktop view) */
 
   /* Prevents button from getting marked */
-  -webkit-user-select: none;  /* Chrome all / Safari all */
-  -moz-user-select: none;     /* Firefox all */
-  -ms-user-select: none;      /* IE 10+ */
-  user-select: none;          /* Likely future */
+  -webkit-user-select: none; /* Chrome all / Safari all */
+  -moz-user-select: none; /* Firefox all */
+  -ms-user-select: none; /* IE 10+ */
+  user-select: none; /* Likely future */
 }
 
 .button:hover {
@@ -320,18 +309,19 @@ main {
   margin-bottom: 1em;
 }
 
-.btn-type1 { /*TODO get better button variable names (red button, blue button etc maybe)*/
+.btn-type1 {
+  /* TODO get better button variable names (red button, blue button etc maybe) */
   background-color: var(--PONTRed);
   border: 0.2em solid var(--PONTRed);
 }
 
-/*do we need hover?*/
+/* do we need hover? */
+
 /*
 .btn-type1:hover {
   background-color: #e84b1fd8;
 }
 */
-
 
 .btn-type1:active {
   color: var(--PONTRed);
@@ -369,6 +359,6 @@ main {
 */
 
 .btn-type3:active {
-  color: var(--PONTGreen); /* there is no color4 */
+  color: var(--PONTGreen);
   background-color: var(--main-bg-color);
 }
