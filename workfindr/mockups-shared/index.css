@@ -189,7 +189,7 @@ main {
   box-shadow: 0 0 0.5em rgb(178, 207, 101);
 }
 
-.questionnaireReviewTitle {
+#questionnaireReviewTitle {
   grid-column-start: 1;
   grid-column-end: 4;
   grid-row-start: 1;
@@ -199,7 +199,7 @@ main {
   border-bottom: 0.15em dashed var(--PONTLightBlue);
 }
 
-.questionnaireAnswer {
+#questionnaireAnswer {
   grid-column-start: 1;
   grid-column-end: 4;
   grid-row-start: 2;
@@ -212,7 +212,7 @@ main {
   margin: 0.5em 0;
 }
 
-.questionnaireAnswer > * {
+#questionnaireAnswer > * {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -225,15 +225,15 @@ main {
   text-transform: capitalize; /* TODO: Capitalize or uppercase? */
 }
 
-.questionnaireAnswer > .selected.yes {
+#questionnaireAnswer > .selected#yes {
   background: var(--PONTGreen);
 }
 
-.questionnaireAnswer > .selected.no {
+#questionnaireAnswer > .selected#no {
   background: var(--PONTRed);
 }
 
-.swipeItemImg {
+#swipeItemImg {
   grid-column-start: 1;
   grid-column-end: 2;
   grid-row-start: 1;
@@ -246,7 +246,7 @@ main {
   align-self: center;
 }
 
-.swipeChoice {
+#swipeChoice {
   grid-column-start: 3;
   grid-column-end: 4;
   grid-row-start: 1;
@@ -282,7 +282,7 @@ main {
   background: var(--PONTRed);
 }
 
-.listItemTitle {
+#listItemTitle {
   grid-column-start: 2;
   grid-column-end: 3;
   grid-row-start: 1;
@@ -291,7 +291,7 @@ main {
   text-align: left;
 }
 
-.swipeItemDesc {
+#swipeItemDesc {
   grid-column-start: 2;
   grid-column-end: 3;
   grid-row-start: 2;

@@ -4,8 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" type="text/css" href='index.css'>
-  <script async defer src="index.js"></script>
-
+  <script defer src="js/index.js"></script>
+  <script defer src="js/temp.js"></script>
+  
   <title>QuestionnaireReview</title>
 </head>
 <body>
@@ -28,49 +29,16 @@
 
 
   <main>
-
     <h1 id="title">Questionnaire Review</h1>
-
-    <section class="listItemContainer">
-      <h3 class="questionnaireReviewTitle">What did the user answer to this example question?</h3>
-      <div class="questionnaireAnswer">
-        <div class="no selected">no</div>
-        <div class="yes">yes</div>
-      </div>
-    </section>
-
-    <section class="listItemContainer">
-      <h3 class="questionnaireReviewTitle">What did the user answer to this example question?</h3>
-      <div class="questionnaireAnswer">
-        <div class="no">no</div>
-        <div class="yes selected">yes</div>
-      </div>
-    </section>
-
-    <section class="listItemContainer">
-      <h3 class="questionnaireReviewTitle">What did the user answer to this example question?</h3>
-      <div class="questionnaireAnswer">
-        <div class="no selected">no</div>
-        <div class="yes">yes</div>
-      </div>
-    </section>
-
-    <section class="listItemContainer">
-      <h3 class="questionnaireReviewTitle">What did the user answer to this example question?</h3>
-      <div class="questionnaireAnswer">
-        <div class="no">no</div>
-        <div class="yes selected">yes</div>
-      </div>
-    </section>
-
-    <section class="listItemContainer">
-      <h3 class="questionnaireReviewTitle">What did the user answer to this example question?</h3>
-      <div class="questionnaireAnswer">
-        <div class="no">no</div>
-        <div class="yes selected">yes</div>
-      </div>
-    </section>
-
   </main>
+  <template id="questionnaire-temp">
+    <section class="listItemContainer">
+      <h3 id="questionnaireReviewTitle">What did the user answer to this example question?</h3>
+      <div id="questionnaireAnswer">
+        <div id="no">no</div>
+        <div id="yes">yes</div>
+      </div>
+    </section>
+  </template>
 </body>
 </html>

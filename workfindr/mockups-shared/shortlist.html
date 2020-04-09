@@ -5,7 +5,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" type="text/css" href="index.css" />
-    <script async defer src="index.js"></script>
+    <script defer src="js/index.js"></script>
+    <script defer src="js/temp.js"></script>
 
     <title>Shortlist</title>
 </head>
@@ -29,79 +30,17 @@
 
     <main>
         <h1 id="title">Shortlist</h1>
-
+    </main>
+    <template id='shortlist-temp'>
         <section class="listItemContainer">
-            <img class="swipeItemImg" src="img/Selection_094.png" />
-            <h3 class="listItemTitle">Job Title</h3>
-            <p class="swipeItemDesc">
+            <img id="swipeItemImg" src="img/Selection_094.png" />
+            <h3 id="listItemTitle">Job Title</h3>
+            <p id="swipeItemDesc">
                 A brief description of the job which was swiped will be seen here
             </p>
             <!--TODO: Add a popup when clicking the button showing 'more information', like longer description etc?-->
             <button class="button btn-type3 viewMore">View More</button>
         </section>
-
-        <section class="listItemContainer">
-            <img class="swipeItemImg" src="img/Selection_094.png" />
-            <h3 class="listItemTitle">Job Title</h3>
-            <p class="swipeItemDesc">
-                A brief description of the job which was swiped will be seen here
-            </p>
-            <button class="button btn-type3 viewMore ">View More</button>
-        </section>
-
-        <section class="listItemContainer">
-            <img class="swipeItemImg" src="img/Selection_094.png" />
-            <h3 class="listItemTitle">Job Title</h3>
-            <p class="swipeItemDesc">
-                A brief description of the job which was swiped will be seen here
-            </p>
-            <button class="button btn-type3 viewMore ">View More</button>
-        </section>
-
-        <section class="listItemContainer">
-            <img class="swipeItemImg" src="img/Selection_094.png" />
-            <h3 class="listItemTitle">Job Title</h3>
-            <p class="swipeItemDesc">
-                A brief description of the job which was swiped will be seen here
-            </p>
-            <button class="button btn-type3 viewMore ">View More</button>
-        </section>
-
-        <section class="listItemContainer">
-            <img class="swipeItemImg" src="img/Selection_094.png" />
-            <h3 class="listItemTitle">Job Title</h3>
-            <p class="swipeItemDesc">
-                A brief description of the job which was swiped will be seen here
-            </p>
-            <button class="button btn-type3 viewMore ">View More</button>
-        </section>
-
-        <section class="listItemContainer">
-            <img class="swipeItemImg" src="img/Selection_094.png" />
-            <h3 class="listItemTitle">Job Title</h3>
-            <p class="swipeItemDesc">
-                A brief description of the job which was swiped will be seen here
-            </p>
-            <button class="button btn-type3 viewMore ">View More</button>
-        </section>
-
-        <section class="listItemContainer">
-            <img class="swipeItemImg" src="img/Selection_094.png" />
-            <h3 class="listItemTitle">Job Title</h3>
-            <p class="swipeItemDesc">
-                A brief description of the job which was swiped will be seen here
-            </p>
-            <button class="button btn-type3 viewMore ">View More</button>
-        </section>
-
-        <section class="listItemContainer">
-            <img class="swipeItemImg" src="img/Selection_094.png" />
-            <h3 class="listItemTitle">Job Title</h3>
-            <p class="swipeItemDesc">
-                A brief description of the job which was swiped will be seen here
-            </p>
-            <button class="button btn-type3 viewMore ">View More</button>
-        </section>
-    </main>
+    </template>
 </body>
 </html>
