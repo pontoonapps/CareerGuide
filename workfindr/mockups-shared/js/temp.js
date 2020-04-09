@@ -134,9 +134,9 @@ function getData() {
 // questionnaire review //
 
 function loadQuestionnaireReview() {
-  const elem = document.querySelector('#questionnaire-template');
+  const questionnaireTemplate = document.querySelector('#questionnaire-template');
   for (const question of data.questionnaireAnswers.questions) {
-    const questionContainer = document.importNode(elem.content, true);
+    const questionContainer = document.importNode(questionnaireTemplate.content, true);
     questionContainer.querySelector('#questionnaireReviewTitle').textContent = question.question;
     if (question.answer !== null) {
       questionContainer.getElementById(question.answer).classList.add('selected');
@@ -149,24 +149,35 @@ function loadQuestionnaireReview() {
 // swipe history //
 
 function loadSwipeHistory() {
-  const elem = document.querySelector('#swipe-history-temp');
+  const historyTemplate = document.querySelector('#swipe-history-temp');
   for (const job of data.swipedOnJobs.jobs) {
-    const card = document.importNode(elem.content, true);
+    const historyContainer = document.importNode(historyTemplate.content, true);
 
-    card.querySelector('#swipeItemImg').setAttribute('src', job.image);
-    card.querySelector('#swipeItemImg').setAttribute('alt', job.title + 'image');
-    card.querySelector('#listItemTitle').textContent = job.title;
-    card.querySelector('#swipeItemDesc').textContent = job.description;
-    card.querySelector('#swipeChoice').classList.add(job.swipe);
-    card.querySelector('#swipeChoice').textContent = (job.swipe === 'liked' ? '👍' : '👎');
+    historyContainer.querySelector('#swipeItemImg').setAttribute('src', job.image);
+    historyContainer.querySelector('#swipeItemImg').setAttribute('alt', job.title + 'image');
+    historyContainer.querySelector('#listItemTitle').textContent = job.title;
+    historyContainer.querySelector('#swipeItemDesc').textContent = job.description;
+    historyContainer.querySelector('#swipeChoice').classList.add(job.swipe);
+    historyContainer.querySelector('#swipeChoice').textContent = (job.swipe === 'liked' ? '👍' : '👎');
 
     const main = document.querySelector('main');
-    main.appendChild(card);
+    main.appendChild(historyContainer);
   }
 }
 
 function loadShortlist() {
-  // TODO shortlist
+  const shortlistTemplate = document.querySelector('#shortlist-temp');
+  for (const job of data.swipedOnJobs.jobs) {
+    const shortlistContainer = document.importNode(shortlistTemplate.content, true);
+
+    shortlistContainer.querySelector('#swipeItemImg').setAttribute('src', job.image);
+    shortlistContainer.querySelector('#swipeItemImg').setAttribute('alt', job.title + 'image');
+    shortlistContainer.querySelector('#listItemTitle').textContent = job.title;
+    shortlistContainer.querySelector('#swipeItemDesc').textContent = job.description;
+
+    const main = document.querySelector('main');
+    main.appendChild(shortlistContainer);
+  }
 }
 
 // swipe page //
