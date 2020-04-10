@@ -2,17 +2,17 @@
 
 :root {
   --main-bg-color: white;
-  --main-color: black; /* where we set background we also need to set color */
-  --PONTBlue: #36b6b0; /* renamed from verdigris to PONTBlue (though it is more turqoise so blue may not be the best choice) */
+  --main-color: black;      /* where we set background we also need to set color */
+  --PONTBlue: #36b6b0;      /* renamed from verdigris to PONTBlue (though it is more turqoise so blue may not be the best choice) */
   --PONTLightBlue: #7fb9e6; /* renamed from teagreen to PONTLightBlue */
-  --PONTRed: #e8491f; /* renamed from flame to PONTRed */
-  --PONTGreen: #b2cf65; /* renamed from middlegreenyellow to PONTGreen */
-  --PONTOrange: #e69911; /* rename from gamboge to PONTOrange */
+  --PONTRed: #e8491f;       /* renamed from flame to PONTRed */
+  --PONTGreen: #b2cf65;     /* renamed from middlegreenyellow to PONTGreen */
+  --PONTOrange: #e69911;    /* rename from gamboge to PONTOrange */
   --davys-gray: #333;
-  --title-font: 'Varela Round', sans-serif;
-  --text-font: 'Open Sans', sans-serif;
 
   /* defaults before the fonts load */
+  --title-font: 'Varela Round', sans-serif;
+  --text-font: 'Open Sans', sans-serif;
 }
 
 * {
