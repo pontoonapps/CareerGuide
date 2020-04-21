@@ -6,19 +6,19 @@ const data = {
     title: 'Teacher',
     description: 'Can teach you how to do "X"',
     swipe: 'liked',
-    image: 'img/tempImage.png',
+    image: 'img/tempimage.png',
   }, {
     id: 1,
     title: 'Plumber',
     description: 'Knows things about plumbing',
     swipe: 'liked',
-    image: 'img/tempImage.png',
+    image: 'img/tempimage.png',
   }, {
     id: 2,
     title: 'Priest',
     description: 'Likes god',
     swipe: 'disliked',
-    image: 'img/tempImage.png',
+    image: 'img/tempimage.png',
   }],
 };
 

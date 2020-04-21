@@ -5,17 +5,17 @@ const data = {
     id: 0,
     title: 'Teacher',
     description: 'Can teach you how to do "X"',
-    image: 'img/tempImage.png',
+    image: 'img/tempimage.png',
   }, {
     id: 1,
     title: 'Plumber',
     description: 'Knows things about plumbing',
-    image: 'img/tempImage.png',
+    image: 'img/tempimage.png',
   }, {
     id: 2,
     title: 'Priest',
     description: 'Likes god',
-    image: 'img/tempImage.png',
+    image: 'img/tempimage.png',
   }],
 };
 

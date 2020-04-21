@@ -26,7 +26,7 @@
 body {
   background-color: var(--main-bg-color);
   color: var(--main-color);
-  background-image: url('../img/pontoon-webbanner-bg-blur-final.png');
+  background-image: url('../img/bgimg.png');
   overflow-x: hidden;
 
   /* to prevent the horizontal scrollbar turning on automatically with the vertical scroll bar */
