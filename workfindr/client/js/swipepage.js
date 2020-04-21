@@ -1,44 +1,104 @@
 // swipepage.js
 
+let currentItem; // job being displayed on page
+
 async function getNextItem() {
   const rawItem = await fetch('/user/next-item');
   if (rawItem.ok) {
     const item = await rawItem.json();
-    console.log(item);
     return item;
   }
   return 'error connecting to server';
 }
 
-function submitSwipe(event) {
-  // in application this will send the swipe data to the server
-  // swipes.push({ type: event.target.textContent, job: data.jobs[swipes.length % data.jobs.length].id });
-  return true;
-}
-
-async function loadNextJob() {
-  if (event.target.id !== undefined) { // if this is the first job being displayed, no swipe has been made
-    submitSwipe(event);
+async function submitInput(event) {
+  // get user choice (shortlisting questions???)
+  const usrInput = {};
+  usrInput.jobid = currentItem.id;
+  switch (event.target.id) {
+    case 'btn-dislike':
+      usrInput.choice = 'dislike';
+      break;
+    case 'btn-showLater':
+      usrInput.choice = 'showLater';
+      break;
+    case 'btn-like':
+      usrInput.choice = 'like';
+      break;
+    case 'btn-shortlist':
+      usrInput.choice = 'shortlist';
+      break;
   }
-  displayJob(await getNextItem());
+
+  // identify whether current item is job or question
+  // is there a better way than a lack of description? should there be an attribute marking job or question?
+  let response;
+  if (currentItem.description === undefined) {
+    response = await submitQInput(usrInput);
+  } else {
+    response = await submitJInput(usrInput);
+  }
+
+  // log if error connecting to server
+  if (!response.ok) {
+    console.log('error submitting input');
+  }
 }
 
-function displayJob(job) {
-  document.querySelector('#title').textContent = job.title;
-  document.querySelector('#info-text').textContent = job.description;
+async function submitJInput(usrInput) {
+  const response = await fetch('/user/jobs', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(usrInput),
+  });
+  return response;
+}
+
+async function submitQInput(usrInput) {
+  const response = await fetch('/user/questions', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(usrInput),
+  });
+  return response;
+}
+
+async function loadNextItem() {
+  currentItem = await getNextItem();
+  displayItem(currentItem);
+}
+
+function displayItem(item) {
+  document.querySelector('#title').textContent = item.title;
+  // description is null with questions
+  if (item.description !== null) {
+    document.querySelector('#info-text').textContent = item.description;
+  }
 }
 
 function addELs() {
-  document.querySelector('#btn-like').addEventListener('click', loadNextJob);
-  document.querySelector('#btn-showLater').addEventListener('click', loadNextJob);
-  document.querySelector('#btn-dislike').addEventListener('click', loadNextJob);
+  document.querySelector('#btn-like').addEventListener('click', () => {
+    submitInput(event);
+    loadNextItem();
+  });
+  document.querySelector('#btn-showLater').addEventListener('click', () => {
+    submitInput(event);
+    loadNextItem();
+  });
+  document.querySelector('#btn-dislike').addEventListener('click', () => {
+    submitInput(event);
+    loadNextItem();
+  });
+  document.querySelector('#btn-shortlist').addEventListener('click', () => {
+    submitInput(event); // arrow function for consistency
+  });
 }
 
 // start script (after page has loaded)
 
 function loadPage() {
   addELs(); // add Event Listeners
-  loadNextJob(); // initiate page
+  loadNextItem(); // initiate page
 }
 
 window.addEventListener('load', loadPage);

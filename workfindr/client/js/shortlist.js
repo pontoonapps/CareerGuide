@@ -1,27 +1,20 @@
 // shortlist.js
 
-const data = {
-  jobs: [{
-    id: 0,
-    title: 'Teacher',
-    description: 'Can teach you how to do "X"',
-    image: 'img/tempimage.png',
-  }, {
-    id: 1,
-    title: 'Plumber',
-    description: 'Knows things about plumbing',
-    image: 'img/tempimage.png',
-  }, {
-    id: 2,
-    title: 'Priest',
-    description: 'Likes god',
-    image: 'img/tempimage.png',
-  }],
-};
+async function getShortlist() {
+  const response = await fetch('/user/jobs/swiped');
 
-function loadSList(listData) {
+  if (response.ok) {
+    const jobList = await response.json();
+    return jobList;
+  }
+  console.log('error could not get shortlist');
+  return [];
+}
+
+async function loadSList() {
   const tmplt = document.querySelector('#shortlist-template');
-  for (const job of listData.jobs) {
+  const jobList = await getShortlist();
+  for (const job of jobList) {
     const cont = document.importNode(tmplt.content, true);
 
     cont.querySelector('.swipeItemImg').src = job.image;
@@ -35,7 +28,7 @@ function loadSList(listData) {
 }
 
 function loadPage() {
-  loadSList(data);
+  loadSList();
 }
 
 window.addEventListener('load', loadPage);

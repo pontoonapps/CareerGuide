@@ -138,7 +138,7 @@ main {
   overflow: hidden;
 }
 
-#shortlistbtn {
+#btn-shortlist {
   grid-column-start: 3;
   grid-column-end: 4;
   grid-row-start: 2;
