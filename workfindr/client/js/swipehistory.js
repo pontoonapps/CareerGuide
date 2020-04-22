@@ -1,30 +1,20 @@
 // swipeHistory.js
 
-const data = {
-  jobs: [{
-    id: 0,
-    title: 'Teacher',
-    description: 'Can teach you how to do "X"',
-    swipe: 'liked',
-    image: 'img/tempimage.png',
-  }, {
-    id: 1,
-    title: 'Plumber',
-    description: 'Knows things about plumbing',
-    swipe: 'liked',
-    image: 'img/tempimage.png',
-  }, {
-    id: 2,
-    title: 'Priest',
-    description: 'Likes god',
-    swipe: 'disliked',
-    image: 'img/tempimage.png',
-  }],
-};
+async function getSHistory() {
+  const response = await fetch('/user/jobs/swiped');
 
-function loadSHistory(jobData) {
+  if (response.ok) {
+    const jList = await response.json();
+    return jList.jobs;
+  } else {
+    console.log('error', response.status, 'could not get question history');
+  }
+}
+
+async function loadSHistory() {
   const tmplt = document.querySelector('#swipe-history-template');
-  for (const job of jobData.jobs) {
+  const jobList = await getSHistory();
+  for (const job of jobList) {
     const cont = document.importNode(tmplt.content, true);
 
     cont.querySelector('.swipeItemImg').src = job.image;
@@ -40,7 +30,7 @@ function loadSHistory(jobData) {
 }
 
 function loadPage() {
-  loadSHistory(data);
+  loadSHistory();
 }
 
 window.addEventListener('load', loadPage);

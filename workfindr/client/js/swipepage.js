@@ -30,8 +30,8 @@ async function submitInput(event) {
       break;
   }
 
-  // identify whether current item is job or question
-  // is there a better way than a lack of description? should there be an attribute marking job or question?
+  // identify whether current item is job or question is there a better
+  // way than a lack of description? should there be an attribute marking job or question?
   let response;
   if (currentItem.description === undefined) {
     response = await submitQInput(usrInput);

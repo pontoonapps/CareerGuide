@@ -1,32 +1,25 @@
 // questionnaireReview.js
 
-const data = {
-  questions: [{
-    id: 0,
-    question: 'Do you want to be a plumber?',
-    answer: 'yes',
-    image: 'img/tempImage.png',
-  }, {
-    id: 1,
-    question: 'Do you want to be a programmer?',
-    answer: 'no',
-    image: 'img/tempImage.png',
-  }, {
-    id: 2,
-    question: 'Do you want to be a mechanic?',
-    answer: 'yes',
-    image: 'img/tempImage.png',
-  }],
-};
+async function getQReview() {
+  const response = await fetch('/user/questions');
 
-function loadQReview(answrs) {
+  if (response.ok) {
+    const qList = await response.json();
+    return qList.questions;
+  } else {
+    console.log('error', response.status, 'could not get question history');
+  }
+}
+
+async function loadQReview() {
   const tmplt = document.querySelector('#questionnaire-template');
-  for (const question of answrs.questions) {
+  const answrList = await getQReview();
+  for (const q of answrList) {
     const cont = document.importNode(tmplt.content, true);
 
-    cont.querySelector('.questionnaireReviewTitle').textContent = question.question;
-    if (question.answer !== null) {
-      cont.querySelector('.' + question.answer).classList.add('selected');
+    cont.querySelector('.questionnaireReviewTitle').textContent = q.question;
+    if (q.answer !== null) {
+      cont.querySelector('.' + q.answer).classList.add('selected');
     }
     const main = document.querySelector('main');
     main.appendChild(cont);
@@ -34,7 +27,7 @@ function loadQReview(answrs) {
 }
 
 function loadPage() {
-  loadQReview(data);
+  loadQReview();
 }
 
 window.addEventListener('load', loadPage);
