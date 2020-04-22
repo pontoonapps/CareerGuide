@@ -1,14 +1,14 @@
 // shortlist.js
 
 async function getShortlist() {
-  const response = await fetch('/user/jobs?shortlist');
+  const response = await fetch('/user/jobs/shortlist');
 
   if (response.ok) {
-    const jobList = await response.json();
-    return jobList;
+    const jList = await response.json();
+    return jList.jobs;
+  } else {
+    console.log('error', response.status, 'could not get shortlist');
   }
-  console.log('error', response.status, 'could not get shortlist');
-  return [];
 }
 
 async function loadSList() {
