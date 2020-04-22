@@ -55,7 +55,7 @@ A pin is represented in the API with the following data structure:
 }
 ```
 
-A pin returned by the API can also have a field `userPin` (Boolean) – `true` if this pin was submitted by the user, and `false` if it comes from their training centre. Training centre pins also have `training_centre_email` so the app can show which training centre provided this pin.
+A pin returned by the API can also have a field `userPin` (Boolean) – `true` if this pin was submitted by the user, and `false` if it comes from a training centre. Training centre pins also have `training_centre_email` so the app can show which training centre provided this pin.
 
 
 ### Training Centre routes:
@@ -72,7 +72,6 @@ These routes return `403 Forbidden` if the current user is not a training centre
   ```
   - removal is processed first, then addition – if both arrays contain the same email address, the user will be added;
   - users that do not exist in the database will be ignored (the client should report the email addresses that weren't added);
-  - users that are already assigned to a different training centre will be ignored (a user can only be assigned to one training centre);
   - removing users that were not assigned to the training centre is also ignored;
   - returns the result list of users assigned to the training centre (like the GET method above).
 
