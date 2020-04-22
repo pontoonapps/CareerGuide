@@ -3,27 +3,29 @@
 // modules
 const express = require('express');
 const app = express();
+const td = require('./testdata.js');
 
 // functionality
 
-// Make async later
-async function nextSwipeItem(req, res) {
+function nextSwipeItem(req, res) {
+  // for now the test data array stores questions AND answers
+  // we will need to check if the user needs questions or jobs
   if (itemsList.length === 0) {
-    refreshItemsList();
+    itemsList = td.refreshIL();
   }
-  await res.json(itemsList.pop());
+  res.json(itemsList.pop());
 }
 
-async function getSwiped(req, res) {
-  await res.sendStatus(404);
+function getSwiped(req, res) {
+  res.json(td.testSJs());
 }
 
-async function getQuestions(req, res) {
-  await res.sendStatus(404);
+function getQuestions(req, res) {
+  res.json(td.testAQs());
 }
 
-async function getShortlist(req, res) {
-  await res.json(slistJobs);
+function getShortlist(req, res) {
+  res.json(td.slistJs());
 }
 
 function ansQuestion(req, res) {
@@ -37,7 +39,7 @@ function ansQuestion(req, res) {
   res.json();
 }
 
-function parseInput(req, res) {
+function submitJobSwipe(req, res) {
   // get variables from req body
   const choice = req.body.choice;
   const jobid = req.body.jobid;
@@ -65,83 +67,13 @@ function toggleShortlist(choice, jobid) {
 // routes
 
 app.get('/user/next-item', asyncWrap(nextSwipeItem)); // A+D
-app.get('/user/jobs?swiped', asyncWrap(getSwiped)); // F
+app.get('/user/jobs/swiped', express.json(), (getSwiped)); // F
 app.get('/user/questions', asyncWrap(getQuestions)); // G
-app.get('/user/jobs?shortlist', express.json(), asyncWrap(getShortlist)); // H
-app.post('/user/jobs', express.json(), asyncWrap(parseInput)); // B+C+I - How are we structuring this?
+app.get('/user/jobs/shortlist', express.json(), asyncWrap(getShortlist)); // H
+app.post('/user/jobs', express.json(), asyncWrap(submitJobSwipe)); // B+C+I
 app.post('/user/questions', express.json(), asyncWrap(ansQuestion)); // E
 
-// swipe page data
-
-const testJobs = {
-  jobs: [{
-    id: 0,
-    title: 'Plumber',
-    description: 'Red dungarees and hat included',
-  }, {
-    id: 1,
-    title: 'Programmer',
-    description: 'Light up keyboard provided',
-    image: 'img/tempImage.png',
-  }, {
-    id: 2,
-    title: 'Con artist',
-    description: 'Steals your valuable possessions',
-    image: 'img/tempImage.png',
-  }, {
-    id: 3,
-    title: 'Teacher',
-    description: '"Might" teach you things',
-    image: 'img/tempImage.png',
-  }],
-};
-
-const testQuestions = {
-  questions: [{
-    id: 0,
-    title: 'Do you like getting hands on?',
-    image: 'img/tempImage.png',
-  }, {
-    id: 1,
-    title: 'Are you good with computers?',
-    image: 'img/tempImage.png',
-  }, {
-    id: 2,
-    title: 'Can you make 10+ cups of tea in one go?',
-    image: 'img/tempImage.png',
-  }, {
-    id: 3,
-    title: 'Can you play guitar?',
-    image: 'img/tempImage.png',
-  }],
-};
-
-const slistJobs = {
-  jobs: [{
-    id: 0,
-    title: 'Teacher',
-    description: 'Can teach you how to do "X"',
-    image: 'img/tempimage.png',
-  }, {
-    id: 1,
-    title: 'Plumber',
-    description: 'Knows things about plumbing',
-    image: 'img/tempimage.png',
-  }, {
-    id: 2,
-    title: 'Priest',
-    description: 'Likes god',
-    image: 'img/tempimage.png',
-  }],
-};
-
-let itemsList;
-refreshItemsList(); // allows for inifinte swiping while testing swip page
-
-function refreshItemsList() {
-  itemsList = testJobs.jobs.concat(testQuestions.questions);
-}
-
+let itemsList = td.refreshIL(); // allows for infinite swiping while testing swipe page
 
 // wrap async function for express.js error handling
 function asyncWrap(f) {
@@ -157,5 +89,5 @@ app.use(express.static('client'));
 
 // http://localhost:8080/
 app.listen(8080, () =>
-  console.log(`Listening on port ${8080}!`)
+  console.log(`Listening on port ${8080}!`),
 );
