@@ -1,13 +1,13 @@
 // shortlist.js
 
 async function getShortlist() {
-  const response = await fetch('/user/jobs/swiped');
+  const response = await fetch('/user/jobs?shortlist');
 
   if (response.ok) {
     const jobList = await response.json();
     return jobList;
   }
-  console.log('error could not get shortlist');
+  console.log('error', response.status, 'could not get shortlist');
   return [];
 }
 
