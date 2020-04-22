@@ -65,9 +65,9 @@ function toggleShortlist(choice, jobid) {
 // routes
 
 app.get('/user/next-item', asyncWrap(nextSwipeItem)); // A+D
-app.get('/user/jobs/swiped', asyncWrap(getSwiped)); // F
+app.get('/user/jobs?swiped', asyncWrap(getSwiped)); // F
 app.get('/user/questions', asyncWrap(getQuestions)); // G
-app.get('user/jobs?shortlist', asyncWrap(getShortlist)); // H
+app.get('/user/jobs?shortlist', express.json(), asyncWrap(getShortlist)); // H
 app.post('/user/jobs', express.json(), asyncWrap(parseInput)); // B+C+I - How are we structuring this?
 app.post('/user/questions', express.json(), asyncWrap(ansQuestion)); // E
 
@@ -156,4 +156,6 @@ function asyncWrap(f) {
 app.use(express.static('client'));
 
 // http://localhost:8080/
-app.listen(8080);
+app.listen(8080, () =>
+  console.log(`Listening on port ${8080}!`)
+);
