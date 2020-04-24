@@ -71,7 +71,11 @@ async function loadNextItem() {
 function displayItem(item) {
   document.querySelector('#title').textContent = item.title;
   // description is null with questions
-  if (item.description !== null) {
+  if (item.description === undefined) {
+    // don't display shortlist button on questions
+    document.querySelector('#btn-shortlist').style = 'display: none';
+  } else {
+    document.querySelector('#btn-shortlist').removeAttribute('style');
     document.querySelector('#info-text').textContent = item.description;
   }
 }
