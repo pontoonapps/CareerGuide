@@ -271,15 +271,16 @@ main {
   font-size: 2em;
 }
 
-.viewMore {
+.shrtlistBtns {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: space-around;
+  justify-items: center;
+  height: 100%;
   grid-column-start: 3;
   grid-column-end: 4;
   grid-row-start: 1;
   grid-row-end: 3;
-  max-width: 100%;
-  max-height: 2em;
-  justify-self: center;
-  align-self: center;
 }
 
 .liked {
