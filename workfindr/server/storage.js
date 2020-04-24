@@ -1,6 +1,7 @@
+// storage.js
 // swipe page data
 
-function testJs() {
+function testJobs() {
   const testJobs = {
     jobs: [{
       id: 0,
@@ -28,7 +29,7 @@ function testJs() {
   return testJobs;
 }
 
-function testSJs() { // test swiped jobs
+function testSwipedJobs() { // test swiped jobs
   const testJobs = {
     jobs: [{
       id: 0,
@@ -60,7 +61,7 @@ function testSJs() { // test swiped jobs
   return testJobs;
 }
 
-function testQs() {
+function testQuestions() {
   const questions = {
     questions: [{
       id: 0,
@@ -84,7 +85,7 @@ function testQs() {
   return questions;
 }
 
-function testAQs() { // test Answered Questions
+function testAnsrdQuestns() { // test Answered Questions
   const questions = {
     questions: [{
       id: 0,
@@ -107,7 +108,7 @@ function testAQs() { // test Answered Questions
   return questions;
 }
 
-function slistJs() {
+function slistJobs() {
   const slistJobs = {
     jobs: [{
       id: 0,
@@ -130,15 +131,15 @@ function slistJs() {
   return slistJobs;
 }
 
-function refreshIL() { // refresh Item List
-  return testJs().jobs.concat(testQs().questions);
+function refreshItemList() { // refresh Item List
+  return testJobs().jobs.concat(testQuestions().questions);
 }
 
 module.exports = {
-  testJs,
-  testQs,
-  testAQs,
-  testSJs,
-  slistJs,
-  refreshIL,
+  testJobs,
+  testQuestions,
+  testAnsrdQuestns,
+  testSwipedJobs,
+  slistJobs,
+  refreshItemList,
 };

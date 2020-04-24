@@ -99,7 +99,8 @@ h1 {
 }
 
 #nav-btn {
-  margin: 0 0.5rem;
+  padding: 1rem;
+  cursor: pointer;
 }
 
 main {
@@ -181,7 +182,7 @@ main {
   grid-template-rows: 3em 1fr;
   grid-template-columns: 5em 1fr 25%; /* allows for button on shortlist to be mobile friendly */
   min-height: 6em;
-  width: 100%;
+  width: 95%;
   max-width: 40em; /* could be a touch wider */
   margin-top: 0.5em;
   margin-bottom: 0.5em;
@@ -190,6 +191,10 @@ main {
 
   /* TODO: Remove the border and the 'glow' effect?? Or make separate glow effect for swipeHistory that match the colors of the individual buttons at the swipe-page. */
   box-shadow: 0 0 0.5em rgb(178, 207, 101);
+}
+
+.listItemContainer.expanded {
+  min-height: 12em;
 }
 
 .questionnaireReviewTitle {

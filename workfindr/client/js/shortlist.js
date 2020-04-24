@@ -21,10 +21,19 @@ async function loadSList() {
     cont.querySelector('.swipeItemImg').alt = job.title + 'image';
     cont.querySelector('.listItemTitle').textContent = job.title;
     cont.querySelector('.swipeItemDesc').textContent = job.description;
+    cont.querySelector('.viewMore').addEventListener('click', viewMore);
 
     const main = document.querySelector('main');
     main.appendChild(cont);
   }
+}
+
+function viewMore() {
+  // loop to reset all nodes to normal size
+  for (const node of document.querySelectorAll('.listItemContainer')) {
+    node.classList.remove('expanded');
+  }
+  event.target.parentNode.classList.add('expanded');
 }
 
 function loadPage() {
