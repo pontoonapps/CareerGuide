@@ -1,7 +1,7 @@
 // swipeHistory.js
 
-async function getSHistory() {
-  const response = await fetch('/user/jobs?swiped');
+async function getSwipHist() {
+  const response = await fetch('/user/jobs/swiped');
 
   if (response.ok) {
     const jList = await response.json();
@@ -11,9 +11,9 @@ async function getSHistory() {
   }
 }
 
-async function loadSHistory() {
+async function loadSwipHist() {
   const tmplt = document.querySelector('#swipe-history-template');
-  const jobList = await getSHistory();
+  const jobList = await getSwipHist();
   for (const job of jobList) {
     const cont = document.importNode(tmplt.content, true);
 
@@ -23,14 +23,35 @@ async function loadSHistory() {
     cont.querySelector('.swipeItemDesc').textContent = job.description;
     cont.querySelector('.swipeChoice').classList.add(job.swipe);
     cont.querySelector('.swipeChoice').textContent = (job.swipe === 'liked' ? '👍' : '👎');
+    cont.querySelector('.swipeChoice').addEventListener('click', changeSwipe)
 
     const main = document.querySelector('main');
     main.appendChild(cont);
   }
 }
 
+function changeSwipe() {
+  submitSwipeChangeToServer(); // overly verbose example function
+  switch(event.target.classList[1]) {
+    case 'liked':
+      event.target.classList.remove('liked');
+      event.target.classList.add('disliked');
+      event.target.textContent = '👎';
+      break;
+    case 'disliked':
+      event.target.classList.remove('disliked');
+      event.target.classList.add('liked');
+      event.target.textContent = '👍';
+      break;
+  }
+}
+
+function submitSwipeChangeToServer() {
+  console.log('this function will submit the swipe change');
+}
+
 function loadPage() {
-  loadSHistory();
+  loadSwipHist();
 }
 
 window.addEventListener('load', loadPage);

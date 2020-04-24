@@ -269,6 +269,7 @@ main {
   justify-self: center;
   align-self: center;
   font-size: 2em;
+  cursor: pointer;
 }
 
 .shrtlistBtns {
