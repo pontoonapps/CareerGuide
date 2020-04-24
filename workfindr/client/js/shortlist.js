@@ -33,7 +33,20 @@ function viewMore() {
   for (const node of document.querySelectorAll('.listItemContainer')) {
     node.classList.remove('expanded');
   }
-  event.target.parentNode.classList.add('expanded');
+  if (document.querySelector('.rmvShrtItem') !== null) {
+    document.querySelector('.rmvShrtItem').remove();
+  }
+  const listItemCont = event.target.parentNode.parentNode;
+  listItemCont.classList.add('expanded');
+
+  const buttonCont = event.target.parentNode;
+
+  const remFromShortlist = document.createElement('button');
+  remFromShortlist.classList.add('button');
+  remFromShortlist.classList.add('btn-type1');
+  remFromShortlist.classList.add('rmvShrtItem');
+  remFromShortlist.textContent = 'Remove from shortlist';
+  buttonCont.appendChild(remFromShortlist);
 }
 
 function loadPage() {
