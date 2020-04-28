@@ -218,7 +218,6 @@ main {
   max-width: 100%;
   width: 50em;
   margin: 0.5em 0;
-  cursor: pointer;
 }
 
 .questionnaireAnswer > * {
@@ -232,6 +231,7 @@ main {
   border-radius: 3em;
   border: thin solid var(--davys-gray);
   text-transform: capitalize; /* TODO: Capitalize or uppercase? */
+  cursor: pointer;
 }
 
 .questionnaireAnswer > .selected.yes {
