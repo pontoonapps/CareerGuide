@@ -2,6 +2,8 @@
 
 let currentItem; // job being displayed on page
 
+// FIXME: Can't load items after certain point
+
 async function getNextItem() {
   const rawItem = await fetch('/user/next-item');
   if (rawItem.ok) {
@@ -27,6 +29,9 @@ async function submitInput(event) {
       break;
     case 'btn-shortlist':
       usrInput.choice = 'shortlist';
+      break;
+    default:
+      console.log('invalid user input!!');
       break;
   }
 

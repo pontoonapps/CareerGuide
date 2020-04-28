@@ -20,13 +20,14 @@ function getQuestions(req, res) {
   res.json(db.ansrdQuestns());
 }
 
-function submitQuestionAnswer(req, res) {
+function subQuestAns(req, res) {
   // get variables from req body
 
-  const choice = req.params.choice;
+  const choice = req.body.choice;
   const qid = req.body.jobid; // qid short for questionid
 
   // save question answer in DB
+  console.log('subQuestAns: ');
   console.log('Choice:', choice);
   console.log('questionID:', qid);
   res.json();
@@ -42,37 +43,49 @@ async function getSwiped() {
   return jobs;
 }
 
-function submitJobSwipe(choice, jobid) {
+function submitJobSwipe(req) {
   // get variables from req body
 
-  // const choice = req.params.choice;
-  // const jobid = req.body.jobid;
+  const choice = req.body.choice;
+  const jobid = req.body.jobid;
 
-  switch(choice) {
-    case 'like': swipeJob(choice, jobid); break;
-    case 'dislike': swipeJob(choice, jobid); break;
-    case 'shortlist': addToShortlist(choice, jobid); break;
+  switch (choice) {
+    case 'like':
+      swipeJob(choice, jobid);
+      break;
+    case 'dislike':
+      swipeJob(choice, jobid);
+      break;
+    case 'shortlist':
+      addToShortlist(choice, jobid);
+      break;
   }
 }
 
 async function getJobs(req, res) {
   let jobs = [];
   // Checks if there is a query called choice passed
-    switch(req.query.choice) {
-      case 'shortlist': jobs = await getShortlist(); break;
-      case 'swiped': jobs = await getSwiped(); break;
-    }
-    return res.json(jobs);
+  switch (req.query.choice) {
+    case 'shortlist':
+      jobs = await getShortlist();
+      break;
+    case 'swiped':
+      jobs = await getSwiped();
+      break;
+  }
+  return res.json(jobs);
 }
 
 function swipeJob(choice, jobid) {
   // save swipe in DB
+  console.log('SwipeJob: ');
   console.log('Choice:', choice);
   console.log('JobID:', jobid);
 }
 
 function addToShortlist(choice, jobid) {
   // save shortlist in DB
+  console.log('addToShortlist: ');
   console.log('Choice:', choice);
   console.log('Toggle JobID:', jobid);
 }
@@ -85,7 +98,7 @@ app.get('/user/jobs', asyncWrap(getJobs));
 app.post('/user/jobs', express.json(), asyncWrap(submitJobSwipe));
 
 app.get('/user/questions', asyncWrap(getQuestions));
-app.post('/user/questions', express.json(), asyncWrap(submitQuestionAnswer));
+app.post('/user/questions', express.json(), asyncWrap(subQuestAns));
 
 let itemsList = db.refreshItemList(); // allows for infinite swiping while testing swipe page
 

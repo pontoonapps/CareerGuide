@@ -13,17 +13,78 @@ async function getQReview() {
 
 async function loadQReview() {
   const tmplt = document.querySelector('#questionnaire-template');
-  const answrList = await getQReview();
-  for (const q of answrList) {
-    const cont = document.importNode(tmplt.content, true);
+  const questns = await getQReview();
+  for (const quest of questns) {
+    // get question container template
+    const questCont = document.importNode(tmplt.content, true); // question container
 
-    cont.querySelector('.questionnaireReviewTitle').textContent = q.question;
-    if (q.answer !== null) {
-      cont.querySelector('.' + q.answer).classList.add('selected');
+    // fill in template with question data
+    questCont.querySelector('.questionnaireReviewTitle').textContent = quest.question;
+    if (quest.answer !== null) {
+      questCont.querySelector('.' + quest.answer).classList.add('selected');
     }
+
+    // add event listeners and data attributes
+    for (const node of questCont.querySelectorAll('.questionnaireAnswer')) {
+      node.setAttribute('questid', quest.id); // TODO dataspace
+      node.addEventListener('click', updateAns);
+    }
+
+    // append to main
     const main = document.querySelector('main');
-    main.appendChild(cont);
+    main.appendChild(questCont);
   }
+}
+
+function updateAns() {
+  if (event.target.classList[1] !== 'selected') { // if item clicked is already selected no need to change answer
+    const succSub = subAnsChange(event); // FIXME should this be await? cannot pass event to change ans when await
+    if (succSub) {
+      changeAns(event);
+    } else {
+      // report error to user
+    }
+  }
+}
+
+function changeAns(event) {
+  const answerCont = event.target.parentNode;
+  for (const node of answerCont.childNodes) {
+    if (node.classList !== undefined) {
+      (node.classList[1] !== undefined)
+        ? node.classList.remove('selected')
+        : node.classList.add('selected');
+    }
+  }
+}
+
+async function subAnsChange(event) {
+  const usrInput = {};
+  usrInput.jobid = event.target.parentNode.getAttribute('questid');
+  // TODO is this switch required when the choice is the same as the class name?
+  switch (event.target.classList[0]) {
+    case 'yes':
+      usrInput.choice = 'yes';
+      break;
+    case 'no':
+      usrInput.choice = 'no';
+      break;
+  }
+  const response = await submitChange(usrInput);
+
+  if (!response.ok) {
+    console.log('error', response.statusText, 'cant change');
+  }
+  return (response.ok);
+}
+
+async function submitChange(usrInput) { // TODO This is the same function as submitJInput on swipePage, repeated code??
+  const response = await fetch('/user/questions', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(usrInput),
+  });
+  return response;
 }
 
 function loadPage() {
