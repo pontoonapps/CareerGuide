@@ -53,7 +53,6 @@ function submitJobSwipe(req, res) {
   //   res.json(toggleShortlist(choice, jobid));
   // }
 
-
   switch(choice) {
     case 'like': swipeJob(choice, jobid); break;
     case 'dislike': swipeJob(choice, jobid); break;
