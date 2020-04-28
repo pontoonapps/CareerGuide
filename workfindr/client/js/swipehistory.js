@@ -1,7 +1,7 @@
 // swipeHistory.js
 
 async function getSwipHist() {
-  const response = await fetch('/user/jobs/swiped');
+  const response = await fetch('/user/jobs?choice=swiped');
 
   if (response.ok) {
     const jList = await response.json();
