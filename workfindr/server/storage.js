@@ -29,7 +29,7 @@ function jobs() {
   return testJobs;
 }
 
-function swipedJobs() { // test swiped jobs
+function swipedJobs() {
   const testJobs = {
     jobs: [{
       id: 0,
@@ -37,24 +37,35 @@ function swipedJobs() { // test swiped jobs
       description: 'Red dungarees and hat included',
       image: 'img/tempimage.png',
       swipe: 'disliked',
+      shortlisted: 'true',
     }, {
       id: 1,
       title: 'Programmer',
       description: 'Light up keyboard provided',
       image: 'img/tempimage.png',
       swipe: 'liked',
+      shortlisted: 'false',
     }, {
       id: 2,
       title: 'Con artist',
       description: 'Steals your valuable possessions',
       image: 'img/tempimage.png',
       swipe: 'liked',
+      shortlisted: 'false',
     }, {
       id: 3,
       title: 'Teacher',
       description: '"Might" teach you things',
       image: 'img/tempimage.png',
       swipe: 'disliked',
+      shortlisted: 'true',
+    }, {
+      id: 4,
+      title: 'Rocket engineer',
+      description: 'Makes rockets',
+      image: 'img/tempimage.png',
+      swipe: 'liked',
+      shortlisted: 'true',
     }],
   };
 
@@ -108,29 +119,6 @@ function ansrdQuestns() { // test Answered Questions
   return questions;
 }
 
-function shortlistedJobs() {
-  const slistJobs = {
-    jobs: [{
-      id: 0,
-      title: 'Teacher',
-      description: 'Can teach you how to do "X"',
-      image: 'img/tempimage.png',
-    }, {
-      id: 1,
-      title: 'Plumber',
-      description: 'Knows things about plumbing',
-      image: 'img/tempimage.png',
-    }, {
-      id: 2,
-      title: 'Priest',
-      description: 'Likes god',
-      image: 'img/tempimage.png',
-    }],
-  };
-
-  return slistJobs;
-}
-
 function refreshItemList() { // refresh Item List
   return jobs().jobs.concat(questions().questions);
 }
@@ -140,6 +128,5 @@ module.exports = {
   questions,
   ansrdQuestns,
   swipedJobs,
-  shortlistedJobs,
   refreshItemList,
 };
