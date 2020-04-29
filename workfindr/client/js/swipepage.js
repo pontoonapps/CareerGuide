@@ -11,7 +11,7 @@ async function getNextItem() {
   return 'error connecting to server';
 }
 
-async function submitInput(event) {
+async function subSwipe(event) {
   // get user choice (shortlisting questions???)
   const swipe = {};
   swipe.itemid = currentItem.id;
@@ -54,10 +54,6 @@ async function subJobSwipe(swipe) {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(swipe),
   });
-  if (!response.ok) {
-    console.log('response not okay in subJobSwipe function');
-    console.log(response);
-  }
   return response;
 }
 
@@ -67,10 +63,6 @@ async function subQuestSwipe(swipe) {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(swipe),
   });
-  if (!response.ok) {
-    console.log('response not okay in subQuestSwipe function');
-    console.log(response);
-  }
   return response;
 }
 
@@ -92,19 +84,19 @@ function displayItem(item) {
 
 function addELs() {
   document.querySelector('#btn-like').addEventListener('click', () => {
-    submitInput(event);
+    subSwipe(event);
     loadNextItem();
   });
   document.querySelector('#btn-showLater').addEventListener('click', () => {
-    submitInput(event);
+    subSwipe(event);
     loadNextItem();
   });
   document.querySelector('#btn-dislike').addEventListener('click', () => {
-    submitInput(event);
+    subSwipe(event);
     loadNextItem();
   });
   document.querySelector('#btn-shortlist').addEventListener('click', () => {
-    submitInput(event); // arrow function for consistency, loadNextItem function not required when shortlisting
+    subSwipe(event); // arrow function for consistency, loadNextItem function not required when shortlisting
   });
 }
 
