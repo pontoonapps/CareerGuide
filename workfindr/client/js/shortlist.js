@@ -11,21 +11,24 @@ async function getShortlist() {
   }
 }
 
-async function loadSList() {
+async function loadShortList() {
   const tmplt = document.querySelector('#shortlist-template');
   const jobList = await getShortlist();
   for (const job of jobList) {
-    const jobContnr = document.importNode(tmplt.content, true);
+    console.log(job);
+    if (job.shortlisted === 'true') {
+      const jobContnr = document.importNode(tmplt.content, true);
 
-    jobContnr.querySelector('.swipeItemImg').src = job.image;
-    jobContnr.querySelector('.swipeItemImg').alt = job.title + 'image';
-    jobContnr.querySelector('.listItemTitle').textContent = job.title;
-    jobContnr.querySelector('.swipeItemDesc').textContent = job.description;
-    jobContnr.querySelector('.viewMore').addEventListener('click', dispDetailedDesc);
-    jobContnr.querySelector('.viewMore').dataset.jobid = job.id;
+      jobContnr.querySelector('.swipeItemImg').src = job.image;
+      jobContnr.querySelector('.swipeItemImg').alt = job.title + 'image';
+      jobContnr.querySelector('.listItemTitle').textContent = job.title;
+      jobContnr.querySelector('.swipeItemDesc').textContent = job.description;
+      jobContnr.querySelector('.viewMore').addEventListener('click', dispDetailedDesc);
+      jobContnr.querySelector('.viewMore').dataset.jobid = job.id;
 
-    const main = document.querySelector('main');
-    main.appendChild(jobContnr);
+      const main = document.querySelector('main');
+      main.appendChild(jobContnr);
+    }
   }
 }
 
@@ -108,7 +111,7 @@ function hideDetailDesc() {
 }
 
 function loadPage() {
-  loadSList();
+  loadShortList();
 }
 
 window.addEventListener('load', loadPage);

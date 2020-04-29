@@ -32,7 +32,7 @@ function subQuestAns(req, res) {
 }
 
 async function getShortlist() {
-  const jobs = await db.shortlistedJobs();
+  const jobs = await db.swipedJobs();
   return jobs;
 }
 
