@@ -15,30 +15,30 @@ async function loadSList() {
   const tmplt = document.querySelector('#shortlist-template');
   const jobList = await getShortlist();
   for (const job of jobList) {
-    const cont = document.importNode(tmplt.content, true);
+    const jobContnr = document.importNode(tmplt.content, true);
 
-    cont.querySelector('.swipeItemImg').src = job.image;
-    cont.querySelector('.swipeItemImg').alt = job.title + 'image';
-    cont.querySelector('.listItemTitle').textContent = job.title;
-    cont.querySelector('.swipeItemDesc').textContent = job.description;
-    cont.querySelector('.viewMore').addEventListener('click', dispDetailedDesc);
+    jobContnr.querySelector('.swipeItemImg').src = job.image;
+    jobContnr.querySelector('.swipeItemImg').alt = job.title + 'image';
+    jobContnr.querySelector('.listItemTitle').textContent = job.title;
+    jobContnr.querySelector('.swipeItemDesc').textContent = job.description;
+    jobContnr.querySelector('.viewMore').addEventListener('click', dispDetailedDesc);
 
     const main = document.querySelector('main');
-    main.appendChild(cont);
+    main.appendChild(jobContnr);
   }
 }
 
 function dispDetailedDesc() {
   // reset all nodes to normal size
-  for (const node of document.querySelectorAll('.listItemContainer')) {
-    node.classList.remove('expanded');
+  for (const jobContnr of document.querySelectorAll('.listItemContainer')) {
+    jobContnr.classList.remove('expanded');
   }
 
   // set view more buttons text back from view less and reset event listener
-  for (const node of document.querySelectorAll('.viewMore')) {
-    node.textContent = 'View More';
-    node.removeEventListener('click', hideDetailDesc);
-    node.addEventListener('click', dispDetailedDesc); // TODO better variable name than node
+  for (const viewMoreBtn of document.querySelectorAll('.viewMore')) {
+    viewMoreBtn.textContent = 'View More';
+    viewMoreBtn.removeEventListener('click', hideDetailDesc);
+    viewMoreBtn.addEventListener('click', dispDetailedDesc);
   }
 
   // remove removeFromShorlist button from previous detailed view
@@ -46,23 +46,26 @@ function dispDetailedDesc() {
     document.querySelector('.rmvShrtItem').remove();
   }
 
+  // change view more button text to view less
   const viewMore = event.target;
+  const buttonCont = viewMore.parentNode;
+  const listItemCont = buttonCont.parentNode;
+
   viewMore.textContent = 'View Less';
   viewMore.removeEventListener('click', dispDetailedDesc);
   viewMore.addEventListener('click', hideDetailDesc);
 
-  const listItemCont = event.target.parentNode.parentNode;
+  // expand job container
   listItemCont.classList.add('expanded');
 
-  const buttonCont = event.target.parentNode;
-
-  const remFromShortlist = document.createElement('button');
-  remFromShortlist.classList.add('button');
-  remFromShortlist.classList.add('btn-type1');
-  remFromShortlist.classList.add('rmvShrtItem');
-  remFromShortlist.textContent = 'Remove from shortlist';
-  remFromShortlist.addEventListener('click', removeFromShortlist);
-  buttonCont.appendChild(remFromShortlist);
+  // add remove from shortlist button
+  const remItem = document.createElement('button');
+  remItem.classList.add('button');
+  remItem.classList.add('btn-type1');
+  remItem.classList.add('rmvShrtItem');
+  remItem.textContent = 'Remove'; // TODO align text to center of button
+  remItem.addEventListener('click', removeFromShortlist);
+  buttonCont.appendChild(remItem);
 }
 
 function removeFromShortlist() {
