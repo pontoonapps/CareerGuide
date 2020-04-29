@@ -2,8 +2,6 @@
 
 let currentItem; // job being displayed on page
 
-// FIXME: items (seemingly) randomly stop loading after swiping for a while
-
 async function getNextItem() {
   const rawItem = await fetch('/user/next-item');
   if (rawItem.ok) {
@@ -15,20 +13,20 @@ async function getNextItem() {
 
 async function submitInput(event) {
   // get user choice (shortlisting questions???)
-  const usrInput = {};
-  usrInput.jobid = currentItem.id;
+  const swipe = {};
+  swipe.itemid = currentItem.id;
   switch (event.target.id) {
     case 'btn-dislike':
-      usrInput.choice = 'dislike';
+      swipe.choice = 'dislike';
       break;
     case 'btn-showLater':
-      usrInput.choice = 'showLater';
+      swipe.choice = 'showLater';
       break;
     case 'btn-like':
-      usrInput.choice = 'like';
+      swipe.choice = 'like';
       break;
     case 'btn-shortlist':
-      usrInput.choice = 'shortlist';
+      swipe.choice = 'shortlist';
       break;
     default:
       console.log('invalid user input!!');
@@ -39,9 +37,9 @@ async function submitInput(event) {
   // way than a lack of description? should there be an attribute marking job or question?
   let response;
   if (currentItem.description === undefined) {
-    response = await submitQInput(usrInput);
+    response = await subQuestSwipe(swipe);
   } else {
-    response = await submitJInput(usrInput);
+    response = await subJobSwipe(swipe);
   }
 
   // log if error connecting to server
@@ -50,21 +48,29 @@ async function submitInput(event) {
   }
 }
 
-async function submitJInput(usrInput) {
+async function subJobSwipe(swipe) {
   const response = await fetch('/user/jobs', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(usrInput),
+    body: JSON.stringify(swipe),
   });
+  if (!response.ok) {
+    console.log('response not okay in subJobSwipe function');
+    console.log(response);
+  }
   return response;
 }
 
-async function submitQInput(usrInput) {
+async function subQuestSwipe(swipe) {
   const response = await fetch('/user/questions', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(usrInput),
+    body: JSON.stringify(swipe),
   });
+  if (!response.ok) {
+    console.log('response not okay in subQuestSwipe function');
+    console.log(response);
+  }
   return response;
 }
 

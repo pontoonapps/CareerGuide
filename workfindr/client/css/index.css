@@ -230,7 +230,7 @@ main {
   margin: 0.5em 0;
   border-radius: 3em;
   border: thin solid var(--davys-gray);
-  text-transform: capitalize; /* TODO: Capitalize or uppercase? */
+  text-transform: capitalize;
   cursor: pointer;
 }
 
@@ -331,6 +331,7 @@ main {
   max-width: 10rem;
   min-height: 4.5em;
 
+  /* TODO remove user select none unless still required
   /* allows buttons to look the same in mobile and desktop view (can be removed to allow for thinner buttons in desktop view) */
 
   /* Prevents button from getting marked */
@@ -350,14 +351,6 @@ main {
   border: 0.2em solid var(--PONTRed);
 }
 
-/* do we need hover? */
-
-/*
-.btn-type1:hover {
-  background-color: #e84b1fd8;
-}
-*/
-
 .btn-type1:active {
   color: var(--PONTRed);
   background-color: var(--main-bg-color);
@@ -369,13 +362,6 @@ main {
   border: 0.2em solid var(--PONTLightBlue);
 }
 
-/*
-.btn-type2:hover {
-  background-color: var(--PONTLightBlue);
-  color: var(--main-bg-color);
-}
-*/
-
 .btn-type2:active {
   color: var(--main-bg-color);
   background-color: var(--PONTLightBlue);
@@ -385,13 +371,6 @@ main {
   background-color: var(--PONTGreen);
   border: 0.2em solid var(--PONTGreen);
 }
-
-/*
-.btn-type3:hover {
-  background-color: var(--main-bg-color);
-  color: var(--PONTGreen);
-}
-*/
 
 .btn-type3:active {
   color: var(--PONTGreen);

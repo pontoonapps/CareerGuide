@@ -15,19 +15,19 @@ async function loadSwipHist() {
   const tmplt = document.querySelector('#swipe-history-template');
   const jobList = await getSwipHist();
   for (const job of jobList) {
-    const cont = document.importNode(tmplt.content, true); // TODO better variable name than cont
+    const jobContnr = document.importNode(tmplt.content, true);
 
-    cont.querySelector('.swipeItemImg').src = job.image;
-    cont.querySelector('.swipeItemImg').alt = job.title + 'image';
-    cont.querySelector('.listItemTitle').textContent = job.title;
-    cont.querySelector('.swipeItemDesc').textContent = job.description;
-    cont.querySelector('.swipeChoice').classList.add(job.swipe);
-    cont.querySelector('.swipeChoice').textContent = (job.swipe === 'liked' ? '👍' : '👎');
-    cont.querySelector('.swipeChoice').setAttribute('jobid', job.id); // TODO user dataspace not attributes
-    cont.querySelector('.swipeChoice').addEventListener('click', changeSwipe);
+    jobContnr.querySelector('.swipeItemImg').src = job.image;
+    jobContnr.querySelector('.swipeItemImg').alt = job.title + 'image';
+    jobContnr.querySelector('.listItemTitle').textContent = job.title;
+    jobContnr.querySelector('.swipeItemDesc').textContent = job.description;
+    jobContnr.querySelector('.swipeChoice').classList.add(job.swipe);
+    jobContnr.querySelector('.swipeChoice').textContent = (job.swipe === 'liked' ? '👍' : '👎');
+    jobContnr.querySelector('.swipeChoice').dataset.jobid = job.id;
+    jobContnr.querySelector('.swipeChoice').addEventListener('click', changeSwipe);
 
     const main = document.querySelector('main');
-    main.appendChild(cont);
+    main.appendChild(jobContnr);
   }
 }
 
@@ -53,7 +53,7 @@ function changeSwipe() {
 
 async function subSwipChange() {
   const usrInput = {};
-  usrInput.jobid = event.target.getAttribute('jobid');
+  usrInput.jobid = event.target.dataset.jobid;
   switch (event.target.classList[1]) {
     case 'liked':
       usrInput.choice = 'dislike';
@@ -70,7 +70,7 @@ async function subSwipChange() {
   return (response.ok);
 }
 
-async function submitChange(usrInput) { // This is the same function as submitJInput on swipePage, repeated code??
+async function submitChange(usrInput) {
   const response = await fetch('/user/jobs', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
