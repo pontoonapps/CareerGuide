@@ -21,15 +21,13 @@ function getQuestions(req, res) {
 }
 
 function subQuestAns(req, res) {
-  // get variables from req body
-
   const choice = req.body.choice;
-  const qid = req.body.questid; // qid short for questionid
+  const questid = req.body.itemid;
 
   // save question answer in DB
   console.log('subQuestAns: ');
   console.log('Choice:', choice);
-  console.log('questionID:', qid);
+  console.log('questionID:', questid);
   res.json();
 }
 
@@ -43,16 +41,18 @@ async function getSwiped() {
   return jobs;
 }
 
-function submitJobSwipe(req) {
-  // get variables from req body
+function submitJobSwipe(req, res) {
   const choice = req.body.choice;
-  const jobid = req.body.jobid;
-
+  const jobid = req.body.itemid;
+  console.log(choice);
   switch (choice) {
     case 'like':
       swipeJob(choice, jobid);
       break;
     case 'dislike':
+      swipeJob(choice, jobid);
+      break;
+    case 'showLater':
       swipeJob(choice, jobid);
       break;
     case 'shortlist':
@@ -61,6 +61,7 @@ function submitJobSwipe(req) {
     default:
       console.log('unrecognized choice in submitJobSwipe');
   }
+  res.json();
 }
 
 async function getJobs(req, res) {
