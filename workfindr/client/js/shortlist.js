@@ -22,6 +22,7 @@ async function loadSList() {
     jobContnr.querySelector('.listItemTitle').textContent = job.title;
     jobContnr.querySelector('.swipeItemDesc').textContent = job.description;
     jobContnr.querySelector('.viewMore').addEventListener('click', dispDetailedDesc);
+    jobContnr.querySelector('.viewMore').dataset.jobid = job.id;
 
     const main = document.querySelector('main');
     main.appendChild(jobContnr);
@@ -29,6 +30,8 @@ async function loadSList() {
 }
 
 function dispDetailedDesc() {
+  // reset changes from previous detailed view
+
   // reset all nodes to normal size
   for (const jobContnr of document.querySelectorAll('.listItemContainer')) {
     jobContnr.classList.remove('expanded');
@@ -41,16 +44,19 @@ function dispDetailedDesc() {
     viewMoreBtn.addEventListener('click', dispDetailedDesc);
   }
 
-  // remove removeFromShorlist button from previous detailed view
+  // remove removeFromShorlist button from previous detailed view (if there is one)
   if (document.querySelector('.rmvShrtItem') !== null) {
     document.querySelector('.rmvShrtItem').remove();
   }
 
-  // change view more button text to view less
+  // change target container to detailed view
+
+  // get required DOM elements
   const viewMore = event.target;
   const buttonCont = viewMore.parentNode;
   const listItemCont = buttonCont.parentNode;
 
+  // change view more button text to view less
   viewMore.textContent = 'View Less';
   viewMore.removeEventListener('click', dispDetailedDesc);
   viewMore.addEventListener('click', hideDetailDesc);
@@ -63,14 +69,27 @@ function dispDetailedDesc() {
   remItem.classList.add('button');
   remItem.classList.add('btn-type1');
   remItem.classList.add('rmvShrtItem');
-  remItem.textContent = 'Remove'; // TODO align text to center of button
-  remItem.addEventListener('click', removeFromShortlist);
+  remItem.textContent = 'Remove'; // TODO align text to center of button when in mobile view
+  remItem.dataset.jobid = viewMore.dataset.jobid;
+  remItem.addEventListener('click', remShrtlstItem);
   buttonCont.appendChild(remItem);
 }
 
-function removeFromShortlist() {
-  // TODO create remove from shortlist function and rename as currently overly verbose
-  console.log('send this job\'s id to the server and remove from shortlist');
+async function remShrtlstItem() {
+  const removal = {};
+  removal.itemid = event.target.dataset.jobid;
+  removal.choice = 'shortlist';
+  const response = await fetch('/user/jobs', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(removal),
+  });
+
+  if (!response.ok) {
+    console.log('Error removing job from shortlist');
+    console.log(response);
+  }
+  return response;
 }
 
 function hideDetailDesc() {
