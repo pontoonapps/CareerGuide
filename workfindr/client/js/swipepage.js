@@ -2,7 +2,7 @@
 
 let currentItem; // job being displayed on page
 
-// FIXME: Can't load items after certain point
+// FIXME: items (seemingly) randomly stop loading after swiping for a while
 
 async function getNextItem() {
   const rawItem = await fetch('/user/next-item');
@@ -77,8 +77,7 @@ function displayItem(item) {
   document.querySelector('#title').textContent = item.title;
   // description is null with questions
   if (item.description === undefined) {
-    // don't display shortlist button on questions
-    document.querySelector('#btn-shortlist').style = 'display: none';
+    document.querySelector('#btn-shortlist').style = 'display: none'; // don't display shortlist button on questions
   } else {
     document.querySelector('#btn-shortlist').removeAttribute('style');
     document.querySelector('#info-text').textContent = item.description;
@@ -99,7 +98,7 @@ function addELs() {
     loadNextItem();
   });
   document.querySelector('#btn-shortlist').addEventListener('click', () => {
-    submitInput(event); // arrow function for consistency
+    submitInput(event); // arrow function for consistency, loadNextItem function not required when shortlisting
   });
 }
 
