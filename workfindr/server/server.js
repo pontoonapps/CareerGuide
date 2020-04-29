@@ -24,7 +24,7 @@ function subQuestAns(req, res) {
   // get variables from req body
 
   const choice = req.body.choice;
-  const qid = req.body.jobid; // qid short for questionid
+  const qid = req.body.questid; // qid short for questionid
 
   // save question answer in DB
   console.log('subQuestAns: ');
@@ -45,7 +45,6 @@ async function getSwiped() {
 
 function submitJobSwipe(req) {
   // get variables from req body
-
   const choice = req.body.choice;
   const jobid = req.body.jobid;
 
@@ -59,13 +58,15 @@ function submitJobSwipe(req) {
     case 'shortlist':
       addToShortlist(choice, jobid);
       break;
+    default:
+      console.log('unrecognized choice in submitJobSwipe');
   }
 }
 
 async function getJobs(req, res) {
+  // gets job for either shortlist page or swipe history page
   let jobs = [];
-  // Checks if there is a query called choice passed
-  switch (req.query.choice) {
+  switch (req.query.choice) { // TODO is choice the best name here??
     case 'shortlist':
       jobs = await getShortlist();
       break;

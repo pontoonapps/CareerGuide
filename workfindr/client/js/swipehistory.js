@@ -1,7 +1,7 @@
 // swipeHistory.js
 
 async function getSwipHist() {
-  const response = await fetch('/user/jobs?choice=swiped');
+  const response = await fetch('/user/jobs?choice=swiped'); // TODO is choice the best name here?? maybe page would be more clear
 
   if (response.ok) {
     const jList = await response.json();
@@ -15,7 +15,7 @@ async function loadSwipHist() {
   const tmplt = document.querySelector('#swipe-history-template');
   const jobList = await getSwipHist();
   for (const job of jobList) {
-    const cont = document.importNode(tmplt.content, true);
+    const cont = document.importNode(tmplt.content, true); // TODO better variable name than cont
 
     cont.querySelector('.swipeItemImg').src = job.image;
     cont.querySelector('.swipeItemImg').alt = job.title + 'image';
@@ -32,7 +32,7 @@ async function loadSwipHist() {
 }
 
 function changeSwipe() {
-  const succSub = subSwipChange(); // overly verbose example function
+  const succSub = subSwipChange();
   if (succSub) {
     switch (event.target.classList[1]) {
       case 'liked':
@@ -56,10 +56,10 @@ async function subSwipChange() {
   usrInput.jobid = event.target.getAttribute('jobid');
   switch (event.target.classList[1]) {
     case 'liked':
-      usrInput.choice = 'disliked';
+      usrInput.choice = 'dislike';
       break;
     case 'disliked':
-      usrInput.choice = 'liked';
+      usrInput.choice = 'like';
       break;
   }
   const response = await submitChange(usrInput);

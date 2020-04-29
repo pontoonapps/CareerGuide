@@ -26,8 +26,8 @@ async function loadQReview() {
 
     // add event listeners and data attributes
     for (const node of questCont.querySelectorAll('.questionnaireAnswer')) {
-      node.setAttribute('questid', quest.id); // TODO dataspace
-      node.addEventListener('click', updateAns);
+      node.setAttribute('questid', quest.id); // TODO use dataspace instead of attribute
+      node.addEventListener('click', updateAns); // TODO better variable name than node
     }
 
     // append to main
@@ -42,7 +42,7 @@ function updateAns() {
     if (succSub) {
       changeAns(event);
     } else {
-      // report error to user
+      // TODO report error to user
     }
   }
 }
@@ -60,7 +60,7 @@ function changeAns(event) {
 
 async function subAnsChange(event) {
   const usrInput = {};
-  usrInput.jobid = event.target.parentNode.getAttribute('questid');
+  usrInput.questid = event.target.parentNode.getAttribute('questid');
   // TODO is this switch required when the choice is the same as the class name?
   switch (event.target.classList[0]) {
     case 'yes':

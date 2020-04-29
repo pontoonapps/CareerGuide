@@ -1,7 +1,7 @@
 // shortlist.js
 
 async function getShortlist() {
-  const response = await fetch('user/jobs?choice=shortlist');
+  const response = await fetch('user/jobs?choice=shortlist'); // TODO is choice the best name here? Would page be better
 
   if (response.ok) {
     const jList = await response.json();
@@ -38,7 +38,7 @@ function dispDetailedDesc() {
   for (const node of document.querySelectorAll('.viewMore')) {
     node.textContent = 'View More';
     node.removeEventListener('click', hideDetailDesc);
-    node.addEventListener('click', dispDetailedDesc);
+    node.addEventListener('click', dispDetailedDesc); // TODO better variable name than node
   }
 
   // remove removeFromShorlist button from previous detailed view
@@ -66,6 +66,7 @@ function dispDetailedDesc() {
 }
 
 function removeFromShortlist() {
+  // TODO create remove from shortlist function and rename as currently overly verbose
   console.log('send this job\'s id to the server and remove from shortlist');
 }
 
