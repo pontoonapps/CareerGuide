@@ -43,7 +43,7 @@ async function updateAns() {
     if (succSub) {
       changeAns(questAns);
     } else {
-      // TODO report error to user
+      document.querySelector('h1').textContent = 'Something went wrong! Please refresh';
     }
   }
 }
@@ -61,7 +61,7 @@ function changeAns(questAns) {
 
 async function subAnsChange(event) {
   const usrInput = {};
-  usrInput.questid = event.target.parentNode.dataset.questid;
+  usrInput.itemid = event.target.parentNode.dataset.questid;
   // switch statement used so choice name is independent of class name (right now they are the same)
   switch (event.target.classList[0]) {
     case 'yes':
