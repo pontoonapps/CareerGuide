@@ -15,7 +15,6 @@ async function loadShortList() {
   const tmplt = document.querySelector('#shortlist-template');
   const jobList = await getShortlist();
   for (const job of jobList) {
-    console.log(job);
     if (job.shortlisted === 'true') {
       const jobContnr = document.importNode(tmplt.content, true);
 
@@ -25,6 +24,8 @@ async function loadShortList() {
       jobContnr.querySelector('.swipeItemDesc').textContent = job.description;
       jobContnr.querySelector('.viewMore').addEventListener('click', dispDetailedDesc);
       jobContnr.querySelector('.viewMore').dataset.jobid = job.id;
+      jobContnr.querySelector('.rmvShrtItem').addEventListener('click', remShrtlstItem);
+      jobContnr.querySelector('.rmvShrtItem').dataset.jobid = job.id;
 
       const main = document.querySelector('main');
       main.appendChild(jobContnr);
@@ -49,13 +50,14 @@ function dispDetailedDesc() {
 
   // remove removeFromShorlist button from previous detailed view (if there is one)
   if (document.querySelector('.rmvShrtItem') !== null) {
-    document.querySelector('.rmvShrtItem').remove();
+    document.querySelector('.rmvShrtItem').style = 'display: none;';
   }
 
   // change target container to detailed view
 
   // get required DOM elements
   const viewMore = event.target;
+  const remove = viewMore.nextElementSibling;
   const buttonCont = viewMore.parentNode;
   const listItemCont = buttonCont.parentNode;
 
@@ -64,21 +66,24 @@ function dispDetailedDesc() {
   viewMore.removeEventListener('click', dispDetailedDesc);
   viewMore.addEventListener('click', hideDetailDesc);
 
+  // remove display none from remove button in this container
+  remove.style = '';
+
   // expand job container
   listItemCont.classList.add('expanded');
-
-  // add remove from shortlist button
-  const remItem = document.createElement('button');
-  remItem.classList.add('button');
-  remItem.classList.add('btn-type1');
-  remItem.classList.add('rmvShrtItem');
-  remItem.textContent = 'Remove'; // TODO align text to center of button when in mobile view
-  remItem.dataset.jobid = viewMore.dataset.jobid;
-  remItem.addEventListener('click', remShrtlstItem);
-  buttonCont.appendChild(remItem);
 }
 
 async function remShrtlstItem() {
+  const remove = event.target;
+  const btnContnr = remove.parentNode;
+  const jobContnr = btnContnr.parentNode;
+  const succSub = await subRemoval(); // TODO should we be passing event to subRemoval?
+  if (succSub) {
+    jobContnr.remove();
+  }
+}
+
+async function subRemoval() {
   const removal = {};
   removal.itemid = event.target.dataset.jobid;
   removal.choice = 'shortlist';
@@ -100,14 +105,18 @@ function hideDetailDesc() {
   const listItemCont = event.target.parentNode.parentNode;
   listItemCont.classList.remove('expanded');
 
-  // update event listener from show more to show less
+
+  // get required DOM elements
   const viewMore = event.target;
+  const remove = viewMore.nextElementSibling;
+
+  // update event listener from show more to show less
   viewMore.textContent = 'View More';
   viewMore.removeEventListener('click', hideDetailDesc);
   viewMore.addEventListener('click', dispDetailedDesc);
 
   // remove removeFromShortlist button
-  document.querySelector('.rmvShrtItem').remove();
+  remove.style = 'display: none;';
 }
 
 function loadPage() {
