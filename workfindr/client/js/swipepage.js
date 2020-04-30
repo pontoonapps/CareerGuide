@@ -26,7 +26,7 @@ async function subSwipe(event) {
       swipe.choice = 'like';
       break;
     case 'btn-shortlist':
-      swipe.choice = 'shortlist';
+      swipe.choice = 'shortlist-add';
       break;
     default:
       console.log('invalid user input!!');
@@ -44,8 +44,11 @@ async function subSwipe(event) {
 
   // log if error connecting to server
   if (!response.ok) {
-    console.log('error submitting input');
+    document.querySelector('h1').textContent = 'Something went wrong! Please refresh';
+    console.log('problem');
+    return false;
   }
+  return true;
 }
 
 async function subJobSwipe(swipe) {
@@ -83,21 +86,25 @@ function displayItem(item) {
 }
 
 function addELs() {
-  document.querySelector('#btn-like').addEventListener('click', () => {
-    subSwipe(event);
-    loadNextItem();
+  document.querySelector('#btn-like').addEventListener('click', async () => {
+    if (await subSwipe(event)) {
+      loadNextItem();
+    }
   });
-  document.querySelector('#btn-showLater').addEventListener('click', () => {
-    subSwipe(event);
-    loadNextItem();
+  document.querySelector('#btn-showLater').addEventListener('click', async () => {
+    if (await subSwipe(event)) {
+      loadNextItem();
+    }
   });
-  document.querySelector('#btn-dislike').addEventListener('click', () => {
-    subSwipe(event);
-    loadNextItem();
+  document.querySelector('#btn-dislike').addEventListener('click', async () => {
+    if (await subSwipe(event)) {
+      loadNextItem();
+    }
   });
-  document.querySelector('#btn-shortlist').addEventListener('click', () => {
-    subSwipe(event);
-    loadNextItem();
+  document.querySelector('#btn-shortlist').addEventListener('click', async () => {
+    if (await subSwipe(event)) {
+      loadNextItem();
+    }
   });
 }
 

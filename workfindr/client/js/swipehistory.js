@@ -47,13 +47,13 @@ function changeSwipe() {
         break;
     }
   } else {
-    // report error to user
+    document.querySelector('h1').textContent = 'Something went wrong! Please refresh';
   }
 }
 
 async function subSwipChange() {
   const usrInput = {};
-  usrInput.jobid = event.target.dataset.jobid;
+  usrInput.itemid = event.target.dataset.jobid;
   switch (event.target.classList[1]) {
     case 'liked':
       usrInput.choice = 'dislike';

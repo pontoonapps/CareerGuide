@@ -22,7 +22,7 @@ function getQuestions(req, res) {
 
 function subQuestAns(req, res) {
   const choice = req.body.choice;
-  const questid = req.body.questid;
+  const questid = req.body.itemid;
 
   // save question answer in DB
   console.log('subQuestAns: ');
@@ -44,7 +44,6 @@ async function getSwiped() {
 function submitJobSwipe(req, res) {
   const choice = req.body.choice;
   const jobid = req.body.itemid;
-  console.log(choice);
   switch (choice) {
     case 'like':
       swipeJob(choice, jobid);
@@ -55,9 +54,12 @@ function submitJobSwipe(req, res) {
     case 'showLater':
       swipeJob(choice, jobid);
       break;
-    case 'shortlist':
-      addToShortlist(choice, jobid);
+    case 'shortlist-add':
+      shortlistItem(choice, jobid);
       swipeJob('like', jobid);
+      break;
+    case 'shortlist-rem':
+      shortlistItem(choice, jobid);
       break;
     default:
       console.log('unrecognized choice in submitJobSwipe');
@@ -86,10 +88,9 @@ function swipeJob(choice, jobid) {
   console.log('JobID:', jobid);
 }
 
-function addToShortlist(choice, jobid) {
-  // TODO how do we know if we are adding to or removing from shortlist?
+function shortlistItem(choice, jobid) {
   // save shortlist in DB
-  console.log('addToShortlist: ');
+  console.log('shortlistItem: ');
   console.log('Choice:', choice);
   console.log('Toggle JobID:', jobid);
 }
