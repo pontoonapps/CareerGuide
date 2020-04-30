@@ -112,7 +112,7 @@ main {
 #swipePage {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: 4em 4em auto 5em;
+  grid-template-rows: 5em 4em auto 5em;
   max-width: 50em;
   margin: auto;
 }
@@ -137,6 +137,8 @@ main {
   margin: auto;
   background-color: var(--main-bg-color);
   overflow: hidden;
+  box-shadow: 0 0 0.5em rgb(178, 207, 101);
+  border-radius: 0.5em;
 }
 
 #btn-shortlist {
@@ -191,6 +193,7 @@ main {
 
   /* TODO: Remove the border and the 'glow' effect?? Or make separate glow effect for swipeHistory that match the colors of the individual buttons at the swipe-page. */
   box-shadow: 0 0 0.5em rgb(178, 207, 101);
+  border-radius: 0.5em;
 }
 
 .listItemContainer.expanded {
