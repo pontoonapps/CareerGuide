@@ -96,7 +96,8 @@ function addELs() {
     loadNextItem();
   });
   document.querySelector('#btn-shortlist').addEventListener('click', () => {
-    subSwipe(event); // arrow function for consistency, loadNextItem function not required when shortlisting
+    subSwipe(event);
+    loadNextItem();
   });
 }
 
