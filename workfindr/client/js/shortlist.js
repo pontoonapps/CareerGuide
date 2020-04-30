@@ -80,23 +80,20 @@ async function remShrtlstItem() {
   const succSub = await subRemoval(); // TODO should we be passing event to subRemoval?
   if (succSub) {
     jobContnr.remove();
+  } else {
+    document.querySelector('h1').textContent = 'Something went wrong! Please refresh';
   }
 }
 
 async function subRemoval() {
   const removal = {};
   removal.itemid = event.target.dataset.jobid;
-  removal.choice = 'shortlist';
+  removal.choice = 'shortlist-rem';
   const response = await fetch('/user/jobs', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(removal),
   });
-
-  if (!response.ok) {
-    console.log('Error removing job from shortlist');
-    console.log(response);
-  }
   return response;
 }
 
