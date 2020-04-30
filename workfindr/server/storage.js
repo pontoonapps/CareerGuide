@@ -84,7 +84,7 @@ function questions() {
       image: 'img/tempimage.png',
     }, {
       id: 2,
-      title: 'Can you make 10+ cups of tea in one go?',
+      title: 'Can you make 10+ cups of tea?',
       image: 'img/tempimage.png',
     }, {
       id: 3,
