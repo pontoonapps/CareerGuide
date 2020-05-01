@@ -1,7 +1,7 @@
 // shortlist.js
 
 async function getShortlist() {
-  const response = await fetch('user/jobs?choice=shortlist'); // TODO is choice the best name here? Would page be better
+  const response = await fetch('user/jobs');
 
   if (response.ok) {
     const jList = await response.json();
@@ -49,6 +49,7 @@ function dispDetailedDesc() {
   }
 
   // remove removeFromShorlist button from previous detailed view (if there is one)
+  // FIXME: Buttons not getting removed
   if (document.querySelector('.rmvShrtItem') !== null) {
     document.querySelector('.rmvShrtItem').style = 'display: none;';
   }
@@ -77,7 +78,7 @@ async function remShrtlstItem() {
   const remove = event.target;
   const btnContnr = remove.parentNode;
   const jobContnr = btnContnr.parentNode;
-  const succSub = await subRemoval(); // TODO should we be passing event to subRemoval?
+  const succSub = await subRemoval(event);
   if (succSub) {
     jobContnr.remove();
   } else {
@@ -85,9 +86,9 @@ async function remShrtlstItem() {
   }
 }
 
-async function subRemoval() {
+async function subRemoval(evnt) {
   const removal = {};
-  removal.itemid = event.target.dataset.jobid;
+  removal.itemid = evnt.target.dataset.jobid;
   removal.choice = 'shortlist-rem';
   const response = await fetch('/user/jobs', {
     method: 'POST',

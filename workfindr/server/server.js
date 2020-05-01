@@ -31,16 +31,6 @@ function subQuestAns(req, res) {
   res.json();
 }
 
-async function getShortlist() {
-  const jobs = await db.swipedJobs();
-  return jobs;
-}
-
-async function getSwiped() {
-  const jobs = await db.swipedJobs();
-  return jobs;
-}
-
 function submitJobSwipe(req, res) {
   const choice = req.body.choice;
   const jobid = req.body.itemid;
@@ -69,15 +59,7 @@ function submitJobSwipe(req, res) {
 
 async function getJobs(req, res) {
   // gets job for either shortlist page or swipe history page
-  let jobs = [];
-  switch (req.query.choice) { // TODO is choice the best name here??
-    case 'shortlist':
-      jobs = await getShortlist();
-      break;
-    case 'swiped':
-      jobs = await getSwiped();
-      break;
-  }
+  const jobs = await db.swipedJobs();
   return res.json(jobs);
 }
 

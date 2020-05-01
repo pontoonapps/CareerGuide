@@ -1,7 +1,7 @@
 // questionnaireReview.js
 
 async function getQReview() {
-  const response = await fetch('/user/questions');
+  const response = await fetch('user/questions');
 
   if (response.ok) {
     const qList = await response.json();

@@ -315,7 +315,6 @@ main {
   overflow: hidden;
 }
 
-/* TODO: Make Text in #info-text ellipse instead of being cut off. */
 #job-title {
   font-size: 3rem;
   text-align: center;
@@ -333,49 +332,39 @@ main {
   width: 100%;
   max-width: 10rem;
   min-height: 4.5em;
-
-  /* TODO remove user select none unless still required
-  /* allows buttons to look the same in mobile and desktop view (can be removed to allow for thinner buttons in desktop view) */
-
-  /* Prevents button from getting marked */
-  -webkit-user-select: none; /* Chrome all / Safari all */
-  -moz-user-select: none; /* Firefox all */
-  -ms-user-select: none; /* IE 10+ */
-  user-select: none; /* Likely future */
 }
 
 .button:hover {
   cursor: pointer;
 }
 
-.btn-type1 {
-  /* TODO get better button variable names (red button, blue button etc maybe) */
+.btn-red {
   background-color: var(--PONTRed);
   border: 0.2em solid var(--PONTRed);
 }
 
-.btn-type1:active {
+.btn-red:active {
   color: var(--PONTRed);
   background-color: var(--main-bg-color);
 }
 
-.btn-type2 {
+.btn-blue {
   background-color: var(--main-bg-color);
   color: var(--PONTLightBlue);
   border: 0.2em solid var(--PONTLightBlue);
 }
 
-.btn-type2:active {
+.btn-blue:active {
   color: var(--main-bg-color);
   background-color: var(--PONTLightBlue);
 }
 
-.btn-type3 {
+.btn-green {
   background-color: var(--PONTGreen);
   border: 0.2em solid var(--PONTGreen);
 }
 
-.btn-type3:active {
+.btn-green:active {
   color: var(--PONTGreen);
   background-color: var(--main-bg-color);
 }

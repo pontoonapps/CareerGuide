@@ -61,7 +61,7 @@ async function subJobSwipe(swipe) {
 }
 
 async function subQuestSwipe(swipe) {
-  const response = await fetch('/user/questions', {
+  const response = await fetch('user/questions', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(swipe),
