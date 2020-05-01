@@ -1,7 +1,7 @@
 // swipeHistory.js
 
 async function getSwipHist() {
-  const response = await fetch('/user/jobs?choice=swiped'); // TODO is choice the best name here?? maybe page would be more clear
+  const response = await fetch('user/jobs');
 
   if (response.ok) {
     const jList = await response.json();
@@ -21,6 +21,7 @@ async function loadSwipHist() {
     jobContnr.querySelector('.swipeItemImg').alt = job.title + 'image';
     jobContnr.querySelector('.listItemTitle').textContent = job.title;
     jobContnr.querySelector('.swipeItemDesc').textContent = job.description;
+    // TODO: Should we use querySelector on all of them or just once, make a variable and use that instead?
     jobContnr.querySelector('.swipeChoice').classList.add(job.swipe);
     jobContnr.querySelector('.swipeChoice').textContent = (job.swipe === 'liked' ? '👍' : '👎');
     jobContnr.querySelector('.swipeChoice').dataset.jobid = job.id;
