@@ -109,7 +109,7 @@ main {
   align-items: center;
 }
 
-#swipePage {
+#swipe-page {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   grid-template-rows: 5em 4em auto 5em;
@@ -117,18 +117,20 @@ main {
   margin: auto;
 }
 
-#swipePage > #title {
+#swipe-page > #title {
   grid-row-start: 1;
   grid-row-end: 2;
   grid-column-start: 1;
   grid-column-end: 4;
 }
 
-#info {
+#swipe-info {
   grid-column-start: 1;
   grid-column-end: 4;
   grid-row-start: 3;
   grid-row-end: 4;
+  display: grid;
+  grid-template-rows: auto auto;
   min-height: 20em;
   width: 90%;
   max-width: 40em;
@@ -139,6 +141,14 @@ main {
   overflow: hidden;
   box-shadow: 0 0 0.5em rgb(178, 207, 101);
   border-radius: 0.5em;
+}
+
+#swipe-image {
+  width: 10em;
+  height: 10em;
+  border-radius: 6em;
+  margin: 0 auto;
+  border: thick double var(--PONTLightBlue);
 }
 
 #btn-shortlist {
@@ -152,6 +162,8 @@ main {
 
 #info-text { /* maybe limit text length in this box with JS?? */
   overflow: hidden;
+  text-align: left;
+  padding: 0 20%;
   font-family: var(--text-font);
 }
 
@@ -190,8 +202,6 @@ main {
   margin-bottom: 0.5em;
   padding: 0.5em;
   background-color: white;
-
-  /* TODO: Remove the border and the 'glow' effect?? Or make separate glow effect for swipeHistory that match the colors of the individual buttons at the swipe-page. */
   box-shadow: 0 0 0.5em rgb(178, 207, 101);
   border-radius: 0.5em;
 }

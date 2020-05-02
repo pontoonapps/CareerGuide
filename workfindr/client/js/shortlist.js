@@ -49,9 +49,9 @@ function dispDetailedDesc() {
   }
 
   // remove removeFromShorlist button from previous detailed view (if there is one)
-  // FIXME: Buttons not getting removed
-  if (document.querySelector('.rmvShrtItem') !== null) {
-    document.querySelector('.rmvShrtItem').style = 'display: none;';
+  // FIXME: Buttons not getting removed // fixed 2020/05/02. Test before removing fixme
+  for (const rmvBtn of document.querySelectorAll('.rmvShrtItem')) {
+    rmvBtn.style = 'display: none;';
   }
 
   // change target container to detailed view
