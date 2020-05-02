@@ -75,7 +75,10 @@ async function loadNextItem() {
 }
 
 function displayItem(item) {
+  document.querySelector('#info-text').textContent = ''; // reset for the case of a job then a question
   document.querySelector('#title').textContent = item.title;
+  document.querySelector('#swipe-image').src = item.image;
+
   // description is null with questions
   if (item.description === undefined) {
     document.querySelector('#btn-shortlist').style = 'display: none'; // don't display shortlist button on questions
