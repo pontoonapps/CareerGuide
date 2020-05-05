@@ -17,15 +17,14 @@ async function loadSwipHist() {
   for (const job of jobList) {
     const jobContnr = document.importNode(tmplt.content, true);
 
-    jobContnr.querySelector('.swipeItemImg').src = job.image;
-    jobContnr.querySelector('.swipeItemImg').alt = job.title + 'image';
-    jobContnr.querySelector('.listItemTitle').textContent = job.title;
-    jobContnr.querySelector('.swipeItemDesc').textContent = job.description;
-    // TODO: Should we use querySelector on all of them or just once, make a variable and use that instead?
-    jobContnr.querySelector('.swipeChoice').classList.add(job.swipe);
-    jobContnr.querySelector('.swipeChoice').textContent = (job.swipe === 'liked' ? '👍' : '👎');
-    jobContnr.querySelector('.swipeChoice').dataset.jobid = job.id;
-    jobContnr.querySelector('.swipeChoice').addEventListener('click', changeSwipe);
+    jobContnr.querySelector('.swipe-item-image').src = job.image;
+    jobContnr.querySelector('.swipe-item-image').alt = job.title + 'image';
+    jobContnr.querySelector('.list-item-title').textContent = job.title;
+    jobContnr.querySelector('.swipe-item-desc').textContent = job.description;
+    jobContnr.querySelector('.swipe-choice').classList.add(job.swipe);
+    jobContnr.querySelector('.swipe-choice').textContent = (job.swipe === 'liked' ? '👍' : '👎');
+    jobContnr.querySelector('.swipe-choice').dataset.jobid = job.id;
+    jobContnr.querySelector('.swipe-choice').addEventListener('click', changeSwipe);
 
     const main = document.querySelector('main');
     main.appendChild(jobContnr);

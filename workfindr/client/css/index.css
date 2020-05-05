@@ -191,7 +191,7 @@ main {
   margin: auto;
 }
 
-.listItemContainer {
+.list-item-container {
   display: grid;
   grid-template-rows: 3em 1fr;
   grid-template-columns: 5em 1fr 25%; /* allows for button on shortlist to be mobile friendly */
@@ -206,7 +206,7 @@ main {
   border-radius: 0.5em;
 }
 
-.listItemContainer.expanded {
+.list-item-container.expanded {
   min-height: 12em;
 }
 
@@ -255,7 +255,7 @@ main {
   background: var(--PONTRed);
 }
 
-.swipeItemImg {
+.swipe-item-image {
   grid-column-start: 1;
   grid-column-end: 2;
   grid-row-start: 1;
@@ -268,7 +268,7 @@ main {
   align-self: center;
 }
 
-.swipeChoice {
+.swipe-choice {
   grid-column-start: 3;
   grid-column-end: 4;
   grid-row-start: 1;
@@ -306,7 +306,7 @@ main {
   background: var(--PONTRed);
 }
 
-.listItemTitle {
+.list-item-title {
   grid-column-start: 2;
   grid-column-end: 3;
   grid-row-start: 1;
@@ -315,7 +315,7 @@ main {
   text-align: left;
 }
 
-.swipeItemDesc {
+.swipe-item-desc {
   grid-column-start: 2;
   grid-column-end: 3;
   grid-row-start: 2;
