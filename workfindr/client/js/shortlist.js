@@ -18,14 +18,14 @@ async function loadShortList() {
     if (job.shortlisted === 'true') {
       const jobContnr = document.importNode(tmplt.content, true);
 
-      jobContnr.querySelector('.swipeItemImg').src = job.image;
-      jobContnr.querySelector('.swipeItemImg').alt = job.title + 'image';
-      jobContnr.querySelector('.listItemTitle').textContent = job.title;
-      jobContnr.querySelector('.swipeItemDesc').textContent = job.description;
-      jobContnr.querySelector('.viewMore').addEventListener('click', dispDetailedDesc);
-      jobContnr.querySelector('.viewMore').dataset.jobid = job.id;
-      jobContnr.querySelector('.rmvShrtItem').addEventListener('click', remShrtlstItem);
-      jobContnr.querySelector('.rmvShrtItem').dataset.jobid = job.id;
+      jobContnr.querySelector('.swipe-item-image').src = job.image;
+      jobContnr.querySelector('.swipe-item-image').alt = job.title + 'image';
+      jobContnr.querySelector('.list-item-title').textContent = job.title;
+      jobContnr.querySelector('.swipe-item-desc').textContent = job.description;
+      jobContnr.querySelector('.view-more').addEventListener('click', dispDetailedDesc);
+      jobContnr.querySelector('.view-more').dataset.jobid = job.id;
+      jobContnr.querySelector('.rmv-shrt-item').addEventListener('click', remShrtlstItem);
+      jobContnr.querySelector('.rmv-shrt-item').dataset.jobid = job.id;
 
       const main = document.querySelector('main');
       main.appendChild(jobContnr);
@@ -37,7 +37,7 @@ function dispDetailedDesc() {
   // reset changes from previous detailed view
 
   // reset all nodes to normal size
-  for (const jobContnr of document.querySelectorAll('.listItemContainer')) {
+  for (const jobContnr of document.querySelectorAll('.list-item-container')) {
     jobContnr.classList.remove('expanded');
   }
 
@@ -49,8 +49,7 @@ function dispDetailedDesc() {
   }
 
   // remove removeFromShorlist button from previous detailed view (if there is one)
-  // FIXME: Buttons not getting removed // fixed 2020/05/02. Test before removing fixme
-  for (const rmvBtn of document.querySelectorAll('.rmvShrtItem')) {
+  for (const rmvBtn of document.querySelectorAll('.rmv-shrt-item')) {
     rmvBtn.style = 'display: none;';
   }
 
@@ -78,7 +77,7 @@ async function remShrtlstItem() {
   const remove = event.target;
   const btnContnr = remove.parentNode;
   const jobContnr = btnContnr.parentNode;
-  const succSub = await subRemoval(event);
+  const succSub = await subRemoval();
   if (succSub) {
     jobContnr.remove();
   } else {
@@ -86,9 +85,9 @@ async function remShrtlstItem() {
   }
 }
 
-async function subRemoval(evnt) {
+async function subRemoval() {
   const removal = {};
-  removal.itemid = evnt.target.dataset.jobid;
+  removal.itemid = event.target.dataset.jobid;
   removal.choice = 'shortlist-rem';
   const response = await fetch('/user/jobs', {
     method: 'POST',
@@ -100,9 +99,9 @@ async function subRemoval(evnt) {
 
 function hideDetailDesc() {
   // remove expanded class
-  const listItemCont = event.target.parentNode.parentNode;
+  // TODO change parentNode.parentNode, split target parent node into another variable
+  const listItemCont = event.target.parentNode.parentNode; 
   listItemCont.classList.remove('expanded');
-
 
   // get required DOM elements
   const viewMore = event.target;

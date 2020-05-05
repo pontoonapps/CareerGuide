@@ -1,6 +1,6 @@
 // questionnaireReview.js
 
-async function getQReview() {
+async function getQuestReview() {
   const response = await fetch('user/questions');
 
   if (response.ok) {
@@ -11,9 +11,9 @@ async function getQReview() {
   }
 }
 
-async function loadQReview() {
+async function loadQuestReview() {
   const tmplt = document.querySelector('#questionnaire-template');
-  const questns = await getQReview();
+  const questns = await getQuestReview();
   for (const quest of questns) {
     // get question container template
     const questCont = document.importNode(tmplt.content, true); // question container
@@ -89,7 +89,7 @@ async function submitChange(usrInput) {
 }
 
 function loadPage() {
-  loadQReview();
+  loadQuestReview();
 }
 
 window.addEventListener('load', loadPage);
