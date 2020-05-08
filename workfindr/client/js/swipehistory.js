@@ -7,7 +7,7 @@ async function getSwipHist() {
     const jList = await response.json();
     return jList.jobs;
   } else {
-    console.log('error', response.status, 'could not get question history');
+    console.log('Error from server: ' + response.status + '. Could not get question history');
   }
 }
 
@@ -65,7 +65,7 @@ async function subSwipChange() {
   const response = await submitChange(usrInput);
 
   if (!response.ok) {
-    console.log('error', response.statusText, 'cant change');
+    console.log('error from server: ' + response.statusText + '. Swipe change failed');
   }
   return (response.ok);
 }

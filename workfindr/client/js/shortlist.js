@@ -7,7 +7,7 @@ async function getShortlist() {
     const jList = await response.json();
     return jList.jobs;
   } else {
-    console.log('error', response.status, 'could not get shortlist');
+    console.log('Error from server: ' + response.status + '. Could not get shortlist');
   }
 }
 
@@ -98,21 +98,21 @@ async function subRemoval() {
 }
 
 function hideDetailDesc() {
+  // get required DOM elements
+  const viewLess = event.target;
+  const remove = viewLess.nextElementSibling;
+  const shrtlistBtnCont = viewLess.parentNode;
+  const listItemCont = shrtlistBtnCont.parentNode;
+
   // remove expanded class
-  // TODO change parentNode.parentNode, split target parent node into another variable
-  const listItemCont = event.target.parentNode.parentNode; 
   listItemCont.classList.remove('expanded');
 
-  // get required DOM elements
-  const viewMore = event.target;
-  const remove = viewMore.nextElementSibling;
-
   // update event listener from show more to show less
-  viewMore.textContent = 'View More';
-  viewMore.removeEventListener('click', hideDetailDesc);
-  viewMore.addEventListener('click', dispDetailedDesc);
+  viewLess.textContent = 'View More';
+  viewLess.removeEventListener('click', hideDetailDesc);
+  viewLess.addEventListener('click', dispDetailedDesc);
 
-  // remove removeFromShortlist button
+  // hide remove button
   remove.style = 'display: none;';
 }
 

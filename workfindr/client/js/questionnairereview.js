@@ -7,7 +7,7 @@ async function getQuestReview() {
     const qList = await response.json();
     return qList.questions;
   } else {
-    console.log('error', response.status, 'could not get question history');
+    console.log('Error from server: ' + response.status + '. Could not get questionnaire review');
   }
 }
 
@@ -19,13 +19,13 @@ async function loadQuestReview() {
     const questCont = document.importNode(tmplt.content, true); // question container
 
     // fill in template with question data
-    questCont.querySelector('.questionnaireReviewTitle').textContent = quest.question;
+    questCont.querySelector('.quest-rev-title').textContent = quest.question;
     if (quest.answer !== null) {
       questCont.querySelector('.' + quest.answer).classList.add('selected');
     }
 
     // add event listeners and data attributes
-    for (const questAns of questCont.querySelectorAll('.questionnaireAnswer')) {
+    for (const questAns of questCont.querySelectorAll('.quest-ans')) {
       questAns.dataset.questid = quest.id;
       questAns.addEventListener('click', updateAns);
     }
@@ -60,23 +60,30 @@ function changeAns(questAns) {
 }
 
 async function subAnsChange(event) {
+  // get required DOM elements
+  const questAns = event.target;
+  const answerCont = questAns.parentNode;
+
+  // get job id and user choice
   const usrInput = {};
-  usrInput.itemid = event.target.parentNode.dataset.questid;
-  // switch statement used so choice name is independent of class name (right now they are the same)
+  usrInput.itemid = answerCont.dataset.questid;
   switch (event.target.classList[0]) {
     case 'yes':
-      usrInput.choice = 'yes';
+      usrInput.choice = 'like';
       break;
     case 'no':
-      usrInput.choice = 'no';
+      usrInput.choice = 'dislike';
       break;
   }
+
+  // submit question answer change to server
   const response = await submitChange(usrInput);
 
-  if (!response.ok) {
+  if (response.ok) {
+    return response.ok;
+  } else {
     console.log('error', response.statusText, 'cant change');
   }
-  return (response.ok);
 }
 
 async function submitChange(usrInput) {
