@@ -77,6 +77,8 @@ function shortlistItem(choice, jobid) {
   console.log('Toggle JobID:', jobid);
 }
 
+let itemsList = db.refreshItemList(); // allows for infinite swiping while testing swipe page
+
 // routes
 
 app.get('/user/next-item', asyncWrap(nextSwipeItem));
@@ -86,8 +88,6 @@ app.post('/user/jobs', express.json(), asyncWrap(submitJobSwipe));
 
 app.get('/user/questions', asyncWrap(getQuestions));
 app.post('/user/questions', express.json(), asyncWrap(subQuestAns));
-
-let itemsList = db.refreshItemList(); // allows for infinite swiping while testing swipe page
 
 // wrap async function for express.js error handling
 function asyncWrap(f) {
@@ -102,6 +102,7 @@ function asyncWrap(f) {
 app.use(express.static('client'));
 
 // http://localhost:8080/
-app.listen(8080, () =>
-  console.log(`Listening on port ${8080}!`),
+const port = 8080;
+app.listen(port, () =>
+  console.log(`Listening on port ${port}!`),
 );

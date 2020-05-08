@@ -3,12 +3,13 @@
 let currentItem; // job being displayed on page
 
 async function getNextItem() {
-  const rawItem = await fetch('/user/next-item');
-  if (rawItem.ok) {
-    const item = await rawItem.json();
+  const response = await fetch('/user/next-item');
+  if (response.ok) {
+    const item = await response.json();
     return item;
+  } else {
+    console.log('Error from server: ' + response.status + '. Could not get next swipe item');
   }
-  return 'error connecting to server';
 }
 
 async function subSwipe(event) {
@@ -45,7 +46,6 @@ async function subSwipe(event) {
   // log if error connecting to server
   if (!response.ok) {
     document.querySelector('h1').textContent = 'Something went wrong! Please refresh';
-    console.log('problem');
     return false;
   }
   return true;
@@ -71,6 +71,7 @@ async function subQuestSwipe(swipe) {
 
 async function loadNextItem() {
   currentItem = await getNextItem();
+  currentItem.id = String(currentItem.id); // ensures itemid type sent to server is consistent
   displayItem(currentItem);
 }
 
@@ -90,7 +91,7 @@ function displayItem(item) {
 
 function addELs() {
   document.querySelector('#btn-like').addEventListener('click', async () => {
-    if (await subSwipe(event)) {
+    if (await subSwipe(event)) { // only load next item if subSwip returns true
       loadNextItem();
     }
   });
