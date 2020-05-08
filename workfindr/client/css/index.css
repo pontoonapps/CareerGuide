@@ -210,7 +210,7 @@ main {
   min-height: 12em;
 }
 
-.questionnaireReviewTitle {
+.quest-rev-title {
   grid-column-start: 1;
   grid-column-end: 4;
   grid-row-start: 1;
@@ -220,7 +220,7 @@ main {
   border-bottom: 0.15em dashed var(--PONTLightBlue);
 }
 
-.questionnaireAnswer {
+.quest-ans {
   grid-column-start: 1;
   grid-column-end: 4;
   grid-row-start: 2;
@@ -233,7 +233,7 @@ main {
   margin: 0.5em 0;
 }
 
-.questionnaireAnswer > * {
+.quest-ans > * {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -247,11 +247,11 @@ main {
   cursor: pointer;
 }
 
-.questionnaireAnswer > .selected.yes {
+.quest-ans > .selected.yes {
   background: var(--PONTGreen);
 }
 
-.questionnaireAnswer > .selected.no {
+.quest-ans > .selected.no {
   background: var(--PONTRed);
 }
 
