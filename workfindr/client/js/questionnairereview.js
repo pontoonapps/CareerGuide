@@ -82,7 +82,7 @@ async function subAnsChange(event) {
   if (response.ok) {
     return response.ok;
   } else {
-    console.log('error', response.statusText, 'cant change');
+    console.log('Error from server:  ' + response.statusText + '. Could not submit answer change.');
   }
 }
 
