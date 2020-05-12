@@ -112,7 +112,7 @@ main {
 #swipe-page {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: 5em 4em auto 5em;
+  grid-template-rows: 5em 6em auto 5em;
   max-width: 50em;
   margin: auto;
 }
@@ -146,9 +146,7 @@ main {
 #swipe-image {
   width: 10em;
   height: 10em;
-  border-radius: 6em;
   margin: 0 auto;
-  border: thick double var(--PONTLightBlue);
 }
 
 #btn-shortlist {
@@ -156,7 +154,7 @@ main {
   grid-column-end: 4;
   grid-row-start: 2;
   grid-row-end: 3;
-  padding: 1em;
+  padding: 0.7em;
   margin: 0.5em auto;
 }
 
@@ -262,7 +260,6 @@ main {
   grid-row-end: 3;
   max-height: 80%;
   max-width: 80%;
-  border-radius: 3em;
   display: flex;
   justify-self: center;
   align-self: center;
@@ -334,9 +331,8 @@ main {
 
 .button {
   color: var(--main-bg-color);
-  padding: 0.75em 2em;
-  font-size: 0.8rem;
-  font-weight: bold;
+  padding: 0.75em 1.3em;
+  font-size: 1em;
   border-radius: 0.5em;
   margin: 0 0.25rem;
   width: 100%;

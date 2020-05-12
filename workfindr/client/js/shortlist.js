@@ -24,6 +24,8 @@ async function loadShortList() {
       jobContnr.querySelector('.swipe-item-desc').textContent = job.description;
       jobContnr.querySelector('.view-more').addEventListener('click', dispDetailedDesc);
       jobContnr.querySelector('.view-more').dataset.jobid = job.id;
+      jobContnr.querySelector('.view-less').addEventListener('click', hideDetailDesc);
+      jobContnr.querySelector('.view-less').dataset.jobid = job.id;
       jobContnr.querySelector('.rmv-shrt-item').addEventListener('click', remShrtlstItem);
       jobContnr.querySelector('.rmv-shrt-item').dataset.jobid = job.id;
 
@@ -34,42 +36,39 @@ async function loadShortList() {
 }
 
 function dispDetailedDesc() {
-  // reset changes from previous detailed view
+  // reset all items to non expanded
 
-  // reset all nodes to normal size
   for (const jobContnr of document.querySelectorAll('.list-item-container')) {
-    jobContnr.classList.remove('expanded');
+    jobContnr.classList.remove('expanded'); // remove expanded class
   }
 
-  // set view more buttons text back from view less and reset event listener
-  for (const viewMoreBtn of document.querySelectorAll('.viewMore')) {
-    viewMoreBtn.textContent = 'View More';
-    viewMoreBtn.removeEventListener('click', hideDetailDesc);
-    viewMoreBtn.addEventListener('click', dispDetailedDesc);
-  }
-
-  // remove removeFromShorlist button from previous detailed view (if there is one)
   for (const rmvBtn of document.querySelectorAll('.rmv-shrt-item')) {
-    rmvBtn.style = 'display: none;';
+    rmvBtn.style = 'display: none;'; // hide remove button
+  }
+
+  for (const viewLess of document.querySelectorAll('.view-less')) {
+    viewLess.style = 'display: none;'; // hide view less button
+  }
+
+  for (const viewMore of document.querySelectorAll('.view-more')) {
+    viewMore.style = ''; // show view more button
   }
 
   // change target container to detailed view
 
   // get required DOM elements
   const viewMore = event.target;
-  const remove = viewMore.nextElementSibling;
+  const viewLess = viewMore.nextElementSibling;
+  const remove = viewLess.nextElementSibling;
   const buttonCont = viewMore.parentNode;
   const listItemCont = buttonCont.parentNode;
 
-  // change view more button text to view less
-  viewMore.textContent = 'View Less';
-  viewMore.removeEventListener('click', dispDetailedDesc);
-  viewMore.addEventListener('click', hideDetailDesc);
-
-  // remove display none from remove button in this container
+  // hide view more and show view less and remove button
   remove.style = '';
+  viewLess.style = '';
+  viewMore.style = 'display: none;';
 
-  // expand job container
+  // add expanded class
   listItemCont.classList.add('expanded');
 }
 
@@ -77,7 +76,7 @@ async function remShrtlstItem() {
   const remove = event.target;
   const btnContnr = remove.parentNode;
   const jobContnr = btnContnr.parentNode;
-  const succSub = await subRemoval();
+  const succSub = await submitRemoval();
   if (succSub) {
     jobContnr.remove();
   } else {
@@ -85,7 +84,7 @@ async function remShrtlstItem() {
   }
 }
 
-async function subRemoval() {
+async function submitRemoval() {
   const removal = {};
   removal.itemid = event.target.dataset.jobid;
   removal.choice = 'shortlist-rem';
@@ -100,6 +99,7 @@ async function subRemoval() {
 function hideDetailDesc() {
   // get required DOM elements
   const viewLess = event.target;
+  const viewMore = viewLess.previousElementSibling;
   const remove = viewLess.nextElementSibling;
   const shrtlistBtnCont = viewLess.parentNode;
   const listItemCont = shrtlistBtnCont.parentNode;
@@ -107,13 +107,10 @@ function hideDetailDesc() {
   // remove expanded class
   listItemCont.classList.remove('expanded');
 
-  // update event listener from show more to show less
-  viewLess.textContent = 'View More';
-  viewLess.removeEventListener('click', hideDetailDesc);
-  viewLess.addEventListener('click', dispDetailedDesc);
-
-  // hide remove button
+  // hide remove button and view less button, show view more button
   remove.style = 'display: none;';
+  viewLess.style = 'display: none;';
+  viewMore.style = '';
 }
 
 function loadPage() {
