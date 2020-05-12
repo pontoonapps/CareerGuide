@@ -295,12 +295,16 @@ main {
   grid-row-end: 3;
 }
 
+/* TODO: Added shadow - this make them look more like buttons but is there a better way to accomplish this? */
 .liked {
   background: var(--PONTGreen);
+  box-shadow: 0 0 0.2em var(--davys-gray);
 }
 
+/* TODO: Added shadow - this make them look more like buttons but is there a better way to accomplish this? */
 .disliked {
   background: var(--PONTRed);
+  box-shadow: 0 0 0.2em var(--davys-gray);
 }
 
 .list-item-title {

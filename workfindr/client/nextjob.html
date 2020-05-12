@@ -6,9 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="css/index.css" />
     <script async defer src="js/shared.js"></script>
-    <script async defer src="js/swipepage.js"></script>
+    <script async defer src="js/nextjob.js"></script>
 
-    <title>SwipePage</title>
+    <title>Next Job</title>
 </head>
 
 <body>
@@ -20,19 +20,19 @@
             </section>
         </section>
             <ul id="navbar-slide">
-              <li><a class="navbar-slide-item" href="swipepage.html">Swipe Page</a></li> 
+              <li><a class="navbar-slide-item" href="nextjob.html">Next Job</a></li> 
               <li><a class="navbar-slide-item" href="shortlist.html">Shortlist</a></li>
               <li><a class="navbar-slide-item" href="likehistory.html">Like History</a></li>
               <li><a class="navbar-slide-item" href="questionnairereview.html">Questionnaire Review</a></li>
             </ul>
       </nav>
 
-    <main id=swipe-page>
+    <main id="swipe-page">
         <h1 id="title">Job Title</h1>
         <button class="btn-blue button" id="btn-shortlist">Add to shortlist +</button>
         <div id="swipe-info">
             <img id="swipe-image"></img>
-            <p id="info-text"></p>
+            <p id="info-text"></p>  <!-- FIXME: When the text gets too long it overflows the box. Is this a desired behaviour? -->
         </div>
         <button class="button btn-red" id="btn-dislike">Dislike</button>
         <button class="button btn-blue" id="btn-showLater">Show Later</button>
