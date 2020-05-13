@@ -194,9 +194,9 @@ main {
 
 .list-item-container {
   display: grid;
-  grid-template-rows: 3em 1fr;
+  grid-template-rows: auto auto;
   grid-template-columns: 5em 1fr 25%; /* allows for button on shortlist to be mobile friendly */
-  min-height: 6em;
+  height: 6.4em;
   width: 95%;
   max-width: 40em; /* could be a touch wider */
   margin-top: 0.5em;
@@ -209,6 +209,23 @@ main {
 
 .list-item-container.expanded {
   min-height: 12em;
+  height: auto;
+}
+
+.list-item-title {
+  grid-column-start: 2;
+  grid-column-end: 3;
+  grid-row-start: 1;
+  grid-row-end: 2;
+  padding: 0.3em;
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.list-item-container.expanded > .list-item-title {
+  white-space: normal;
 }
 
 .quest-rev-title {
@@ -310,15 +327,6 @@ main {
   box-shadow: 0 0 0.2em var(--davys-gray);
 }
 
-.list-item-title {
-  grid-column-start: 2;
-  grid-column-end: 3;
-  grid-row-start: 1;
-  grid-row-end: 2;
-  padding: 0.3em;
-  text-align: left;
-}
-
 .swipe-item-desc {
   grid-column-start: 2;
   grid-column-end: 3;
@@ -338,7 +346,7 @@ main {
 
 .button {
   color: var(--main-bg-color);
-  padding: 0 1.3em;
+  padding: 0.2em;
   font-size: 1em;
   border-radius: 0.5em;
   margin: 0 0.25rem;
