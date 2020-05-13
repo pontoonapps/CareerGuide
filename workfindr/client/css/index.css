@@ -112,10 +112,10 @@ main {
 #swipe-page {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: 5em 5em auto 4em;
+  grid-template-rows: 5em 3.5em 1fr 4em;
+  row-gap: 0.3em;
   width: 100%;
   max-width: 50em;
-  max-height: 50em;
   position: absolute;
   top: 0;
 }
@@ -133,35 +133,36 @@ main {
   grid-row-start: 3;
   grid-row-end: 4;
   display: grid;
-  grid-template-rows: 1fr 1fr;
-  min-height: 20em;
+  grid-template-rows: 8em auto;
   width: 90%;
-  max-height: 90%;
   max-width: 40em;
+  height: 90%;
   padding: 1em;
   margin: auto;
   background-color: var(--main-bg-color);
   box-shadow: 0 0 0.5em rgb(178, 207, 101);
   border-radius: 0.5em;
+  overflow: hidden;
+
+  /* max height set in client/js/nextjob.js */
 }
 
 #swipe-image {
-  width: 10em;
-  height: 10em;
+  width: 8em;
+  height: 8em;
   margin: 0 auto;
 }
 
 #btn-shortlist {
-  grid-column-start: 3;
+  grid-column-start: 2;
   grid-column-end: 4;
   grid-row-start: 2;
   grid-row-end: 3;
-  padding: 0.7em;
-  margin: 0.5em auto;
+  justify-self: end;
+  width: 10em;
 }
 
 #info-text { /* maybe limit text length in this box with JS?? */
-  overflow: hidden;
   text-align: left;
   padding: 0 10%;
   font-family: var(--text-font);

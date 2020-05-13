@@ -124,10 +124,13 @@ function setMainHeight() {
   const mainWidth = main.offsetWidth;
   const sideMargin = (vpWidth - mainWidth) / 2; // margin required to center main
   const ftrHeight = 0; // TODO add footer
+  const heightBffr = vpHeight / 20; // height buffer of 1/20 added to make space for URL bar on mobile
+  const mainHeight = vpHeight - (navHeight + ftrHeight + heightBffr);
 
   // apply to swipe page
   main.style.margin = navHeight + 'px ' + sideMargin + 'px ' + ftrHeight + 'px'; // top, right & left, bottom
-  main.style.height = vpHeight - navHeight + 'px';
+  main.style.height = mainHeight + 'px';
+  main.style.maxHeight = mainHeight + 'px';
 }
 
 // start script (after page has loaded)
