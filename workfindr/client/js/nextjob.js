@@ -112,10 +112,29 @@ function addELs() {
   });
 }
 
+function setMainHeight() {
+  // get required elements
+  const main = document.querySelector('#swipe-page');
+  const navBar = document.querySelector('nav');
+
+  // get display sizes
+  const vpHeight = window.innerHeight; // viewport height
+  const vpWidth = window.innerWidth; // viewport width
+  const navHeight = navBar.offsetHeight;
+  const mainWidth = main.offsetWidth;
+  const sideMargin = (vpWidth - mainWidth) / 2; // margin required to center main
+  const ftrHeight = 0; // TODO add footer
+
+  // apply to swipe page
+  main.style.margin = navHeight + 'px ' + sideMargin + 'px ' + ftrHeight + 'px'; // top, right & left, bottom
+  main.style.height = vpHeight - navHeight + 'px';
+}
+
 // start script (after page has loaded)
 
 function loadPage() {
   addELs(); // add Event Listeners
+  setMainHeight();
   loadNextItem(); // initiate page
 }
 

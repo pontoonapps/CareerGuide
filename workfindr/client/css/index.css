@@ -112,9 +112,12 @@ main {
 #swipe-page {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: 5em 6em auto 5em;
+  grid-template-rows: 5em 5em auto 4em;
+  width: 100%;
   max-width: 50em;
-  margin: auto;
+  max-height: 50em;
+  position: absolute;
+  top: 0;
 }
 
 #swipe-page > #title {
@@ -130,15 +133,14 @@ main {
   grid-row-start: 3;
   grid-row-end: 4;
   display: grid;
-  grid-template-rows: auto auto;
+  grid-template-rows: 1fr 1fr;
   min-height: 20em;
   width: 90%;
+  max-height: 90%;
   max-width: 40em;
-  max-height: 25em; /* how to make this grow until parent grid fills screen? */
   padding: 1em;
   margin: auto;
   background-color: var(--main-bg-color);
-  overflow: hidden;
   box-shadow: 0 0 0.5em rgb(178, 207, 101);
   border-radius: 0.5em;
 }
@@ -161,8 +163,9 @@ main {
 #info-text { /* maybe limit text length in this box with JS?? */
   overflow: hidden;
   text-align: left;
-  padding: 0 20%;
+  padding: 0 10%;
   font-family: var(--text-font);
+  max-height: 100%;
 }
 
 #btn-dislike {
@@ -335,13 +338,14 @@ main {
 
 .button {
   color: var(--main-bg-color);
-  padding: 0.75em 1.3em;
+  padding: 0 1.3em;
   font-size: 1em;
   border-radius: 0.5em;
   margin: 0 0.25rem;
   width: 100%;
   max-width: 10rem;
-  min-height: 4.5em;
+  height: 5em;
+  max-height: 100%;
 }
 
 .button:hover {
