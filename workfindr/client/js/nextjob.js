@@ -79,10 +79,24 @@ async function loadNextItem() {
 function abbreviate(str) {
   const height = document.querySelector('#info-text').offsetHeight;
   const width = document.querySelector('#info-text').offsetWidth;
+  let empx = window.getComputedStyle(document.querySelector('#info-text')).fontSize;
+  empx = empx[0] + empx[1]; // remove px from .fontSize (note that this will break for font sizes over 99)
+  empx = empx * empx; // square to measure for square area on screen
+  const noChars = Math.floor(height * width / empx); // noChars to display is the size of 1 car / available space
+  let retStr = str[0]; // so retStr (return string) is never undefined
+  for (let i = 1; i < noChars; i += 1) {
+    if (str[i] !== undefined) {
+      retStr += str[i];
+    }
+  }
+  if (str !== retStr) {
+    retStr += '…';
+  }
+  return retStr;
 
-  if (width <= 600) {
-    return (str.length > height) ? str.slice(0, height) + '...' : str;
-  } else return (str.length > height + width) ? str.slice(0, height + width) + '...' : str;
+  // if (width <= 600) {
+  //   return (str.length > height) ? str.slice(0, height) + '...' : str;
+  // } else return (str.length > height + width) ? str.slice(0, height + width) + '...' : str;
 
   // It could also return it based on the height otherwise as I'd like to believe that we don't need the description to be "too long" inside next job page
   // If that's the case, you could return statement commented out below.
@@ -104,6 +118,10 @@ function displayItem(item) {
 }
 
 function addELs() {
+  window.addEventListener('resize', setMainHeight);
+  window.addEventListener('resize', () => {
+    displayItem(currentItem);
+  });
   document.querySelector('#btn-like').addEventListener('click', async () => {
     if (await subSwipe(event)) { // only load next item if subSwip returns true
       loadNextItem();
