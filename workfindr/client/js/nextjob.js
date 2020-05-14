@@ -75,6 +75,20 @@ async function loadNextItem() {
   displayItem(currentItem);
 }
 
+
+function abbreviate(str) {
+  const height = document.querySelector('#info-text').offsetHeight;
+  const width = document.querySelector('#info-text').offsetWidth;
+
+  if (width <= 600) {
+    return (str.length > height) ? str.slice(0, height) + '...' : str;
+  } else return (str.length > height + width) ? str.slice(0, height + width) + '...' : str;
+
+  // It could also return it based on the height otherwise as I'd like to believe that we don't need the description to be "too long" inside next job page
+  // If that's the case, you could return statement commented out below.
+  // return (str.length > height) ? str.slice(0, height) + '...' : str;
+}
+
 function displayItem(item) {
   document.querySelector('#info-text').textContent = ''; // reset for the case of a job then a question
   document.querySelector('#title').textContent = item.title;
@@ -85,7 +99,7 @@ function displayItem(item) {
     document.querySelector('#btn-shortlist').style = 'display: none'; // don't display shortlist button on questions
   } else {
     document.querySelector('#btn-shortlist').removeAttribute('style');
-    document.querySelector('#info-text').textContent = item.description;
+    document.querySelector('#info-text').textContent = abbreviate(item.description);
   }
 }
 
