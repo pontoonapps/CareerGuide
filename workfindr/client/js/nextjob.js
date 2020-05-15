@@ -109,6 +109,7 @@ function dispInfoText(str) {
 
 function expandInfoText() {
   // get required DOM elements
+  const main = document.querySelector('#swipe-page');
   const swipeInfo = document.querySelector('#swipe-info');
   const infoText = document.querySelector('#info-text');
   const showMore = document.querySelector('#show-more');
@@ -117,15 +118,18 @@ function expandInfoText() {
   // toggle show more / show less button
   showMore.style.display = 'none';
   showLess.removeAttribute('style');
-  swipeInfo.style.height = 'auto';
 
   // expand info text container
   infoText.textContent = currentItem.description;
   infoText.classList.add('expanded');
+  main.style.height = 'auto';
+  infoText.style.height = 'auto';
+  swipeInfo.style.height = 'auto';
 }
 
 function shrinkInfoText() {
   // get required DOM elements
+  const main = document.querySelector('#swipe-page');
   const swipeInfo = document.querySelector('#swipe-info');
   const infoText = document.querySelector('#info-text');
   const showMore = document.querySelector('#show-more');
@@ -134,17 +138,17 @@ function shrinkInfoText() {
   // toggle show more / show less button
   showMore.removeAttribute('style');
   showLess.style.display = 'none';
-  swipeInfo.style.height = null;
 
   // shrink info text container
   infoText.classList.remove('expanded');
   dispInfoText(currentItem.description);
+  console.log(main.dataset.origHeight);
+  main.style.height = main.dataset.origHeight + 'px';
+  infoText.style.height = infoText.dataset.origHeight + 'px';
+  swipeInfo.style.height = swipeInfo.dataset.origHeight + 'px';
 }
 
 function displayItem(item) {
-  const infoText = document.querySelector('#info-text');
-  infoText.dataset.origHeight = infoText.offsetHeight;
-
   document.querySelector('#title').textContent = item.title;
   document.querySelector('#swipe-image').src = item.image;
 
@@ -180,10 +184,10 @@ function displayItem(item) {
 }
 
 function addELs() {
-  window.addEventListener('resize', setMainHeight);
-  window.addEventListener('resize', () => {
-    displayItem(currentItem);
-  });
+  // window.addEventListener('resize', setMainHeight);
+  // window.addEventListener('resize', () => {
+  //   displayItem(currentItem);
+  // });
   document.querySelector('#btn-like').addEventListener('click', async () => {
     if (await subSwipe(event)) { // only load next item if subSwip returns true
       loadNextItem();
@@ -238,11 +242,21 @@ function setMainHeight() {
   main.style.height = mainHeight + 'px';
 }
 
+function getHeights() {
+  const main = document.querySelector('#swipe-page');
+  const swipeInfo = document.querySelector('#swipe-info');
+  const infoText = document.querySelector('#info-text');
+  main.dataset.origHeight = main.offsetHeight;
+  swipeInfo.dataset.origHeight = swipeInfo.offsetHeight;
+  infoText.dataset.origHeight = infoText.offsetHeight;
+}
+
 // start script (after page has loaded)
 
 async function loadPage() {
   addELs(); // add Event Listeners
   setMainHeight();
+  getHeights();
   await loadNextItem(); // await so buttons aren't displayed before being hidden
   document.querySelector('#swipe-btns').removeAttribute('style');
 }

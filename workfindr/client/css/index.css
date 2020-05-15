@@ -133,7 +133,7 @@ main {
   grid-row-start: 3;
   grid-row-end: 4;
   display: grid;
-  grid-template-rows: 8em auto;
+  grid-template-rows: 8em auto 2em;
   width: 90%;
   max-width: 40em;
   height: 90%;
@@ -160,6 +160,7 @@ main {
   display: flex;
   justify-content: space-between;
   align-items: stretch;
+  height: 100%;
 }
 
 #btn-shortlist {
@@ -183,7 +184,8 @@ main {
   color: var(--PONTLightBlue);
   font-weight: bold;
   justify-self: center;
-  align-self: end;
+  align-self: center;
+  padding: 0.3em;
 }
 
 .list-item-container {
