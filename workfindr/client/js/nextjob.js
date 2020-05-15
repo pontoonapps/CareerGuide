@@ -147,6 +147,9 @@ function shrinkInfoText() {
 }
 
 function displayItem(item) {
+  const infoText = document.querySelector('#info-text');
+  infoText.dataset.origHeight = infoText.offsetHeight;
+
   document.querySelector('#title').textContent = item.title;
   document.querySelector('#swipe-image').src = item.image;
 

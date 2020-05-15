@@ -150,6 +150,10 @@ main {
   /* max height set in client/js/nextjob.js */
 }
 
+#info-text.expanded {
+  overflow: auto;
+}
+
 #swipe-image {
   width: 8em;
   height: 8em;
