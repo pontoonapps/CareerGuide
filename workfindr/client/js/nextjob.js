@@ -29,6 +29,12 @@ async function subSwipe(event) {
     case 'btn-shortlist':
       swipe.choice = 'shortlist-add';
       break;
+    case 'btn-yes':
+      swipe.choice = 'yes';
+      break;
+    case 'btn-no':
+      swipe.choice = 'no';
+      break;
     default:
       console.log('invalid user input!!');
       break;
@@ -77,42 +83,50 @@ async function loadNextItem() {
 
 
 function abbreviate(str) {
+  // calculate how many characters can be displayed
+
   const height = document.querySelector('#info-text').offsetHeight;
   const width = document.querySelector('#info-text').offsetWidth;
   let empx = window.getComputedStyle(document.querySelector('#info-text')).fontSize;
-  empx = empx[0] + empx[1]; // remove px from .fontSize (note that this will break for font sizes over 99)
-  empx = empx * empx; // square to measure for square area on screen
-  const noChars = Math.floor(height * width / empx); // noChars to display is the size of 1 car / available space
-  let retStr = str[0]; // so retStr (return string) is never undefined
-  for (let i = 1; i < noChars; i += 1) {
-    if (str[i] !== undefined) {
-      retStr += str[i];
-    }
-  }
-  if (str !== retStr) {
-    retStr += '…';
-  }
-  return retStr;
+  empx = empx.slice(0, empx.length - 2); // remove px from .fontSize
+  const noChars = Math.floor(height * width / Math.pow(empx, 2)); // num displayable chars = area / area of a char
 
-  // if (width <= 600) {
-  //   return (str.length > height) ? str.slice(0, height) + '...' : str;
-  // } else return (str.length > height + width) ? str.slice(0, height + width) + '...' : str;
+  // if the number of displayable characters is less than the string length, shorten else display string
 
-  // It could also return it based on the height otherwise as I'd like to believe that we don't need the description to be "too long" inside next job page
-  // If that's the case, you could return statement commented out below.
-  // return (str.length > height) ? str.slice(0, height) + '...' : str;
+  return (noChars < str.length)
+    ? str.slice(0, noChars) + '…'
+    : str;
 }
 
 function displayItem(item) {
-  document.querySelector('#info-text').textContent = ''; // reset for the case of a job then a question
   document.querySelector('#title').textContent = item.title;
   document.querySelector('#swipe-image').src = item.image;
 
-  // description is null with questions
-  if (item.description === undefined) {
-    document.querySelector('#btn-shortlist').style = 'display: none'; // don't display shortlist button on questions
+  if (item.description === undefined) { // if question else job
+    // hide job buttons
+    document.querySelector('#btn-shortlist').style.display = 'none';
+    document.querySelector('#btn-dislike').style.display = 'none';
+    document.querySelector('#btn-showLater').style.display = 'none';
+    document.querySelector('#btn-like').style.display = 'none';
+
+    // show question buttons
+    document.querySelector('#btn-yes').removeAttribute('style');
+    document.querySelector('#btn-no').removeAttribute('style');
+
+    // set description to blank (as questions don't have descriptions)
+    document.querySelector('#info-text').textContent = '';
   } else {
+    // hide question buttons
+    document.querySelector('#btn-yes').style.display = 'none';
+    document.querySelector('#btn-no').style.display = 'none';
+
+    // show job buttons
     document.querySelector('#btn-shortlist').removeAttribute('style');
+    document.querySelector('#btn-dislike').removeAttribute('style');
+    document.querySelector('#btn-showLater').removeAttribute('style');
+    document.querySelector('#btn-like').removeAttribute('style');
+
+    // show description
     document.querySelector('#info-text').textContent = abbreviate(item.description);
   }
 }
@@ -142,6 +156,16 @@ function addELs() {
       loadNextItem();
     }
   });
+  document.querySelector('#btn-yes').addEventListener('click', async () => {
+    if (await subSwipe(event)) {
+      loadNextItem();
+    }
+  });
+  document.querySelector('#btn-no').addEventListener('click', async () => {
+    if (await subSwipe(event)) {
+      loadNextItem();
+    }
+  });
 }
 
 function setMainHeight() {
@@ -167,10 +191,11 @@ function setMainHeight() {
 
 // start script (after page has loaded)
 
-function loadPage() {
+async function loadPage() {
   addELs(); // add Event Listeners
   setMainHeight();
-  loadNextItem(); // initiate page
+  await loadNextItem(); // await so buttons aren't displayed before being hidden
+  document.querySelector('#swipe-btns').removeAttribute('style');
 }
 
 window.addEventListener('load', loadPage);
