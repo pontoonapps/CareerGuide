@@ -79,24 +79,66 @@ async function loadNextItem() {
   displayItem(currentItem);
 }
 
+function dispInfoText(str) {
+  // get required DOM elements
+  const infoText = document.querySelector('#info-text');
+  const showMore = document.querySelector('#show-more');
+  const showLess = document.querySelector('#show-less');
 
-function abbreviate(str) {
   // calculate how many characters can be displayed
-
-  const height = document.querySelector('#info-text').offsetHeight;
-  const width = document.querySelector('#info-text').offsetWidth;
-  let empx = window.getComputedStyle(document.querySelector('#info-text')).fontSize;
+  let empx = window.getComputedStyle(infoText).fontSize;
   empx = empx.slice(0, empx.length - 2); // remove px from .fontSize
+
+  const height = infoText.dataset.origHeight - empx; // -empx for a spare line to ensure no overflow
+  const width = infoText.offsetWidth;
   const noChars = Math.floor(height * width / Math.pow(empx, 2)); // num displayable chars = area / area of a char
 
-  // if the number of displayable characters is less than the string length, shorten else display string
+  // if the num of displayable chars is less than string length, shorten else disp string
+  if (noChars < str.length) {
+    showMore.removeAttribute('style');
+    showLess.style.display = 'none';
+    infoText.textContent = str.slice(0, noChars) + '…';
+  } else {
+    showMore.style.display = 'none';
+    showLess.style.display = 'none';
+    infoText.textContent = str;
+  }
+}
 
-  return (noChars < str.length)
-    ? str.slice(0, noChars) + '…'
-    : str;
+function expandInfoText() {
+  // get required DOM elements
+  const infoText = document.querySelector('#info-text');
+  const showMore = document.querySelector('#show-more');
+  const showLess = document.querySelector('#show-less');
+
+  // toggle show more / show less button
+  showMore.style.display = 'none';
+  showLess.removeAttribute('style');
+
+  // expand info text container
+  infoText.textContent = currentItem.description;
+  infoText.classList.add('expanded');
+}
+
+function shrinkInfoText() {
+  // get required DOM elements
+  const infoText = document.querySelector('#info-text');
+  const showMore = document.querySelector('#show-more');
+  const showLess = document.querySelector('#show-less');
+
+  // toggle show more / show less button
+  showMore.removeAttribute('style');
+  showLess.style.display = 'none';
+
+  // shrink info text container
+  infoText.classList.remove('expanded');
+  dispInfoText(currentItem.description);
 }
 
 function displayItem(item) {
+  const infoText = document.querySelector('#info-text');
+  infoText.dataset.origHeight = infoText.offsetHeight;
+
   document.querySelector('#title').textContent = item.title;
   document.querySelector('#swipe-image').src = item.image;
 
@@ -106,6 +148,8 @@ function displayItem(item) {
     document.querySelector('#btn-dislike').style.display = 'none';
     document.querySelector('#btn-showLater').style.display = 'none';
     document.querySelector('#btn-like').style.display = 'none';
+    document.querySelector('#show-more').style.display = 'none';
+    document.querySelector('#show-less').style.display = 'none';
 
     // show question buttons
     document.querySelector('#btn-yes').removeAttribute('style');
@@ -125,7 +169,7 @@ function displayItem(item) {
     document.querySelector('#btn-like').removeAttribute('style');
 
     // show description
-    document.querySelector('#info-text').textContent = abbreviate(item.description);
+    dispInfoText(item.description);
   }
 }
 
@@ -164,6 +208,8 @@ function addELs() {
       loadNextItem();
     }
   });
+  document.querySelector('#show-more').addEventListener('click', expandInfoText);
+  document.querySelector('#show-less').addEventListener('click', shrinkInfoText);
 }
 
 function setMainHeight() {

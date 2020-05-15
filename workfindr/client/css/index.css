@@ -151,6 +151,10 @@ main {
   /* max height set in client/js/nextjob.js */
 }
 
+#info-text.expanded {
+  overflow: auto;
+}
+
 #swipe-image {
   width: 8em;
   height: 8em;
@@ -180,7 +184,15 @@ main {
   text-align: left;
   padding: 0 10%;
   font-family: var(--text-font);
-  max-height: 100%;
+  max-height: 85%;
+}
+
+.show-btn {
+  cursor: pointer;
+  color: var(--PONTLightBlue);
+  font-weight: bold;
+  justify-self: center;
+  align-self: end;
 }
 
 .list-item-container {
