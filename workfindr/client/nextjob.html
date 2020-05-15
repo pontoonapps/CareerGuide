@@ -32,12 +32,15 @@
         <button class="btn-blue button" id="btn-shortlist">Add to shortlist +</button>
         <div id="swipe-info">
             <img id="swipe-image"></img>
-            <p id="info-text"></p>  <!-- FIXME: When the text gets too long it overflows the box. Is this a desired behaviour? -->
+            <p id="info-text"></p> 
         </div>
-        <button class="button btn-red" id="btn-dislike">Dislike</button>
-        <button class="button btn-blue" id="btn-showLater">Show Later</button>
-        <button class="button btn-green" id="btn-like">Like</button>
-      <!---TODO should the buttons use text or icons? (thumbs up thumbs down)-->
+        <div id="swipe-btns" style='display: none;'> <!--display none stops all buttons displaying as JS loads-->
+          <button class="button btn-red" id="btn-dislike">Dislike</button>
+          <button class="button btn-blue" id="btn-showLater">Show Later</button>
+          <button class="button btn-green" id="btn-like">Like</button>
+          <button class="button btn-red" id="btn-no">No</button>
+          <button class="button btn-green" id="btn-yes">Yes</button>
+        </div>
     </main>
 </body>
 
