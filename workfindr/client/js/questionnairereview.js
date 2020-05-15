@@ -64,15 +64,19 @@ async function subAnsChange(event) {
   const questAns = event.target;
   const answerCont = questAns.parentNode;
 
+  // get current choice
+  const currChoice = questAns.classList[0] === 'yes' ? 'yes' : 'no';
+
   // get job id and user choice
   const usrInput = {};
   usrInput.itemid = answerCont.dataset.questid;
-  switch (event.target.classList[0]) {
+
+  switch (currChoice) {
     case 'yes':
-      usrInput.choice = 'like';
+      usrInput.choice = 'yes';
       break;
     case 'no':
-      usrInput.choice = 'dislike';
+      usrInput.choice = 'no';
       break;
   }
 
