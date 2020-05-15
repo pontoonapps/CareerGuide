@@ -116,6 +116,7 @@ function expandInfoText() {
   // toggle show more / show less button
   showMore.style.display = 'none';
   showLess.removeAttribute('style');
+  swipeInfo.style.height = 'auto';
 
   // expand info text container
   infoText.textContent = currentItem.description;
@@ -136,6 +137,7 @@ function shrinkInfoText() {
   // toggle show more / show less button
   showMore.removeAttribute('style');
   showLess.style.display = 'none';
+  swipeInfo.style.height = null;
 
   // shrink info text container
   infoText.classList.remove('expanded');
