@@ -107,6 +107,7 @@ function dispInfoText(str) {
 
 function expandInfoText() {
   // get required DOM elements
+  const swipeInfo = document.querySelector('#swipe-info');
   const infoText = document.querySelector('#info-text');
   const showMore = document.querySelector('#show-more');
   const showLess = document.querySelector('#show-less');
@@ -114,6 +115,7 @@ function expandInfoText() {
   // toggle show more / show less button
   showMore.style.display = 'none';
   showLess.removeAttribute('style');
+  swipeInfo.style.height = 'auto';
 
   // expand info text container
   infoText.textContent = currentItem.description;
@@ -122,6 +124,7 @@ function expandInfoText() {
 
 function shrinkInfoText() {
   // get required DOM elements
+  const swipeInfo = document.querySelector('#swipe-info');
   const infoText = document.querySelector('#info-text');
   const showMore = document.querySelector('#show-more');
   const showLess = document.querySelector('#show-less');
@@ -129,6 +132,7 @@ function shrinkInfoText() {
   // toggle show more / show less button
   showMore.removeAttribute('style');
   showLess.style.display = 'none';
+  swipeInfo.style.height = null;
 
   // shrink info text container
   infoText.classList.remove('expanded');
@@ -228,10 +232,15 @@ function setMainHeight() {
   const mainHeight = vpHeight - (navHeight + ftrHeight + heightBffr);
 
   // apply to swipe page
+<<<<<<< HEAD
   document.documentElement.style.setProperty('--nav-height', `${navHeight}px`);
   document.documentElement.style.setProperty('--side-margin', `${sideMargin}px`);
   document.documentElement.style.setProperty('--ftr-height', `${ftrHeight}px`);
   document.documentElement.style.setProperty('--main-height', `${mainHeight}px`);
+=======
+  main.style.margin = navHeight + 'px ' + sideMargin + 'px ' + ftrHeight + 'px'; // top, right & left, bottom
+  main.style.height = mainHeight + 'px';
+>>>>>>> view more WIP improved
 }
 
 // start script (after page has loaded)
