@@ -146,13 +146,8 @@ main {
   background-color: var(--main-bg-color);
   box-shadow: 0 0 0.5em rgb(178, 207, 101);
   border-radius: 0.5em;
-  overflow: hidden;
 
   /* max height set in client/js/nextjob.js */
-}
-
-#info-text.expanded {
-  overflow: auto;
 }
 
 #swipe-image {
