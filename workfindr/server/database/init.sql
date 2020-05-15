@@ -55,7 +55,7 @@ ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 CREATE TABLE IF NOT EXISTS `pontoonapps_workfindr2`.`likes` (
   user_id           INT             NOT NULL,
   job_id            INT             NOT NULL,
-  type              ENUM('like', 'dislike') NOT NULL,
+  type              ENUM('like', 'dislike', 'show later'),
   time_stamp        TIMESTAMP       NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 
   PRIMARY KEY (user_id, job_id),
@@ -80,7 +80,9 @@ CREATE TABLE IF NOT EXISTS `pontoonapps_workfindr2`.`questions` (
   id                INT             PRIMARY KEY AUTO_INCREMENT,
   title_en          VARCHAR(255)    NOT NULL,
   question_en       VARCHAR(255)    NOT NULL,
-  jobs_column       VARCHAR(30)     NOT NULL
+  jobs_column       ENUM(
+    'teamwork', 'physical_activity', 'creativity', 'driving', 'travel',
+    'hours_flexibility', 'care_work', 'danger')     NOT NULL
 )
 ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -108,6 +110,3 @@ CREATE TABLE IF NOT EXISTS `pontoonapps_workfindr2`.`answers` (
   FOREIGN KEY (option_number, question_id) REFERENCES `pontoonapps_workfindr2`.options(option_number, question_id)
 )
 ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-
--- UPDATE ERD to show relationship between user and option, not question
