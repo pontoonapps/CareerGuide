@@ -91,7 +91,7 @@ function dispInfoText(str) {
   let empx = window.getComputedStyle(infoText).fontSize;
   empx = empx.slice(0, empx.length - 2); // remove px from .fontSize
 
-  const height = infoText.dataset.origHeight - empx; // -empx for a spare line to ensure no overflow
+  const height = infoText.dataset.origHeight; // -empx removed due to lack of text displayed on iOS (less than one line)
   const width = infoText.offsetWidth;
   const noChars = Math.floor(height * width / Math.pow(empx, 2)); // num displayable chars = area / area of a char
 
@@ -187,7 +187,7 @@ function addELs() {
   // window.addEventListener('resize', setMainHeight);
   // window.addEventListener('resize', () => {
   //   displayItem(currentItem);
-  // });
+  // }); // automatic resizing with gets triggered by scrolling on mobile breaking viewmore (kept commented for devs)
   document.querySelector('#btn-like').addEventListener('click', async () => {
     if (await subSwipe(event)) { // only load next item if subSwip returns true
       loadNextItem();

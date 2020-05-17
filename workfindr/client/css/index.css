@@ -137,7 +137,7 @@ main {
   width: 90%;
   max-width: 40em;
   height: 90%;
-  padding: 1em;
+  padding: 0.5em 1em;
   margin: auto;
   background-color: var(--main-bg-color);
   box-shadow: 0 0 0.5em rgb(178, 207, 101);
