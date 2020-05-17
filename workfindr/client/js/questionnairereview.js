@@ -1,5 +1,3 @@
-// questionnaireReview.js
-
 async function getQuestReview() {
   const response = await fetch('user/questions');
 

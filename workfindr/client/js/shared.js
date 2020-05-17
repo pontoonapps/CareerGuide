@@ -1,12 +1,29 @@
-// shared.js
-
-// TODO currently, after opening the nav bar only closes after clicking the nav-btn. Should it close when clicking anywhere outside the nav bar?
 function showNav() {
-  document.querySelector('#navbar-slide').classList.toggle('active');
+  document.querySelector('#navbar-slide').classList.add('active');
+}
+
+function hideNav() {
+  document.querySelector('#navbar-slide').classList.remove('active');
+}
+
+function toggleNav() {
+  if (document.querySelector('#navbar-slide').classList.contains('active')) {
+    hideNav();
+  } else {
+    showNav();
+  }
+}
+
+function clickOffNav() {
+  const navBtn = document.querySelector('#nav-btn');
+  if (event.target !== navBtn) {
+    hideNav();
+  }
 }
 
 function init() {
-  document.querySelector('#nav-btn').addEventListener('click', showNav);
+  document.querySelector('#nav-btn').addEventListener('click', toggleNav);
+  document.addEventListener('click', clickOffNav);
 }
 
 window.addEventListener('load', init);

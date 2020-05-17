@@ -1,5 +1,3 @@
-// swipeHistory.js
-
 async function getSwipHist() {
   const response = await fetch('user/jobs');
 

@@ -1,5 +1,3 @@
-// swipepage.js
-
 let currentItem; // job being displayed on page
 
 async function getNextItem() {
