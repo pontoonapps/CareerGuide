@@ -74,7 +74,7 @@ async function remShrtlstItem() {
   const remove = event.target;
   const btnContnr = remove.parentNode;
   const jobContnr = btnContnr.parentNode;
-  const succSub = await submitRemoval();
+  const succSub = await submitRemoval(event);
   if (succSub) {
     jobContnr.remove();
   } else {
@@ -82,7 +82,7 @@ async function remShrtlstItem() {
   }
 }
 
-async function submitRemoval() {
+async function submitRemoval(event) {
   const removal = {};
   removal.itemid = event.target.dataset.jobid;
   removal.choice = 'shortlist-rem';
