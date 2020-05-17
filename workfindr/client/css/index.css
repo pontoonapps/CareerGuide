@@ -290,7 +290,7 @@ main {
   cursor: pointer;
 }
 
-.shrtlistBtns {
+.shortlist-btns {
   display: flex;
   flex-wrap: wrap;
   align-content: space-around;
@@ -339,7 +339,7 @@ main {
   margin: 0 0.25rem;
   width: 100%;
   max-width: 10rem;
-  height: 4em;
+  min-height: 4em;
   max-height: 100%;
 }
 
@@ -347,33 +347,33 @@ main {
   cursor: pointer;
 }
 
-.btn-red {
+.btn-1 {
   background-color: var(--PONTRed);
   border: 0.2em solid var(--PONTRed);
 }
 
-.btn-red:active {
+.btn-1:active {
   color: var(--PONTRed);
   background-color: var(--main-bg-color);
 }
 
-.btn-blue {
+.btn-2 {
   background-color: var(--main-bg-color);
   color: var(--PONTLightBlue);
   border: 0.2em solid var(--PONTLightBlue);
 }
 
-.btn-blue:active {
+.btn-2:active {
   color: var(--main-bg-color);
   background-color: var(--PONTLightBlue);
 }
 
-.btn-green {
+.btn-3 {
   background-color: var(--PONTGreen);
   border: 0.2em solid var(--PONTGreen);
 }
 
-.btn-green:active {
+.btn-3:active {
   color: var(--PONTGreen);
   background-color: var(--main-bg-color);
 }

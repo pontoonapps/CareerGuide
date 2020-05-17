@@ -1,5 +1,3 @@
-// shortlist.js
-
 async function getShortlist() {
   const response = await fetch('user/jobs');
 
