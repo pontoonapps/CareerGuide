@@ -118,6 +118,10 @@ main {
   max-width: 50em;
   position: absolute;
   top: 0;
+
+  /* variables created in js/nextjob.js */
+  margin: var(--nav-height, 5em) var(--side-margin, auto) var(--ftr-height, 0);
+  height: var(--main-height, 90vh);
 }
 
 #swipe-page > #title {

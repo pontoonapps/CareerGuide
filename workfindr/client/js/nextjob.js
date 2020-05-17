@@ -182,9 +182,10 @@ function setMainHeight() {
   const mainHeight = vpHeight - (navHeight + ftrHeight + heightBffr);
 
   // apply to swipe page
-  main.style.margin = navHeight + 'px ' + sideMargin + 'px ' + ftrHeight + 'px'; // top, right & left, bottom
-  main.style.height = mainHeight + 'px';
-  main.style.maxHeight = mainHeight + 'px';
+  document.documentElement.style.setProperty('--nav-height', `${navHeight}px`);
+  document.documentElement.style.setProperty('--side-margin', `${sideMargin}px`);
+  document.documentElement.style.setProperty('--ftr-height', `${ftrHeight}px`);
+  document.documentElement.style.setProperty('--main-height', `${mainHeight}px`);
 }
 
 // start script (after page has loaded)
