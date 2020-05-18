@@ -64,9 +64,11 @@ body {
 }
 
 #title {
-  font-size: 2rem;
+  font-size: var(--title-fontsize, 2em);
   color: var(--PONTRed);
   text-align: center;
+  max-height: 100%;
+  overflow: auto;
 }
 
 h1 {
@@ -119,7 +121,7 @@ main {
   position: absolute;
   top: 0;
 
-  /* variables created in js/nextjob.js */
+  /* variables created in js/nextjob.js function setMainHeight */
   margin: var(--nav-height, 5em) var(--side-margin, auto) var(--ftr-height, 0);
   height: var(--main-height, 90vh);
 }
@@ -141,7 +143,7 @@ main {
   width: 90%;
   max-width: 40em;
   height: 90%;
-  padding: 0.5em 1em;
+  padding: 0.5em;
   margin: auto;
   background-color: var(--main-bg-color);
   box-shadow: 0 0 0.5em rgb(178, 207, 101);
@@ -178,9 +180,10 @@ main {
 
 #info-text { /* maybe limit text length in this box with JS?? */
   text-align: left;
-  padding: 0 10%;
+  padding: 0 calc(20% - 75px); /* no padding on mobile */
   font-family: var(--text-font);
-  max-height: 85%;
+  max-height: 100%;
+  overflow: auto;
 }
 
 .show-btn {
