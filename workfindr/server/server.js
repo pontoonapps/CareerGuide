@@ -2,8 +2,11 @@
 
 // modules
 const express = require('express');
+const cookieParser = require('cookie-parser');
 const app = express();
+
 const db = require('./storage.js');
+const auth = require('./auth.js');
 
 // functionality
 
@@ -80,6 +83,9 @@ function shortlistItem(choice, jobid) {
 let itemsList = db.refreshItemList(); // allows for infinite swiping while testing swipe page
 
 // routes
+
+app.use(cookieParser());
+app.use(auth);
 
 app.get('/user/next-item', asyncWrap(nextSwipeItem));
 
