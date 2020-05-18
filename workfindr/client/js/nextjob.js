@@ -104,6 +104,7 @@ function dispInfoText(str) {
     infoText.textContent = str;
   }
 }
+<<<<<<< HEAD
 
 function expandInfoText() {
   // get required DOM elements
@@ -117,6 +118,21 @@ function expandInfoText() {
   showMore.style.display = 'none';
   showLess.removeAttribute('style');
 
+=======
+
+function expandInfoText() {
+  // get required DOM elements
+  const main = document.querySelector('#swipe-page');
+  const swipeInfo = document.querySelector('#swipe-info');
+  const infoText = document.querySelector('#info-text');
+  const showMore = document.querySelector('#show-more');
+  const showLess = document.querySelector('#show-less');
+
+  // toggle show more / show less button
+  showMore.style.display = 'none';
+  showLess.removeAttribute('style');
+
+>>>>>>> 718310338ee3e96808ac07a04328684421354aec
   // expand info text container
   infoText.textContent = currentItem.description;
   infoText.classList.add('expanded');
