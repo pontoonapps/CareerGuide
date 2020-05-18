@@ -26,6 +26,31 @@
   </nav>
   <main>
     <h1 id="title">WELCOME TO THE TEMPORARY INDEX PAGE</h1>
+    <aside>
+      Select testing user:
+      <select id='user-select'>
+        <option>none</option>
+        <option>jacek</option>
+        <option>kane</option>
+        <option>pontuz</option>
+        <option>test4</option>
+        <option>test5</option>
+        <option>test6</option>
+        <option>test7</option>
+        <option>test8</option>
+        <option>test9</option>
+      </select>
+      <script>
+        const userSelector = document.querySelector('#user-select');
+        userSelector.addEventListener('change', selectUser);
+        userSelector.value = localStorage.getItem('dummy-user') || 'none';
+        function selectUser() {
+          const user = userSelector.value;
+          localStorage.setItem('dummy-user', user);
+          document.cookie = `PHPSESSID=${user}`;
+        }
+      </script>
+    </aside>
   </main>
 </body>
 </html>
