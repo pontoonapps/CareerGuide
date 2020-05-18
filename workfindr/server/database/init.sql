@@ -34,9 +34,9 @@ ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 CREATE TABLE IF NOT EXISTS `pontoonapps_workfindr2`.`jobs` (
   id                INT             PRIMARY KEY AUTO_INCREMENT,
   title_en          VARCHAR(255),
-  description_en    VARCHAR(255),
+  description_en    TEXT,
   titre_fr          VARCHAR(255),
-  description_fr    VARCHAR(255),
+  description_fr    TEXT,
   category_id       INT             NOT NULL,
 
   teamwork          INT             NOT NULL, -- (1) Alone / team(9)
@@ -79,7 +79,7 @@ ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 CREATE TABLE IF NOT EXISTS `pontoonapps_workfindr2`.`questions` (
   id                INT             PRIMARY KEY AUTO_INCREMENT,
   title_en          VARCHAR(255)    NOT NULL,
-  question_en       VARCHAR(255)    NOT NULL,
+  question_en       TEXT            NOT NULL,
   jobs_column       ENUM(
     'teamwork', 'physical_activity', 'creativity', 'driving', 'travel',
     'hours_flexibility', 'care_work', 'danger')     NOT NULL
