@@ -75,7 +75,7 @@ async function subQuestSwipe(swipe) {
 
 async function loadNextItem() {
   currentItem = await getNextItem();
-  currentItem.id = String(currentItem.id); // ensures itemid type sent to server is consistent
+  currentItem.id = String(currentItem.id); // String() ensures itemid type sent to server is consistent
   displayItem(currentItem);
 }
 
@@ -96,7 +96,7 @@ function dispInfoText(str) {
     cutStr = cutStr.slice(0, cutStr.lastIndexOf(' ')); // remove one more word so elipses does not overflow
     cutStr += '…';
     infoText.textContent = cutStr;
-    showMore.style.display = ''; // remove "display: none;" defined in html
+    showMore.style.display = ''; // remove "display: none;" if descrption was abbreivated
   } else {
     showMore.style.display = 'none'; // if string was not cut do not display showMore button
   }
@@ -104,40 +104,26 @@ function dispInfoText(str) {
 }
 
 function expandInfoText() {
-  // get required DOM elements
-  const main = document.querySelector('#swipe-page');
-  const swipeInfo = document.querySelector('#swipe-info');
-  const infoText = document.querySelector('#info-text');
-  const showMore = document.querySelector('#show-more');
-  const showLess = document.querySelector('#show-less');
+  // set heights to auto
+  document.querySelector('#swipe-page').style.height = 'auto';
+  document.querySelector('#swipe-info').style.height = 'auto';
+  document.querySelector('#info-text').style.height = 'auto';
 
-  // toggle show more / show less button
-  showMore.style.display = 'none';
-  showLess.style.display = '';
+  // hide show more button and show show less button
+  document.querySelector('#show-more').style.display = 'none';
+  document.querySelector('#show-less').style.display = '';
 
-  // expand info text container
-  infoText.textContent = currentItem.description;
-  infoText.classList.add('expanded');
-  main.style.height = 'auto';
-  infoText.style.height = 'auto';
-  swipeInfo.style.height = 'auto';
-}
-
-function shrinkInfoText() {
-  // toggle show more / show less button
-  document.querySelector('#show-more').style.display = '';
-  document.querySelector('#show-less').style.display = 'none';
-
-  resetElHeights();
-  displayItem(currentItem);
+  // display full length text
+  document.querySelector('#info-text').textContent = currentItem.description;
 }
 
 function resetElHeights() {
+  // get DOM elements
   const main = document.querySelector('#swipe-page');
   const swipeInfo = document.querySelector('#swipe-info');
   const infoText = document.querySelector('#info-text');
 
-  infoText.classList.remove('expanded');
+  // set heights to values stored at page load
   main.style.height = main.dataset.origHeight + 'px';
   infoText.style.height = infoText.dataset.origHeight + 'px';
   swipeInfo.style.height = swipeInfo.dataset.origHeight + 'px';
@@ -145,11 +131,12 @@ function resetElHeights() {
 
 function displayItem(item) {
   resetElHeights();
-  const title = document.querySelector('#title');
-  title.textContent = item.title;
-  setTitleFontSize(title);
+
+  // display info shared by questions and jobs (image and title)
+  dispTitle(item.title);
   document.querySelector('#swipe-image').src = item.image;
 
+  // display / hide elements specific to questions or jobs
   if (item.description === undefined) { // if question else job
     // hide job buttons
     document.querySelector('#btn-shortlist').style.display = 'none';
@@ -181,11 +168,14 @@ function displayItem(item) {
   }
 }
 
-function setTitleFontSize(title) {
+function dispTitle(titleText) {
+  const titleEl = document.querySelector('#title');
+  titleEl.textContent = titleText;
+
   // set title then fontsize to 2em, if title overflows decrease font size until no overflow
   let fontEm = 2;
   document.documentElement.style.setProperty('--title-fontsize', `${fontEm}em`);
-  while (title.clientHeight < title.scrollHeight && fontEm > 0) {
+  while (titleEl.clientHeight < titleEl.scrollHeight && fontEm > 0) {
     fontEm -= 0.1;
     document.documentElement.style.setProperty('--title-fontsize', `${fontEm}em`);
   }
@@ -227,7 +217,9 @@ function addELs() {
     }
   });
   document.querySelector('#show-more').addEventListener('click', expandInfoText);
-  document.querySelector('#show-less').addEventListener('click', shrinkInfoText);
+  document.querySelector('#show-less').addEventListener('click', () => {
+    displayItem(currentItem);
+  });
 }
 
 function setMainHeight() {
@@ -253,9 +245,12 @@ function setMainHeight() {
 }
 
 function getHeights() {
+  // get required DOM elements
   const main = document.querySelector('#swipe-page');
   const swipeInfo = document.querySelector('#swipe-info');
   const infoText = document.querySelector('#info-text');
+
+  // save starting height values
   main.dataset.origHeight = main.offsetHeight;
   swipeInfo.dataset.origHeight = swipeInfo.offsetHeight;
   infoText.dataset.origHeight = infoText.offsetHeight;
