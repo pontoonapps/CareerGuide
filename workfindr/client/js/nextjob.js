@@ -85,24 +85,22 @@ function dispInfoText(str) {
   const showMore = document.querySelector('#show-more');
   const showLess = document.querySelector('#show-less');
 
-  // calculate how many characters can be displayed
-  let empx = window.getComputedStyle(infoText).fontSize;
-  empx = empx.slice(0, empx.length - 2); // remove px from .fontSize
-
-  const height = infoText.dataset.origHeight; // -empx removed due to lack of text displayed on iOS (less than one line)
-  const width = infoText.offsetWidth;
-  const noChars = Math.floor(height * width / Math.pow(empx, 2)); // num displayable chars = area / area of a char
-
-  // if the num of displayable chars is less than string length, shorten else disp string
-  if (noChars < str.length) {
-    showMore.removeAttribute('style');
-    showLess.style.display = 'none';
-    infoText.textContent = str.slice(0, noChars) + '…';
-  } else {
-    showMore.style.display = 'none';
-    showLess.style.display = 'none';
-    infoText.textContent = str;
+  let cutStr = str;
+  infoText.textContent = str;
+  while (infoText.clientHeight < infoText.scrollHeight && cutStr.length > 0) {
+    cutStr = cutStr.slice(0, cutStr.lastIndexOf(' ')); // remove last word so text is not cut mid word
+    infoText.textContent = cutStr;
   }
+
+  if (cutStr !== str) {
+    cutStr = cutStr.slice(0, cutStr.lastIndexOf(' ')); // remove one more word so elipses does not overflow
+    cutStr += '…';
+    infoText.textContent = cutStr;
+    showMore.style.display = ''; // remove "display: none;" defined in html
+  } else {
+    showMore.style.display = 'none'; // if string was not cut do not display showMore button
+  }
+  showLess.style.display = 'none';
 }
 
 function expandInfoText() {
@@ -115,7 +113,7 @@ function expandInfoText() {
 
   // toggle show more / show less button
   showMore.style.display = 'none';
-  showLess.removeAttribute('style');
+  showLess.style.display = '';
 
   // expand info text container
   infoText.textContent = currentItem.description;
@@ -126,28 +124,30 @@ function expandInfoText() {
 }
 
 function shrinkInfoText() {
-  // get required DOM elements
+  // toggle show more / show less button
+  document.querySelector('#show-more').style.display = '';
+  document.querySelector('#show-less').style.display = 'none';
+
+  resetElHeights();
+  displayItem(currentItem);
+}
+
+function resetElHeights() {
   const main = document.querySelector('#swipe-page');
   const swipeInfo = document.querySelector('#swipe-info');
   const infoText = document.querySelector('#info-text');
-  const showMore = document.querySelector('#show-more');
-  const showLess = document.querySelector('#show-less');
 
-  // toggle show more / show less button
-  showMore.removeAttribute('style');
-  showLess.style.display = 'none';
-
-  // shrink info text container
   infoText.classList.remove('expanded');
-  dispInfoText(currentItem.description);
-  console.log(main.dataset.origHeight);
   main.style.height = main.dataset.origHeight + 'px';
   infoText.style.height = infoText.dataset.origHeight + 'px';
   swipeInfo.style.height = swipeInfo.dataset.origHeight + 'px';
 }
 
 function displayItem(item) {
-  document.querySelector('#title').textContent = item.title;
+  resetElHeights();
+  const title = document.querySelector('#title');
+  title.textContent = item.title;
+  setTitleFontSize(title);
   document.querySelector('#swipe-image').src = item.image;
 
   if (item.description === undefined) { // if question else job
@@ -160,8 +160,8 @@ function displayItem(item) {
     document.querySelector('#show-less').style.display = 'none';
 
     // show question buttons
-    document.querySelector('#btn-yes').removeAttribute('style');
-    document.querySelector('#btn-no').removeAttribute('style');
+    document.querySelector('#btn-yes').style.display = '';
+    document.querySelector('#btn-no').style.display = '';
 
     // set description to blank (as questions don't have descriptions)
     document.querySelector('#info-text').textContent = '';
@@ -171,13 +171,23 @@ function displayItem(item) {
     document.querySelector('#btn-no').style.display = 'none';
 
     // show job buttons
-    document.querySelector('#btn-shortlist').removeAttribute('style');
-    document.querySelector('#btn-dislike').removeAttribute('style');
-    document.querySelector('#btn-showLater').removeAttribute('style');
-    document.querySelector('#btn-like').removeAttribute('style');
+    document.querySelector('#btn-shortlist').style.display = '';
+    document.querySelector('#btn-dislike').style.display = '';
+    document.querySelector('#btn-showLater').style.display = '';
+    document.querySelector('#btn-like').style.display = '';
 
     // show description
     dispInfoText(item.description);
+  }
+}
+
+function setTitleFontSize(title) {
+  // set title then fontsize to 2em, if title overflows decrease font size until no overflow
+  let fontEm = 2;
+  document.documentElement.style.setProperty('--title-fontsize', `${fontEm}em`);
+  while (title.clientHeight < title.scrollHeight && fontEm > 0) {
+    fontEm -= 0.1;
+    document.documentElement.style.setProperty('--title-fontsize', `${fontEm}em`);
   }
 }
 
@@ -258,7 +268,7 @@ async function loadPage() {
   setMainHeight();
   getHeights();
   await loadNextItem(); // await so buttons aren't displayed before being hidden
-  document.querySelector('#swipe-btns').removeAttribute('style');
+  document.querySelector('#swipe-btns').style.display = '';
 }
 
 window.addEventListener('load', loadPage);
