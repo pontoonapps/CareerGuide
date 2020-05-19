@@ -27,8 +27,8 @@ async function loadShortList() {
       jobContnr.querySelector('.rmv-shrt-item').addEventListener('click', remShrtlstItem);
       jobContnr.querySelector('.rmv-shrt-item').dataset.jobid = job.id;
 
-      const main = document.querySelector('main');
-      main.appendChild(jobContnr);
+      const listContnr = document.querySelector('#list-container');
+      listContnr.appendChild(jobContnr);
     }
   }
 }

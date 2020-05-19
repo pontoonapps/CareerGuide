@@ -317,6 +317,7 @@ main {
   grid-column-end: 4;
   grid-row-start: 1;
   grid-row-end: 3;
+  max-height: 15em;
 }
 
 /* TODO: Added shadow - this make them look more like buttons but is there a better way to accomplish this? */
