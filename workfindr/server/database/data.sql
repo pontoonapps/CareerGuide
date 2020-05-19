@@ -1,25 +1,25 @@
-INSERT INTO `pontoonapps_workfindr2`.`categories` (id, title_en, icon_filename) VALUES 
-(1, 'Agriculture, horticulture and Animal services', 'agriculture.jpg'), 
-(2, 'Property and Facilities Management', 'property.jpg'), 
-(3, 'Financial services', 'financial.jpg'), 
-(4, 'Performing arts, and media', 'art.jpg'), 
-(5, 'Health and Social Care','health.jpg'), 
-(6, 'Administrative and Clerical','admin.jpg'), 
-(7, 'Advertising, Marketing and PR','advert.jpg'), 
-(8, 'Manufacturing and engineering','manufacturing.jpg'), 
-(9, 'Environmental sciences','environment.jpg'), 
-(10, 'Transport and Logistics','transport.jpg'), 
-(11, 'Arts, crafts and design','art.jpg'), 
-(12, 'Retail sales and customer service','retail.jpg'), 
-(13, 'Legal services','legal.jpg'), 
-(14, 'Science and research','science.jpg'), 
-(15, 'Security and uniformed services','security.jpg'), 
-(16, 'Sport, leisure and tourism','sport.jpg'), 
-(17, 'General and Personal Services','general.jpg'), 
-(18, 'Catering services','cater.jpg'), 
-(19, 'Business Management and planning','business.jpg'), 
-(20, 'Publishing and journalism','publishing.jpg'), 
-(21, 'Information technology and information management','it.jpg'), 
+INSERT INTO `pontoonapps_workfindr2`.`categories` (id, title_en, icon_filename) VALUES
+(1, 'Agriculture, horticulture and Animal services', 'agriculture.jpg'),
+(2, 'Property and Facilities Management', 'property.jpg'),
+(3, 'Financial services', 'financial.jpg'),
+(4, 'Performing arts, and media', 'art.jpg'),
+(5, 'Health and Social Care','health.jpg'),
+(6, 'Administrative and Clerical','admin.jpg'),
+(7, 'Advertising, Marketing and PR','advert.jpg'),
+(8, 'Manufacturing and engineering','manufacturing.jpg'),
+(9, 'Environmental sciences','environment.jpg'),
+(10, 'Transport and Logistics','transport.jpg'),
+(11, 'Arts, crafts and design','art.jpg'),
+(12, 'Retail sales and customer service','retail.jpg'),
+(13, 'Legal services','legal.jpg'),
+(14, 'Science and research','science.jpg'),
+(15, 'Security and uniformed services','security.jpg'),
+(16, 'Sport, leisure and tourism','sport.jpg'),
+(17, 'General and Personal Services','general.jpg'),
+(18, 'Catering services','cater.jpg'),
+(19, 'Business Management and planning','business.jpg'),
+(20, 'Publishing and journalism','publishing.jpg'),
+(21, 'Information technology and information management','it.jpg'),
 (22, 'Education and training','education.jpg');
 
 INSERT INTO `pontoonapps_workfindr2`.`jobs` (id, title_en, description_en, titre_fr, description_fr, category_id,
@@ -129,7 +129,7 @@ INSERT INTO `pontoonapps_workfindr2`.`jobs` (id, title_en, description_en, titre
 INSERT INTO `pontoonapps_workfindr2`.`jobs` (id, title_en, description_en, titre_fr, description_fr, category_id,
   teamwork, physical_activity, creativity, driving, travel, hours_flexibility, care_work, danger) VALUES (53, 'Construction Manager','You will be in charge of organising the work on building projects, making sure that the work is completed safely, within budget and on time.', 'Directeur de la construction','Vous serez en charge de l''organisation des travaux sur les projets de construction, en vous assurant que les travaux sont terminés en toute sécurité, dans les limites du budget et dans les délais.',2, 3, 3, 7, 1, 7,7, 3, 7);
 INSERT INTO `pontoonapps_workfindr2`.`jobs` (id, title_en, description_en, titre_fr, description_fr, category_id,
-  teamwork, physical_activity, creativity, driving, travel, hours_flexibility, care_work, danger) VALUES (54, 'Accommodation Warden','Besides overseeing accommodation, they may be involved in organising cleaning contractors, carrying out administrative duties and organising and running 18.', 'Directeur Général de logement','Outre la supervision du logement, ils peuvent être impliqués dans l''organisation des entreprises de nettoyage, l''exécution des tâches administratives et l''organisation et la gestion des services de restauration.',2, 7, 6, 6, 1, 6,7, 8, 9);
+  teamwork, physical_activity, creativity, driving, travel, hours_flexibility, care_work, danger) VALUES (54, 'Accommodation Warden','Besides overseeing accommodation, they may be involved in organising cleaning contractors, carrying out administrative duties and organising and running catering services.', 'Directeur Général de logement','Outre la supervision du logement, ils peuvent être impliqués dans l''organisation des entreprises de nettoyage, l''exécution des tâches administratives et l''organisation et la gestion des services de restauration.',2, 7, 6, 6, 1, 6,7, 8, 9);
 INSERT INTO `pontoonapps_workfindr2`.`jobs` (id, title_en, description_en, titre_fr, description_fr, category_id,
   teamwork, physical_activity, creativity, driving, travel, hours_flexibility, care_work, danger) VALUES (55, 'Dry Liner','You will use plasterboard panels to build internal walls, suspended ceilings and raised flooring in houses, offices and shops.', 'Doublure sèche','Vous utiliserez des panneaux de plâtre pour construire des murs intérieurs, des plafonds suspendus et des sols surélevés dans les maisons, les bureaux et les magasins.',2, 4, 2, 5, 1, 7,7, 9, 3);
 INSERT INTO `pontoonapps_workfindr2`.`jobs` (id, title_en, description_en, titre_fr, description_fr, category_id,
@@ -277,8 +277,7 @@ INSERT INTO `pontoonapps_workfindr2`.`jobs` (id, title_en, description_en, titre
 INSERT INTO `pontoonapps_workfindr2`.`jobs` (id, title_en, description_en, titre_fr, description_fr, category_id,
   teamwork, physical_activity, creativity, driving, travel, hours_flexibility, care_work, danger) VALUES (127, 'Compositor','You will work in the film, movie or games industry and will have to creatively combine rendered computer animations, special effects, 2D animations and static background plates into a final image while making sure that the established style of the project is respected and continuity is maintained.', 'Compositeur','Vous travaillerez dans l''industrie du film, du cinéma ou des jeux et devrez combiner de manière créative des animations rendues, des effets spéciaux, des animations 2D et des fonds d''écran statiques en une image finale, tout en veillant au respect du style établi du projet et à la continuité. .',4, 4, 5, 2, 1, 3,4, 2, 2);
 INSERT INTO `pontoonapps_workfindr2`.`jobs` (id, title_en, description_en, titre_fr, description_fr, category_id,
-  teamwork, physical_activity, creativity, driving, travel, hours_flexibility, care_work, danger) VALUES (128, 'Composer','You will have to create new music that will be performed by an orchestra or group of musicians. ', 'Compositrice/ Compositeur','Vous devrez écrire de la musique originale, ce que jouera une orchestre ou une bande de musiciens
-',4, 4, 7, 2, 1, 5,7, 2, 3);
+  teamwork, physical_activity, creativity, driving, travel, hours_flexibility, care_work, danger) VALUES (128, 'Composer','You will have to create new music that will be performed by an orchestra or group of musicians. ', 'Compositrice/ Compositeur','Vous devrez écrire de la musique originale, ce que jouera une orchestre ou une bande de musiciens',4, 4, 7, 2, 1, 5,7, 2, 3);
 INSERT INTO `pontoonapps_workfindr2`.`jobs` (id, title_en, description_en, titre_fr, description_fr, category_id,
   teamwork, physical_activity, creativity, driving, travel, hours_flexibility, care_work, danger) VALUES (129, 'Interactive Media Designer','You will create the overall look and feel of a wide range of interactive communication products such as Web sites, Online learning materials and Games.', 'Concepteur multimédia interactif','Vous allez créer l''apparence générale d''un large éventail de produits de communication interactive, tels que des sites Web, du matériel d''apprentissage en ligne et des jeux.',4, 5, 7, 2, 1, 3,5, 8, 6);
 INSERT INTO `pontoonapps_workfindr2`.`jobs` (id, title_en, description_en, titre_fr, description_fr, category_id,
@@ -610,8 +609,7 @@ INSERT INTO `pontoonapps_workfindr2`.`jobs` (id, title_en, description_en, titre
 INSERT INTO `pontoonapps_workfindr2`.`jobs` (id, title_en, description_en, titre_fr, description_fr, category_id,
   teamwork, physical_activity, creativity, driving, travel, hours_flexibility, care_work, danger) VALUES (293, 'Brand Manager','The Brand Manager is responsible for the development and management of an overall brand plan for new pharmaceutical products or product re-launches.', 'Chef de marque','Le chef de marque est responsable de l''élaboration et de la gestion d''un plan de marque global pour les nouveaux produits pharmaceutiques ou les lancements de nouveaux produits.',7, 8, 8, 7, 1, 5,4, 4, 5);
 INSERT INTO `pontoonapps_workfindr2`.`jobs` (id, title_en, description_en, titre_fr, description_fr, category_id,
-  teamwork, physical_activity, creativity, driving, travel, hours_flexibility, care_work, danger) VALUES (294, 'Advertising Executive
-','You will be working with designers and copywriters to design the visual side of advertising campaigns for all kinds of media including film, TV, web and print.', 'Chef(fe) de Publicité','Vous travaillerez avec des concepteurs et des rédacteurs pour concevoir l’aspect visuel de campagnes publicitaires pour toutes sortes de médias y compris le cinéma, la télévision, le web et la presse écrite.',7, 8, 9, 4, 1, 4,3, 9, 5);
+  teamwork, physical_activity, creativity, driving, travel, hours_flexibility, care_work, danger) VALUES (294, 'Advertising Executive','You will be working with designers and copywriters to design the visual side of advertising campaigns for all kinds of media including film, TV, web and print.', 'Chef(fe) de Publicité','Vous travaillerez avec des concepteurs et des rédacteurs pour concevoir l’aspect visuel de campagnes publicitaires pour toutes sortes de médias y compris le cinéma, la télévision, le web et la presse écrite.',7, 8, 9, 4, 1, 4,3, 9, 5);
 INSERT INTO `pontoonapps_workfindr2`.`jobs` (id, title_en, description_en, titre_fr, description_fr, category_id,
   teamwork, physical_activity, creativity, driving, travel, hours_flexibility, care_work, danger) VALUES (295, 'Events Manager','You will be in charge of organising and running all kinds of promotional, corporate and social events starting from initial planning to making sure all the elements come together and help run the events on the day.', 'Gestionnaire d''évènements','Vous serez en charge de l''organisation et du déroulement de toutes sortes d''événements promotionnels, corporatifs et sociaux, en commençant par la planification initiale et en veillant à ce que tous les éléments soient réunis et aident à organiser les événements du jour.',7, 8, 5, 4, 1, 8,3, 2, 4);
 INSERT INTO `pontoonapps_workfindr2`.`jobs` (id, title_en, description_en, titre_fr, description_fr, category_id,
@@ -621,8 +619,7 @@ INSERT INTO `pontoonapps_workfindr2`.`jobs` (id, title_en, description_en, titre
 INSERT INTO `pontoonapps_workfindr2`.`jobs` (id, title_en, description_en, titre_fr, description_fr, category_id,
   teamwork, physical_activity, creativity, driving, travel, hours_flexibility, care_work, danger) VALUES (298, 'Merchandise Displayer And Window Dressers','You will have to plan and assemble displays in windows and interiors of retail stores or at trade exhibitions. ', 'Présentoirs de marchandise et vaisseliers','Vous devrez planifier et assembler des présentoirs dans les fenêtres et les intérieurs de magasins de vente au détail ou lors de foires commerciales.',7, 1, 5, 1, 1, 3,6, 8, 6);
 INSERT INTO `pontoonapps_workfindr2`.`jobs` (id, title_en, description_en, titre_fr, description_fr, category_id,
-  teamwork, physical_activity, creativity, driving, travel, hours_flexibility, care_work, danger) VALUES (299, 'Conference and Exhibition Manager','You will be in charge of planning and running events like trade shows, conferences and exhibitions while ensuring that all services provided meet the clients'' needs and events are run efficiently, which may require coordinating with an event organiser.', 'Responsable congrès et expositions','Vous serez chargé de planifier et de conduire les événements tels que les foires commerciales, les conférences et les expositions, et au même temps vous assurerez que tous les services satisfont les besoins des clients et que les événements se gérent efficacement, ce qui pourrait requérir de la coordination avec un gestionnaire d''évènements,
-',7, 6, 6, 5, 1, 6,6, 5, 6);
+  teamwork, physical_activity, creativity, driving, travel, hours_flexibility, care_work, danger) VALUES (299, 'Conference and Exhibition Manager','You will be in charge of planning and running events like trade shows, conferences and exhibitions while ensuring that all services provided meet the clients'' needs and events are run efficiently, which may require coordinating with an event organiser.', 'Responsable congrès et expositions','Vous serez chargé de planifier et de conduire les événements tels que les foires commerciales, les conférences et les expositions, et au même temps vous assurerez que tous les services satisfont les besoins des clients et que les événements se gérent efficacement, ce qui pourrait requérir de la coordination avec un gestionnaire d''évènements,',7, 6, 6, 5, 1, 6,6, 5, 6);
 INSERT INTO `pontoonapps_workfindr2`.`jobs` (id, title_en, description_en, titre_fr, description_fr, category_id,
   teamwork, physical_activity, creativity, driving, travel, hours_flexibility, care_work, danger) VALUES (300, 'Marketing Executive','You will have to come up with creative ways of communicating with customers, using methods including TV, radio and press advertising, direct mail, and corporate sponsorship of events to promote your employer''s products or services, or raise people''s awareness of a message.', 'Responsable marketing','Vous devrez trouver des moyens créatifs de communiquer avec les clients, en utilisant des méthodes telles que la publicité à la télévision, à la radio et dans la presse, le publipostage direct et le parrainage d’événements pour promouvoir les produits ou les services de votre employeur ou sensibiliser les gens à un message.',7, 8, 7, 5, 1, 3,2, 9, 8);
 INSERT INTO `pontoonapps_workfindr2`.`jobs` (id, title_en, description_en, titre_fr, description_fr, category_id,
@@ -672,7 +669,7 @@ INSERT INTO `pontoonapps_workfindr2`.`jobs` (id, title_en, description_en, titre
 INSERT INTO `pontoonapps_workfindr2`.`jobs` (id, title_en, description_en, titre_fr, description_fr, category_id,
   teamwork, physical_activity, creativity, driving, travel, hours_flexibility, care_work, danger) VALUES (323, 'Paper Maker','You will make paper', 'Fabricant de papier','Vous allez faire du papier',8, 2, 4, 6, 1, 2,4, 8, 6);
 INSERT INTO `pontoonapps_workfindr2`.`jobs` (id, title_en, description_en, titre_fr, description_fr, category_id,
-  teamwork, physical_activity, creativity, driving, travel, hours_flexibility, care_work, danger) VALUES (324, 'Scrap Metal Worker','A ""scrapper"" will advertise their services to conveniently remove scrap metal for people who don''t need it.', 'Ferrailleur','Un ""scrapper"" fera la publicité de ses services pour retirer facilement la ferraille pour les personnes qui n''en ont pas besoin.',8, 5, 1, 6, 1, 2,4, 9, 8);
+  teamwork, physical_activity, creativity, driving, travel, hours_flexibility, care_work, danger) VALUES (324, 'Scrap Metal Worker','A "scrapper" will advertise their services to conveniently remove scrap metal for people who don''t need it.', 'Ferrailleur','Un "scrapper" fera la publicité de ses services pour retirer facilement la ferraille pour les personnes qui n''en ont pas besoin.',8, 5, 1, 6, 1, 2,4, 9, 8);
 INSERT INTO `pontoonapps_workfindr2`.`jobs` (id, title_en, description_en, titre_fr, description_fr, category_id,
   teamwork, physical_activity, creativity, driving, travel, hours_flexibility, care_work, danger) VALUES (325, 'Ironworker','You will have to build and install iron or steel girders, columns, and other construction materials to form buildings, bridges, and other structures. ', 'Ferronnière/ Ferronnier','Vous devrez construire et installer des poutres, des colonnes et d''autres matériaux de construction en fer ou en acier pour former des bâtiments, des ponts et d''autres structures.',8, 3, 3, 1, 1, 8,7, 8, 3);
 INSERT INTO `pontoonapps_workfindr2`.`jobs` (id, title_en, description_en, titre_fr, description_fr, category_id,
@@ -862,8 +859,7 @@ INSERT INTO `pontoonapps_workfindr2`.`jobs` (id, title_en, description_en, titre
 INSERT INTO `pontoonapps_workfindr2`.`jobs` (id, title_en, description_en, titre_fr, description_fr, category_id,
   teamwork, physical_activity, creativity, driving, travel, hours_flexibility, care_work, danger) VALUES (418, 'Cargo Agent or Freight Agent','You will be working in warehouses, stockrooms, or shipping and receiving stations and help coordinate and facilitate incoming and outgoing shipments for transportation companies and other businesses.', 'Agent de fret ou agent de fret','Vous travaillerez dans des entrepôts ou des postes d''expédition et de réception, et vous aiderez à coordonner et à faciliter les envois entrants et sortants pour les sociétés de transport et autres entreprises.',10, 6, 5, 8, 2, 7,8, 4, 4);
 INSERT INTO `pontoonapps_workfindr2`.`jobs` (id, title_en, description_en, titre_fr, description_fr, category_id,
-  teamwork, physical_activity, creativity, driving, travel, hours_flexibility, care_work, danger) VALUES (419, 'Airport Information Assistant','You will make passenger announcements about flights, deal with enquiries and help people find their way around the airport terminals.', 'Agent(e) d''accueil aéroportuaire','Vous annoncerez les vols aux passagers, traiterez les demandes de reseignements et aiderez les gens à s''orienter dans les aérogares.
-',10, 7, 4, 6, 1, 6,6, 9, 8);
+  teamwork, physical_activity, creativity, driving, travel, hours_flexibility, care_work, danger) VALUES (419, 'Airport Information Assistant','You will make passenger announcements about flights, deal with enquiries and help people find their way around the airport terminals.', 'Agent(e) d''accueil aéroportuaire','Vous annoncerez les vols aux passagers, traiterez les demandes de reseignements et aiderez les gens à s''orienter dans les aérogares.',10, 7, 4, 6, 1, 6,6, 9, 8);
 INSERT INTO `pontoonapps_workfindr2`.`jobs` (id, title_en, description_en, titre_fr, description_fr, category_id,
   teamwork, physical_activity, creativity, driving, travel, hours_flexibility, care_work, danger) VALUES (420, 'Airport Baggage Handler','You will have to transport, load and unload luggage and cargo from and to aircraft. You will be responsible for checking the luggage against a flight list and taking it to the appropriate aircraft or the reclaim conveyor belt.', 'Bagagiste','Vous devrez transporter, charger et décharger les bagages et le fret de l''avion. Vous serez responsable de vérifier les bagages par rapport à une liste de vol et de les apporter à l''avion approprié ou au convoyeur de récupération.',10, 3, 1, 7, 1, 6,7, 9, 7);
 INSERT INTO `pontoonapps_workfindr2`.`jobs` (id, title_en, description_en, titre_fr, description_fr, category_id,
@@ -967,7 +963,7 @@ INSERT INTO `pontoonapps_workfindr2`.`jobs` (id, title_en, description_en, titre
 INSERT INTO `pontoonapps_workfindr2`.`jobs` (id, title_en, description_en, titre_fr, description_fr, category_id,
   teamwork, physical_activity, creativity, driving, travel, hours_flexibility, care_work, danger) VALUES (470, 'Art Director','Art Directors realise the Production Designer''s creative vision for all the sets and locations that give Advertising, Film, TV and Games productions their look and feel: http://creativeskillset.org', 'Directeur / Directrice Artistique','Les directeurs artistiques réalisent la vision créative du concepteur de production pour tous les décors et lieux qui donnent aux productions publicitaires, cinématographiques, télévisuelles et de jeux, leur aspect et leur ambiance.',11, 7, 6, 2, 1, 4,2, 9, 8);
 INSERT INTO `pontoonapps_workfindr2`.`jobs` (id, title_en, description_en, titre_fr, description_fr, category_id,
-  teamwork, physical_activity, creativity, driving, travel, hours_flexibility, care_work, danger) VALUES (471, 'Animation Supervisor','Have overall responsibility for the quality of an animated product, for keeping it brief, and for delivering consistent performances from the animation department. http://creativeskillset.org/job_roles/352_animation_director_or_supervisor', 'Directeur / Directrice d''Animation','Vous aurez la responsabilité globale de la qualité d''un produit animé pour le garder bref et pour fournir des performances cohérentes de la part du département d''animation.',11, 7, 4, 3, 1, 3,4, 9, 8);
+  teamwork, physical_activity, creativity, driving, travel, hours_flexibility, care_work, danger) VALUES (471, 'Animation Supervisor','Have overall responsibility for the quality of an animated product, for keeping it brief, and for delivering consistent performances from the animation department.', 'Directeur / Directrice d''Animation','Vous aurez la responsabilité globale de la qualité d''un produit animé pour le garder bref et pour fournir des performances cohérentes de la part du département d''animation.',11, 7, 4, 3, 1, 3,4, 9, 8);
 INSERT INTO `pontoonapps_workfindr2`.`jobs` (id, title_en, description_en, titre_fr, description_fr, category_id,
   teamwork, physical_activity, creativity, driving, travel, hours_flexibility, care_work, danger) VALUES (472, 'Chief Innovation Officer','Within the fashion industry the Cheif Innovations Officer is responsible for research and innovation: They look at new manufacturing techniques and produce prototypes. Sometimes this involves working with scientists, researchers and technicians. creativeskillset.org', 'Directeur Innovation','Dans l’industrie de la mode, le directeur innovations est responsable de la recherche et de l’innovation: il étudie de nouvelles techniques de fabrication et fabrique des prototypes. Cela implique parfois de travailler avec des scientifiques, des chercheurs et des techniciens.',11, 7, 7, 7, 1, 4,2, 3, 3);
 INSERT INTO `pontoonapps_workfindr2`.`jobs` (id, title_en, description_en, titre_fr, description_fr, category_id,
