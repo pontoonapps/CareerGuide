@@ -85,7 +85,9 @@ let itemsList = db.refreshItemList(); // allows for infinite swiping while testi
 // routes
 
 app.use(cookieParser());
-app.use(auth);
+app.use(auth.authenticator);
+
+app.use('/user', auth.guardMiddleware);
 
 app.get('/user/next-item', asyncWrap(nextSwipeItem));
 

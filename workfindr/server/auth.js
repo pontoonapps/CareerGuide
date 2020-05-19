@@ -1,4 +1,7 @@
-module.exports = dummyCookieAuth;
+module.exports = {
+  authenticator: dummyCookieAuth,
+  guardMiddleware: requireValidUser,
+};
 
 const knownUsers = [
   undefined, // no index 0
@@ -22,4 +25,12 @@ function dummyCookieAuth(req, res, next) {
     }
   }
   next();
+}
+
+function requireValidUser(req, res, next) {
+  if (!req.user) {
+    res.sendStatus(401);
+  } else {
+    next();
+  }
 }
