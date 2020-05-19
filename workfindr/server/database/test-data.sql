@@ -6,25 +6,6 @@ VALUES
 ( 3, 'pontuz' ),
 ( 4, 'passive' );
 
-INSERT INTO `pontoonapps_workfindr2`.`categories`
-( id, title_en, icon_filename )
-VALUES
-( 1, 'jokes', 'jokes.png' ),
-( 2, 'witze', 'jokes.jpg' );
-
-INSERT INTO `pontoonapps_workfindr2`.`jobs`
-( id, title_en, description_en, titre_fr, description_fr, category_id,
-  teamwork, physical_activity, creativity, driving, travel, hours_flexibility, care_work, danger )
-VALUES
-( 1, 'joker', 'here be jokes', 'ne parles', 'francaise', 1,
-  1, 2, 3, 1, 5, 6, 7, 8 ),
-( 2, 'sadder', 'here be sadness', 'ne parles', 'francaise', 1,
-  2, 3, 4, 2, 6, 7, 8, 9 ),
-( 3, 'witzmacher', 'da ists lustig', 'ne parles', 'francaise', 2,
-  1, 1, 1, 2, 1, 1, 1, 1 ),
-( 4, 'doofer', 'dummer', 'ne parles', 'francaise', 2,
-  9, 9, 9, 1, 9, 9, 9, 9 );
-
 INSERT INTO `pontoonapps_workfindr2`.`likes`
 ( user_id, job_id, type )
 VALUES
