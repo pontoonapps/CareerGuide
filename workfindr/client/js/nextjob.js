@@ -105,9 +105,9 @@ function dispInfoText(str) {
 
 function expandInfoText() {
   // set heights to auto
-  document.querySelector('#swipe-page').style.height = 'auto';
-  document.querySelector('#swipe-info').style.height = 'auto';
-  document.querySelector('#info-text').style.height = 'auto';
+  document.documentElement.style.setProperty('--swipe-page-height', 'auto');
+  document.documentElement.style.setProperty('--swipe-info-height', 'auto');
+  document.documentElement.style.setProperty('--swipe-infotext-height', 'auto');
 
   // hide show more button and show show less button
   document.querySelector('#show-more').style.display = 'none';
@@ -118,15 +118,21 @@ function expandInfoText() {
 }
 
 function resetElHeights() {
+  console.log('resetHeights');
   // get DOM elements
-  const main = document.querySelector('#swipe-page');
+  const swipePage = document.querySelector('#swipe-page');
   const swipeInfo = document.querySelector('#swipe-info');
   const infoText = document.querySelector('#info-text');
 
-  // set heights to values stored at page load
-  main.style.height = main.dataset.origHeight + 'px';
-  infoText.style.height = infoText.dataset.origHeight + 'px';
-  swipeInfo.style.height = swipeInfo.dataset.origHeight + 'px';
+  // get original heights from dataset
+  const swipePageHeight = swipePage.dataset.origHeight;
+  const swipeInfoHeight = swipeInfo.dataset.origHeight;
+  const infoTextHeight = infoText.dataset.origHeight;
+
+  // set css variables to original heights
+  document.documentElement.style.setProperty('--swipe-page-height', `${swipePageHeight}px`);
+  document.documentElement.style.setProperty('--swipe-info-height', `${swipeInfoHeight}px`);
+  document.documentElement.style.setProperty('--swipe-infotext-height', `${infoTextHeight}px`);
 }
 
 function displayItem(item) {
@@ -182,7 +188,7 @@ function dispTitle(titleText) {
 }
 
 function addELs() {
-  // window.addEventListener('resize', setMainHeight);
+  // window.addEventListener('resize', setSwipePageHeight);
   // window.addEventListener('resize', () => {
   //   displayItem(currentItem);
   // }); // automatic resizing with gets triggered by scrolling on mobile breaking viewmore (kept commented for devs)
@@ -222,36 +228,36 @@ function addELs() {
   });
 }
 
-function setMainHeight() {
+function setSwipePageHeight() {
   // get required elements
-  const main = document.querySelector('#swipe-page');
+  const swipePage = document.querySelector('#swipe-page');
   const navBar = document.querySelector('nav');
 
   // get display sizes
   const vpHeight = window.innerHeight; // viewport height
   const vpWidth = window.innerWidth; // viewport width
   const navHeight = navBar.offsetHeight;
-  const mainWidth = main.offsetWidth;
-  const sideMargin = (vpWidth - mainWidth) / 2; // margin required to center main
+  const swipePageWidth = swipePage.offsetWidth;
+  const sideMargin = (vpWidth - swipePageWidth) / 2; // margin required to center swipePage
   const ftrHeight = 0; // TODO add footer
   const heightBffr = vpHeight / 20; // height buffer of 1/20 added to make space for URL bar on mobile
-  const mainHeight = vpHeight - (navHeight + ftrHeight + heightBffr);
+  const swipePageHeight = vpHeight - (navHeight + ftrHeight + heightBffr);
 
   // apply to swipe page
   document.documentElement.style.setProperty('--nav-height', `${navHeight}px`);
   document.documentElement.style.setProperty('--side-margin', `${sideMargin}px`);
   document.documentElement.style.setProperty('--ftr-height', `${ftrHeight}px`);
-  document.documentElement.style.setProperty('--main-height', `${mainHeight}px`);
+  document.documentElement.style.setProperty('--swipe-page-height', `${swipePageHeight}px`);
 }
 
 function getHeights() {
   // get required DOM elements
-  const main = document.querySelector('#swipe-page');
+  const swipePage = document.querySelector('#swipe-page');
   const swipeInfo = document.querySelector('#swipe-info');
   const infoText = document.querySelector('#info-text');
 
   // save starting height values
-  main.dataset.origHeight = main.offsetHeight;
+  swipePage.dataset.origHeight = swipePage.offsetHeight;
   swipeInfo.dataset.origHeight = swipeInfo.offsetHeight;
   infoText.dataset.origHeight = infoText.offsetHeight;
 }
@@ -260,7 +266,7 @@ function getHeights() {
 
 async function loadPage() {
   addELs(); // add Event Listeners
-  setMainHeight();
+  setSwipePageHeight();
   getHeights();
   await loadNextItem(); // await so buttons aren't displayed before being hidden
   document.querySelector('#swipe-btns').style.display = '';
