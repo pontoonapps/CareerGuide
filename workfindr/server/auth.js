@@ -18,16 +18,8 @@ function dummyCookieAuth(req, res, next) {
   if (name) {
     const id = knownUsers.indexOf(name);
     if (id > 0) {
-      req.user = {
-        id,
-        name,
-      };
-      console.log(`user ${id}: "${name}"`);
-    } else {
-      console.log('user not known');
+      req.user = { id };
     }
-  } else {
-    console.log('no cookie');
   }
   next();
 }
