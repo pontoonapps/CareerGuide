@@ -4,16 +4,7 @@ VALUES
 ( 1, 'jacek' ),
 ( 2, 'kane' ),
 ( 3, 'pontuz' ),
-( 4, 'test4' ),
-( 5, 'test5' ),
-( 6, 'test6' ),
-( 7, 'test7' ),
-( 8, 'test8' ),
-( 9, 'test9' ),
-(10, 'passive' );
-
--- jobs and categories are in data.sql,
--- only jobs 1,2,3,4 are used in this test data
+( 4, 'passive' );
 
 INSERT INTO `pontoonapps_workfindr2`.`likes`
 ( user_id, job_id, type )

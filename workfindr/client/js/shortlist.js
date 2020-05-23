@@ -1,5 +1,7 @@
 async function getShortlist() {
-  const response = await fetch('user/jobs');
+  const cookie = document.cookie;
+  const username = cookie.slice(cookie.lastIndexOf('=') + 1, cookie.length);
+  const response = await fetch(`user/jobs/${username}`);
 
   if (response.ok) {
     const jList = await response.json();
