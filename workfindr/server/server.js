@@ -10,8 +10,8 @@ const mysql = require('mysql');
 
 const connection = mysql.createConnection({
   host: 'localhost',
-  user: 'pont',
-  password: 'PONT1423',
+  user: 'sa',
+  password: 'mypassword',
 });
 
 // connection.query('SELECT * FROM `pontoonapps_workfindr2`.`categories`;', function (err, res, fields) {
@@ -88,24 +88,26 @@ function mysqlError(err, res, fields) {
 async function getJobs(req, res) {
   const username = req.params.username;
   // get user id from username
-  connection.connect();
-  const query = 'SELECT id FROM `pontoonapps_jobseeker`.`users` WHERE first_name = \'' + username + '\';';
-  connection.query(query, function (err, res, fields) {
-    if (err) {
-      return console.log(err);
+  let data = '';
+  await connection.connect((err) => {
+    if (err) console.log(err);
+    else {
+      connection.query(
+        'SELECT j.* FROM `pontoonapps_workfindr2`.`jobs` AS j INNER JOIN `pontoonapps_workfindr2`.`shortlists` AS sl ON j.id=sl.job_id INNER JOIN `pontoonapps_jobseeker`.`users` AS us ON sl.user_id=us.id WHERE us.first_name=\'' + username + '\';',
+        (err, res) => {
+          if (err) console.log(err);
+          data = res[0];
+          console.log(data);
+        });
     }
-    console.log(res[0]);
   });
-  connection.end();
+  console.log(data);
   // get jobs that user has swiped on
 
   // return jobs to server
 
 
   // gets job for either shortlist page or swipe history page
-
-
-  console.log(username);
   const jobs = await db.swipedJobs();
   return res.json(jobs);
 }
