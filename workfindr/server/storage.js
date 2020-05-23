@@ -1,6 +1,3 @@
-// storage.js
-// swipe page data
-
 function jobs() {
   const testJobs = {
     jobs: [{
