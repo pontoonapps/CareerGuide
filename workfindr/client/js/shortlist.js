@@ -5,7 +5,7 @@ async function getShortlist() {
 
   if (response.ok) {
     const jList = await response.json();
-    return jList.jobs;
+    return jList;
   } else {
     console.log('Error from server: ' + response.status + '. Could not get shortlist');
   }
@@ -14,24 +14,23 @@ async function getShortlist() {
 async function loadShortList() {
   const tmplt = document.querySelector('#shortlist-template');
   const jobList = await getShortlist();
+  console.log(jobList);
   for (const job of jobList) {
-    if (job.shortlisted === 'true') {
       const jobContnr = document.importNode(tmplt.content, true);
 
-      jobContnr.querySelector('.swipe-item-image').src = job.image;
-      jobContnr.querySelector('.swipe-item-image').alt = job.title + 'image';
-      jobContnr.querySelector('.list-item-title').textContent = job.title;
-      jobContnr.querySelector('.swipe-item-desc').textContent = job.description;
-      jobContnr.querySelector('.view-more').addEventListener('click', dispDetailedDesc);
-      jobContnr.querySelector('.view-more').dataset.jobid = job.id;
-      jobContnr.querySelector('.view-less').addEventListener('click', hideDetailDesc);
-      jobContnr.querySelector('.view-less').dataset.jobid = job.id;
-      jobContnr.querySelector('.rmv-shrt-item').addEventListener('click', remShrtlstItem);
-      jobContnr.querySelector('.rmv-shrt-item').dataset.jobid = job.id;
+    jobContnr.querySelector('.swipe-item-image').src = job.image;
+    jobContnr.querySelector('.swipe-item-image').alt = job.title_en + 'image';
+    jobContnr.querySelector('.list-item-title').textContent = job.title_en;
+    jobContnr.querySelector('.swipe-item-desc').textContent = job.description_en;
+    jobContnr.querySelector('.view-more').addEventListener('click', dispDetailedDesc);
+    jobContnr.querySelector('.view-more').dataset.jobid = job.id;
+    jobContnr.querySelector('.view-less').addEventListener('click', hideDetailDesc);
+    jobContnr.querySelector('.view-less').dataset.jobid = job.id;
+    jobContnr.querySelector('.rmv-shrt-item').addEventListener('click',remShrtlstItem);
+    jobContnr.querySelector('.rmv-shrt-item').dataset.jobid = job.id;
 
-      const listContnr = document.querySelector('#list-container');
-      listContnr.appendChild(jobContnr);
-    }
+    const listContnr = document.querySelector('#list-container');
+    listContnr.appendChild(jobContnr);
   }
 }
 
