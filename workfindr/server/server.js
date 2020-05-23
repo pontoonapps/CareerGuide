@@ -38,7 +38,7 @@ function nextSwipeItem(req, res) {
 }
 
 function getQuestions(req, res) {
-  connection.query('SELECT job_id FROM shortlist WHERE user_id=1');
+  // connection.query('SELECT job_id FROM shortlist WHERE user_id=1');
   res.json(db.ansrdQuestns());
 }
 
@@ -91,15 +91,16 @@ async function getJobs(req, res) {
   INNER JOIN \`pontoonapps_jobseeker\`.\`users\` AS us
   ON sl.user_id=us.id
   WHERE us.first_name=?`;
+
   const [rows] = await sql.query(query, username);
-  console.log(rows);
   // get jobs that user has swiped on
 
   // return jobs to server
 
   // gets job for either shortlist page or swipe history page
+  console.log(rows);
   const jobs = await db.swipedJobs();
-  return res.json(jobs);
+  return res.json(rows);
 }
 
 function swipeJob(choice, jobid) {
