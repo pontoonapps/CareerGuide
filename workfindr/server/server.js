@@ -2,9 +2,26 @@
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const app = express();
-
 const db = require('./storage.js');
 const auth = require('./auth.js');
+const mysql = require('mysql');
+
+// database connection
+
+const connection = mysql.createConnection({
+  host: 'localhost',
+  user: 'pont',
+  password: 'PONT1423',
+});
+
+// connection.query('SELECT * FROM `pontoonapps_workfindr2`.`categories`;', function (err, res, fields) {
+//   if (err) {
+//     return console.log(err);
+//   }
+//   for (const result of res) {
+//     console.log(result);
+//   }
+// });
 
 // functionality
 
@@ -18,6 +35,7 @@ function nextSwipeItem(req, res) {
 }
 
 function getQuestions(req, res) {
+  connection.query('SELECT job_id FROM shortlist WHERE user_id=1');
   res.json(db.ansrdQuestns());
 }
 
@@ -58,8 +76,36 @@ function submitJobSwipe(req, res) {
   res.json();
 }
 
+function mysqlError(err, res, fields) {
+  if (err) {
+    return console.log(err);
+  }
+  for (const result of res) {
+    console.log(result);
+  }
+}
+
 async function getJobs(req, res) {
+  const username = req.params.username;
+  // get user id from username
+  connection.connect();
+  const query = 'SELECT id FROM `pontoonapps_jobseeker`.`users` WHERE first_name = \'' + username + '\';';
+  connection.query(query, function (err, res, fields) {
+    if (err) {
+      return console.log(err);
+    }
+    console.log(res[0]);
+  });
+  connection.end();
+  // get jobs that user has swiped on
+
+  // return jobs to server
+
+
   // gets job for either shortlist page or swipe history page
+
+
+  console.log(username);
   const jobs = await db.swipedJobs();
   return res.json(jobs);
 }
@@ -89,7 +135,7 @@ app.use('/user', auth.guardMiddleware);
 
 app.get('/user/next-item', asyncWrap(nextSwipeItem));
 
-app.get('/user/jobs', asyncWrap(getJobs));
+app.get('/user/jobs/:username', asyncWrap(getJobs));
 app.post('/user/jobs', express.json(), asyncWrap(submitJobSwipe));
 
 app.get('/user/questions', asyncWrap(getQuestions));
