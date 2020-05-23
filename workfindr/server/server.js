@@ -4,11 +4,11 @@ const cookieParser = require('cookie-parser');
 const app = express();
 const db = require('./storage.js');
 const auth = require('./auth.js');
-const mysql = require('mysql');
+const mysql = require('mysql2/promise');
 
 // database connection
 
-const connection = mysql.createConnection({
+const sqlPromise = mysql.createConnection({
   host: 'localhost',
   user: 'sa',
   password: 'mypassword',
@@ -76,36 +76,23 @@ function submitJobSwipe(req, res) {
   res.json();
 }
 
-function mysqlError(err, res, fields) {
-  if (err) {
-    return console.log(err);
-  }
-  for (const result of res) {
-    console.log(result);
-  }
-}
-
 async function getJobs(req, res) {
+  const sql = await sqlPromise;
   const username = req.params.username;
   // get user id from username
-  let data = '';
-  await connection.connect((err) => {
-    if (err) console.log(err);
-    else {
-      connection.query(
-        'SELECT j.* FROM `pontoonapps_workfindr2`.`jobs` AS j INNER JOIN `pontoonapps_workfindr2`.`shortlists` AS sl ON j.id=sl.job_id INNER JOIN `pontoonapps_jobseeker`.`users` AS us ON sl.user_id=us.id WHERE us.first_name=\'' + username + '\';',
-        (err, res) => {
-          if (err) console.log(err);
-          data = res[0];
-          console.log(data);
-        });
-    }
-  });
-  console.log(data);
+  const query =
+  `SELECT j.* 
+  FROM \`pontoonapps_workfindr2\`.\`jobs\` AS j 
+  INNER JOIN \`pontoonapps_workfindr2\`.\`shortlists\` AS sl 
+  ON j.id=sl.job_id 
+  INNER JOIN \`pontoonapps_jobseeker\`.\`users\` AS us 
+  ON sl.user_id=us.id 
+  WHERE us.first_name=?`;
+  const [rows] = await sql.query(query, username);
+  console.log(rows);
   // get jobs that user has swiped on
 
   // return jobs to server
-
 
   // gets job for either shortlist page or swipe history page
   const jobs = await db.swipedJobs();
@@ -146,8 +133,7 @@ app.post('/user/questions', express.json(), asyncWrap(subQuestAns));
 // wrap async function for express.js error handling
 function asyncWrap(f) {
   return (req, res, next) => {
-    Promise.resolve(f(req, res, next))
-      .catch((e) => next(e || new Error()));
+    Promise.resolve(f(req, res, next)).catch((e) => next(e || new Error()));
   };
 }
 
@@ -157,6 +143,4 @@ app.use(express.static('client'));
 
 // http://localhost:8080/
 const port = process.env.PORT || 8080;
-app.listen(port, () =>
-  console.log(`Listening on port ${port}!`),
-);
+app.listen(port, () => console.log(`Listening on port ${port}!`));
