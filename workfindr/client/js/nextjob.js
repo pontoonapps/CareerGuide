@@ -3,7 +3,7 @@ let currentItem; // job being displayed on page
 async function getNextItem() {
   const cookie = document.cookie;
   const name = cookie.slice(cookie.lastIndexOf('=') + 1, cookie.length);
-  const response = await fetch(`/user/next-item?&name=${name}`);
+  const response = await fetch(`/user/next-item?name=${name}`);
 
   if (response.ok) {
     const item = await response.json();

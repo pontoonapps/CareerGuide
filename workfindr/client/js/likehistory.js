@@ -1,7 +1,7 @@
 async function getSwipHist() {
   const cookie = document.cookie;
   const name = cookie.slice(cookie.lastIndexOf('=') + 1, cookie.length);
-  const response = await fetch(`user/jobs?&name=${name}`);
+  const response = await fetch(`user/jobs?name=${name}`);
 
   if (response.ok) {
     const jList = await response.json();
