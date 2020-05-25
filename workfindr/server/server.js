@@ -10,13 +10,11 @@ const config = require('./config');
 
 // functionality
 
-function nextSwipeItem(req, res) {
-  // for now the test data array stores questions AND answers
-  // we will need to check if the user needs questions or jobs
-  if (itemsList.length === 0) {
-    itemsList = db.refreshItemList();
-  }
-  res.json(itemsList.pop());
+async function nextSwipeItem(req, res) {
+  const username = req.query.name;
+  const userid = await db.getUserID(username);
+  const swipeItem = await db.getSwipeItem(userid);
+  return res.json(swipeItem);
 }
 
 function getQuestions(req, res) {
@@ -61,12 +59,9 @@ function submitJobSwipe(req, res) {
 }
 
 async function getJobs(req, res) {
-  // get jobs that user has swiped on
-
-  // return jobs to server
-
-  // gets job for either shortlist page or swipe history page
-  const jobs = await db.swipedJobs(req.query.page, req.query.name);
+  const username = req.query.name;
+  const userid = await db.getUserID(username);
+  const jobs = await db.swipedJobs(userid);
   return res.json(jobs);
 }
 
@@ -83,8 +78,6 @@ function shortlistItem(choice, jobid) {
   console.log('Choice:', choice);
   console.log('Toggle JobID:', jobid);
 }
-
-let itemsList = db.refreshItemList(); // allows for infinite swiping while testing swipe page
 
 // routes
 

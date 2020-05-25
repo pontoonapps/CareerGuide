@@ -1,7 +1,10 @@
 let currentItem; // job being displayed on page
 
 async function getNextItem() {
-  const response = await fetch('/user/next-item');
+  const cookie = document.cookie;
+  const name = cookie.slice(cookie.lastIndexOf('=') + 1, cookie.length);
+  const response = await fetch(`/user/next-item?&name=${name}`);
+
   if (response.ok) {
     const item = await response.json();
     return item;
@@ -118,7 +121,6 @@ function expandInfoText() {
 }
 
 function resetElHeights() {
-  console.log('resetHeights');
   // get DOM elements
   const swipePage = document.querySelector('#swipe-page');
   const swipeInfo = document.querySelector('#swipe-info');
@@ -139,11 +141,12 @@ function displayItem(item) {
   resetElHeights();
 
   // display info shared by questions and jobs (image and title)
-  dispTitle(item.title);
-  document.querySelector('#swipe-image').src = item.image;
+  dispTitle(item.title_en);
+  document.querySelector('#swipe-image').src = 'img/' + item.image;
+  document.querySelector('#swipe-image').alt = 'item image: ' + item.image;
 
   // display / hide elements specific to questions or jobs
-  if (item.description === undefined) { // if question else job
+  if (item.description_en === undefined) { // if question else job
     // hide job buttons
     document.querySelector('#btn-shortlist').style.display = 'none';
     document.querySelector('#btn-dislike').style.display = 'none';
@@ -158,6 +161,9 @@ function displayItem(item) {
 
     // set description to blank (as questions don't have descriptions)
     document.querySelector('#info-text').textContent = '';
+
+    // show question
+    dispInfoText(item.question_en);
   } else {
     // hide question buttons
     document.querySelector('#btn-yes').style.display = 'none';
@@ -170,7 +176,7 @@ function displayItem(item) {
     document.querySelector('#btn-like').style.display = '';
 
     // show description
-    dispInfoText(item.description);
+    dispInfoText(item.description_en);
   }
 }
 
