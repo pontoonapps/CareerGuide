@@ -1,7 +1,7 @@
 async function getShortlist() {
   const cookie = document.cookie;
   const name = cookie.slice(cookie.lastIndexOf('=') + 1, cookie.length);
-  const response = await fetch(`user/jobs?page=${0}&name=${name}`);
+  const response = await fetch(`user/jobs?&name=${name}`);
 
   if (response.ok) {
     const jList = await response.json();
@@ -14,18 +14,19 @@ async function getShortlist() {
 async function loadShortList() {
   const tmplt = document.querySelector('#shortlist-template');
   const jobList = await getShortlist();
+  console.log(jobList);
   for (const job of jobList) {
-      const jobContnr = document.importNode(tmplt.content, true);
+    const jobContnr = document.importNode(tmplt.content, true);
 
-    jobContnr.querySelector('.swipe-item-image').src = job.image;
-    jobContnr.querySelector('.swipe-item-image').alt = job.title_en + 'image';
+    jobContnr.querySelector('.swipe-item-image').src = 'img/' + job.image;
+    jobContnr.querySelector('.swipe-item-image').alt = job.title_en + ' image';
     jobContnr.querySelector('.list-item-title').textContent = job.title_en;
     jobContnr.querySelector('.swipe-item-desc').textContent = job.description_en;
     jobContnr.querySelector('.view-more').addEventListener('click', dispDetailedDesc);
     jobContnr.querySelector('.view-more').dataset.jobid = job.id;
     jobContnr.querySelector('.view-less').addEventListener('click', hideDetailDesc);
     jobContnr.querySelector('.view-less').dataset.jobid = job.id;
-    jobContnr.querySelector('.rmv-shrt-item').addEventListener('click',remShrtlstItem);
+    jobContnr.querySelector('.rmv-shrt-item').addEventListener('click', remShrtlstItem);
     jobContnr.querySelector('.rmv-shrt-item').dataset.jobid = job.id;
 
     const listContnr = document.querySelector('#list-container');

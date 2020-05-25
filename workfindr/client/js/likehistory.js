@@ -1,7 +1,7 @@
 async function getSwipHist() {
   const cookie = document.cookie;
   const name = cookie.slice(cookie.lastIndexOf('=') + 1, cookie.length);
-  const response = await fetch(`user/jobs?page=${1}&name=${name}`);
+  const response = await fetch(`user/jobs?&name=${name}`);
 
   if (response.ok) {
     const jList = await response.json();
@@ -10,22 +10,22 @@ async function getSwipHist() {
     console.log('Error from server: ' + response.status + '. Could not get question history');
   }
 }
+
 async function loadSwipHist() {
   const tmplt = document.querySelector('#swipe-history-template');
   const jobList = await getSwipHist();
   for (const job of jobList) {
-    if (job.type === 'show later') {
-      return;
+    if (job.swipe === 'show later') {
+      continue;
     }
 
     const jobContnr = document.importNode(tmplt.content, true);
-
-    jobContnr.querySelector('.swipe-item-image').src = job.image;
+    jobContnr.querySelector('.swipe-item-image').src = 'img/' + job.image;
     jobContnr.querySelector('.swipe-item-image').alt = job.title_en + 'image';
     jobContnr.querySelector('.list-item-title').textContent = job.title_en;
     jobContnr.querySelector('.swipe-item-desc').textContent = job.description_en;
-    jobContnr.querySelector('.swipe-choice').classList.add(job.type);
-    jobContnr.querySelector('.swipe-choice').textContent = (job.type === 'liked' ? '👍' : '👎');
+    jobContnr.querySelector('.swipe-choice').classList.add(job.swipe);
+    jobContnr.querySelector('.swipe-choice').textContent = (job.swipe === 'like' ? '👍' : '👎');
     jobContnr.querySelector('.swipe-choice').dataset.jobid = job.id;
     jobContnr.querySelector('.swipe-choice').addEventListener('click', changeSwipe);
 
@@ -34,20 +34,21 @@ async function loadSwipHist() {
   }
 }
 
-// FIXME: Can't change swipe anymore
-function changeSwipe() {
-  const succSub = subSwipChange();
+function changeSwipe(event) {
+  const succSub = subSwipChange(event);
   if (succSub) {
-    switch (event.target.classList[1]) {
-      case 'liked':
-        event.target.classList.remove('liked');
-        event.target.classList.add('disliked');
-        event.target.textContent = '👎';
+    const swipeChoiceBtn = event.target;
+    const updatedSwipe = event.target.classList[1];
+    switch (updatedSwipe) {
+      case 'like':
+        swipeChoiceBtn.classList.remove('like');
+        swipeChoiceBtn.classList.add('dislike');
+        swipeChoiceBtn.textContent = '👎';
         break;
-      case 'disliked':
-        event.target.classList.remove('disliked');
-        event.target.classList.add('liked');
-        event.target.textContent = '👍';
+      case 'dislike':
+        swipeChoiceBtn.classList.remove('dislike');
+        swipeChoiceBtn.classList.add('like');
+        swipeChoiceBtn.textContent = '👍';
         break;
     }
   } else {
@@ -55,14 +56,16 @@ function changeSwipe() {
   }
 }
 
-async function subSwipChange() {
+async function subSwipChange(event) {
   const usrInput = {};
-  usrInput.itemid = event.target.dataset.jobid;
-  switch (event.target.classList[1]) {
-    case 'liked':
+  const updatedSwipe = event.target.classList[1];
+  const itemid = event.target.dataset.jobid;
+  usrInput.itemid = itemid;
+  switch (updatedSwipe) {
+    case 'like':
       usrInput.choice = 'dislike';
       break;
-    case 'disliked':
+    case 'dislike':
       usrInput.choice = 'like';
       break;
   }

@@ -1,6 +1,6 @@
 
 module.exports.mysql = {
   host: 'localhost',
-  user: 'sa',
-  password: 'mypassword',
+  user: 'pont',
+  password: 'PONT1423',
 };
