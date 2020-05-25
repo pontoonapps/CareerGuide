@@ -1,7 +1,7 @@
 async function getShortlist() {
   const cookie = document.cookie;
-  const username = cookie.slice(cookie.lastIndexOf('=') + 1, cookie.length);
-  const response = await fetch(`user/jobs/${username}`);
+  const name = cookie.slice(cookie.lastIndexOf('=') + 1, cookie.length);
+  const response = await fetch(`user/jobs?page=${0}&name=${name}`);
 
   if (response.ok) {
     const jList = await response.json();
@@ -14,7 +14,6 @@ async function getShortlist() {
 async function loadShortList() {
   const tmplt = document.querySelector('#shortlist-template');
   const jobList = await getShortlist();
-  console.log(jobList);
   for (const job of jobList) {
       const jobContnr = document.importNode(tmplt.content, true);
 

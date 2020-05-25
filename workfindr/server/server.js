@@ -7,24 +7,6 @@ const rootApp = express();
 const db = require('./storage.js');
 const auth = require('./auth.js');
 const config = require('./config');
-const mysql = require('mysql2/promise');
-
-// database connection
-
-const sqlPromise = mysql.createConnection({
-  host: 'localhost',
-  user: 'sa',
-  password: 'mypassword',
-});
-
-// connection.query('SELECT * FROM `pontoonapps_workfindr2`.`categories`;', function (err, res, fields) {
-//   if (err) {
-//     return console.log(err);
-//   }
-//   for (const result of res) {
-//     console.log(result);
-//   }
-// });
 
 // functionality
 
@@ -38,7 +20,6 @@ function nextSwipeItem(req, res) {
 }
 
 function getQuestions(req, res) {
-  // connection.query('SELECT job_id FROM shortlist WHERE user_id=1');
   res.json(db.ansrdQuestns());
 }
 
@@ -80,27 +61,13 @@ function submitJobSwipe(req, res) {
 }
 
 async function getJobs(req, res) {
-  const sql = await sqlPromise;
-  const username = req.params.username;
-  // get user id from username
-  const query =
-  `SELECT j.*
-  FROM \`pontoonapps_workfindr2\`.\`jobs\` AS j
-  INNER JOIN \`pontoonapps_workfindr2\`.\`shortlists\` AS sl
-  ON j.id=sl.job_id
-  INNER JOIN \`pontoonapps_jobseeker\`.\`users\` AS us
-  ON sl.user_id=us.id
-  WHERE us.first_name=?`;
-
-  const [rows] = await sql.query(query, username);
   // get jobs that user has swiped on
 
   // return jobs to server
 
   // gets job for either shortlist page or swipe history page
-  console.log(rows);
-  const jobs = await db.swipedJobs();
-  return res.json(rows);
+  const jobs = await db.swipedJobs(req.query.page, req.query.name);
+  return res.json(jobs);
 }
 
 function swipeJob(choice, jobid) {
@@ -128,7 +95,7 @@ app.use('/user', auth.guardMiddleware);
 
 app.get('/user/next-item', asyncWrap(nextSwipeItem));
 
-app.get('/user/jobs/:username', asyncWrap(getJobs));
+app.get('/user/jobs', asyncWrap(getJobs));
 app.post('/user/jobs', express.json(), asyncWrap(submitJobSwipe));
 
 app.get('/user/questions', asyncWrap(getQuestions));

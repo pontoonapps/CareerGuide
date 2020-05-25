@@ -1,26 +1,31 @@
 async function getSwipHist() {
-  const response = await fetch('user/jobs');
+  const cookie = document.cookie;
+  const name = cookie.slice(cookie.lastIndexOf('=') + 1, cookie.length);
+  const response = await fetch(`user/jobs?page=${1}&name=${name}`);
 
   if (response.ok) {
     const jList = await response.json();
-    return jList.jobs;
+    return jList;
   } else {
     console.log('Error from server: ' + response.status + '. Could not get question history');
   }
 }
-
 async function loadSwipHist() {
   const tmplt = document.querySelector('#swipe-history-template');
   const jobList = await getSwipHist();
   for (const job of jobList) {
+    if (job.type === 'show later') {
+      return;
+    }
+
     const jobContnr = document.importNode(tmplt.content, true);
 
     jobContnr.querySelector('.swipe-item-image').src = job.image;
-    jobContnr.querySelector('.swipe-item-image').alt = job.title + 'image';
-    jobContnr.querySelector('.list-item-title').textContent = job.title;
-    jobContnr.querySelector('.swipe-item-desc').textContent = job.description;
-    jobContnr.querySelector('.swipe-choice').classList.add(job.swipe);
-    jobContnr.querySelector('.swipe-choice').textContent = (job.swipe === 'liked' ? '👍' : '👎');
+    jobContnr.querySelector('.swipe-item-image').alt = job.title_en + 'image';
+    jobContnr.querySelector('.list-item-title').textContent = job.title_en;
+    jobContnr.querySelector('.swipe-item-desc').textContent = job.description_en;
+    jobContnr.querySelector('.swipe-choice').classList.add(job.type);
+    jobContnr.querySelector('.swipe-choice').textContent = (job.type === 'liked' ? '👍' : '👎');
     jobContnr.querySelector('.swipe-choice').dataset.jobid = job.id;
     jobContnr.querySelector('.swipe-choice').addEventListener('click', changeSwipe);
 
@@ -29,6 +34,7 @@ async function loadSwipHist() {
   }
 }
 
+// FIXME: Can't change swipe anymore
 function changeSwipe() {
   const succSub = subSwipChange();
   if (succSub) {

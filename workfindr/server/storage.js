@@ -1,3 +1,8 @@
+const mysql = require('mysql2/promise');
+const config = require('./config');
+
+const sqlPromise = mysql.createConnection(config.mysql);
+
 function jobs() {
   const testJobs = {
     jobs: [{
@@ -47,54 +52,40 @@ function jobs() {
   return testJobs;
 }
 
-function swipedJobs() {
-  const testJobs = {
-    jobs: [{
-      id: 0,
-      title: 'Plumber',
-      description: 'You will  fits and repair the pipe, fitting, and other apparatus of water supply, sanitation, or heating systems.',
-      image: 'img/property.jpg',
-      swipe: 'disliked',
-      shortlisted: 'true',
-    }, {
-      id: 1,
-      title: 'Programmer',
-      description: 'You will write computer programs',
-      image: 'img/it.jpg',
-      swipe: 'liked',
-      shortlisted: 'false',
-    }, {
-      id: 2,
-      title: 'Media Sales Executive',
-      description: 'You will sell advertising space in newspapers and magazines, online publications, radio and television, outdoor billboards and digital screens. You will approach potential customers to make sales, work to reach targets and deliver sales reports to management.',
-      image: 'img/retail.jpg',
-      swipe: 'liked',
-      shortlisted: 'false',
-    }, {
-      id: 3,
-      title: 'Educational Support Assistants',
-      description: 'You will be working closely with teachers and other staff involved in the education system and provide a general support role for the pupils in the school.',
-      image: 'img/education.jpg',
-      swipe: 'disliked',
-      shortlisted: 'true',
-    }, {
-      id: 4,
-      title: 'Accountant',
-      description: 'Accounting technicians work for both private and public sector organisations, where they undertake a wide range of accountancy, financial and taxation tasks.',
-      image: 'img/financial.jpg',
-      swipe: 'liked',
-      shortlisted: 'true',
-    }, {
-      id: 6,
-      title: 'Text Length Test',
-      description: 'Cheesecake chocolate sesame snaps. Wafer halvah lollipop danish oat cake cake chocolate gingerbread. Bear claw marzipan wafer icing gummi bears chupa chups halvah tart toffee. Halvah tiramisu cake gingerbread toffee. Brownie chocolate cookie cookie dessert chocolate bar croissant lollipop. Cake gummi bears pudding. Cake tootsie roll chocolate ice cream gummi bears. Biscuit pudding chocolate bar marzipan muffin gummi bears. Croissant bonbon chocolate cake cupcake sweet roll. Jujubes tart lollipop. Cake sweet cheesecake pie tiramisu toffee. Lemon drops muffin jelly-o pastry soufflé marzipan marshmallow. Danish tart gingerbread carrot cake chocolate cake chocolate cake tootsie roll. Tiramisu cookie candy pudding. Gummi bears icing croissant muffin lollipop croissant. Gummies sweet pastry. Lollipop chocolate cake apple pie oat cake tootsie roll brownie. Brownie sugar plum candy canes cake lemon drops oat cake brownie. Tiramisu pudding tiramisu jelly-o. Chocolate topping muffin bonbon oat cake muffin carrot cake. Lemon drops wafer liquorice cake biscuit icing tiramisu dessert. Carrot cake oat cake apple pie tart liquorice jujubes. Carrot cake chupa chups cake sugar plum gummi bears pastry pastry cheesecake. Cookie danish marzipan soufflé cupcake topping cake. Caramels gummies brownie. Halvah sugar plum gingerbread fruitcake jelly beans icing lemon drops macaroon gummies.',
-      image: 'img/property.jpg',
-      swipe: 'liked',
-      shortlisted: 'true',
-    }],
-  };
+async function swipedJobs(page, username) {
+  // Make sure this works on likehistory and shortlist page
+  const sql = await sqlPromise;
+  // This is temporary as to get the id when we try out the queries. Getting the ID through their first_name isn't the final solution.
+  const queryid =
+  `SELECT id 
+  FROM \`pontoonapps_jobseeker\`.\`users\` 
+  WHERE first_name=?`;
+  const [data] = await sql.query(sql.format(queryid), username);
+  const id = JSON.parse(JSON.stringify(data))[0].id;
 
-  return testJobs;
+  // This could potentionally be merged into on SQL query later on
+  let query = '';
+  switch (page) {
+    case '0':
+      query =
+        `SELECT j.* 
+        FROM \`pontoonapps_workfindr2\`.\`jobs\` AS j 
+        INNER JOIN \`pontoonapps_workfindr2\`.\`shortlists\` AS sl 
+        ON j.id=sl.job_id  
+        WHERE sl.user_id=?`;
+      break;
+    case '1':
+      query =
+        `SELECT j.*, li.type 
+        FROM \`pontoonapps_workfindr2\`.\`jobs\` AS j
+        INNER JOIN \`pontoonapps_workfindr2\`.\`likes\` AS li 
+        ON j.id=li.job_id  
+        WHERE li.user_id=?`;
+      break;
+  }
+  const [rows] = await sql.query(sql.format(query), id);
+  console.log(rows);
+  return rows;
 }
 
 function questions() {
