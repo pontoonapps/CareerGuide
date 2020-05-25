@@ -131,21 +131,7 @@ function ansrdQuestns() { // test Answered Questions
 async function getSwipeItem(userid) {
   const sql = await sqlPromise;
 
-  // TODO: The conversion from data using JSON.parse and JSON.stringify could be simplified
-  // using something similar to this:
-  //
-  // (  return rows.map((row) => {
-  //   return {
-  //     id: row.id,
-  //     title: row.title,
-  //     file: config.webimg + row.filename,
-  //   };
-  // });)
-  // Taken from resource: https://github.com/portsoc/ws_api/blob/master/jstagram/model-mysql.js
-  // Whereas we get all the data and further on return it similar to this configuration?
-  // Written at the top as this goes in hand with most of the data in this function.
-
-  // get number of questionnaire questions
+  // TODO: The conversion from data using JSON.parse and JSON.stringify, is there a better solution?
   const queryQuestids =
     `SELECT id AS questid
     FROM pontoonapps_workfindr2.questions`;
@@ -235,8 +221,8 @@ async function getSwipeItem(userid) {
         ON pontoonapps_workfindr2.jobs.category_id = pontoonapps_workfindr2.categories.id
       WHERE jobs.id = ?`;
     const [rawJob] = await sql.query(queryGJ, nextItem.id);
-    const job = JSON.parse(JSON.stringify(rawJob))[0];
-    return job;
+    // There's no reason to use JSON.parse(JSON.stringify) here, removed it
+    return rawJob;
   }
 }
 
