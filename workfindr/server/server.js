@@ -18,40 +18,35 @@ function getQuestions(req, res) {
   res.json(db.ansrdQuestns());
 }
 
-function subQuestAns(req, res) {
-  const choice = req.body.choice;
-  const questid = req.body.itemid;
-
-  // save question answer in DB
-  console.log('subQuestAns: ');
-  console.log('Choice:', choice);
-  console.log('questionID:', questid);
+async function subQuestAns(req, res) {
+  // FIXME seperate SQL statement required for submit question ans and update question answer
+  const ansData = req.body;
+  ansData.userid = await db.getUserID(ansData.username);
+  db.insQuestAns(ansData);
+  // TODO send response depending on insert success
   res.json();
 }
 
-function submitJobSwipe(req, res) {
-  const choice = req.body.choice;
-  const jobid = req.body.itemid;
-  switch (choice) {
+async function submitJobSwipe(req, res) {
+  const swipeData = req.body;
+  swipeData.userid = await db.getUserID(swipeData.username);
+  switch (swipeData.choice) {
     case 'like':
-      swipeJob(choice, jobid);
-      break;
     case 'dislike':
-      swipeJob(choice, jobid);
-      break;
     case 'showLater':
-      swipeJob(choice, jobid);
+      swipeJob(swipeData);
       break;
     case 'shortlist-add':
-      shortlistItem(choice, jobid);
-      swipeJob('like', jobid);
+      shortlistItem(swipeData);
+      swipeJob(swipeData);
       break;
     case 'shortlist-rem':
-      shortlistItem(choice, jobid);
+      shortlistItem(swipeData);
       break;
     default:
       console.log('unrecognized choice in submitJobSwipe');
   }
+  // TODO send response depending on swipe insert success (or failure)
   res.json();
 }
 
@@ -62,18 +57,12 @@ async function getJobs(req, res) {
   return res.json(jobs);
 }
 
-function swipeJob(choice, jobid) {
-  // save swipe in DB
-  console.log('SwipeJob: ');
-  console.log('Choice:', choice);
-  console.log('JobID:', jobid);
+async function swipeJob(swipeData) {
+  await db.insSwipe(swipeData);
 }
 
-function shortlistItem(choice, jobid) {
-  // save shortlist in DB
-  console.log('shortlistItem: ');
-  console.log('Choice:', choice);
-  console.log('Toggle JobID:', jobid);
+async function shortlistItem(swipeData) {
+  await db.insShrtlst(swipeData);
 }
 
 // routes

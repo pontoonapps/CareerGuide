@@ -1,3 +1,6 @@
+const cookie = document.cookie;
+const name = cookie.slice(cookie.lastIndexOf('=') + 1, cookie.length);
+
 async function getQuestReview() {
   const response = await fetch('user/questions');
 
@@ -67,6 +70,7 @@ async function subAnsChange(event) {
 
   // get job id and user choice
   const usrInput = {};
+  usrInput.username = name;
   usrInput.itemid = answerCont.dataset.questid;
 
   switch (currChoice) {
