@@ -3,55 +3,6 @@ const config = require('./config');
 
 const sqlPromise = mysql.createConnection(config.mysql);
 
-function jobs() {
-  const testJobs = {
-    jobs: [{
-      id: 0,
-      title: 'Plumber',
-      description: 'You will  fits and repair the pipe, fitting, and other apparatus of water supply, sanitation, or heating systems.',
-      image: 'img/property.jpg',
-    }, {
-      id: 1,
-      title: 'Programmer',
-      description: 'You will write computer programs',
-      image: 'img/it.jpg',
-    }, {
-      id: 2,
-      title: 'Media Sales Executive',
-      description: 'You will sell advertising space in newspapers and magazines, online publications, radio and television, outdoor billboards and digital screens. You will approach potential customers to make sales, work to reach targets and deliver sales reports to management.',
-      image: 'img/retail.jpg',
-    }, {
-      id: 3,
-      title: 'Educational Support Assistants',
-      description: 'You will be working closely with teachers and other staff involved in the education system and provide a general support role for the pupils in the school.',
-      image: 'img/education.jpg',
-    }, {
-      id: 4,
-      title: 'Accountant',
-      description: 'Accounting technicians work for both private and public sector organisations, where they undertake a wide range of accountancy, financial and taxation tasks.',
-      image: 'img/financial.jpg',
-    }, {
-      id: 5,
-      title: 'Animal Nutritionist',
-      description: '"As an animal nurtitionist you will research and evaluate the animals needs and design the diets of the animals in question.',
-      image: 'img/cater.jpg',
-    }, {
-      id: 6,
-      title: 'Art Therapist',
-      description: 'Art therapy is the incorporation of art making into a patients counselling sessions to help both adults and children of all ages with their mental, physical and emotional health. As an art therapist you will use art therapy to treat stress, depression, low self esteem, behavioral problems and to resolve conflict.',
-      image: 'img/art.jpg',
-    },
-    {
-      id: 7,
-      title: 'Text Length Test',
-      description: 'Cheesecake chocolate sesame snaps. Wafer halvah lollipop danish oat cake cake chocolate gingerbread. Bear claw marzipan wafer icing gummi bears chupa chups halvah tart toffee. Halvah tiramisu cake gingerbread toffee. Brownie chocolate cookie cookie dessert chocolate bar croissant lollipop. Cake gummi bears pudding. Cake tootsie roll chocolate ice cream gummi bears. Biscuit pudding chocolate bar marzipan muffin gummi bears. Croissant bonbon chocolate cake cupcake sweet roll. Jujubes tart lollipop. Cake sweet cheesecake pie tiramisu toffee. Lemon drops muffin jelly-o pastry soufflé marzipan marshmallow. Danish tart gingerbread carrot cake chocolate cake chocolate cake tootsie roll. Tiramisu cookie candy pudding. Gummi bears icing croissant muffin lollipop croissant. Gummies sweet pastry. Lollipop chocolate cake apple pie oat cake tootsie roll brownie. Brownie sugar plum candy canes cake lemon drops oat cake brownie. Tiramisu pudding tiramisu jelly-o. Chocolate topping muffin bonbon oat cake muffin carrot cake. Lemon drops wafer liquorice cake biscuit icing tiramisu dessert. Carrot cake oat cake apple pie tart liquorice jujubes. Carrot cake chupa chups cake sugar plum gummi bears pastry pastry cheesecake. Cookie danish marzipan soufflé cupcake topping cake. Caramels gummies brownie. Halvah sugar plum gingerbread fruitcake jelly beans icing lemon drops macaroon gummies.',
-      image: 'img/property.jpg',
-    }],
-  };
-
-  return testJobs;
-}
-
 async function swipedJobs(userid) {
   const sql = await sqlPromise;
 
@@ -221,8 +172,9 @@ async function getSwipeItem(userid) {
         ON pontoonapps_workfindr2.jobs.category_id = pontoonapps_workfindr2.categories.id
       WHERE jobs.id = ?`;
     const [rawJob] = await sql.query(queryGJ, nextItem.id);
-    // There's no reason to use JSON.parse(JSON.stringify) here, removed it
-    return rawJob;
+    const job = JSON.parse(JSON.stringify(rawJob))[0];
+    // removing this broke the code as array was passed instead of object (please test changes)
+    return job;
   }
 }
 
@@ -238,11 +190,67 @@ async function getUserID(username) {
   return id;
 }
 
+async function insQuestAns(ansData) {
+  const sql = await sqlPromise;
+
+  const userid = ansData.userid;
+  const questionid = ansData.itemid;
+  let answer;
+  switch (ansData.choice) {
+    case 'yes':
+      answer = 1;
+      break;
+    case 'no':
+      answer = 2;
+      break;
+  }
+  const queryIQA = // queryInsertQuestionAnswer
+    `INSERT INTO pontoonapps_workfindr2.answers
+      (user_id, question_id, option_number)
+    VALUES
+      (?, ?, ?)`;
+  await sql.query(queryIQA, [userid, questionid, answer]);
+  // TODO if insert is successful return true else false
+}
+
+async function insSwipe(swipeData) {
+  const sql = await sqlPromise;
+  const userid = swipeData.userid;
+  const jobid = swipeData.itemid;
+  let type;
+  switch (swipeData.choice) {
+    case 'like':
+      type = 1;
+      break;
+    case 'dislike':
+      type = 2;
+      break;
+    case 'showLater':
+      type = 3;
+      break;
+    case 'shortlist-add': // automatic like on shortlist
+      type = 1;
+      break;
+  }
+  const queryIJS = // queryInsertJobSwipe
+    `INSERT INTO pontoonapps_workfindr2.likes
+      (user_id, job_id, type)
+    VALUES
+      (?, ?, ?)`;
+  await sql.query(queryIJS, [userid, jobid, type]);
+}
+
+function insShrtlst() {
+  console.log('hello! This function will insert into the shortlists table');
+}
+
 module.exports = {
-  jobs,
   questions,
   ansrdQuestns,
   swipedJobs,
   getSwipeItem,
   getUserID,
+  insQuestAns,
+  insSwipe,
+  insShrtlst,
 };

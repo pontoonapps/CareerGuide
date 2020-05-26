@@ -1,8 +1,8 @@
 let currentItem; // job being displayed on page
+const cookie = document.cookie;
+const name = cookie.slice(cookie.lastIndexOf('=') + 1, cookie.length);
 
 async function getNextItem() {
-  const cookie = document.cookie;
-  const name = cookie.slice(cookie.lastIndexOf('=') + 1, cookie.length);
   const response = await fetch(`/user/next-item?name=${name}`);
 
   if (response.ok) {
@@ -16,6 +16,7 @@ async function getNextItem() {
 async function subSwipe(event) {
   // get user choice (shortlisting questions???)
   const swipe = {};
+  swipe.username = name;
   swipe.itemid = currentItem.id;
   switch (event.target.id) {
     case 'btn-dislike':
@@ -44,7 +45,7 @@ async function subSwipe(event) {
   // identify whether current item is job or question is there a better
   // way than a lack of description? should there be an attribute marking job or question?
   let response;
-  if (currentItem.description === undefined) {
+  if (currentItem.description_en === undefined) {
     response = await subQuestSwipe(swipe);
   } else {
     response = await subJobSwipe(swipe);
