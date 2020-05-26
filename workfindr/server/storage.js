@@ -56,7 +56,9 @@ function questions() {
   return questions;
 }
 
-function ansrdQuestns() { // test Answered Questions
+async function ansrdQuestns() { // test Answered Questions
+  const sql = await sqlPromise;
+
   const questions = {
     questions: [{
       id: 0,
@@ -75,6 +77,8 @@ function ansrdQuestns() { // test Answered Questions
       image: 'img/tempImage.png',
     }],
   };
+
+
 
   return questions;
 }
@@ -125,6 +129,7 @@ async function getSwipeItem(userid) {
     const quest = JSON.parse(JSON.stringify(rawQuest))[0];
     return quest;
   } else {
+    // FIXME: We need to manage the duplicate entries. We are currently sending out jobs that has already been swiped on. This is causing a UnhandledPromiseRejection.
     // get list of job ids which have been swiped on (we don't want to show these to the user again)
     const queryGSJ = // queryGetSwipedJobs
       `SELECT job_id
@@ -204,6 +209,7 @@ async function insQuestAns(ansData) {
       answer = 2;
       break;
   }
+  console.log(userid, questionid, answer);
   const queryIQA = // queryInsertQuestionAnswer
     `INSERT INTO pontoonapps_workfindr2.answers
       (user_id, question_id, option_number)
@@ -219,6 +225,7 @@ async function insSwipe(swipeData) {
   const jobid = swipeData.itemid;
   let type;
   switch (swipeData.choice) {
+    case 'shortlist-add': // automatic like on shortlist
     case 'like':
       type = 1;
       break;
@@ -227,9 +234,6 @@ async function insSwipe(swipeData) {
       break;
     case 'showLater':
       type = 3;
-      break;
-    case 'shortlist-add': // automatic like on shortlist
-      type = 1;
       break;
   }
   const queryIJS = // queryInsertJobSwipe
