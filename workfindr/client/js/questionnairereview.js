@@ -2,11 +2,11 @@ const cookie = document.cookie;
 const name = cookie.slice(cookie.lastIndexOf('=') + 1, cookie.length);
 
 async function getQuestReview() {
-  const response = await fetch('user/questions');
+  const response = await fetch(`user/questions?name=${name}`);
 
   if (response.ok) {
     const qList = await response.json();
-    return qList.questions;
+    return qList;
   } else {
     console.log('Error from server: ' + response.status + '. Could not get questionnaire review');
   }
