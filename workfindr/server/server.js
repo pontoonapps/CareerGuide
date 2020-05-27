@@ -17,8 +17,11 @@ async function nextSwipeItem(req, res) {
   return res.json(swipeItem);
 }
 
-function getQuestions(req, res) {
-  res.json(db.ansrdQuestns());
+async function getQuestions(req, res) {
+  const username = req.query.name;
+  const userid = await db.getUserID(username);
+  const ansrdQst = await db.ansrdQuestns(userid);
+  res.json(ansrdQst);
 }
 
 async function subQuestAns(req, res) {

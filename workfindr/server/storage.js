@@ -56,30 +56,26 @@ function questions() {
   return questions;
 }
 
-async function ansrdQuestns() { // test Answered Questions
+async function ansrdQuestns(userid) { // Answered Questions
   const sql = await sqlPromise;
 
-  const questions = {
-    questions: [{
-      id: 0,
-      question: 'Do you want to be a plumber?',
-      answer: 'yes',
-      image: 'img/tempImage.png',
-    }, {
-      id: 1,
-      question: 'Do you want to be a programmer?',
-      answer: 'no',
-      image: 'img/tempImage.png',
-    }, {
-      id: 2,
-      question: 'Do you want to be a mechanic?',
-      answer: 'yes',
-      image: 'img/tempImage.png',
-    }],
-  };
+  // Do we need a case for when it isn't 1 or 2?
+  const query = `
+  SELECT 
+  qst.id, 
+  qst.question_en AS question, 
+  CASE
+    WHEN ans.option_number=1
+      THEN 'yes'
+    WHEN ans.option_number=2
+      THEN 'no'
+    END AS answer
+  FROM pontoonapps_workfindr2.questions AS qst 
+  INNER JOIN 
+  pontoonapps_workfindr2.answers AS ans 
+  ON qst.id=ans.question_id AND ans.user_id=?;`;
 
-
-
+  const [questions] = await sql.query(query, userid);
   return questions;
 }
 
