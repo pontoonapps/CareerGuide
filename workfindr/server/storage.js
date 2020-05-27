@@ -59,21 +59,19 @@ function questions() {
 async function ansrdQuestns(userid) { // Answered Questions
   const sql = await sqlPromise;
 
-  // Do we need a case for when it isn't 1 or 2?
+  // Do we need to include an image here?
   const query = `
   SELECT 
   qst.id, 
-  qst.question_en AS question, 
-  CASE
-    WHEN ans.option_number=1
-      THEN 'yes'
-    WHEN ans.option_number=2
-      THEN 'no'
-    END AS answer
+  qst.question_en AS question,
+  opt.label_en as answer 
   FROM pontoonapps_workfindr2.questions AS qst 
   INNER JOIN 
   pontoonapps_workfindr2.answers AS ans 
-  ON qst.id=ans.question_id AND ans.user_id=?;`;
+  ON qst.id=ans.question_id AND ans.user_id=?
+  INNER JOIN
+  pontoonapps_workfindr2.options AS opt
+  ON ans.option_number=opt.option_number AND ans.question_id=opt.question_id;`;
 
   const [questions] = await sql.query(query, userid);
   return questions;
