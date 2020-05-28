@@ -196,6 +196,11 @@ main {
   padding: 0.3em;
 }
 
+#list-container {
+  max-width: max-content;
+  margin: 0 auto;
+}
+
 .list-item-container {
   display: grid;
   grid-template-rows: auto auto;
@@ -249,10 +254,8 @@ main {
   grid-row-end: 3;
   display: flex;
   justify-content: space-around;
-  align-items: center;
-  max-width: 100%;
-  width: 50em;
   margin: 0.5em 0;
+  width: inherit;
 }
 
 .quest-ans > * {
