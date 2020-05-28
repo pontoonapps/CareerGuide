@@ -3,7 +3,7 @@ const config = require('./config');
 
 const sqlPromise = mysql.createConnection(config.mysql);
 
-async function swipedJobs(userid) {
+async function swipedJobs(userId) {
   const sql = await sqlPromise;
 
   // get swiped jobs (route B)
@@ -27,7 +27,7 @@ async function swipedJobs(userid) {
     INNER JOIN pontoonapps_jobseeker.users 
       ON pontoonapps_workfindr2.shortlists.user_id = pontoonapps_jobseeker.users.id
     WHERE pontoonapps_jobseeker.users.id = ?`;
-  const [rawSJ] = await sql.query(querySJ, userid);
+  const [rawSJ] = await sql.query(querySJ, userId);
   const swipedJobs = JSON.parse(JSON.stringify(rawSJ));
   return swipedJobs;
 }
@@ -56,7 +56,7 @@ function questions() {
   return questions;
 }
 
-async function ansrdQuestns(userid) { // Answered Questions
+async function ansrdQuestns(userId) { // Answered Questions
   const sql = await sqlPromise;
 
   // Do we need to include an image here?
@@ -73,14 +73,13 @@ async function ansrdQuestns(userid) { // Answered Questions
   pontoonapps_workfindr2.options AS opt
   ON ans.option_number=opt.option_number AND ans.question_id=opt.question_id;`;
 
-  const [questions] = await sql.query(query, userid);
+  const [questions] = await sql.query(query, userId);
   return questions;
 }
 
-async function getSwipeItem(userid) {
+async function getSwipeItem(userId) {
   const sql = await sqlPromise;
 
-  // TODO: The conversion from data using JSON.parse and JSON.stringify, is there a better solution?
   const queryQuestids =
     `SELECT id AS questid
     FROM pontoonapps_workfindr2.questions`;
@@ -96,7 +95,7 @@ async function getSwipeItem(userid) {
     `SELECT question_id AS questid
     FROM pontoonapps_workfindr2.answers
     WHERE user_id = ?`;
-  const [rawAnswrdQuests] = await sql.query(queryAQI, userid);
+  const [rawAnswrdQuests] = await sql.query(queryAQI, userId);
   const answrdQuests = JSON.parse(JSON.stringify(rawAnswrdQuests));
   const answrdQuestidArr = [];
   for (const id of answrdQuests) {
@@ -129,7 +128,7 @@ async function getSwipeItem(userid) {
       `SELECT job_id
       FROM pontoonapps_workfindr2.likes
       WHERE user_id = ?`;
-    const [rawSwipedJobids] = await sql.query(queryGSJ, userid);
+    const [rawSwipedJobids] = await sql.query(queryGSJ, userId);
     const swipedJobids = JSON.parse(JSON.stringify(rawSwipedJobids));
     const swipedJobidArr = [];
     for (const id of swipedJobids) {
@@ -177,23 +176,11 @@ async function getSwipeItem(userid) {
   }
 }
 
-async function getUserID(username) {
-  const sql = await sqlPromise;
-  const queryid =
-    `SELECT id 
-    FROM pontoonapps_jobseeker.users 
-    WHERE first_name = ?`;
-
-  const [rawId] = await sql.query(queryid, username);
-  const id = JSON.parse(JSON.stringify(rawId))[0].id;
-  return id;
-}
-
-async function insQuestAns(ansData) {
+async function insertQuestAnswer(ansData) {
   const sql = await sqlPromise;
 
-  const userid = ansData.userid;
-  const questionid = ansData.itemid;
+  const userId = ansData.userId;
+  const questionId = ansData.itemid;
   let answer;
   switch (ansData.choice) {
     case 'yes':
@@ -203,20 +190,20 @@ async function insQuestAns(ansData) {
       answer = 2;
       break;
   }
-  console.log(userid, questionid, answer);
-  const queryIQA = // queryInsertQuestionAnswer
+  console.log(userId, questionId, answer);
+  const query =
     `INSERT INTO pontoonapps_workfindr2.answers
       (user_id, question_id, option_number)
     VALUES
       (?, ?, ?)`;
-  await sql.query(queryIQA, [userid, questionid, answer]);
+  await sql.query(query, [userId, questionId, answer]);
   // TODO if insert is successful return true else false
 }
 
-async function insSwipe(swipeData) {
+async function insertSwipe(swipeData) {
   const sql = await sqlPromise;
-  const userid = swipeData.userid;
-  const jobid = swipeData.itemid;
+  const userId = swipeData.userId;
+  const jobId = swipeData.itemid;
   let type;
   switch (swipeData.choice) {
     case 'shortlist-add': // automatic like on shortlist
@@ -230,15 +217,15 @@ async function insSwipe(swipeData) {
       type = 3;
       break;
   }
-  const queryIJS = // queryInsertJobSwipe
+  const query =
     `INSERT INTO pontoonapps_workfindr2.likes
       (user_id, job_id, type)
     VALUES
       (?, ?, ?)`;
-  await sql.query(queryIJS, [userid, jobid, type]);
+  await sql.query(query, [userId, jobId, type]);
 }
 
-function insShrtlst() {
+function insertShortlist() {
   console.log('hello! This function will insert into the shortlists table');
 }
 
@@ -247,8 +234,7 @@ module.exports = {
   ansrdQuestns,
   swipedJobs,
   getSwipeItem,
-  getUserID,
-  insQuestAns,
-  insSwipe,
-  insShrtlst,
+  insertQuestAnswer,
+  insertSwipe,
+  insertShortlist,
 };
