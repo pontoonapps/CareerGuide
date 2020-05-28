@@ -1,9 +1,7 @@
 let currentItem; // job being displayed on page
-const cookie = document.cookie;
-const name = cookie.slice(cookie.lastIndexOf('=') + 1, cookie.length);
 
 async function getNextItem() {
-  const response = await fetch(`/user/next-item?name=${name}`);
+  const response = await fetch('user/next-item');
 
   if (response.ok) {
     const item = await response.json();
@@ -50,7 +48,7 @@ async function subSwipe(event) {
   } else {
     response = await subJobSwipe(swipe);
   }
-
+  console.log('Response:', response);
   // log if error connecting to server
   if (!response.ok) {
     document.querySelector('h1').textContent = 'Something went wrong! Please refresh';

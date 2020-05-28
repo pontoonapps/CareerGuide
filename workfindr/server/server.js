@@ -8,43 +8,39 @@ const auth = require('./auth.js');
 // functionality
 
 async function nextSwipeItem(req, res) {
-  const username = req.query.name;
-  const userid = await db.getUserID(username);
-  const swipeItem = await db.getSwipeItem(userid);
+  const swipeItem = await db.getSwipeItem(req.user.id);
   return res.json(swipeItem);
 }
 
 async function getQuestions(req, res) {
-  const username = req.query.name;
-  const userid = await db.getUserID(username);
-  const ansrdQst = await db.ansrdQuestns(userid);
+  const ansrdQst = await db.ansrdQuestns(req.user.id);
   res.json(ansrdQst);
 }
 
-async function subQuestAns(req, res) {
+async function submitQuestAnswer(req, res) {
   // FIXME seperate SQL statement required for submit question ans and update question answer
-  const ansData = req.body;
-  ansData.userid = await db.getUserID(ansData.username);
-  db.insQuestAns(ansData);
+  const answerData = req.body;
+  answerData.userid = req.user.id;
+  await db.insertQuestAnswer(answerData);
   // TODO send response depending on insert success
   res.json();
 }
 
 async function submitJobSwipe(req, res) {
   const swipeData = req.body;
-  swipeData.userid = await db.getUserID(swipeData.username);
+  swipeData.userId = req.user.id;
   switch (swipeData.choice) {
     case 'like':
     case 'dislike':
     case 'showLater':
-      swipeJob(swipeData);
+      await swipeJob(swipeData);
       break;
     case 'shortlist-add':
-      shortlistItem(swipeData);
-      swipeJob(swipeData);
+      await shortlistItem(swipeData);
+      await swipeJob(swipeData);
       break;
     case 'shortlist-rem':
-      shortlistItem(swipeData);
+      await shortlistItem(swipeData);
       break;
     default:
       console.log('unrecognized choice in submitJobSwipe');
@@ -54,18 +50,16 @@ async function submitJobSwipe(req, res) {
 }
 
 async function getJobs(req, res) {
-  const username = req.query.name;
-  const userid = await db.getUserID(username);
-  const jobs = await db.swipedJobs(userid);
+  const jobs = await db.swipedJobs(req.user.id);
   return res.json(jobs);
 }
 
 async function swipeJob(swipeData) {
-  await db.insSwipe(swipeData);
+  await db.insertSwipe(swipeData);
 }
 
 async function shortlistItem(swipeData) {
-  await db.insShrtlst(swipeData);
+  await db.insertShortlist(swipeData);
 }
 
 // routes
@@ -81,7 +75,7 @@ app.get('/user/jobs', asyncWrap(getJobs));
 app.post('/user/jobs', express.json(), asyncWrap(submitJobSwipe));
 
 app.get('/user/questions', asyncWrap(getQuestions));
-app.post('/user/questions', express.json(), asyncWrap(subQuestAns));
+app.post('/user/questions', express.json(), asyncWrap(submitQuestAnswer));
 
 // wrap async function for express.js error handling
 function asyncWrap(f) {

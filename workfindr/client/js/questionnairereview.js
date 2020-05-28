@@ -1,8 +1,5 @@
-const cookie = document.cookie;
-const name = cookie.slice(cookie.lastIndexOf('=') + 1, cookie.length);
-
 async function getQuestReview() {
-  const response = await fetch(`user/questions?name=${name}`);
+  const response = await fetch('user/questions');
 
   if (response.ok) {
     const qList = await response.json();
