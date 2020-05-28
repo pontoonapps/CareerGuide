@@ -11,26 +11,26 @@ async function getQuestReview() {
 
 async function loadQuestReview() {
   const tmplt = document.querySelector('#questionnaire-template');
-  const questns = await getQuestReview();
-  for (const quest of questns) {
+  const questions = await getQuestReview();
+  for (const question of questions) {
     // get question container template
-    const questCont = document.importNode(tmplt.content, true); // question container
+    const questionContainer = document.importNode(tmplt.content, true); // question container
 
     // fill in template with question data
-    questCont.querySelector('.quest-rev-title').textContent = quest.question;
-    if (quest.answer !== null) {
-      questCont.querySelector('.' + quest.answer).classList.add('selected');
+    questionContainer.querySelector('.quest-rev-title').textContent = question.question;
+    if (question.answer !== null) {
+      questionContainer.querySelector('.' + question.answer).classList.add('selected');
     }
 
     // add event listeners and data attributes
-    for (const questAns of questCont.querySelectorAll('.quest-ans')) {
-      questAns.dataset.questid = quest.id;
-      questAns.addEventListener('click', updateAns);
+    for (const questionAnswer of questionContainer.querySelectorAll('.quest-ans')) {
+      questionAnswer.dataset.questId = question.id;
+      questionAnswer.addEventListener('click', updateAns);
     }
 
     // append to main
     const main = document.querySelector('main');
-    main.appendChild(questCont);
+    main.appendChild(questionContainer);
   }
 }
 
@@ -67,8 +67,7 @@ async function subAnsChange(event) {
 
   // get job id and user choice
   const usrInput = {};
-  usrInput.username = name;
-  usrInput.itemid = answerCont.dataset.questid;
+  usrInput.itemId = answerCont.dataset.questId;
 
   switch (currChoice) {
     case 'yes':

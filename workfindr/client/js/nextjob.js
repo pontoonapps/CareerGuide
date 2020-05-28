@@ -14,8 +14,7 @@ async function getNextItem() {
 async function subSwipe(event) {
   // get user choice (shortlisting questions???)
   const swipe = {};
-  swipe.username = name;
-  swipe.itemid = currentItem.id;
+  swipe.itemId = currentItem.id;
   switch (event.target.id) {
     case 'btn-dislike':
       swipe.choice = 'dislike';
@@ -48,7 +47,6 @@ async function subSwipe(event) {
   } else {
     response = await subJobSwipe(swipe);
   }
-  console.log('Response:', response);
   // log if error connecting to server
   if (!response.ok) {
     document.querySelector('h1').textContent = 'Something went wrong! Please refresh';

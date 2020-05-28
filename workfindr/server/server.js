@@ -13,15 +13,14 @@ async function nextSwipeItem(req, res) {
 }
 
 async function getQuestions(req, res) {
-  const ansrdQst = await db.ansrdQuestns(req.user.id);
-  res.json(ansrdQst);
+  const answeredQuestions = await db.answeredQuestions(req.user.id);
+  res.json(answeredQuestions);
 }
 
 async function submitQuestAnswer(req, res) {
-  // FIXME seperate SQL statement required for submit question ans and update question answer
   const answerData = req.body;
-  answerData.userid = req.user.id;
-  await db.insertQuestAnswer(answerData);
+  answerData.userId = req.user.id;
+  await db.insertQuestionAnswer(answerData);
   // TODO send response depending on insert success
   res.json();
 }

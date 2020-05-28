@@ -12,8 +12,11 @@ async function getShortlist() {
 async function loadShortList() {
   const tmplt = document.querySelector('#shortlist-template');
   const jobList = await getShortlist();
-  console.log(jobList);
   for (const job of jobList) {
+    if (job.shortlist === null) {
+      continue;
+    }
+
     const jobContnr = document.importNode(tmplt.content, true);
 
     jobContnr.querySelector('.swipe-item-image').src = 'img/' + job.image;

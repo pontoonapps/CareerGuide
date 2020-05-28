@@ -1,4 +1,4 @@
-async function getSwipHist() {
+async function getSwipeHistory() {
   const response = await fetch('user/jobs');
 
   if (response.ok) {
@@ -9,9 +9,9 @@ async function getSwipHist() {
   }
 }
 
-async function loadSwipHist() {
+async function loadSwipeHistory() {
   const tmplt = document.querySelector('#swipe-history-template');
-  const jobList = await getSwipHist();
+  const jobList = await getSwipeHistory();
   for (const job of jobList) {
     if (job.swipe === 'show later') {
       continue;
@@ -24,7 +24,7 @@ async function loadSwipHist() {
     jobContnr.querySelector('.swipe-item-desc').textContent = job.description_en;
     jobContnr.querySelector('.swipe-choice').classList.add(job.swipe);
     jobContnr.querySelector('.swipe-choice').textContent = (job.swipe === 'like' ? '👍' : '👎');
-    jobContnr.querySelector('.swipe-choice').dataset.jobid = job.id;
+    jobContnr.querySelector('.swipe-choice').dataset.jobId = job.id;
     jobContnr.querySelector('.swipe-choice').addEventListener('click', changeSwipe);
 
     const main = document.querySelector('main');
@@ -33,7 +33,7 @@ async function loadSwipHist() {
 }
 
 function changeSwipe(event) {
-  const succSub = subSwipChange(event);
+  const succSub = submitSwipeChange(event);
   if (succSub) {
     const swipeChoiceBtn = event.target;
     const updatedSwipe = event.target.classList[1];
@@ -54,11 +54,11 @@ function changeSwipe(event) {
   }
 }
 
-async function subSwipChange(event) {
+async function submitSwipeChange(event) {
   const usrInput = {};
   const updatedSwipe = event.target.classList[1];
-  const itemid = event.target.dataset.jobid;
-  usrInput.itemid = itemid;
+  const itemId = event.target.dataset.jobId; // TODO camel case id
+  usrInput.itemId = itemId;
   switch (updatedSwipe) {
     case 'like':
       usrInput.choice = 'dislike';
@@ -70,7 +70,7 @@ async function subSwipChange(event) {
   const response = await submitChange(usrInput);
 
   if (!response.ok) {
-    console.log('error from server: ' + response.statusText + '. Swipe change failed');
+    console.log('Error from server: ' + response.statusText + '. Swipe change failed');
   }
   return (response.ok);
 }
@@ -85,7 +85,7 @@ async function submitChange(usrInput) {
 }
 
 function loadPage() {
-  loadSwipHist();
+  loadSwipeHistory();
 }
 
 window.addEventListener('load', loadPage);
