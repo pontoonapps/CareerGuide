@@ -39,7 +39,7 @@ async function submitJobSwipe(req, res) {
       await swipeJob(swipeData);
       break;
     case 'shortlist-rem':
-      await shortlistItem(swipeData);
+      await shortlistItemRemove(swipeData);
       break;
     default:
       console.log('unrecognized choice in submitJobSwipe');
@@ -59,6 +59,10 @@ async function swipeJob(swipeData) {
 
 async function shortlistItem(swipeData) {
   await db.insertShortlist(swipeData);
+}
+
+async function shortlistItemRemove(swipeData) {
+  await db.removeShortlist(swipeData);
 }
 
 // routes
