@@ -27,7 +27,7 @@ async function loadShortList() {
     jobContnr.querySelector('.view-more').dataset.jobid = job.id;
     jobContnr.querySelector('.view-less').addEventListener('click', hideDetailDesc);
     jobContnr.querySelector('.view-less').dataset.jobid = job.id;
-    jobContnr.querySelector('.rmv-shrt-item').addEventListener('click', remShrtlstItem);
+    jobContnr.querySelector('.rmv-shrt-item').addEventListener('click', removeShortlistItem);
     jobContnr.querySelector('.rmv-shrt-item').dataset.jobid = job.id;
 
     const listContnr = document.querySelector('#list-container');
@@ -72,7 +72,7 @@ function dispDetailedDesc() {
   listItemCont.classList.add('expanded');
 }
 
-async function remShrtlstItem() {
+async function removeShortlistItem() {
   const remove = event.target;
   const btnContnr = remove.parentNode;
   const jobContnr = btnContnr.parentNode;
@@ -86,7 +86,7 @@ async function remShrtlstItem() {
 
 async function submitRemoval(event) {
   const removal = {};
-  removal.itemid = event.target.dataset.jobid;
+  removal.itemId = event.target.dataset.jobid;
   removal.choice = 'shortlist-rem';
   const response = await fetch('/user/jobs', {
     method: 'POST',
