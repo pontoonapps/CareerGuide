@@ -31,26 +31,22 @@ async function swipedJobs(userId) {
   return swipedJobs;
 }
 
-function questions() {
-  const questions = {
-    questions: [{
-      id: 0,
-      title: 'Do you like getting hands on?',
-      image: 'img/agriculture.jpg',
-    }, {
-      id: 1,
-      title: 'Are you good with computers?',
-      image: 'img/it.jpg',
-    }, {
-      id: 2,
-      title: 'Can you make 10+ cups of tea?',
-      image: 'img/cater.jpg',
-    }, {
-      id: 3,
-      title: 'Can you play guitar?',
-      image: 'img/art.jpg',
-    }],
-  };
+async function questions(userId) {
+  const sql = await sqlPromise;
+
+  const query = `
+  SELECT
+    qst.id,
+    qst.title_en,
+    qst.question_en as description_en
+  FROM pontoonapps_workfindr2.questions AS qst
+  LEFT JOIN
+  pontoonapps_workfindr2.answers AS ans
+    ON qst.id=ans.question_id
+      AND ans.user_id=?
+  WHERE ans.question_id IS NULL;`;
+
+  const [questions] = await sql.query(query, userId);
 
   return questions;
 }
@@ -61,16 +57,21 @@ async function answeredQuestions(userId) { // Answered Questions
   // Do we need to include an image here?
   const query = `
   SELECT
-  qst.id,
-  qst.question_en AS question,
-  opt.label_en as answer
-  FROM pontoonapps_workfindr2.questions AS qst
+    qst.id,
+    qst.question_en AS question,
+    opt.label_en as answer
+  FROM pontoonapps_workfindr2.questions
+    AS qst
   INNER JOIN
-  pontoonapps_workfindr2.answers AS ans
-  ON qst.id=ans.question_id AND ans.user_id=?
+  pontoonapps_workfindr2.answers
+    AS ans
+    ON qst.id=ans.question_id
+      AND ans.user_id=?
   INNER JOIN
-  pontoonapps_workfindr2.options AS opt
-  ON ans.option_number=opt.option_number AND ans.question_id=opt.question_id;`;
+  pontoonapps_workfindr2.options
+    AS opt
+    ON ans.option_number=opt.option_number
+      AND ans.question_id=opt.question_id;`;
 
   const [questions] = await sql.query(query, userId);
   return questions;
