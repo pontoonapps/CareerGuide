@@ -29,7 +29,9 @@
 
     <main id="swipe-page">
         <h1 id="title">Job Title</h1>
-        <button class="btn-2 button" id="btn-shortlist">Add to shortlist +</button>
+        <button class="btn-2 button" id="btn-shortlist" data-choice="shortlist-add">
+          Add to shortlist +
+        </button>
         <div id="swipe-info">
           <img id="swipe-image"></img>
           <p id="info-text"></p> 
@@ -37,11 +39,12 @@
           <p id="show-less" class="show-btn" style="display: none;">Show Less</p>
         </div>
         <div id="swipe-btns" style='display: none;'> <!--display none stops all buttons displaying as JS loads-->
-          <button class="button btn-1" id="btn-dislike">Dislike</button>
-          <button class="button btn-2" id="btn-showLater">Show Later</button>
-          <button class="button btn-3" id="btn-like">Like</button>
-          <button class="button btn-1" id="btn-no">No</button>
-          <button class="button btn-3" id="btn-yes">Yes</button>
+          <button class="button btn-1" id="btn-dislike" data-choice="dislike">Dislike</button>
+          <button class="button btn-2" id="btn-showLater" data-choice="showLater">Show Later</button>
+          <button class="button btn-3" id="btn-like" data-choice="like">Like</button>
+          <button class="button btn-1" id="btn-option2"></button>
+          <button class="button btn-2" id="btn-option1"></button>
+          <button class="button btn-3" id="btn-option0"></button>
         </div>
     </main>
 </body>

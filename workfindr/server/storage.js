@@ -26,29 +26,10 @@ async function swipedJobs(userId) {
       ON pontoonapps_workfindr2.likes.job_id = pontoonapps_workfindr2.shortlists.job_id
     LEFT JOIN pontoonapps_jobseeker.users
       ON pontoonapps_workfindr2.shortlists.user_id = pontoonapps_jobseeker.users.id
-    WHERE pontoonapps_workfindr2.likes.user_id = ?`;
+    WHERE pontoonapps_workfindr2.likes.user_id = ?
+    ORDER BY likes.time_stamp DESC`;
   const [swipedJobs] = await sql.query(query, userId);
   return swipedJobs;
-}
-
-async function questions(userId) {
-  const sql = await sqlPromise;
-
-  const query = `
-  SELECT
-    qst.id,
-    qst.title_en,
-    qst.question_en as description_en
-  FROM pontoonapps_workfindr2.questions AS qst
-  LEFT JOIN
-  pontoonapps_workfindr2.answers AS ans
-    ON qst.id=ans.question_id
-      AND ans.user_id=?
-  WHERE ans.question_id IS NULL;`;
-
-  const [questions] = await sql.query(query, userId);
-
-  return questions;
 }
 
 async function answeredQuestions(userId) { // Answered Questions
@@ -56,22 +37,22 @@ async function answeredQuestions(userId) { // Answered Questions
 
   // Do we need to include an image here?
   const query = `
-  SELECT
-    qst.id,
-    qst.question_en AS question,
-    opt.label_en as answer
-  FROM pontoonapps_workfindr2.questions
-    AS qst
-  INNER JOIN
-  pontoonapps_workfindr2.answers
-    AS ans
-    ON qst.id=ans.question_id
-      AND ans.user_id=?
-  INNER JOIN
-  pontoonapps_workfindr2.options
-    AS opt
-    ON ans.option_number=opt.option_number
-      AND ans.question_id=opt.question_id;`;
+    SELECT
+      qst.id,
+      qst.question_en AS question,
+      opt.label_en as answer
+    FROM pontoonapps_workfindr2.questions
+      AS qst
+    INNER JOIN
+    pontoonapps_workfindr2.answers
+      AS ans
+      ON qst.id=ans.question_id
+        AND ans.user_id=?
+    INNER JOIN
+    pontoonapps_workfindr2.options
+      AS opt
+      ON ans.option_number=opt.option_number
+        AND ans.question_id=opt.question_id`;
 
   const [questions] = await sql.query(query, userId);
   return questions;
@@ -91,23 +72,23 @@ async function getNextJob(userId) {
   const sql = await sqlPromise;
 
   const query = `
-  SELECT
-    jobs.id,
-    jobs.title_en,
-    jobs.titre_fr,
-    jobs.description_en,
-    jobs.description_fr,
-    categories.icon_filename AS image
-  FROM pontoonapps_workfindr2.jobs
-    JOIN pontoonapps_workfindr2.categories
-    ON jobs.category_id = pontoonapps_workfindr2.categories.id
-  WHERE jobs.id NOT IN (
-    SELECT job_id
-    FROM pontoonapps_workfindr2.likes
-    WHERE likes.user_id = ?
-  )
-  ORDER BY RAND()
-  LIMIT 1`;
+    SELECT
+      jobs.id,
+      jobs.title_en,
+      jobs.titre_fr,
+      jobs.description_en,
+      jobs.description_fr,
+      categories.icon_filename AS image
+    FROM pontoonapps_workfindr2.jobs
+      JOIN pontoonapps_workfindr2.categories
+      ON jobs.category_id = pontoonapps_workfindr2.categories.id
+    WHERE jobs.id NOT IN (
+      SELECT job_id
+      FROM pontoonapps_workfindr2.likes
+      WHERE likes.user_id = ?
+    )
+    ORDER BY RAND()
+    LIMIT 1`;
   const [jobs] = await sql.query(query, userId);
   return jobs[0];
 }
@@ -115,17 +96,30 @@ async function getNextJob(userId) {
 async function getNextQuestion(userId) {
   const sql = await sqlPromise;
 
-  const query = `
-  SELECT id, title_en, question_en
-  FROM pontoonapps_workfindr2.questions
-  WHERE id NOT IN (
-    SELECT question_id
-    FROM pontoonapps_workfindr2.answers
-    WHERE user_id = ?
-  )
-  LIMIT 1`;
-  const [questions] = await sql.query(query, userId);
-  return questions[0];
+  const questionQuery = `
+    SELECT id, title_en, question_en
+    FROM pontoonapps_workfindr2.questions
+    WHERE id NOT IN (
+      SELECT question_id
+      FROM pontoonapps_workfindr2.answers
+      WHERE user_id = ?
+    )
+    LIMIT 1`;
+
+  const [questions] = await sql.query(questionQuery, userId);
+  if (questions.length === 0) {
+    return;
+  }
+  const questionData = questions[0];
+
+  const optionsQuery = `
+    SELECT option_number, label_en
+    FROM pontoonapps_workfindr2.options
+    WHERE question_id = ?`;
+
+  const [options] = await sql.query(optionsQuery, questionData.id);
+  questionData.options = options;
+  return questionData;
 }
 
 async function insertQuestionAnswer(ansData) {
@@ -133,15 +127,7 @@ async function insertQuestionAnswer(ansData) {
 
   const userId = ansData.userId;
   const questionId = ansData.itemId;
-  let answer;
-  switch (ansData.choice) {
-    case 'yes':
-      answer = 1;
-      break;
-    case 'no':
-      answer = 2;
-      break;
-  }
+  const optionNumber = ansData.choice;
   const query = `
     INSERT INTO pontoonapps_workfindr2.answers
       (user_id, question_id, option_number)
@@ -149,25 +135,23 @@ async function insertQuestionAnswer(ansData) {
       (?, ?, ?)
     ON DUPLICATE KEY UPDATE
       option_number = ?`;
-  await sql.query(query, [userId, questionId, answer, answer]);
-  // TODO if insert is successful return true else false
+  await sql.query(query, [userId, questionId, optionNumber, optionNumber]);
 }
 
 async function insertSwipe(swipeData) {
   const sql = await sqlPromise;
   const userId = swipeData.userId;
   const jobId = swipeData.itemId;
-  let type;
+  let answer;
   switch (swipeData.choice) {
-    case 'shortlist-add': // automatic like on shortlist
     case 'like':
-      type = 1;
+      answer = 1;
       break;
     case 'dislike':
-      type = 2;
+      answer = 2;
       break;
     case 'showLater':
-      type = 3;
+      answer = 3;
       break;
   }
   const query = `
@@ -177,32 +161,31 @@ async function insertSwipe(swipeData) {
       (?, ?, ?)
     ON DUPLICATE KEY UPDATE
       type = ?`;
-  await sql.query(query, [userId, jobId, type, type]);
+  await sql.query(query, [userId, jobId, answer, answer]);
 }
 
 async function insertShortlist(swipeData) {
   const sql = await sqlPromise;
   const query = `
-  INSERT INTO pontoonapps_workfindr2.shortlists
-    (user_id, job_id)
-  VALUES
-    (?, ?);`;
+    INSERT INTO pontoonapps_workfindr2.shortlists
+      (user_id, job_id)
+    VALUES
+      (?, ?)`;
   await sql.query(query, [swipeData.userId, swipeData.itemId]);
 }
 
 async function removeShortlist(swipeData) {
   const sql = await sqlPromise;
   const query = `
-  DELETE FROM pontoonapps_workfindr2.shortlists
-    WHERE
-      user_id=?
-    AND
-      job_id=?;`;
+    DELETE FROM pontoonapps_workfindr2.shortlists
+      WHERE
+        user_id=?
+      AND
+        job_id=?`;
   await sql.query(query, [swipeData.userId, swipeData.itemId]);
 }
 
 module.exports = {
-  questions,
   answeredQuestions,
   swipedJobs,
   getSwipeItem,

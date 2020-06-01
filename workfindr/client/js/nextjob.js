@@ -2,7 +2,6 @@ let currentItem; // job being displayed on page
 
 async function getNextItem() {
   const response = await fetch('user/next-item');
-
   if (response.ok) {
     const item = await response.json();
     return item;
@@ -15,29 +14,7 @@ async function subSwipe(event) {
   // get user choice (shortlisting questions???)
   const swipe = {};
   swipe.itemId = currentItem.id;
-  switch (event.target.id) {
-    case 'btn-dislike':
-      swipe.choice = 'dislike';
-      break;
-    case 'btn-showLater':
-      swipe.choice = 'showLater';
-      break;
-    case 'btn-like':
-      swipe.choice = 'like';
-      break;
-    case 'btn-shortlist':
-      swipe.choice = 'shortlist-add';
-      break;
-    case 'btn-yes':
-      swipe.choice = 'yes';
-      break;
-    case 'btn-no':
-      swipe.choice = 'no';
-      break;
-    default:
-      console.log('invalid user input!!');
-      break;
-  }
+  swipe.choice = event.target.dataset.choice;
 
   // identify whether current item is job or question is there a better
   // way than a lack of description? should there be an attribute marking job or question?
@@ -139,33 +116,34 @@ function displayItem(item) {
 
   // display info shared by questions and jobs (image and title)
   dispTitle(item.title_en);
-  document.querySelector('#swipe-image').src = 'img/' + item.image;
-  document.querySelector('#swipe-image').alt = 'item image: ' + item.image;
+
+  // hide buttons
+  for (const button of document.querySelectorAll('button')) {
+    button.style.display = 'none';
+  }
 
   // display / hide elements specific to questions or jobs
   if (item.description_en === undefined) { // if question else job
-    // hide job buttons
-    document.querySelector('#btn-shortlist').style.display = 'none';
-    document.querySelector('#btn-dislike').style.display = 'none';
-    document.querySelector('#btn-showLater').style.display = 'none';
-    document.querySelector('#btn-like').style.display = 'none';
-    document.querySelector('#show-more').style.display = 'none';
-    document.querySelector('#show-less').style.display = 'none';
-
-    // show question buttons
-    document.querySelector('#btn-yes').style.display = '';
-    document.querySelector('#btn-no').style.display = '';
+    // show option buttons
+    for (let i = 0; i < item.options.length; i += 1) {
+      const selector = '#btn-option' + i;
+      const btn = document.querySelector(selector);
+      const btnText = item.options[i].label_en;
+      btn.style.display = '';
+      btn.textContent = btnText;
+      btn.dataset.choice = item.options[i].option_number;
+    }
 
     // set description to blank (as questions don't have descriptions)
     document.querySelector('#info-text').textContent = '';
 
     // show question
     dispInfoText(item.question_en);
-  } else {
-    // hide question buttons
-    document.querySelector('#btn-yes').style.display = 'none';
-    document.querySelector('#btn-no').style.display = 'none';
 
+    // show image
+    document.querySelector('#swipe-image').src = 'img/question.jpg';
+    document.querySelector('#swipe-image').alt = 'question image';
+  } else {
     // show job buttons
     document.querySelector('#btn-shortlist').style.display = '';
     document.querySelector('#btn-dislike').style.display = '';
@@ -174,6 +152,10 @@ function displayItem(item) {
 
     // show description
     dispInfoText(item.description_en);
+
+    // show image
+    document.querySelector('#swipe-image').src = 'img/' + item.image;
+    document.querySelector('#swipe-image').alt = 'item image: ' + item.image;
   }
 }
 
@@ -191,10 +173,6 @@ function dispTitle(titleText) {
 }
 
 function addELs() {
-  // window.addEventListener('resize', setSwipePageHeight);
-  // window.addEventListener('resize', () => {
-  //   displayItem(currentItem);
-  // }); // automatic resizing with gets triggered by scrolling on mobile breaking viewmore (kept commented for devs)
   document.querySelector('#btn-like').addEventListener('click', async () => {
     if (await subSwipe(event)) { // only load next item if subSwip returns true
       loadNextItem();
@@ -215,12 +193,17 @@ function addELs() {
       loadNextItem();
     }
   });
-  document.querySelector('#btn-yes').addEventListener('click', async () => {
+  document.querySelector('#btn-option0').addEventListener('click', async () => {
     if (await subSwipe(event)) {
       loadNextItem();
     }
   });
-  document.querySelector('#btn-no').addEventListener('click', async () => {
+  document.querySelector('#btn-option1').addEventListener('click', async () => {
+    if (await subSwipe(event)) {
+      loadNextItem();
+    }
+  });
+  document.querySelector('#btn-option2').addEventListener('click', async () => {
     if (await subSwipe(event)) {
       loadNextItem();
     }
