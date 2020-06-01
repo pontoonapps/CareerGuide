@@ -9,10 +9,11 @@ To initialize these databases you need to run the SQL code inside the database f
 
 0. init.sql
 1. test-data.sql
-2. data.sql
+2. data-jobs.sql
+3. data-questions.sql
 
 ### Config Setup
 
 0. Go to config.js
 1. Input your username as well as password
-  * Make sure you use an account that has the necessary privileges.
+    * Make sure you use an account that has all the necessary privileges.
