@@ -32,29 +32,3 @@ VALUES
 ( 2, 3 ),
 ( 3, 2 ),
 ( 3, 1 );
-
-
-INSERT INTO `pontoonapps_workfindr2`.`questions`
-( id, title_en, question_en, jobs_column )
-VALUES
-( 1, 'presence', 'you here?', 'teamwork' ),
-( 2, 'engagement', 'you doing anything?', 'danger' );
-
-
-INSERT INTO `pontoonapps_workfindr2`.`options`
-( option_number, question_id, label_en, min, max )
-VALUES
-( 1, 1, 'yes', 1, 3 ),
-( 2, 1, 'mebbe', 2, 4 ),
-( 3, 1, 'nope', 3, 5 ),
-( 1, 2, 'yes-ish', 4, 6 ),
-( 2, 2, 'mebbe-ish', 5, 7 ),
-( 3, 2, 'nope-ish', 6, 8 );
-
-INSERT INTO `pontoonapps_workfindr2`.`answers`
-( user_id, question_id, option_number )
-VALUES
-( 1, 1, 1 ),
-( 1, 2, 2 ),
-( 2, 1, 3 ),
-( 3, 2, 1 );
