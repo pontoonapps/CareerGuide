@@ -7,9 +7,9 @@ VALUES
 ( 4, 'Driving', 'Would you like to do a job where you are required to drive?', 'driving' ),
 ( 5, 'Travelling', 'Would you prefer to travel while working?', 'travel' ),
 ( 6, 'Working Hours', 'What type of working hours are you looking for?', 'hours_flexibility' ),
-(7, 'Care work', 'Are you willing to work in care? (looking after the elderly/children etc...)', 'care_work'),
-(8, 'Risks', 'Are you willing to work Dangerous Jobs?', 'danger');
-
+( 7, 'Care work', 'Are you willing to work in care? (looking after the elderly/children etc...)', 'care_work'),
+( 8, 'Risks', 'Are you willing to work Dangerous Jobs?', 'danger');
+ 
 
 
 INSERT INTO `pontoonapps_workfindr2`.`options`
