@@ -56,7 +56,6 @@ async function updateAns() {
 }
 
 async function submitAnsChange(event) {
-
   const userInput = {};
   userInput.choice = event.target.dataset.choice;
   userInput.itemId = event.target.parentNode.dataset.questionId;

@@ -164,6 +164,7 @@ async function insertSwipe(swipeData) {
   const jobId = swipeData.itemId;
   let answer;
   switch (swipeData.choice) {
+    case 'shortlist-add':
     case 'like':
       answer = 1;
       break;
