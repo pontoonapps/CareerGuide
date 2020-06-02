@@ -55,6 +55,18 @@ async function answeredQuestions(userId) { // Answered Questions
         AND ans.question_id=opt.question_id`;
 
   const [questions] = await sql.query(query, userId);
+  const options = await getOptions(0, questions.length);
+
+  for (let i = 0; i < questions.length; i++) {
+    const optArr = [];
+    for (let j = 0; j < options.length; j++) {
+      if (questions[i].id === options[j].question_id) {
+        optArr.push(options[j]);
+      }
+    }
+    questions[i].options = optArr;
+  }
+
   return questions;
 }
 
@@ -66,6 +78,21 @@ async function getSwipeItem(userId) {
 
   const job = await getNextJob(userId);
   return job;
+}
+
+async function getOptions(minId, maxId = minId) {
+  if (maxId <= 0) {
+    return; // If maxId <= zero, output will be empty, so why run the query at all
+  }
+  const sql = await sqlPromise;
+  const query = `
+  SELECT option_number, question_id, label_en
+  FROM pontoonapps_workfindr2.options
+  WHERE question_id
+  BETWEEN ? AND ?
+  ORDER BY question_id, option_number asc`;
+  const [options] = await sql.query(query, [minId, maxId]);
+  return options;
 }
 
 async function getNextJob(userId) {
@@ -111,14 +138,7 @@ async function getNextQuestion(userId) {
     return;
   }
   const questionData = questions[0];
-
-  const optionsQuery = `
-    SELECT option_number, label_en
-    FROM pontoonapps_workfindr2.options
-    WHERE question_id = ?`;
-
-  const [options] = await sql.query(optionsQuery, questionData.id);
-  questionData.options = options;
+  questionData.options = await getOptions(questionData.id);
   return questionData;
 }
 

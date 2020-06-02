@@ -272,11 +272,15 @@ main {
   cursor: pointer;
 }
 
-.quest-ans > .selected.yes {
+.quest-ans > .selected.opt-1 {
   background: var(--PONTGreen);
 }
 
-.quest-ans > .selected.no {
+.quest-ans > .selected.opt-2 {
+  background: var(--PONTLightBlue);
+}
+
+.quest-ans > .selected.opt-3 {
   background: var(--PONTRed);
 }
 
