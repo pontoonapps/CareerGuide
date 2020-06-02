@@ -15,16 +15,25 @@ async function loadQuestReview() {
   for (const question of questions) {
     // get question container template
     const questionContainer = document.importNode(tmplt.content, true); // question container
-
     // fill in template with question data
     questionContainer.querySelector('.quest-rev-title').textContent = question.question;
     if (question.answer !== null) {
-      questionContainer.querySelector('.' + question.answer).classList.add('selected');
+      if (question.options.length < 3) {
+        questionContainer.querySelector('.opt-3').style.display = 'none';
+      }
+      for (let i = 0; i < question.options.length; i++) {
+        const btn = questionContainer.querySelector('.opt-' + (i + 1));
+        btn.textContent = question.options[i].label_en;
+        btn.dataset.choice = question.options[i].option_number;
+        if (question.options[i].label_en === question.answer) {
+          btn.classList.add('selected');
+        }
+      }
     }
 
     // add event listeners and data attributes
     for (const questionAnswer of questionContainer.querySelectorAll('.quest-ans')) {
-      questionAnswer.dataset.questId = question.id;
+      questionAnswer.dataset.questionId = question.id;
       questionAnswer.addEventListener('click', updateAns);
     }
 
@@ -37,49 +46,23 @@ async function loadQuestReview() {
 async function updateAns() {
   const questAns = event.target;
   if (questAns.classList[1] !== 'selected') { // if item clicked is already selected no need to change answer
-    const succSub = await subAnsChange(event);
-    if (succSub) {
-      changeAns(questAns);
-    } else {
-      document.querySelector('h1').textContent = 'Something went wrong! Please refresh';
+    const succSubmit = await submitAnsChange(event);
+    if (succSubmit) {
+      const parent = questAns.parentNode;
+      parent.querySelector('.selected').classList.remove('selected');
+      questAns.classList.add('selected');
     }
   }
 }
 
-function changeAns(questAns) {
-  const answerCont = questAns.parentNode;
-  for (const questAns of answerCont.childNodes) {
-    if (questAns.classList !== undefined) {
-      (questAns.classList[1] === 'selected')
-        ? questAns.classList.remove('selected')
-        : questAns.classList.add('selected');
-    }
-  }
-}
+async function submitAnsChange(event) {
 
-async function subAnsChange(event) {
-  // get required DOM elements
-  const questAns = event.target;
-  const answerCont = questAns.parentNode;
-
-  // get current choice
-  const currChoice = questAns.classList[0] === 'yes' ? 'yes' : 'no';
-
-  // get job id and user choice
-  const usrInput = {};
-  usrInput.itemId = answerCont.dataset.questId;
-
-  switch (currChoice) {
-    case 'yes':
-      usrInput.choice = 'yes';
-      break;
-    case 'no':
-      usrInput.choice = 'no';
-      break;
-  }
+  const userInput = {};
+  userInput.choice = event.target.dataset.choice;
+  userInput.itemId = event.target.parentNode.dataset.questionId;
 
   // submit question answer change to server
-  const response = await submitChange(usrInput);
+  const response = await submitChange(userInput);
 
   if (response.ok) {
     return response.ok;
@@ -88,11 +71,11 @@ async function subAnsChange(event) {
   }
 }
 
-async function submitChange(usrInput) {
+async function submitChange(userInput) {
   const response = await fetch('/user/questions', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(usrInput),
+    body: JSON.stringify(userInput),
   });
   return response;
 }
