@@ -9,7 +9,7 @@ VALUES
 ( 6, 'Working Hours', 'What type of working hours are you looking for?', 'hours_flexibility' ),
 ( 7, 'Care work', 'Are you willing to work in care? (looking after the elderly/children etc...)', 'care_work'),
 ( 8, 'Risks', 'Are you willing to work Dangerous Jobs?', 'danger');
- 
+
 
 
 INSERT INTO `pontoonapps_workfindr2`.`options`
@@ -24,14 +24,15 @@ VALUES
 ( 1, 3, 'Yes', 1, 5 ),
 ( 2, 3, 'I don''t mind', 1, 9 ),
 ( 3, 3, 'No', 6, 9 ),
-( 1, 4, 'Yes', 1, 1 ),
+( 1, 4, 'Yes', 1, 2 ),
 ( 2, 4, 'Willing to drive', 1, 2 ),
-( 3, 4, 'No', 2, 2 ),
+( 3, 4, 'No', 1, 1 ),
 ( 1, 5, 'Yes', 6, 9 ),
 ( 2, 5, 'Occasionally', 3, 5 ),
 ( 3, 5, 'No', 1, 2 ),
-( 1, 6, 'Yes', 1, 5 ),
-( 2, 6, 'Flexible', 6, 9 ),
+( 1, 6, 'Fixed', 1, 5 ),
+( 2, 6, 'I don''t mind', 1, 9 ),
+( 3, 6, 'Flexible', 6, 9 ),
 ( 1, 7, 'Yes', 1, 5 ),
 ( 2, 7, 'I don''t mind', 1, 9 ),
 ( 3, 7, 'No', 5, 9 ),
