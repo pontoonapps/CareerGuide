@@ -12,6 +12,7 @@ async function getSwipeHistory() {
 async function loadSwipeHistory() {
   const tmplt = document.querySelector('#swipe-history-template');
   const jobList = await getSwipeHistory();
+  const main = document.querySelector('main');
   for (const job of jobList) {
     if (job.swipe === 'show later') {
       continue;
@@ -27,7 +28,6 @@ async function loadSwipeHistory() {
     jobContnr.querySelector('.swipe-choice').dataset.jobId = job.id;
     jobContnr.querySelector('.swipe-choice').addEventListener('click', changeSwipe);
 
-    const main = document.querySelector('main');
     main.appendChild(jobContnr);
   }
 }

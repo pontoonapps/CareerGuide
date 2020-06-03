@@ -11,7 +11,6 @@ async function getNextItem() {
 }
 
 async function subSwipe(event) {
-  // get user choice (shortlisting questions???)
   const swipe = {};
   swipe.itemId = currentItem.id;
   swipe.choice = event.target.dataset.choice;
@@ -91,7 +90,7 @@ function expandInfoText() {
   document.querySelector('#show-less').style.display = '';
 
   // display full length text
-  document.querySelector('#info-text').textContent = currentItem.description;
+  document.querySelector('#info-text').textContent = currentItem.description_en;
 }
 
 function resetElHeights() {
@@ -113,45 +112,33 @@ function resetElHeights() {
 
 function displayItem(item) {
   resetElHeights();
-
-  // display info shared by questions and jobs (image and title)
-  dispTitle(item.title_en);
-
-  // hide buttons
-  for (const button of document.querySelectorAll('button')) {
+  dispTitle(item.title_en); // display info shared by questions and jobs (image and title)
+  for (const button of document.querySelectorAll('button')) { // hide buttons
     button.style.display = 'none';
   }
 
-  // display / hide elements specific to questions or jobs
   if (item.description_en === undefined) { // if question else job
-    // show option buttons
-    for (let i = 0; i < item.options.length; i += 1) {
-      const selector = '#btn-option' + i;
-      const btn = document.querySelector(selector);
-      const btnText = item.options[i].label_en;
-      btn.style.display = '';
-      btn.textContent = btnText;
-      btn.dataset.choice = item.options[i].option_number;
+    // show option buttons and add option number to dataset
+    let buttonIndex = 0;
+    console.log(item);
+    for (const option of item.options) {
+      const button = document.querySelectorAll('.question')[buttonIndex];
+      button.style.display = '';
+      button.textContent = option.label_en;
+      button.dataset.choice = option.option_number;
+      buttonIndex += 1;
     }
+    dispInfoText(item.question_en); // show question text
 
-    // set description to blank (as questions don't have descriptions)
-    document.querySelector('#info-text').textContent = '';
-
-    // show question
-    dispInfoText(item.question_en);
-
-    // show image
+    // show question image
     document.querySelector('#swipe-image').src = 'img/question.jpg';
     document.querySelector('#swipe-image').alt = 'question image';
   } else {
     // show job buttons
-    document.querySelector('#btn-shortlist').style.display = '';
-    document.querySelector('#btn-dislike').style.display = '';
-    document.querySelector('#btn-showLater').style.display = '';
-    document.querySelector('#btn-like').style.display = '';
-
-    // show description
-    dispInfoText(item.description_en);
+    for (const jobButton of document.querySelectorAll('.job')) {
+      jobButton.style.display = '';
+    }
+    dispInfoText(item.description_en); // show job description
 
     // show image
     document.querySelector('#swipe-image').src = 'img/' + item.image;
@@ -173,41 +160,13 @@ function dispTitle(titleText) {
 }
 
 function addELs() {
-  document.querySelector('#btn-like').addEventListener('click', async () => {
-    if (await subSwipe(event)) { // only load next item if subSwip returns true
-      loadNextItem();
-    }
-  });
-  document.querySelector('#btn-showLater').addEventListener('click', async () => {
-    if (await subSwipe(event)) {
-      loadNextItem();
-    }
-  });
-  document.querySelector('#btn-dislike').addEventListener('click', async () => {
-    if (await subSwipe(event)) {
-      loadNextItem();
-    }
-  });
-  document.querySelector('#btn-shortlist').addEventListener('click', async () => {
-    if (await subSwipe(event)) {
-      loadNextItem();
-    }
-  });
-  document.querySelector('#btn-option0').addEventListener('click', async () => {
-    if (await subSwipe(event)) {
-      loadNextItem();
-    }
-  });
-  document.querySelector('#btn-option1').addEventListener('click', async () => {
-    if (await subSwipe(event)) {
-      loadNextItem();
-    }
-  });
-  document.querySelector('#btn-option2').addEventListener('click', async () => {
-    if (await subSwipe(event)) {
-      loadNextItem();
-    }
-  });
+  for (const button of document.querySelectorAll('.button')) {
+    button.addEventListener('click', async () => {
+      if (await subSwipe(event)) {
+        loadNextItem();
+      }
+    });
+  }
   document.querySelector('#show-more').addEventListener('click', expandInfoText);
   document.querySelector('#show-less').addEventListener('click', () => {
     displayItem(currentItem);

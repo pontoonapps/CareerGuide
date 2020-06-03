@@ -191,7 +191,7 @@ async function insertShortlist(swipeData) {
     INSERT INTO pontoonapps_workfindr2.shortlists
       (user_id, job_id)
     VALUES
-      (?, ?)`;
+      (?, ?)`; // TODO on duplicate update
   await sql.query(query, [swipeData.userId, swipeData.itemId]);
 }
 
