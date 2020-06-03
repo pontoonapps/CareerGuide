@@ -205,7 +205,6 @@ main {
   display: grid;
   grid-template-rows: auto auto;
   grid-template-columns: 5em auto 25%; /* allows for button on shortlist to be mobile friendly */
-  height: 6.4em;
   width: 95%;
   max-width: 40em; /* could be a touch wider */
   margin-top: 0.5em;
@@ -237,7 +236,7 @@ main {
   white-space: normal;
 }
 
-.quest-rev-title {
+.question-title {
   grid-column-start: 1;
   grid-column-end: 4;
   grid-row-start: 1;
@@ -247,18 +246,19 @@ main {
   border-bottom: 0.15em dashed var(--PONTLightBlue);
 }
 
-.quest-ans {
+.question-answer {
   grid-column-start: 1;
   grid-column-end: 4;
   grid-row-start: 2;
   grid-row-end: 3;
   display: flex;
+  flex-direction: row-reverse;
   justify-content: space-around;
-  margin: 0.5em 0;
+  margin: 0.5em auto auto;
   width: inherit;
 }
 
-.quest-ans > * {
+.question-answer > * {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -272,15 +272,15 @@ main {
   cursor: pointer;
 }
 
-.quest-ans > .selected.opt-1 {
+.question-answer > .selected.option1 {
   background: var(--PONTGreen);
 }
 
-.quest-ans > .selected.opt-2 {
+.question-answer > .selected.option2 {
   background: var(--PONTLightBlue);
 }
 
-.quest-ans > .selected.opt-3 {
+.question-answer > .selected.option3 {
   background: var(--PONTRed);
 }
 

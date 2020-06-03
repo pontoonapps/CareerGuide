@@ -10,29 +10,27 @@ async function getQuestReview() {
 }
 
 async function loadQuestReview() {
-  const tmplt = document.querySelector('#questionnaire-template');
+  const template = document.querySelector('#questionnaire-template');
   const questions = await getQuestReview();
   for (const question of questions) {
-    // get question container template
-    const questionContainer = document.importNode(tmplt.content, true); // question container
+    const questionContainer = document.importNode(template.content, true);
+
     // fill in template with question data
-    questionContainer.querySelector('.quest-rev-title').textContent = question.question;
-    if (question.answer !== null) {
-      if (question.options.length < 3) {
-        questionContainer.querySelector('.opt-3').style.display = 'none';
+    questionContainer.querySelector('.question-title').textContent = question.question;
+    let buttonIndex = 0;
+    for (const option of question.options) {
+      const btn = questionContainer.querySelectorAll('.question-answer div')[buttonIndex];
+      btn.style.display = '';
+      btn.textContent = option.label_en;
+      btn.dataset.choice = option.option_number;
+      if (option.label_en === question.answer) {
+        btn.classList.add('selected');
       }
-      for (let i = 0; i < question.options.length; i++) {
-        const btn = questionContainer.querySelector('.opt-' + (i + 1));
-        btn.textContent = question.options[i].label_en;
-        btn.dataset.choice = question.options[i].option_number;
-        if (question.options[i].label_en === question.answer) {
-          btn.classList.add('selected');
-        }
-      }
+      buttonIndex += 1;
     }
 
     // add event listeners and data attributes
-    for (const questionAnswer of questionContainer.querySelectorAll('.quest-ans')) {
+    for (const questionAnswer of questionContainer.querySelectorAll('.question-answer')) {
       questionAnswer.dataset.questionId = question.id;
       questionAnswer.addEventListener('click', updateAns);
     }
