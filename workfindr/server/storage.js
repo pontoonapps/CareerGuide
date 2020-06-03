@@ -35,38 +35,44 @@ async function swipedJobs(userId) {
 async function answeredQuestions(userId) { // Answered Questions
   const sql = await sqlPromise;
 
-  // Do we need to include an image here?
   const query = `
-    SELECT
-      qst.id,
-      qst.question_en AS question,
-      opt.label_en as answer
+    SELECT 
+      questions.id AS question_id,
+      questions.title_en AS title_en,
+      questions.question_en AS question_en,
+      options.label_en AS answer_en,
+      options.option_number AS answer_number, 
+      answers.option_number AS answered
     FROM pontoonapps_workfindr2.questions
-      AS qst
-    INNER JOIN
-    pontoonapps_workfindr2.answers
-      AS ans
-      ON qst.id=ans.question_id
-        AND ans.user_id=?
-    INNER JOIN
-    pontoonapps_workfindr2.options
-      AS opt
-      ON ans.option_number=opt.option_number
-        AND ans.question_id=opt.question_id`;
+    INNER JOIN pontoonapps_workfindr2.answers 
+      ON questions.id = answers.question_id 
+      AND answers.user_id = ?
+    INNER JOIN pontoonapps_workfindr2.options 
+      ON questions.id = options.question_id`;
+  const [questionsData] = await sql.query(query, userId);
+  const questions = [];
 
-  const [questions] = await sql.query(query, userId);
-  const options = await getOptions(0, questions.length);
+  // format as JSON
+  let options = [];
+  let currentQuestion = questionsData[0].question_id;
+  for (const row of questionsData) {
+    if (currentQuestion !== row.question_id) {
+      currentQuestion = row.question_id; // update id of current question
 
-  for (let i = 0; i < questions.length; i++) {
-    const optArr = [];
-    for (let j = 0; j < options.length; j++) {
-      if (questions[i].id === options[j].question_id) {
-        optArr.push(options[j]);
-      }
+      questions.push({
+        id: row.question_id,
+        title_en: row.title_en,
+        question_en: row.question_en,
+        answer_number: row.answered,
+        options: options,
+      });
+
+      options = []; // reset options array for next question
     }
-    questions[i].options = optArr;
-  }
 
+    // push the current question's option data
+    options.push({ answer_en: row.answer_en, answer_number: row.answer_number });
+  }
   return questions;
 }
 
@@ -78,21 +84,6 @@ async function getSwipeItem(userId) {
 
   const job = await getNextJob(userId);
   return job;
-}
-
-async function getOptions(minId, maxId = minId) {
-  if (maxId <= 0) {
-    return; // If maxId <= zero, output will be empty, so why run the query at all
-  }
-  const sql = await sqlPromise;
-  const query = `
-  SELECT option_number, question_id, label_en
-  FROM pontoonapps_workfindr2.options
-  WHERE question_id
-  BETWEEN ? AND ?
-  ORDER BY question_id, option_number asc`;
-  const [options] = await sql.query(query, [minId, maxId]);
-  return options;
 }
 
 async function getNextJob(userId) {
@@ -123,23 +114,37 @@ async function getNextJob(userId) {
 async function getNextQuestion(userId) {
   const sql = await sqlPromise;
 
-  const questionQuery = `
-    SELECT id, title_en, question_en
-    FROM pontoonapps_workfindr2.questions
-    WHERE id NOT IN (
-      SELECT question_id
-      FROM pontoonapps_workfindr2.answers
-      WHERE user_id = ?
-    )
-    LIMIT 1`;
+  const question = {};
+  const query = `
+    SELECT qst.id, qst.title_en, qst.question_en, opt.option_number, opt.label_en
+    FROM (
+      SELECT id, title_en, question_en
+      FROM pontoonapps_workfindr2.questions
+      WHERE id NOT IN (
+        SELECT question_id
+        FROM pontoonapps_workfindr2.answers
+        WHERE user_id = ?
+      )
+      LIMIT 1
+    ) AS qst
+    JOIN pontoonapps_workfindr2.options AS opt ON qst.id = opt.question_id`;
+  const [questionData] = await sql.query(query, userId);
 
-  const [questions] = await sql.query(questionQuery, userId);
-  if (questions.length === 0) {
+  if (questionData.length === 0) {
     return;
   }
-  const questionData = questions[0];
-  questionData.options = await getOptions(questionData.id);
-  return questionData;
+
+  question.id = questionData[0].id;
+  question.question_en = questionData[0].question_en;
+  question.title_en = questionData[0].title_en;
+  question.options = [];
+  for (const row of questionData) {
+    question.options.push({
+      option_number: row.option_number,
+      label_en: row.label_en,
+    });
+  }
+  return question;
 }
 
 async function insertQuestionAnswer(ansData) {

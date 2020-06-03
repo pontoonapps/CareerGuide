@@ -16,21 +16,21 @@ async function loadQuestReview() {
     const questionContainer = document.importNode(template.content, true);
 
     // fill in template with question data
-    questionContainer.querySelector('.question-title').textContent = question.question;
+    questionContainer.querySelector('.question-title').textContent = question.question_en;
     let buttonIndex = 0;
     for (const option of question.options) {
       const btn = questionContainer.querySelectorAll('.question-answer div')[buttonIndex];
       btn.style.display = '';
-      btn.textContent = option.label_en;
-      btn.dataset.choice = option.option_number;
-      if (option.label_en === question.answer) {
+      btn.textContent = option.answer_en;
+      btn.dataset.choice = option.answer_number;
+      if (option.answer_number === question.answer_number) {
         btn.classList.add('selected');
       }
       buttonIndex += 1;
     }
 
     // add event listeners and data attributes
-    for (const questionAnswer of questionContainer.querySelectorAll('.question-answer')) {
+    for (const questionAnswer of questionContainer.querySelectorAll('.question-answer div')) {
       questionAnswer.dataset.questionId = question.id;
       questionAnswer.addEventListener('click', updateAns);
     }
@@ -56,7 +56,7 @@ async function updateAns() {
 async function submitAnsChange(event) {
   const userInput = {};
   userInput.choice = event.target.dataset.choice;
-  userInput.itemId = event.target.parentNode.dataset.questionId;
+  userInput.itemId = event.target.dataset.questionId;
 
   // submit question answer change to server
   const response = await submitChange(userInput);
