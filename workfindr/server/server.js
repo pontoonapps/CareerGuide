@@ -3,10 +3,12 @@
 // modules
 const express = require('express');
 const cookieParser = require('cookie-parser');
-const app = express();
+const app = express.Router();
+const rootApp = express();
 
 const db = require('./storage.js');
 const auth = require('./auth.js');
+const config = require('./config');
 
 // functionality
 
@@ -105,12 +107,18 @@ function asyncWrap(f) {
   };
 }
 
+// for testing purposes
+app.get('/user/id', (req, res) => res.send({ user: req.user }));
+
 // start server
 
 app.use(express.static('client'));
 
+
+rootApp.use(config.DEPLOYMENT_ROOT || '/', app);
+
 // http://localhost:8080/
-const port = process.env.PORT || 8080;
-app.listen(port, () =>
+const port = process.env.PORT || undefined;
+rootApp.listen(port, () =>
   console.log(`Listening on port ${port}!`),
 );

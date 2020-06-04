@@ -1,5 +1,8 @@
+const fetch = require('node-fetch');
+const config = require('./config');
+
 module.exports = {
-  authenticator: dummyCookieAuth,
+  authenticator: process.env.TESTING_DUMMY_AUTH ? dummyCookieAuth : phpAuth,
   guardMiddleware: requireValidUser,
 };
 
@@ -22,9 +25,39 @@ function dummyCookieAuth(req, res, next) {
     const id = knownUsers.indexOf(name);
     if (id > 0) {
       req.user = { id };
+      console.log({ userId: id });
     }
   }
   next();
+}
+
+/*
+ * check with /is_logged_in.php whether the user is logged in
+ */
+async function phpAuth(req, res, next) {
+  try {
+    const fetchResp = await fetch(config.LOGIN_CHECK_URL, {
+      method: 'GET',
+      headers: {
+        cookie: req.get('cookie'),
+      },
+    });
+
+    if (!fetchResp.ok) {
+      next(new Error(`login check at ${config.LOGIN_CHECK_URL} returned ${fetchResp.status}`));
+      return;
+    }
+
+    const loggedIn = await fetchResp.json();
+
+    if (loggedIn.logged_in) {
+      // put user information in the request
+      req.user = { id: loggedIn.user_id };
+    }
+    next();
+  } catch (e) {
+    next(new Error(`login check at ${config.LOGIN_CHECK_URL} threw ${e.message}`));
+  }
 }
 
 function requireValidUser(req, res, next) {
