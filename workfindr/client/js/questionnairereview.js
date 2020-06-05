@@ -31,7 +31,7 @@ async function loadQuestReview() {
 
     // add event listeners and data attributes
     for (const questionAnswer of questionContainer.querySelectorAll('.question-answer div')) {
-      questionAnswer.dataset.questionId = question.id;
+      questionAnswer.dataset.questionId = question.question_id;
       questionAnswer.addEventListener('click', updateAns);
     }
 
