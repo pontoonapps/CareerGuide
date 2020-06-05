@@ -40,40 +40,22 @@ async function answeredQuestions(userId) { // Answered Questions
       questions.id AS question_id,
       questions.title_en AS title_en,
       questions.question_en AS question_en,
-      options.label_en AS answer_en,
-      options.option_number AS answer_number, 
-      answers.option_number AS answered
+      JSON_ARRAYAGG(
+        JSON_OBJECT(
+          "answer_number", options.option_number,
+          "answer_en", options.label_en
+          )
+        ) AS options,
+      answers.option_number AS answer_number
     FROM pontoonapps_workfindr2.questions
     INNER JOIN pontoonapps_workfindr2.answers 
       ON questions.id = answers.question_id 
       AND answers.user_id = ?
     INNER JOIN pontoonapps_workfindr2.options 
-      ON questions.id = options.question_id`;
+      ON questions.id = options.question_id
+    GROUP BY questions.id`;
   const [questionsData] = await sql.query(query, userId);
-  const questions = [];
-
-  // format as JSON
-  let options = [];
-  let currentQuestion = questionsData[0].question_id;
-  for (const row of questionsData) {
-    if (currentQuestion !== row.question_id) {
-      currentQuestion = row.question_id; // update id of current question
-
-      questions.push({
-        id: row.question_id,
-        title_en: row.title_en,
-        question_en: row.question_en,
-        answer_number: row.answered,
-        options: options,
-      });
-
-      options = []; // reset options array for next question
-    }
-
-    // push the current question's option data
-    options.push({ answer_en: row.answer_en, answer_number: row.answer_number });
-  }
-  return questions;
+  return questionsData;
 }
 
 async function getSwipeItem(userId) {
@@ -127,7 +109,8 @@ async function getNextQuestion(userId) {
       )
       LIMIT 1
     ) AS qst
-    JOIN pontoonapps_workfindr2.options AS opt ON qst.id = opt.question_id`;
+    JOIN pontoonapps_workfindr2.options AS opt ON qst.id = opt.question_id
+    ORDER BY qst.id`;
   const [questionData] = await sql.query(query, userId);
 
   if (questionData.length === 0) {
@@ -149,10 +132,6 @@ async function getNextQuestion(userId) {
 
 async function insertQuestionAnswer(ansData) {
   const sql = await sqlPromise;
-
-  const userId = ansData.userId;
-  const questionId = ansData.itemId;
-  const optionNumber = ansData.choice;
   const query = `
     INSERT INTO pontoonapps_workfindr2.answers
       (user_id, question_id, option_number)
@@ -160,7 +139,7 @@ async function insertQuestionAnswer(ansData) {
       (?, ?, ?)
     ON DUPLICATE KEY UPDATE
       option_number = ?`;
-  await sql.query(query, [userId, questionId, optionNumber, optionNumber]);
+  await sql.query(query, [ansData.userId, ansData.itemId, ansData.choice, ansData.choice]);
 }
 
 async function insertSwipe(swipeData) {
@@ -196,8 +175,10 @@ async function insertShortlist(swipeData) {
     INSERT INTO pontoonapps_workfindr2.shortlists
       (user_id, job_id)
     VALUES
-      (?, ?)`; // TODO on duplicate update
-  await sql.query(query, [swipeData.userId, swipeData.itemId]);
+      (?, ?)
+    ON DUPLICATE KEY UPDATE
+      job_id = ?`;
+  await sql.query(query, [swipeData.userId, swipeData.itemId, swipeData.itemId]);
 }
 
 async function removeShortlist(swipeData) {

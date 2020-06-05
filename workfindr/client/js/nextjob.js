@@ -120,7 +120,6 @@ function displayItem(item) {
   if (item.description_en === undefined) { // if question else job
     // show option buttons and add option number to dataset
     let buttonIndex = 0;
-    console.log(item);
     for (const option of item.options) {
       const button = document.querySelectorAll('.question')[buttonIndex];
       button.style.display = '';
