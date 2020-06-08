@@ -116,7 +116,7 @@ async function getNextQuestion(userId) {
   if (questionData.length === 0) {
     return;
   }
-
+  // TODO remove formatting in JS with ARRAYGG
   question.id = questionData[0].id;
   question.question_en = questionData[0].question_en;
   question.title_en = questionData[0].title_en;
