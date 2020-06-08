@@ -36,7 +36,7 @@ async function answeredQuestions(userId) { // Answered Questions
   const sql = await sqlPromise;
 
   const query = `
-    SELECT 
+    SELECT
       questions.id AS question_id,
       questions.title_en AS title_en,
       questions.question_en AS question_en,
@@ -48,10 +48,10 @@ async function answeredQuestions(userId) { // Answered Questions
         ) AS options,
       answers.option_number AS answer_number
     FROM pontoonapps_workfindr2.questions
-    INNER JOIN pontoonapps_workfindr2.answers 
-      ON questions.id = answers.question_id 
+    INNER JOIN pontoonapps_workfindr2.answers
+      ON questions.id = answers.question_id
       AND answers.user_id = ?
-    INNER JOIN pontoonapps_workfindr2.options 
+    INNER JOIN pontoonapps_workfindr2.options
       ON questions.id = options.question_id
     GROUP BY questions.id`;
   const [questionsData] = await sql.query(query, userId);
@@ -110,7 +110,7 @@ async function getNextQuestion(userId) {
       LIMIT 1
     ) AS qst
     JOIN pontoonapps_workfindr2.options AS opt ON qst.id = opt.question_id
-    ORDER BY qst.id`;
+    ORDER BY qst.id, opt.option_number DESC`;
   const [questionData] = await sql.query(query, userId);
 
   if (questionData.length === 0) {
