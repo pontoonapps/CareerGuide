@@ -50,7 +50,7 @@ async function phpAuth(req, res, next) {
 
     const loggedIn = await fetchResp.json();
 
-    if (loggedIn.logged_in) {
+    if (loggedIn.logged_in && loggedIn.user_id != null) {
       // put user information in the request
       req.user = { id: loggedIn.user_id };
     }
