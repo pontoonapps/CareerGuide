@@ -39,22 +39,39 @@ async function answeredQuestions(userId) { // Answered Questions
       questions.id AS question_id,
       questions.title_en AS title_en,
       questions.question_en AS question_en,
-      JSON_ARRAYAGG(
-        JSON_OBJECT(
-          "answer_number", options.option_number,
-          "answer_en", options.label_en
-          )
-        ) AS options,
-      answers.option_number AS answer_number
+      options.label_en AS answer_en,
+      options.option_number AS answer_number,
+      answers.option_number AS answered
     FROM pontoonapps_workfindr2.questions
     INNER JOIN pontoonapps_workfindr2.answers
       ON questions.id = answers.question_id
       AND answers.user_id = ?
     INNER JOIN pontoonapps_workfindr2.options
-      ON questions.id = options.question_id
-    GROUP BY questions.id`;
+      ON questions.id = options.question_id`;
+
   const [questionsData] = await sql.query(query, userId);
-  return questionsData;
+  const questions = [];
+
+  // format as JSON
+  let options = [];
+  let currentQuestion = questionsData[0].question_id;
+  for (const row of questionsData) {
+    if (currentQuestion !== row.question_id) {
+      currentQuestion = row.question_id; // update id of current question
+
+      questions.push({
+        question_id: row.question_id,
+        title_en: row.title_en,
+        question_en: row.question_en,
+        answer_number: row.answered,
+        options: options,
+      });
+      options = []; // reset options array for next question
+    }
+    // push the current question's option data
+    options.push({ answer_en: row.answer_en, answer_number: row.answer_number });
+  }
+  return questions;
 }
 
 async function getSwipeItem(userId) {
@@ -97,29 +114,54 @@ async function getNextQuestion(userId) {
 
   const query = `
     SELECT
-      questions.id,
-      JSON_ARRAYAGG(
-        JSON_OBJECT(
-          "label_en", options.label_en,
-          "option_number", options.option_number
-        )
-      ) AS options,
-      questions.question_en,
-      questions.title_en
+      questions.id AS question_id,
+      questions.title_en AS title_en,
+      questions.question_en AS question_en,
+      options.label_en AS answer_en,
+      options.option_number AS answer_number
     FROM pontoonapps_workfindr2.questions
-    INNER JOIN pontoonapps_workfindr2.options
-      ON questions.id = options.question_id
     LEFT JOIN pontoonapps_workfindr2.answers
       ON questions.id = answers.question_id
+    JOIN pontoonapps_workfindr2.options
+      ON questions.id = options.question_id
     WHERE questions.id NOT IN (
       SELECT question_id
       FROM pontoonapps_workfindr2.answers
       WHERE user_id = ?
     )
-    GROUP BY questions.id
-    LIMIT 1`;
-  const [questionData] = await sql.query(query, userId);
-  return questionData[0];
+    AND questions.id = (
+      SELECT questions.id
+      FROM pontoonapps_workfindr2.questions
+      LEFT JOIN pontoonapps_workfindr2.answers
+        ON questions.id = answers.question_id
+        WHERE questions.id NOT IN (
+          SELECT question_id
+          FROM pontoonapps_workfindr2.answers
+          WHERE user_id = ?
+        )
+      ORDER BY questions.id ASC
+      LIMIT 1
+    )`;
+  const [questionData] = await sql.query(query, [userId, userId]);
+
+  if (questionData[0] === undefined) {
+    return;
+  }
+
+  // format as JSON
+  const options = [];
+  for (const row of questionData) {
+    options.push({ label_en: row.answer_en, option_number: row.answer_number });
+  }
+
+  const question = {
+    id: questionData[0].question_id,
+    options: options,
+    question_en: questionData[0].question_en,
+    title_en: questionData[0].title_en,
+  };
+
+  return question;
 }
 
 async function insertQuestionAnswer(ansData) {
