@@ -1,4 +1,9 @@
 {
   "DEPLOYMENT_ROOT": "/<deployment-path>/",
-  "LOGIN_CHECK_URL": "https://<hostname:port>/is_logged_in.php"
+  "LOGIN_CHECK_URL": "https://<hostname:port>/is_logged_in.php",
+  "mysql": {
+    "host": "localhost",
+    "user": "<user>",
+    "password": "<password>"
+  }
 }
