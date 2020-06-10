@@ -1,5 +1,9 @@
-username=$( cat server/config.js | grep ""user | awk '{print $2}' | sed "s/[,\']//g" )
-password=$( cat server/config.js | grep ""password | awk '{print $2}' | sed "s/[,\']//g" )
+#!/bin/bash
+
+# THIS WILL DELETE AND RE-SET YOUR DATABASE
+
+username=$( cat server/config.js | grep user | awk '{print $2}' | sed "s/[,\']//g" )
+password=$( cat server/config.js | grep password | awk '{print $2}' | sed "s/[,\']//g" )
 echo "drop databases if exist"
 mysql -u $username -p$password -e "
   DROP DATABASE pontoonapps_workfindr2;
