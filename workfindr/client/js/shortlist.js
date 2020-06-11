@@ -88,7 +88,7 @@ async function submitRemoval(event) {
   const removal = {};
   removal.itemId = event.target.dataset.jobid;
   removal.choice = 'shortlist-rem';
-  const response = await fetch('/user/jobs', {
+  const response = await fetch('user/jobs', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(removal),

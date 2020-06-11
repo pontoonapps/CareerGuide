@@ -69,7 +69,7 @@ async function submitAnsChange(event) {
 }
 
 async function submitChange(userInput) {
-  const response = await fetch('/user/questions', {
+  const response = await fetch('user/questions', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(userInput),

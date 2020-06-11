@@ -32,7 +32,7 @@ async function subSwipe(event) {
 }
 
 async function subJobSwipe(swipe) {
-  const response = await fetch('/user/jobs', {
+  const response = await fetch('user/jobs', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(swipe),

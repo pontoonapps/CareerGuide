@@ -76,7 +76,7 @@ async function submitSwipeChange(event) {
 }
 
 async function submitChange(usrInput) {
-  const response = await fetch('/user/jobs', {
+  const response = await fetch('user/jobs', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(usrInput),
