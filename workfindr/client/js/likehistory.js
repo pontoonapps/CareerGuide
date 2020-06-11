@@ -84,7 +84,15 @@ async function submitChange(usrInput) {
   return response;
 }
 
+async function checkLogin() {
+  const reponse = await fetch('user/');
+  if (reponse.status === 401) {
+    window.location = './';
+  }
+}
+
 function loadPage() {
+  checkLogin();
   loadSwipeHistory();
 }
 
