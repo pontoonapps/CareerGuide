@@ -1,7 +1,7 @@
 const mysql = require('mysql2/promise');
 const config = require('./config');
 
-const sqlPromise = mysql.createConnection(config.mysql);
+const sqlPromise = mysql.createPool(config.mysql);
 
 async function swipedJobs(userId) {
   const sql = await sqlPromise;
