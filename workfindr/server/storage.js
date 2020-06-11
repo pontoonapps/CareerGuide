@@ -47,16 +47,18 @@ async function answeredQuestions(userId) { // Answered Questions
       ON questions.id = answers.question_id
       AND answers.user_id = ?
     INNER JOIN pontoonapps_workfindr2.options
-      ON questions.id = options.question_id`;
+      ON questions.id = options.question_id
+    ORDER BY question_id`;
 
   const [questionsData] = await sql.query(query, userId);
   const questions = [];
 
-  // format as JSON
-  let options = [];
-  let currentQuestion = questionsData[0].question_id;
+  // aggregate the options
+  let options;
+  let currentQuestion;
   for (const row of questionsData) {
     if (currentQuestion !== row.question_id) {
+      options = []; // reset options array for this question
       currentQuestion = row.question_id; // update id of current question
 
       questions.push({
@@ -66,7 +68,6 @@ async function answeredQuestions(userId) { // Answered Questions
         answer_number: row.answered,
         options: options,
       });
-      options = []; // reset options array for next question
     }
     // push the current question's option data
     options.push({ answer_en: row.answer_en, answer_number: row.answer_number });
@@ -120,25 +121,16 @@ async function getNextQuestion(userId) {
       options.label_en AS answer_en,
       options.option_number AS answer_number
     FROM pontoonapps_workfindr2.questions
-    LEFT JOIN pontoonapps_workfindr2.answers
-      ON questions.id = answers.question_id
     JOIN pontoonapps_workfindr2.options
       ON questions.id = options.question_id
-    WHERE questions.id NOT IN (
-      SELECT question_id
-      FROM pontoonapps_workfindr2.answers
-      WHERE user_id = ?
-    )
-    AND questions.id = (
+    WHERE questions.id = (
       SELECT questions.id
       FROM pontoonapps_workfindr2.questions
-      LEFT JOIN pontoonapps_workfindr2.answers
-        ON questions.id = answers.question_id
-        WHERE questions.id NOT IN (
-          SELECT question_id
-          FROM pontoonapps_workfindr2.answers
-          WHERE user_id = ?
-        )
+      WHERE questions.id NOT IN (
+        SELECT question_id
+        FROM pontoonapps_workfindr2.answers
+        WHERE user_id = ?
+      )
       ORDER BY questions.id ASC
       LIMIT 1
     )`;
@@ -148,7 +140,7 @@ async function getNextQuestion(userId) {
     return;
   }
 
-  // format as JSON
+  // aggregate the options
   const options = [];
   for (const row of questionData) {
     options.push({ label_en: row.answer_en, option_number: row.answer_number });
