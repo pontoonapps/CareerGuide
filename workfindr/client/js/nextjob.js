@@ -206,12 +206,20 @@ function getHeights() {
   infoText.dataset.origHeight = infoText.offsetHeight;
 }
 
+async function checkLogin() {
+  const reponse = await fetch('user/');
+  if (reponse.status === 401) {
+    window.location = './';
+  }
+}
+
 // start script (after page has loaded)
 
 async function loadPage() {
   addELs(); // add Event Listeners
   setSwipePageHeight();
   getHeights();
+  checkLogin();
   await loadNextItem(); // await so buttons aren't displayed before being hidden
   document.querySelector('#swipe-btns').style.display = '';
 }
