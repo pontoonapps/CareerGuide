@@ -25,7 +25,6 @@ function dummyCookieAuth(req, res, next) {
     const id = knownUsers.indexOf(name);
     if (id > 0) {
       req.user = { id };
-      console.log({ userId: id });
     }
   }
   next();
