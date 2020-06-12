@@ -5,8 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" type="text/css" href="css/index.css" />
   <script async defer src="js/shared.js"></script>
+  <script async defer src="js/index.js"></script>
 
-  <title>INDEX</title>
+  <title>Career Guide</title>
 </head>
 <body>
 
@@ -16,7 +17,7 @@
             <a href='https://pontoonapps.com/'>
               <img class="navbar-item" id="logo" src="img/pontlogo.png"/>
             </a>
-            <img class="navbar-item" id="nav-btn" src="img/navbtn.svg" />
+            <img class="navbar-item" id="nav-btn" src="img/navbtn.svg"/>
         </section>
     </section>
         <ul id="navbar-slide">
@@ -27,7 +28,18 @@
         </ul>
   </nav>
   <main>
-    <h1 id="title">WELCOME TO THE TEMPORARY INDEX PAGE</h1>
+    <h1 id="title">Welcome to Career Guide</h1>
+    <div id="login-requester" style="display: none;">
+    <h3>Please Note</h3>
+    <p>You need to be logged in to use Career Guide.</p>
+    <p><a href="https://pontoonapps.com/login.php">Click here</a> to go to the login screen.</p>
+    </div>
+    <div id="splash">
+      <h3>What is Career Guide?</h3>
+      <p>Here will be some RELEVANT and EXCITING text which describes
+        what career guide is and how to get started</p>
+      <button class="btn-3 button" id="get-started">Get Started!</button>
+    </div>
     <aside>
       Select testing user:
       <select id='user-select'>
@@ -42,22 +54,6 @@
         <option>test8</option>
         <option>test9</option>
       </select>
-      <script>
-        if (window.location.hostname === 'pontoonapps.com') {
-          const userSelector = document.querySelector('#user-select');
-          userSelector.parentElement.style.display = 'none';
-        } else {
-          // use dummy auth selector
-          const userSelector = document.querySelector('#user-select');
-          userSelector.addEventListener('change', selectUser);
-          userSelector.value = localStorage.getItem('dummy-user') || 'none';
-          function selectUser() {
-            const user = userSelector.value;
-            localStorage.setItem('dummy-user', user);
-            document.cookie = `PHPSESSID=${user}; path=/`;
-          }
-        }
-      </script>
     </aside>
   </main>
 </body>
