@@ -33,7 +33,7 @@ async function swipedJobs(userId) {
 
 async function answeredQuestions(userId) { // Answered Questions
   const sql = await sqlPromise;
-
+ 
   const query = `
     SELECT
       questions.id AS question_id,
@@ -145,6 +145,7 @@ async function getNextQuestion(userId) {
   for (const row of questionData) {
     options.push({ label_en: row.answer_en, option_number: row.answer_number });
   }
+  options.reverse();
 
   const question = {
     id: questionData[0].question_id,

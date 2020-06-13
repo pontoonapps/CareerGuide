@@ -23,6 +23,11 @@
 
 /* set global margin and padding to 0 so defaults don't interfer with layout */
 
+#empty-page {
+  color: var(--davys-gray);
+  display: none;
+}
+
 #login-requester {
   box-shadow: 0 0 0.25rem 0.01rem var(--PONTRed);
   width: calc(50% + 150px);

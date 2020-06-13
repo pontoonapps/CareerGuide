@@ -12,23 +12,29 @@ async function getSwipeHistory() {
 async function loadSwipeHistory() {
   const tmplt = document.querySelector('#swipe-history-template');
   const jobList = await getSwipeHistory();
-  const main = document.querySelector('main');
-  for (const job of jobList) {
-    if (job.swipe === 'show later') {
-      continue;
+
+  if (jobList.length > 0) {
+    const main = document.querySelector('main');
+    for (const job of jobList) {
+      if (job.swipe === 'show later') {
+        continue;
+      }
+
+      const jobContnr = document.importNode(tmplt.content, true);
+      jobContnr.querySelector('.swipe-item-image').src = 'img/' + job.image;
+      jobContnr.querySelector('.swipe-item-image').alt = job.title_en + 'image';
+      jobContnr.querySelector('.list-item-title').textContent = job.title_en;
+      jobContnr.querySelector('.swipe-item-desc').textContent = job.description_en;
+      jobContnr.querySelector('.swipe-choice').classList.add(job.swipe);
+      jobContnr.querySelector('.swipe-choice').textContent = (job.swipe === 'like' ? '👍' : '👎');
+      jobContnr.querySelector('.swipe-choice').dataset.jobId = job.id;
+      jobContnr.querySelector('.swipe-choice').addEventListener('click', changeSwipe);
+
+      main.appendChild(jobContnr);
     }
-
-    const jobContnr = document.importNode(tmplt.content, true);
-    jobContnr.querySelector('.swipe-item-image').src = 'img/' + job.image;
-    jobContnr.querySelector('.swipe-item-image').alt = job.title_en + 'image';
-    jobContnr.querySelector('.list-item-title').textContent = job.title_en;
-    jobContnr.querySelector('.swipe-item-desc').textContent = job.description_en;
-    jobContnr.querySelector('.swipe-choice').classList.add(job.swipe);
-    jobContnr.querySelector('.swipe-choice').textContent = (job.swipe === 'like' ? '👍' : '👎');
-    jobContnr.querySelector('.swipe-choice').dataset.jobId = job.id;
-    jobContnr.querySelector('.swipe-choice').addEventListener('click', changeSwipe);
-
-    main.appendChild(jobContnr);
+  } else {
+    const empty = document.querySelector('#empty-page');
+    empty.style.display = 'initial';
   }
 }
 
