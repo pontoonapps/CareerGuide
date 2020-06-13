@@ -12,35 +12,34 @@ async function getQuestReview() {
 async function loadQuestReview() {
   const template = document.querySelector('#questionnaire-template');
   const questions = await getQuestReview();
-  if (questions.length > 0) {
-    for (const question of questions) {
-      const questionContainer = document.importNode(template.content, true);
+  for (const question of questions) {
+    const questionContainer = document.importNode(template.content, true);
 
-      // fill in template with question data
-      questionContainer.querySelector('.question-title').textContent = question.question_en;
-      let buttonIndex = 0;
-      for (const option of question.options) {
-        const btn = questionContainer.querySelectorAll('.question-answer div')[buttonIndex];
-        btn.style.display = '';
-        btn.textContent = option.answer_en;
-        btn.dataset.choice = option.answer_number;
-        if (option.answer_number === question.answer_number) {
-          btn.classList.add('selected');
-        }
-        buttonIndex += 1;
+    // fill in template with question data
+    questionContainer.querySelector('.question-title').textContent = question.question_en;
+    let buttonIndex = 0;
+    for (const option of question.options) {
+      const btn = questionContainer.querySelectorAll('.question-answer div')[buttonIndex];
+      btn.style.display = '';
+      btn.textContent = option.answer_en;
+      btn.dataset.choice = option.answer_number;
+      if (option.answer_number === question.answer_number) {
+        btn.classList.add('selected');
       }
+      buttonIndex += 1;
+    }
 
-      // add event listeners and data attributes
-      for (const questionAnswer of questionContainer.querySelectorAll('.question-answer div')) {
-        questionAnswer.dataset.questionId = question.question_id;
-        questionAnswer.addEventListener('click', updateAns);
-      }
+    // add event listeners and data attributes
+    for (const questionAnswer of questionContainer.querySelectorAll('.question-answer div')) {
+      questionAnswer.dataset.questionId = question.question_id;
+      questionAnswer.addEventListener('click', updateAns);
+    }
 
       // append to main
       const main = document.querySelector('main');
       main.appendChild(questionContainer);
-    }
-  } else {
+  }
+  if (questions.length === 0) {
     const empty = document.querySelector('#empty-page');
     empty.style.display = 'initial';
   }

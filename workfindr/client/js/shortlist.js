@@ -12,29 +12,28 @@ async function getShortlist() {
 async function loadShortList() {
   const tmplt = document.querySelector('#shortlist-template');
   const jobList = await getShortlist();
-  if (jobList.length > 0) {
-    for (const job of jobList) {
-      if (job.shortlist === null) {
-        continue;
-      }
+  for (const job of jobList) {
+    if (job.shortlist === null) {
+      continue;
+    }
 
-      const jobContnr = document.importNode(tmplt.content, true);
+    const jobContnr = document.importNode(tmplt.content, true);
 
-      jobContnr.querySelector('.swipe-item-image').src = 'img/' + job.image;
-      jobContnr.querySelector('.swipe-item-image').alt = job.title_en + ' image';
-      jobContnr.querySelector('.list-item-title').textContent = job.title_en;
-      jobContnr.querySelector('.swipe-item-desc').textContent = job.description_en;
-      jobContnr.querySelector('.view-more').addEventListener('click', dispDetailedDesc);
-      jobContnr.querySelector('.view-more').dataset.jobid = job.id;
-      jobContnr.querySelector('.view-less').addEventListener('click', hideDetailDesc);
-      jobContnr.querySelector('.view-less').dataset.jobid = job.id;
-      jobContnr.querySelector('.rmv-shrt-item').addEventListener('click', removeShortlistItem);
-      jobContnr.querySelector('.rmv-shrt-item').dataset.jobid = job.id;
+    jobContnr.querySelector('.swipe-item-image').src = 'img/' + job.image;
+    jobContnr.querySelector('.swipe-item-image').alt = job.title_en + ' image';
+    jobContnr.querySelector('.list-item-title').textContent = job.title_en;
+    jobContnr.querySelector('.swipe-item-desc').textContent = job.description_en;
+    jobContnr.querySelector('.view-more').addEventListener('click', dispDetailedDesc);
+    jobContnr.querySelector('.view-more').dataset.jobid = job.id;
+    jobContnr.querySelector('.view-less').addEventListener('click', hideDetailDesc);
+    jobContnr.querySelector('.view-less').dataset.jobid = job.id;
+    jobContnr.querySelector('.rmv-shrt-item').addEventListener('click', removeShortlistItem);
+    jobContnr.querySelector('.rmv-shrt-item').dataset.jobid = job.id;
 
-      const listContnr = document.querySelector('#list-container');
-      listContnr.appendChild(jobContnr);
-    }  
-  } else {
+    const listContnr = document.querySelector('#list-container');
+    listContnr.appendChild(jobContnr);
+  }
+  if (jobList.length === 0) {
     const empty = document.querySelector('#empty-page');
     empty.style.display = 'initial';
   }

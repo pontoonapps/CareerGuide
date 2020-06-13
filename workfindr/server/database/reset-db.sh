@@ -8,7 +8,6 @@ echo "drop databases if exist"
 mysql -u $username -p$password -e "
   DROP DATABASE IF EXISTS pontoonapps_workfindr2;
   DROP DATABASE IF EXISTS pontoonapps_jobseeker;"
-pause
 echo "create databases and insert data"
 mysql -u $username -p$password -e "
   SOURCE $(pwd)/server/database/init.sql
