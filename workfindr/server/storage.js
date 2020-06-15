@@ -33,7 +33,7 @@ async function swipedJobs(userId) {
 
 async function answeredQuestions(userId) { // Answered Questions
   const sql = await sqlPromise;
- 
+
   const query = `
     SELECT
       questions.id AS question_id,
@@ -48,7 +48,7 @@ async function answeredQuestions(userId) { // Answered Questions
       AND answers.user_id = ?
     INNER JOIN pontoonapps_workfindr2.options
       ON questions.id = options.question_id
-    ORDER BY question_id`;
+    ORDER BY question_id, answer_number`;
 
   const [questionsData] = await sql.query(query, userId);
   const questions = [];
@@ -133,7 +133,8 @@ async function getNextQuestion(userId) {
       )
       ORDER BY questions.id ASC
       LIMIT 1
-    )`;
+    )
+    ORDER BY answer_number`;
   const [questionData] = await sql.query(query, [userId, userId]);
 
   if (questionData[0] === undefined) {
@@ -145,7 +146,6 @@ async function getNextQuestion(userId) {
   for (const row of questionData) {
     options.push({ label_en: row.answer_en, option_number: row.answer_number });
   }
-  options.reverse();
 
   const question = {
     id: questionData[0].question_id,
