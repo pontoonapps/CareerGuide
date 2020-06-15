@@ -88,8 +88,12 @@ async function submitChange(userInput) {
   return response;
 }
 
-function loadPage() {
-  loadQuestionnaireAnswers();
+async function loadPage() {
+  await loadQuestionnaireAnswers();
+
+  // hide loading label and show main
+  document.querySelector('main').style.display = '';
+  document.querySelector('#loadingLabel').style.display = 'none';
 }
 
 window.addEventListener('load', loadPage);

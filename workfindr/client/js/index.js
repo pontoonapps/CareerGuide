@@ -37,8 +37,13 @@ async function checkLogin() {
   }
 }
 
-function init() {
-  checkLogin();
+async function init() {
+  await checkLogin();
+
+  // hide loading label and show main
+  document.querySelector('main').style.display = '';
+  document.querySelector('#loadingLabel').style.display = 'none';
+
   document.querySelector('#get-started').addEventListener('click', gotoSwipePage);
 }
 
