@@ -10,7 +10,7 @@ async function getNextItem() {
   }
 }
 
-async function subSwipe(event) {
+async function submitSwipe(event) {
   const swipe = {};
   swipe.itemId = currentItem.id;
   swipe.choice = event.target.dataset.choice;
@@ -19,9 +19,9 @@ async function subSwipe(event) {
   // way than a lack of description? should there be an attribute marking job or question?
   let response;
   if (currentItem.description_en === undefined) {
-    response = await subQuestSwipe(swipe);
+    response = await submitQuestionSwipe(swipe);
   } else {
-    response = await subJobSwipe(swipe);
+    response = await submitJobSwipe(swipe);
   }
   // log if error connecting to server
   if (!response.ok) {
@@ -31,7 +31,7 @@ async function subSwipe(event) {
   return true;
 }
 
-async function subJobSwipe(swipe) {
+async function submitJobSwipe(swipe) {
   const response = await fetch('user/jobs', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -40,7 +40,7 @@ async function subJobSwipe(swipe) {
   return response;
 }
 
-async function subQuestSwipe(swipe) {
+async function submitQuestionSwipe(swipe) {
   const response = await fetch('user/questions', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -55,7 +55,7 @@ async function loadNextItem() {
   displayItem(currentItem);
 }
 
-function dispInfoText(str) {
+function displayInfoText(str) {
   // get required DOM elements
   const infoText = document.querySelector('#info-text');
   const showMore = document.querySelector('#show-more');
@@ -112,7 +112,7 @@ function resetElHeights() {
 
 function displayItem(item) {
   resetElHeights();
-  dispTitle(item.title_en); // display info shared by questions and jobs (image and title)
+  displayTitle(item.title_en); // display info shared by questions and jobs (image and title)
   for (const button of document.querySelectorAll('button')) { // hide buttons
     button.style.display = 'none';
   }
@@ -127,7 +127,7 @@ function displayItem(item) {
       button.dataset.choice = option.option_number;
       buttonIndex += 1;
     }
-    dispInfoText(item.question_en); // show question text
+    displayInfoText(item.question_en); // show question text
 
     // show question image
     document.querySelector('#swipe-image').src = 'img/question.jpg';
@@ -137,7 +137,7 @@ function displayItem(item) {
     for (const jobButton of document.querySelectorAll('.job')) {
       jobButton.style.display = '';
     }
-    dispInfoText(item.description_en); // show job description
+    displayInfoText(item.description_en); // show job description
 
     // show image
     document.querySelector('#swipe-image').src = 'img/' + item.image;
@@ -145,7 +145,7 @@ function displayItem(item) {
   }
 }
 
-function dispTitle(titleText) {
+function displayTitle(titleText) {
   const titleEl = document.querySelector('#title');
   titleEl.textContent = titleText;
 
@@ -161,7 +161,7 @@ function dispTitle(titleText) {
 function addELs() {
   for (const button of document.querySelectorAll('.button')) {
     button.addEventListener('click', async () => {
-      if (await subSwipe(event)) {
+      if (await submitSwipe(event)) {
         loadNextItem();
       }
     });
