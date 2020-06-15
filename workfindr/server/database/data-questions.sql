@@ -15,27 +15,34 @@ VALUES
 INSERT INTO `pontoonapps_workfindr2`.`options`
 ( option_number, question_id, label_en, min, max )
 VALUES
-( 1, 1, 'In a Team', 4, 9 ),
+( 1, 1, 'Alone', 1, 3 ),
 ( 2, 1, 'I don''t mind', 1, 9 ),
-( 3, 1, 'Alone', 1, 3 ),
-( 1, 2, 'Yes', 1, 4 ),
+( 3, 1, 'In a Team', 4, 9 ),
+
+( 1, 2, 'No', 5, 9 ),
 ( 2, 2, 'I don''t mind', 1, 9 ),
-( 3, 2, 'No', 5, 9 ),
-( 1, 3, 'Yes', 1, 5 ),
+( 3, 2, 'Yes', 1, 4 ),
+
+( 1, 3, 'No', 6, 9 ),
 ( 2, 3, 'I don''t mind', 1, 9 ),
-( 3, 3, 'No', 6, 9 ),
-( 1, 4, 'Yes', 1, 2 ),
+( 3, 3, 'Yes', 1, 5 ),
+
+( 1, 4, 'No', 1, 1 ),
 ( 2, 4, 'Willing to drive', 1, 2 ),
-( 3, 4, 'No', 1, 1 ),
-( 1, 5, 'Yes', 6, 9 ),
+( 3, 4, 'Yes', 1, 2 ),
+
+( 1, 5, 'No', 1, 2 ),
 ( 2, 5, 'Occasionally', 3, 5 ),
-( 3, 5, 'No', 1, 2 ),
-( 1, 6, 'Fixed', 1, 5 ),
+( 3, 5, 'Yes', 6, 9 ),
+
+( 1, 6, 'Flexible', 6, 9 ),
 ( 2, 6, 'I don''t mind', 1, 9 ),
-( 3, 6, 'Flexible', 6, 9 ),
-( 1, 7, 'Yes', 1, 5 ),
+( 3, 6, 'Fixed', 1, 5 ),
+
+( 1, 7, 'No', 5, 9 ),
 ( 2, 7, 'I don''t mind', 1, 9 ),
-( 3, 7, 'No', 5, 9 ),
-( 1, 8, 'Yes', 1, 9 ),
+( 3, 7, 'Yes', 1, 5 ),
+
+( 1, 8, 'No', 7, 9 ),
 ( 2, 8, 'To an extent', 4, 9 ),
-( 3, 8, 'No', 7, 9 );
+( 3, 8, 'Yes', 1, 9 );
