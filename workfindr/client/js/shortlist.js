@@ -2,87 +2,85 @@ async function getShortlist() {
   const response = await fetch('user/jobs');
 
   if (response.ok) {
-    const jList = await response.json();
-    return jList;
+    const jobList = await response.json();
+    return jobList;
   } else {
     console.log('Error from server: ' + response.status + '. Could not get shortlist');
   }
 }
 
 async function loadShortList() {
-  const tmplt = document.querySelector('#shortlist-template');
+  const template = document.querySelector('#shortlist-template');
   const jobList = await getShortlist();
+  const empty = document.querySelector('#empty-page');
   for (const job of jobList) {
     if (job.shortlist === null) {
       continue;
     }
+    const jobContainer = document.importNode(template.content, true);
 
-    const jobContnr = document.importNode(tmplt.content, true);
+    jobContainer.querySelector('.swipe-item-image').src = 'img/' + job.image;
+    jobContainer.querySelector('.swipe-item-image').alt = job.title_en + ' image';
+    jobContainer.querySelector('.list-item-title').textContent = job.title_en;
+    jobContainer.querySelector('.swipe-item-desc').textContent = job.description_en;
+    jobContainer.querySelector('.view-more').addEventListener('click', displayDetailedDesc);
+    jobContainer.querySelector('.view-more').dataset.jobid = job.id;
+    jobContainer.querySelector('.view-less').addEventListener('click', hideDetailedDesc);
+    jobContainer.querySelector('.view-less').dataset.jobid = job.id;
+    jobContainer.querySelector('.remove-shortlist-item').addEventListener('click', removeShortlistItem);
+    jobContainer.querySelector('.remove-shortlist-item').dataset.jobid = job.id;
 
-    jobContnr.querySelector('.swipe-item-image').src = 'img/' + job.image;
-    jobContnr.querySelector('.swipe-item-image').alt = job.title_en + ' image';
-    jobContnr.querySelector('.list-item-title').textContent = job.title_en;
-    jobContnr.querySelector('.swipe-item-desc').textContent = job.description_en;
-    jobContnr.querySelector('.view-more').addEventListener('click', dispDetailedDesc);
-    jobContnr.querySelector('.view-more').dataset.jobid = job.id;
-    jobContnr.querySelector('.view-less').addEventListener('click', hideDetailDesc);
-    jobContnr.querySelector('.view-less').dataset.jobid = job.id;
-    jobContnr.querySelector('.rmv-shrt-item').addEventListener('click', removeShortlistItem);
-    jobContnr.querySelector('.rmv-shrt-item').dataset.jobid = job.id;
+    const listContainer = document.querySelector('#list-container');
+    listContainer.appendChild(jobContainer);
 
-    const listContnr = document.querySelector('#list-container');
-    listContnr.appendChild(jobContnr);
-  }
-  if (jobList.length === 0) {
-    const empty = document.querySelector('#empty-page');
-    empty.style.display = 'initial';
+    empty.style.display = 'none';
   }
 }
 
-function dispDetailedDesc() {
+function displayDetailedDesc() {
   // reset all items to non expanded
 
-  for (const jobContnr of document.querySelectorAll('.list-item-container')) {
-    jobContnr.classList.remove('expanded'); // remove expanded class
+  for (const jobContainer of document.querySelectorAll('.list-item-container')) {
+    jobContainer.classList.remove('expanded'); // remove expanded class
   }
 
-  for (const rmvBtn of document.querySelectorAll('.rmv-shrt-item')) {
-    rmvBtn.style = 'display: none;'; // hide remove button
+  for (const removeBtn of document.querySelectorAll('.remove-shortlist-item')) {
+    removeBtn.style = 'display: none;'; // hide remove button
   }
 
-  for (const viewLess of document.querySelectorAll('.view-less')) {
-    viewLess.style = 'display: none;'; // hide view less button
+  for (const viewLessBtn of document.querySelectorAll('.view-less')) {
+    viewLessBtn.style = 'display: none;'; // hide view less button
   }
 
-  for (const viewMore of document.querySelectorAll('.view-more')) {
-    viewMore.style = ''; // show view more button
+  for (const viewMoreBtn of document.querySelectorAll('.view-more')) {
+    viewMoreBtn.style = ''; // show view more button
   }
 
   // change target container to detailed view
 
   // get required DOM elements
-  const viewMore = event.target;
-  const viewLess = viewMore.nextElementSibling;
-  const remove = viewLess.nextElementSibling;
-  const buttonCont = viewMore.parentNode;
-  const listItemCont = buttonCont.parentNode;
+  const viewMoreBtn = event.target;
+  const viewLessBtn = viewMoreBtn.nextElementSibling;
+  const removeBtn = viewLessBtn.nextElementSibling;
+  const buttonContainer = viewMoreBtn.parentNode;
+  const listItemContainer = buttonContainer.parentNode;
 
   // hide view more and show view less and remove button
-  remove.style = '';
-  viewLess.style = '';
-  viewMore.style = 'display: none;';
+  removeBtn.style = '';
+  viewLessBtn.style = '';
+  viewMoreBtn.style = 'display: none;';
 
   // add expanded class
-  listItemCont.classList.add('expanded');
+  listItemContainer.classList.add('expanded');
 }
 
 async function removeShortlistItem() {
-  const remove = event.target;
-  const btnContnr = remove.parentNode;
-  const jobContnr = btnContnr.parentNode;
+  const removeBtn = event.target;
+  const buttonContainer = removeBtn.parentNode;
+  const jobContainer = buttonContainer.parentNode;
   const succSub = await submitRemoval(event);
   if (succSub) {
-    jobContnr.remove();
+    jobContainer.remove();
   } else {
     document.querySelector('h1').textContent = 'Something went wrong! Please refresh';
   }
@@ -100,21 +98,21 @@ async function submitRemoval(event) {
   return response;
 }
 
-function hideDetailDesc() {
+function hideDetailedDesc() {
   // get required DOM elements
-  const viewLess = event.target;
-  const viewMore = viewLess.previousElementSibling;
-  const remove = viewLess.nextElementSibling;
-  const shrtlistBtnCont = viewLess.parentNode;
-  const listItemCont = shrtlistBtnCont.parentNode;
+  const viewLessBtn = event.target;
+  const viewMoreBtn = viewLessBtn.previousElementSibling;
+  const removeBtn = viewLessBtn.nextElementSibling;
+  const shortlistButtonContainer = viewLessBtn.parentNode;
+  const listItemContainer = shortlistButtonContainer.parentNode;
 
   // remove expanded class
-  listItemCont.classList.remove('expanded');
+  listItemContainer.classList.remove('expanded');
 
   // hide remove button and view less button, show view more button
-  remove.style = 'display: none;';
-  viewLess.style = 'display: none;';
-  viewMore.style = '';
+  removeBtn.style = 'display: none;';
+  viewLessBtn.style = 'display: none;';
+  viewMoreBtn.style = '';
 }
 
 async function checkLogin() {

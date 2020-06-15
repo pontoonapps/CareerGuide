@@ -2,15 +2,15 @@ async function getSwipeHistory() {
   const response = await fetch('user/jobs');
 
   if (response.ok) {
-    const jList = await response.json();
-    return jList;
+    const jobList = await response.json();
+    return jobList;
   } else {
     console.log('Error from server: ' + response.status + '. Could not get question history');
   }
 }
 
 async function loadSwipeHistory() {
-  const tmplt = document.querySelector('#swipe-history-template');
+  const template = document.querySelector('#swipe-history-template');
   const jobList = await getSwipeHistory();
   const main = document.querySelector('main');
   for (const job of jobList) {
@@ -18,21 +18,21 @@ async function loadSwipeHistory() {
       continue;
     }
 
-    const jobContnr = document.importNode(tmplt.content, true);
-    jobContnr.querySelector('.swipe-item-image').src = 'img/' + job.image;
-    jobContnr.querySelector('.swipe-item-image').alt = job.title_en + 'image';
-    jobContnr.querySelector('.list-item-title').textContent = job.title_en;
-    jobContnr.querySelector('.swipe-item-desc').textContent = job.description_en;
-    jobContnr.querySelector('.swipe-choice').classList.add(job.swipe);
-    jobContnr.querySelector('.swipe-choice').textContent = (job.swipe === 'like' ? '👍' : '👎');
-    jobContnr.querySelector('.swipe-choice').dataset.jobId = job.id;
-    jobContnr.querySelector('.swipe-choice').addEventListener('click', changeSwipe);
+    const jobContainer = document.importNode(template.content, true);
+    jobContainer.querySelector('.swipe-item-image').src = 'img/' + job.image;
+    jobContainer.querySelector('.swipe-item-image').alt = job.title_en + 'image';
+    jobContainer.querySelector('.list-item-title').textContent = job.title_en;
+    jobContainer.querySelector('.swipe-item-desc').textContent = job.description_en;
+    jobContainer.querySelector('.swipe-choice').classList.add(job.swipe);
+    jobContainer.querySelector('.swipe-choice').textContent = (job.swipe === 'like' ? '👍' : '👎');
+    jobContainer.querySelector('.swipe-choice').dataset.jobId = job.id;
+    jobContainer.querySelector('.swipe-choice').addEventListener('click', changeSwipe);
 
-    main.appendChild(jobContnr);
+    main.appendChild(jobContainer);
   }
   if (jobList.length === 0) {
     const empty = document.querySelector('#empty-page');
-    empty.style.display = 'initial';
+    empty.style.display = '';
   }
 }
 
@@ -59,19 +59,19 @@ function changeSwipe(event) {
 }
 
 async function submitSwipeChange(event) {
-  const usrInput = {};
+  const userInput = {};
   const updatedSwipe = event.target.classList[1];
-  const itemId = event.target.dataset.jobId; // TODO camel case id
-  usrInput.itemId = itemId;
+  const itemId = event.target.dataset.jobId;
+  userInput.itemId = itemId;
   switch (updatedSwipe) {
     case 'like':
-      usrInput.choice = 'dislike';
+      userInput.choice = 'dislike';
       break;
     case 'dislike':
-      usrInput.choice = 'like';
+      userInput.choice = 'like';
       break;
   }
-  const response = await submitChange(usrInput);
+  const response = await submitChange(userInput);
 
   if (!response.ok) {
     console.log('Error from server: ' + response.statusText + '. Swipe change failed');
@@ -79,11 +79,11 @@ async function submitSwipeChange(event) {
   return (response.ok);
 }
 
-async function submitChange(usrInput) {
+async function submitChange(userInput) {
   const response = await fetch('user/jobs', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(usrInput),
+    body: JSON.stringify(userInput),
   });
   return response;
 }

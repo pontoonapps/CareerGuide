@@ -35,13 +35,13 @@ async function loadQuestReview() {
       questionAnswer.addEventListener('click', updateAns);
     }
 
-      // append to main
-      const main = document.querySelector('main');
-      main.appendChild(questionContainer);
+    // append to main
+    const main = document.querySelector('main');
+    main.appendChild(questionContainer);
   }
   if (questions.length === 0) {
     const empty = document.querySelector('#empty-page');
-    empty.style.display = 'initial';
+    empty.style.display = '';
   }
 }
 
