@@ -1,17 +1,22 @@
+// this code (until the next comment) will go when we no longer need dummy auth
+
+const userSelector = document.querySelector('#user-select');
+
 if (window.location.hostname === 'pontoonapps.com') {
-  const userSelector = document.querySelector('#user-select');
   userSelector.parentElement.style.display = 'none';
 } else {
   // use dummy auth selector
-  const userSelector = document.querySelector('#user-select');
   userSelector.addEventListener('change', selectUser);
   userSelector.value = localStorage.getItem('dummy-user') || 'none';
-  function selectUser() {
-    const user = userSelector.value;
-    localStorage.setItem('dummy-user', user);
-    document.cookie = `PHPSESSID=${user}; path=/`;
-  }
 }
+
+function selectUser() {
+  const user = userSelector.value;
+  localStorage.setItem('dummy-user', user);
+  document.cookie = `PHPSESSID=${user}; path=/`;
+}
+
+// keep the following code:
 
 function gotoSwipePage() {
   window.location = 'nextjob.html';

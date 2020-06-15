@@ -5,8 +5,13 @@ async function getNextItem() {
   if (response.ok) {
     const item = await response.json();
     return item;
+  }
+
+  if (response.status === 401) {
+    // not logged in, redirect to home page
+    window.location = './';
   } else {
-    console.log('Error from server: ' + response.status + '. Could not get next swipe item');
+    console.log('Error from server: ' + response.status + '. Could not get next item');
   }
 }
 
@@ -51,8 +56,7 @@ async function submitQuestionSwipe(swipe) {
 
 async function loadNextItem() {
   currentItem = await getNextItem();
-  currentItem.id = String(currentItem.id); // String() ensures itemid type sent to server is consistent
-  displayItem(currentItem);
+  if (currentItem) displayItem(currentItem);
 }
 
 function displayInfoText(str) {
@@ -206,20 +210,12 @@ function getHeights() {
   infoText.dataset.origHeight = infoText.offsetHeight;
 }
 
-async function checkLogin() {
-  const reponse = await fetch('user/');
-  if (reponse.status === 401) {
-    window.location = './';
-  }
-}
-
 // start script (after page has loaded)
 
 async function loadPage() {
   addELs(); // add Event Listeners
   setSwipePageHeight();
   getHeights();
-  checkLogin();
   await loadNextItem(); // await so buttons aren't displayed before being hidden
   document.querySelector('#swipe-btns').style.display = '';
 }

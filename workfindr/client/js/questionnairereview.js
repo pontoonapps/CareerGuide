@@ -1,17 +1,26 @@
-async function getQuestReview() {
+async function getQuestionnaireAnswers() {
   const response = await fetch('user/questions');
 
   if (response.ok) {
     const qList = await response.json();
     return qList;
-  } else {
-    console.log('Error from server: ' + response.status + '. Could not get questionnaire review');
   }
+
+  if (response.status === 401) {
+    // not logged in, redirect to home page
+    window.location = './';
+  } else {
+    console.log('Error from server: ' + response.status + '. Could not get question history');
+  }
+  return [];
 }
 
-async function loadQuestReview() {
+async function loadQuestionnaireAnswers() {
   const template = document.querySelector('#questionnaire-template');
-  const questions = await getQuestReview();
+  const questions = await getQuestionnaireAnswers();
+
+  const empty = document.querySelector('#empty-page');
+
   for (const question of questions) {
     const questionContainer = document.importNode(template.content, true);
 
@@ -38,10 +47,8 @@ async function loadQuestReview() {
     // append to main
     const main = document.querySelector('main');
     main.appendChild(questionContainer);
-  }
-  if (questions.length === 0) {
-    const empty = document.querySelector('#empty-page');
-    empty.style.display = '';
+
+    empty.style.display = 'none';
   }
 }
 
@@ -81,16 +88,8 @@ async function submitChange(userInput) {
   return response;
 }
 
-async function checkLogin() {
-  const reponse = await fetch('user/');
-  if (reponse.status === 401) {
-    window.location = './';
-  }
-}
-
 function loadPage() {
-  checkLogin();
-  loadQuestReview();
+  loadQuestionnaireAnswers();
 }
 
 window.addEventListener('load', loadPage);
