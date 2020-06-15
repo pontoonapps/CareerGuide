@@ -29,7 +29,7 @@
 
 #login-requester {
   box-shadow: 0 0 0.25rem 0.01rem var(--PONTRed);
-  width: calc(50% + 150px);
+  width: 95%;
   max-width: 30em;
   margin: 2em 0;
   padding: 1em;
@@ -46,7 +46,7 @@
 
 #splash {
   height: 15em;
-  width: calc(50% + 150px);
+  width: 95%;
   max-width: 30em;
   background-color: var(--main-bg-color);
   box-shadow: 0 0 0.25rem 0.01rem var(--davys-gray);
@@ -207,9 +207,11 @@ main {
   grid-row-start: 4;
   grid-row-end: 5;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
+  justify-self: center;
   align-items: stretch;
   height: 100%;
+  width: inherit;
 }
 
 #btn-shortlist {
@@ -258,6 +260,14 @@ main {
   border-radius: 0.5em;
 }
 
+.list-item-container.like-history {
+  height: auto;
+}
+
+.list-item-container.shortlist {
+  height: 8em;
+}
+
 .list-item-container.expanded {
   min-height: 12em;
   height: auto;
@@ -295,7 +305,6 @@ main {
   grid-row-start: 2;
   grid-row-end: 3;
   display: flex;
-  flex-direction: row-reverse;
   justify-content: space-around;
   margin: 0.5em auto auto;
   width: inherit;
@@ -315,16 +324,8 @@ main {
   cursor: pointer;
 }
 
-.question-answer > .selected.option1 {
+.question-answer > .selected {
   background: var(--PONTGreen);
-}
-
-.question-answer > .selected.option2 {
-  background: var(--PONTLightBlue);
-}
-
-.question-answer > .selected.option3 {
-  background: var(--PONTRed);
 }
 
 .swipe-item-image {
