@@ -29,8 +29,9 @@ async function loadShortlist() {
 
     jobContainer.querySelector('.swipe-item-image').src = 'img/' + job.image;
     jobContainer.querySelector('.swipe-item-image').alt = job.title_en + ' image';
-    jobContainer.querySelector('.list-item-title').textContent = job.title_en;
+    jobContainer.querySelector('.swipe-item-title').textContent = job.title_en;
     jobContainer.querySelector('.swipe-item-desc').textContent = job.description_en;
+    jobContainer.querySelector('.swipe-item-desc').dataset.fullDescription = job.description_en;
     jobContainer.querySelector('.view-more').addEventListener('click', displayDetailedDesc);
     jobContainer.querySelector('.view-more').dataset.jobid = job.id;
     jobContainer.querySelector('.view-less').addEventListener('click', hideDetailedDesc);
@@ -43,9 +44,29 @@ async function loadShortlist() {
 
     empty.style.display = 'none';
   }
+
+  for (const description of document.querySelectorAll('.swipe-item-desc')) {
+    truncateOverflow(description.textContent, description);
+  }
 }
 
-function displayDetailedDesc() {
+function truncateOverflow(text, container) {
+  let cutText = text;
+  container.textContent = text;
+  while (container.clientHeight < container.scrollHeight && cutText.length > 0) {
+    cutText = cutText.slice(0, cutText.lastIndexOf(' ')); // remove last word so text is not cut mid word
+    container.textContent = cutText;
+  }
+
+  if (cutText !== text) {
+    // remove two more words so elipses does not overflow
+    cutText = cutText.slice(0, cutText.lastIndexOf(' ', cutText.lastIndexOf(' ') - 1));
+    cutText += '…';
+    container.textContent = cutText;
+  }
+}
+
+function displayDetailedDesc(event) {
   // reset all items to non expanded
 
   for (const jobContainer of document.querySelectorAll('.list-item-container')) {
@@ -71,6 +92,7 @@ function displayDetailedDesc() {
   const viewLessBtn = viewMoreBtn.nextElementSibling;
   const removeBtn = viewLessBtn.nextElementSibling;
   const buttonContainer = viewMoreBtn.parentNode;
+  const jobDescription = buttonContainer.previousElementSibling;
   const listItemContainer = buttonContainer.parentNode;
 
   // hide view more and show view less and remove button
@@ -80,6 +102,9 @@ function displayDetailedDesc() {
 
   // add expanded class
   listItemContainer.classList.add('expanded');
+
+  // display full text
+  jobDescription.textContent = jobDescription.dataset.fullDescription;
 }
 
 async function removeShortlistItem() {
@@ -111,11 +136,15 @@ function hideDetailedDesc() {
   const viewLessBtn = event.target;
   const viewMoreBtn = viewLessBtn.previousElementSibling;
   const removeBtn = viewLessBtn.nextElementSibling;
-  const shortlistButtonContainer = viewLessBtn.parentNode;
-  const listItemContainer = shortlistButtonContainer.parentNode;
+  const buttonContainer = viewLessBtn.parentNode;
+  const jobDescription = buttonContainer.previousElementSibling;
+  const listItemContainer = buttonContainer.parentNode;
 
   // remove expanded class
   listItemContainer.classList.remove('expanded');
+
+  // truncate overflowing text
+  truncateOverflow(jobDescription.textContent, jobDescription);
 
   // hide remove button and view less button, show view more button
   removeBtn.style = 'display: none;';
