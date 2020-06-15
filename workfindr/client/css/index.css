@@ -36,6 +36,11 @@
   border-radius: 0.5em;
 }
 
+#loadingLabel {
+  color: var(--davys-gray);
+  text-align: center;
+}
+
 #login-requester > h3 {
   color: var(--PONTRed);
 }

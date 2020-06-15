@@ -152,8 +152,12 @@ function hideDetailedDesc() {
   viewMoreBtn.style = '';
 }
 
-function loadPage() {
-  loadShortlist();
+async function loadPage() {
+  await loadShortlist();
+
+  // hide loading label and show main
+  document.querySelector('main').style.display = '';
+  document.querySelector('#loadingLabel').style.display = 'none';
 }
 
 window.addEventListener('load', loadPage);

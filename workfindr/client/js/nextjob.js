@@ -213,10 +213,17 @@ function getHeights() {
 // start script (after page has loaded)
 
 async function loadPage() {
+  // display main before page load for setSwipePageHeight function
+  document.querySelector('main').style.display = '';
+  document.querySelector('#title').style.display = 'none'; // hide title to display loadingLabel
+
   addELs(); // add Event Listeners
   setSwipePageHeight();
   getHeights();
   await loadNextItem(); // await so buttons aren't displayed before being hidden
+
+  document.querySelector('#loadingLabel').style.display = 'none'; // hide loadingLabel
+  document.querySelector('#title').style.display = '';
   document.querySelector('#swipe-btns').style.display = '';
 }
 
