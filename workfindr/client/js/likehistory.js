@@ -4,14 +4,23 @@ async function getSwipeHistory() {
   if (response.ok) {
     const jobList = await response.json();
     return jobList;
-  } else {
-    console.log('Error from server: ' + response.status + '. Could not get question history');
   }
+
+  if (response.status === 401) {
+    // not logged in, redirect to home page
+    window.location = './';
+  } else {
+    console.log('Error from server: ' + response.status + '. Could not get like history');
+  }
+  return [];
 }
 
 async function loadSwipeHistory() {
   const template = document.querySelector('#swipe-history-template');
   const jobList = await getSwipeHistory();
+
+  const empty = document.querySelector('#empty-page');
+
   const main = document.querySelector('main');
   for (const job of jobList) {
     if (job.swipe === 'show later') {
@@ -29,10 +38,8 @@ async function loadSwipeHistory() {
     jobContainer.querySelector('.swipe-choice').addEventListener('click', changeSwipe);
 
     main.appendChild(jobContainer);
-  }
-  if (jobList.length === 0) {
-    const empty = document.querySelector('#empty-page');
-    empty.style.display = '';
+
+    empty.style.display = 'none';
   }
 }
 
@@ -88,15 +95,7 @@ async function submitChange(userInput) {
   return response;
 }
 
-async function checkLogin() {
-  const reponse = await fetch('user/');
-  if (reponse.status === 401) {
-    window.location = './';
-  }
-}
-
 function loadPage() {
-  checkLogin();
   loadSwipeHistory();
 }
 

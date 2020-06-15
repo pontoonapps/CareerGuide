@@ -4,15 +4,23 @@ async function getShortlist() {
   if (response.ok) {
     const jobList = await response.json();
     return jobList;
+  }
+
+  if (response.status === 401) {
+    // not logged in, redirect to home page
+    window.location = './';
   } else {
     console.log('Error from server: ' + response.status + '. Could not get shortlist');
   }
+  return [];
 }
 
-async function loadShortList() {
+async function loadShortlist() {
   const template = document.querySelector('#shortlist-template');
   const jobList = await getShortlist();
+
   const empty = document.querySelector('#empty-page');
+
   for (const job of jobList) {
     if (job.shortlist === null) {
       continue;
@@ -115,16 +123,8 @@ function hideDetailedDesc() {
   viewMoreBtn.style = '';
 }
 
-async function checkLogin() {
-  const reponse = await fetch('user/');
-  if (reponse.status === 401) {
-    window.location = './';
-  }
-}
-
 function loadPage() {
-  checkLogin();
-  loadShortList();
+  loadShortlist();
 }
 
 window.addEventListener('load', loadPage);
