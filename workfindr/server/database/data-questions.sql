@@ -15,9 +15,9 @@ VALUES
 INSERT INTO `pontoonapps_workfindr2`.`options`
 ( option_number, question_id, label_en, min, max )
 VALUES
-( 1, 1, 'Alone', 1, 3 ),
+( 1, 1, 'In a Team', 4, 9 ),
 ( 2, 1, 'I don''t mind', 1, 9 ),
-( 3, 1, 'In a Team', 4, 9 ),
+( 3, 1, 'Alone', 1, 3 ),
 ( 1, 2, 'Yes', 1, 4 ),
 ( 2, 2, 'I don''t mind', 1, 9 ),
 ( 3, 2, 'No', 5, 9 ),
