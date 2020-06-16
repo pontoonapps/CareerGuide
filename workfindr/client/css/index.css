@@ -41,6 +41,19 @@
   text-align: center;
 }
 
+#loadingLabel::after {
+  content: ' ';
+  position: absolute;
+  animation: linear 3s infinite loading;
+}
+
+@keyframes loading {
+  0% { content: ' '; }
+  25% { content: '.'; }
+  50% { content: '..'; }
+  75% { content: '...'; }
+}
+
 #login-requester > h3 {
   color: var(--PONTRed);
 }
@@ -450,4 +463,15 @@ main {
 .btn-3:active {
   color: var(--PONTGreen);
   background-color: var(--main-bg-color);
+}
+
+.btn-4 {
+  color: var(--davys-gray);
+  background-color: var(--main-bg-color);
+  border: 0.2em solid var(--davys-gray);
+}
+
+.btn-4:active {
+  background-color: var(--PONTGreen);
+  border-color: var(--PONTGreen);
 }
