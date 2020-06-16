@@ -172,7 +172,7 @@ main {
   align-items: center;
 }
 
-#swipe-page {
+#next-job-page {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   grid-template-rows: 5em 3.5em 1fr 4em;
@@ -184,17 +184,17 @@ main {
 
   /* variables created in js/nextjob.js function setMainHeight */
   margin: var(--nav-height, 5em) var(--side-margin, auto) var(--ftr-height, 0);
-  height: var(--swipe-page-height, 90vh);
+  height: var(--next-job-page-height, 90vh);
 }
 
-#swipe-page > #title {
+#next-job-page > #title {
   grid-row-start: 1;
   grid-row-end: 2;
   grid-column-start: 1;
   grid-column-end: 4;
 }
 
-#swipe-info {
+#item-info {
   grid-column-start: 1;
   grid-column-end: 4;
   grid-row-start: 3;
@@ -203,7 +203,7 @@ main {
   grid-template-rows: 8em auto 2em;
   width: 90%;
   max-width: 40em;
-  height: var(--swipe-info-height, 90%);
+  height: var(--item-info-height, 90%);
   padding: 0.5em;
   margin: auto;
   background-color: var(--main-bg-color);
@@ -213,13 +213,13 @@ main {
   /* max height set in client/js/nextjob.js */
 }
 
-#swipe-image {
+#item-image {
   width: 8em;
   height: 8em;
   margin: 0 auto;
 }
 
-#swipe-btns {
+#answer-btns {
   grid-column-start: 1;
   grid-column-end: 4;
   grid-row-start: 4;
@@ -245,7 +245,7 @@ main {
   text-align: left;
   padding: 0 calc(20% - 75px); /* no padding on mobile */
   font-family: var(--text-font);
-  height: var(--swipe-infotext-height, auto);
+  height: var(--item-infotext-height, auto);
   max-height: 100%;
   overflow: auto;
 }
@@ -346,7 +346,7 @@ main {
   background: var(--PONTGreen);
 }
 
-.swipe-item-image {
+.job-image {
   grid-column-start: 1;
   grid-column-end: 2;
   grid-row-start: 1;
@@ -358,7 +358,7 @@ main {
   align-self: center;
 }
 
-.swipe-choice {
+.job-choice {
   grid-column-start: 3;
   grid-column-end: 4;
   grid-row-start: 1;
@@ -401,7 +401,7 @@ main {
   box-shadow: 0 0 0.2em var(--davys-gray);
 }
 
-.swipe-item-desc {
+.job-desc {
   grid-column-start: 2;
   grid-column-end: 3;
   grid-row-start: 2;
@@ -409,13 +409,6 @@ main {
   padding: 0.3em;
   text-align: left;
   overflow: hidden;
-}
-
-#job-title {
-  font-size: 3rem;
-  text-align: center;
-  color: var(--PONTRed);
-  margin: 2rem 0 2rem;
 }
 
 .button {

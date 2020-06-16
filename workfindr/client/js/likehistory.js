@@ -1,4 +1,4 @@
-async function getSwipeHistory() {
+async function getLikeHistory() {
   const response = await fetch('user/jobs');
 
   if (response.ok) {
@@ -15,27 +15,27 @@ async function getSwipeHistory() {
   return [];
 }
 
-async function loadSwipeHistory() {
-  const template = document.querySelector('#swipe-history-template');
-  const jobList = await getSwipeHistory();
+async function loadLikeHistory() {
+  const template = document.querySelector('#like-history-template');
+  const jobList = await getLikeHistory();
 
   const empty = document.querySelector('#empty-page');
 
   const main = document.querySelector('main');
   for (const job of jobList) {
-    if (job.swipe === 'show later') {
+    if (job.answer === 'show later') {
       continue;
     }
 
     const jobContainer = document.importNode(template.content, true);
-    jobContainer.querySelector('.swipe-item-image').src = 'img/' + job.image;
-    jobContainer.querySelector('.swipe-item-image').alt = job.title_en + 'image';
+    jobContainer.querySelector('.job-image').src = 'img/' + job.image;
+    jobContainer.querySelector('.job-image').alt = job.title_en + 'image';
     jobContainer.querySelector('.list-item-title').textContent = job.title_en;
-    jobContainer.querySelector('.swipe-item-desc').textContent = job.description_en;
-    jobContainer.querySelector('.swipe-choice').classList.add(job.swipe);
-    jobContainer.querySelector('.swipe-choice').textContent = (job.swipe === 'like' ? '👍' : '👎');
-    jobContainer.querySelector('.swipe-choice').dataset.jobId = job.id;
-    jobContainer.querySelector('.swipe-choice').addEventListener('click', changeSwipe);
+    jobContainer.querySelector('.job-desc').textContent = job.description_en;
+    jobContainer.querySelector('.job-choice').classList.add(job.answer);
+    jobContainer.querySelector('.job-choice').textContent = (job.answer === 'like' ? '👍' : '👎');
+    jobContainer.querySelector('.job-choice').dataset.jobId = job.id;
+    jobContainer.querySelector('.job-choice').addEventListener('click', changeSwipe);
 
     main.appendChild(jobContainer);
 
@@ -46,18 +46,18 @@ async function loadSwipeHistory() {
 function changeSwipe(event) {
   const succSub = submitSwipeChange(event);
   if (succSub) {
-    const swipeChoiceBtn = event.target;
+    const answerBtn = event.target;
     const updatedSwipe = event.target.classList[1];
     switch (updatedSwipe) {
       case 'like':
-        swipeChoiceBtn.classList.remove('like');
-        swipeChoiceBtn.classList.add('dislike');
-        swipeChoiceBtn.textContent = '👎';
+        answerBtn.classList.remove('like');
+        answerBtn.classList.add('dislike');
+        answerBtn.textContent = '👎';
         break;
       case 'dislike':
-        swipeChoiceBtn.classList.remove('dislike');
-        swipeChoiceBtn.classList.add('like');
-        swipeChoiceBtn.textContent = '👍';
+        answerBtn.classList.remove('dislike');
+        answerBtn.classList.add('like');
+        answerBtn.textContent = '👍';
         break;
     }
   } else {
@@ -96,7 +96,7 @@ async function submitChange(userInput) {
 }
 
 async function loadPage() {
-  await loadSwipeHistory();
+  await loadLikeHistory();
 
   // hide loading label and show main
   document.querySelector('main').style.display = '';

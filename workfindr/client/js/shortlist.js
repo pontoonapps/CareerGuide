@@ -27,11 +27,11 @@ async function loadShortlist() {
     }
     const jobContainer = document.importNode(template.content, true);
 
-    jobContainer.querySelector('.swipe-item-image').src = 'img/' + job.image;
-    jobContainer.querySelector('.swipe-item-image').alt = job.title_en + ' image';
-    jobContainer.querySelector('.swipe-item-title').textContent = job.title_en;
-    jobContainer.querySelector('.swipe-item-desc').textContent = job.description_en;
-    jobContainer.querySelector('.swipe-item-desc').dataset.fullDescription = job.description_en;
+    jobContainer.querySelector('.job-image').src = 'img/' + job.image;
+    jobContainer.querySelector('.job-image').alt = job.title_en + ' image';
+    jobContainer.querySelector('.job-title').textContent = job.title_en;
+    jobContainer.querySelector('.job-desc').textContent = job.description_en;
+    jobContainer.querySelector('.job-desc').dataset.fullDescription = job.description_en;
     jobContainer.querySelector('.view-more').addEventListener('click', displayDetailedDesc);
     jobContainer.querySelector('.view-more').dataset.jobid = job.id;
     jobContainer.querySelector('.view-less').addEventListener('click', hideDetailedDesc);
@@ -45,7 +45,7 @@ async function loadShortlist() {
     empty.style.display = 'none';
   }
 
-  for (const description of document.querySelectorAll('.swipe-item-desc')) {
+  for (const description of document.querySelectorAll('.job-desc')) {
     truncateOverflow(description.textContent, description);
   }
 }

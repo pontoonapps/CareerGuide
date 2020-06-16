@@ -18,7 +18,7 @@ function selectUser() {
 
 // keep the following code:
 
-function gotoSwipePage() {
+function gotoNextJobPage() {
   window.location = 'nextjob.html';
 }
 
@@ -67,7 +67,7 @@ async function init() {
   document.querySelector('main').style.display = '';
   document.querySelector('#loadingLabel').style.display = 'none';
 
-  document.querySelector('#get-started').addEventListener('click', gotoSwipePage);
+  document.querySelector('#get-started').addEventListener('click', gotoNextJobPage);
 }
 
 window.addEventListener('load', init);
