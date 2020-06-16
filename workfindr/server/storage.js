@@ -3,7 +3,7 @@ const config = require('./config');
 
 const sqlPromise = mysql.createPool(config.mysql);
 
-async function swipedJobs(userId) {
+async function answeredJobs(userId) {
   const sql = await sqlPromise;
 
   const query = `
@@ -14,7 +14,7 @@ async function swipedJobs(userId) {
       jobs.description_en AS description_en,
       jobs.description_fr AS description_fr,
       categories.icon_filename AS image,
-      likes.type AS swipe,
+      likes.type AS answer,
       shortlists.job_id AS shortlist
     FROM pontoonapps_workfindr2.jobs
     JOIN pontoonapps_workfindr2.categories
@@ -27,8 +27,8 @@ async function swipedJobs(userId) {
       ON pontoonapps_workfindr2.shortlists.user_id = pontoonapps_jobseeker.users.id
     WHERE pontoonapps_workfindr2.likes.user_id = ?
     ORDER BY likes.time_stamp DESC`;
-  const [swipedJobs] = await sql.query(query, userId);
-  return swipedJobs;
+  const [answeredJobs] = await sql.query(query, userId);
+  return answeredJobs;
 }
 
 async function answeredQuestions(userId) { // Answered Questions
@@ -170,11 +170,11 @@ async function insertQuestionAnswer(ansData) {
   await sql.query(query, [ansData.userId, ansData.itemId, ansData.choice, ansData.choice]);
 }
 
-async function insertSwipe(swipeData) {
+async function insertSwipe(jobData) {
   const sql = await sqlPromise;
 
   let answer;
-  switch (swipeData.choice) {
+  switch (jobData.choice) {
     case 'shortlist-add':
     case 'like':
       answer = 1;
@@ -194,10 +194,10 @@ async function insertSwipe(swipeData) {
       (?, ?, ?)
     ON DUPLICATE KEY UPDATE
       type = ?`;
-  await sql.query(query, [swipeData.userId, swipeData.itemId, answer, answer]);
+  await sql.query(query, [jobData.userId, jobData.itemId, answer, answer]);
 }
 
-async function insertShortlist(swipeData) {
+async function insertShortlist(jobData) {
   const sql = await sqlPromise;
 
   const query = `
@@ -207,10 +207,10 @@ async function insertShortlist(swipeData) {
       (?, ?)
     ON DUPLICATE KEY UPDATE
       job_id = ?`;
-  await sql.query(query, [swipeData.userId, swipeData.itemId, swipeData.itemId]);
+  await sql.query(query, [jobData.userId, jobData.itemId, jobData.itemId]);
 }
 
-async function removeShortlist(swipeData) {
+async function removeShortlist(jobData) {
   const sql = await sqlPromise;
 
   const query = `
@@ -219,12 +219,12 @@ async function removeShortlist(swipeData) {
         user_id=?
       AND
         job_id=?`;
-  await sql.query(query, [swipeData.userId, swipeData.itemId]);
+  await sql.query(query, [jobData.userId, jobData.itemId]);
 }
 
 module.exports = {
   answeredQuestions,
-  swipedJobs,
+  answeredJobs,
   getSwipeItem,
   insertQuestionAnswer,
   insertSwipe,

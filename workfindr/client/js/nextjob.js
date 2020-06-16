@@ -15,18 +15,18 @@ async function getNextItem() {
   }
 }
 
-async function submitSwipe(event) {
-  const swipe = {};
-  swipe.itemId = currentItem.id;
-  swipe.choice = event.target.dataset.choice;
+async function submitItem(event) {
+  const answer = {};
+  answer.itemId = currentItem.id;
+  answer.choice = event.target.dataset.choice;
 
   // identify whether current item is job or question is there a better
   // way than a lack of description? should there be an attribute marking job or question?
   let response;
   if (currentItem.description_en === undefined) {
-    response = await submitQuestionSwipe(swipe);
+    response = await submitQuestionAnswer(answer);
   } else {
-    response = await submitJobSwipe(swipe);
+    response = await submitJobAnswer(answer);
   }
   // log if error connecting to server
   if (!response.ok) {
@@ -36,20 +36,20 @@ async function submitSwipe(event) {
   return true;
 }
 
-async function submitJobSwipe(swipe) {
+async function submitJobAnswer(answer) {
   const response = await fetch('user/jobs', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(swipe),
+    body: JSON.stringify(answer),
   });
   return response;
 }
 
-async function submitQuestionSwipe(swipe) {
+async function submitQuestionAnswer(answer) {
   const response = await fetch('user/questions', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(swipe),
+    body: JSON.stringify(answer),
   });
   return response;
 }
@@ -85,9 +85,9 @@ function displayInfoText(str) {
 
 function expandInfoText() {
   // set heights to auto
-  document.documentElement.style.setProperty('--swipe-page-height', 'auto');
-  document.documentElement.style.setProperty('--swipe-info-height', 'auto');
-  document.documentElement.style.setProperty('--swipe-infotext-height', 'auto');
+  document.documentElement.style.setProperty('--next-job-page-height', 'auto');
+  document.documentElement.style.setProperty('--item-info-height', 'auto');
+  document.documentElement.style.setProperty('--item-infotext-height', 'auto');
 
   // hide show more button and show show less button
   document.querySelector('#show-more').style.display = 'none';
@@ -99,19 +99,19 @@ function expandInfoText() {
 
 function resetElHeights() {
   // get DOM elements
-  const swipePage = document.querySelector('#swipe-page');
-  const swipeInfo = document.querySelector('#swipe-info');
+  const nextJobPage = document.querySelector('#next-job-page');
+  const itemInfo = document.querySelector('#item-info');
   const infoText = document.querySelector('#info-text');
 
   // get original heights from dataset
-  const swipePageHeight = swipePage.dataset.origHeight;
-  const swipeInfoHeight = swipeInfo.dataset.origHeight;
+  const nextJobPageHeight = nextJobPage.dataset.origHeight;
+  const itemInfoHeight = itemInfo.dataset.origHeight;
   const infoTextHeight = infoText.dataset.origHeight;
 
   // set css variables to original heights
-  document.documentElement.style.setProperty('--swipe-page-height', `${swipePageHeight}px`);
-  document.documentElement.style.setProperty('--swipe-info-height', `${swipeInfoHeight}px`);
-  document.documentElement.style.setProperty('--swipe-infotext-height', `${infoTextHeight}px`);
+  document.documentElement.style.setProperty('--next-job-page-height', `${nextJobPageHeight}px`);
+  document.documentElement.style.setProperty('--item-info-height', `${itemInfoHeight}px`);
+  document.documentElement.style.setProperty('--item-infotext-height', `${infoTextHeight}px`);
 }
 
 function displayItem(item) {
@@ -134,8 +134,8 @@ function displayItem(item) {
     displayInfoText(item.question_en); // show question text
 
     // show question image
-    document.querySelector('#swipe-image').src = 'img/question.jpg';
-    document.querySelector('#swipe-image').alt = 'question image';
+    document.querySelector('#item-image').src = 'img/question.jpg';
+    document.querySelector('#item-image').alt = 'question image';
   } else {
     // show job buttons
     for (const jobButton of document.querySelectorAll('.job')) {
@@ -144,8 +144,8 @@ function displayItem(item) {
     displayInfoText(item.description_en); // show job description
 
     // show image
-    document.querySelector('#swipe-image').src = 'img/' + item.image;
-    document.querySelector('#swipe-image').alt = 'item image: ' + item.image;
+    document.querySelector('#item-image').src = 'img/' + item.image;
+    document.querySelector('#item-image').alt = 'item image: ' + item.image;
   }
 }
 
@@ -165,7 +165,7 @@ function displayTitle(titleText) {
 function addELs() {
   for (const button of document.querySelectorAll('.button')) {
     button.addEventListener('click', async () => {
-      if (await submitSwipe(event)) {
+      if (await submitItem(event)) {
         loadNextItem();
       }
     });
@@ -178,35 +178,35 @@ function addELs() {
 
 function setSwipePageHeight() {
   // get required elements
-  const swipePage = document.querySelector('#swipe-page');
+  const nextJobPage = document.querySelector('#next-job-page');
   const navBar = document.querySelector('nav');
 
   // get display sizes
   const vpHeight = window.innerHeight; // viewport height
   const vpWidth = window.innerWidth; // viewport width
   const navHeight = navBar.offsetHeight;
-  const swipePageWidth = swipePage.offsetWidth;
-  const sideMargin = (vpWidth - swipePageWidth) / 2; // margin required to center swipePage
+  const nextJobPageWidth = nextJobPage.offsetWidth;
+  const sideMargin = (vpWidth - nextJobPageWidth) / 2; // margin required to center nextJobPage
   const ftrHeight = 0; // TODO add footer
   const heightBffr = vpHeight / 20; // height buffer of 1/20 added to make space for URL bar on mobile
-  const swipePageHeight = vpHeight - (navHeight + ftrHeight + heightBffr);
+  const nextJobPageHeight = vpHeight - (navHeight + ftrHeight + heightBffr);
 
-  // apply to swipe page
+  // apply to next job page
   document.documentElement.style.setProperty('--nav-height', `${navHeight}px`);
   document.documentElement.style.setProperty('--side-margin', `${sideMargin}px`);
   document.documentElement.style.setProperty('--ftr-height', `${ftrHeight}px`);
-  document.documentElement.style.setProperty('--swipe-page-height', `${swipePageHeight}px`);
+  document.documentElement.style.setProperty('--next-job-page-height', `${nextJobPageHeight}px`);
 }
 
 function getHeights() {
   // get required DOM elements
-  const swipePage = document.querySelector('#swipe-page');
-  const swipeInfo = document.querySelector('#swipe-info');
+  const nextJobPage = document.querySelector('#next-job-page');
+  const itemInfo = document.querySelector('#item-info');
   const infoText = document.querySelector('#info-text');
 
   // save starting height values
-  swipePage.dataset.origHeight = swipePage.offsetHeight;
-  swipeInfo.dataset.origHeight = swipeInfo.offsetHeight;
+  nextJobPage.dataset.origHeight = nextJobPage.offsetHeight;
+  itemInfo.dataset.origHeight = itemInfo.offsetHeight;
   infoText.dataset.origHeight = infoText.offsetHeight;
 }
 
@@ -224,7 +224,7 @@ async function loadPage() {
 
   document.querySelector('#loadingLabel').style.display = 'none'; // hide loadingLabel
   document.querySelector('#title').style.display = '';
-  document.querySelector('#swipe-btns').style.display = '';
+  document.querySelector('#answer-btns').style.display = '';
 }
 
 window.addEventListener('load', loadPage);
