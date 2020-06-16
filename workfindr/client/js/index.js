@@ -22,18 +22,41 @@ function gotoSwipePage() {
   window.location = 'nextjob.html';
 }
 
+function disableNavbar() {
+  const navBarSlide = document.querySelector('#navbar-slide');
+
+  navBarSlide.style.cursor = 'not-allowed';
+  for (const link of document.querySelectorAll('#navbar-slide > li')) {
+    link.lastChild.removeAttribute('href'); // remove href to remove pointer cursor
+    link.style.pointerEvents = 'none';
+    link.lastChild.style.fontStyle = 'italic';
+    link.lastChild.style.color = 'silver';
+  }
+
+  // show login warning
+  const navLogin = document.createElement('a');
+  navLogin.textContent = 'Please log in to access these pages';
+  navLogin.classList.add('navbar-slide-item');
+  navLogin.style.fontWeight = 'bold';
+  navLogin.style.cursor = 'pointer';
+  navLogin.href = 'https://pontoonapps.com/login.php';
+  navBarSlide.appendChild(navLogin);
+}
+
+function disableGetStarted() {
+  const getStarted = document.querySelector('#get-started');
+
+  getStarted.style.background = 'silver';
+  getStarted.style.border = 'none';
+  getStarted.style.pointerEvents = 'none';
+}
+
 async function checkLogin() {
   const reponse = await fetch('user/');
   if (reponse.status === 401) {
-    const loginRequester = document.querySelector('#login-requester');
-    const getStarted = document.querySelector('#get-started');
-    const navBtn = document.querySelector('#nav-btn');
-    loginRequester.style.display = '';
-    getStarted.style.background = 'silver';
-    getStarted.style.border = 'none';
-    getStarted.style.pointerEvents = 'none';
-    navBtn.style.background = 'silver';
-    navBtn.style.pointerEvents = 'none';
+    document.querySelector('#login-requester').style.display = ''; // display loginRequester
+    disableGetStarted(); // disable get started button
+    disableNavbar(); // disable navbar
   }
 }
 
