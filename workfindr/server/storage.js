@@ -23,6 +23,7 @@ async function answeredJobs(userId) {
       ON pontoonapps_workfindr2.jobs.id = pontoonapps_workfindr2.likes.job_id
     LEFT JOIN pontoonapps_workfindr2.shortlists
       ON pontoonapps_workfindr2.likes.job_id = pontoonapps_workfindr2.shortlists.job_id
+     AND pontoonapps_workfindr2.likes.user_id = pontoonapps_workfindr2.shortlists.user_id
     LEFT JOIN pontoonapps_jobseeker.users
       ON pontoonapps_workfindr2.shortlists.user_id = pontoonapps_jobseeker.users.id
     WHERE pontoonapps_workfindr2.likes.user_id = ?
