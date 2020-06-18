@@ -170,6 +170,11 @@ function addELs() {
       }
     });
   }
+  window.addEventListener('resize', () => {
+    if (desktop()) {
+      window.location.href = window.location;
+    }
+  });
   document.querySelector('#show-more').addEventListener('click', expandInfoText);
   document.querySelector('#show-less').addEventListener('click', () => {
     displayItem(currentItem);
@@ -210,6 +215,16 @@ function getHeights() {
   infoText.dataset.origHeight = infoText.offsetHeight;
 }
 
+function desktop() {
+  if (navigator.userAgent.includes('Android')) return false;
+  if (navigator.userAgent.includes('iPhone')) return false;
+  if (navigator.userAgent.includes('Linux')) return true;
+  if (navigator.userAgent.includes('Windows')) return true;
+  if (navigator.userAgent.includes('Macintosh')) return true;
+  // if unsure don't refresh on resize as this can cause bigger issues than display errors
+  return false;
+}
+
 // start script (after page has loaded)
 
 async function loadPage() {
@@ -225,6 +240,7 @@ async function loadPage() {
   document.querySelector('#loadingLabel').style.display = 'none'; // hide loadingLabel
   document.querySelector('#title').style.display = '';
   document.querySelector('#answer-btns').style.display = '';
+  document.querySelector('main').style.display = '';
 }
 
 window.addEventListener('load', loadPage);
