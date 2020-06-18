@@ -155,15 +155,19 @@ function displayTitle(titleText) {
 
   // set title then fontsize to 2em, if title overflows decrease font size until no overflow
   let fontEm = 2;
+  let overflowing = true;
   document.documentElement.style.setProperty('--title-fontsize', `${fontEm}em`);
-  while (titleEl.clientHeight < titleEl.scrollHeight && fontEm > 0) {
+  while (overflowing === true && fontEm > 0) {
     fontEm -= 0.1;
     document.documentElement.style.setProperty('--title-fontsize', `${fontEm}em`);
+    if (titleEl.clientHeight === titleEl.scrollHeight && titleEl.clientWidth === titleEl.scrollWidth) {
+      overflowing = false;
+    }
   }
 }
 
 function addELs() {
-  for (const button of document.querySelectorAll('.button')) {
+  for (const button of document.querySelectorAll('.button, #btn-shortlist')) {
     button.addEventListener('click', async () => {
       if (await submitItem(event)) {
         loadNextItem();
@@ -230,7 +234,7 @@ function desktop() {
 async function loadPage() {
   // display main before page load for setSwipePageHeight function
   document.querySelector('main').style.display = '';
-  document.querySelector('#title').style.display = 'none'; // hide title to display loadingLabel
+  document.querySelector('#title').style.display = ''; // hide title to display loadingLabel
 
   addELs(); // add Event Listeners
   setSwipePageHeight();

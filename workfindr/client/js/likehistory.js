@@ -21,7 +21,7 @@ async function loadLikeHistory() {
 
   const empty = document.querySelector('#empty-page');
 
-  const main = document.querySelector('main');
+  const listContainer = document.querySelector('#list-container');
   for (const job of jobList) {
     if (job.answer === 'show later') {
       continue;
@@ -37,7 +37,7 @@ async function loadLikeHistory() {
     jobContainer.querySelector('.job-choice').dataset.jobId = job.id;
     jobContainer.querySelector('.job-choice').addEventListener('click', changeSwipe);
 
-    main.appendChild(jobContainer);
+    listContainer.appendChild(jobContainer);
 
     empty.style.display = 'none';
   }

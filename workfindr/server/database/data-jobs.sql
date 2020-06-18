@@ -5,7 +5,7 @@ INSERT INTO `pontoonapps_workfindr2`.`categories` (id, title_en, icon_filename) 
 (4, 'Performing arts, and media', 'art.jpg'),
 (5, 'Health and Social Care','health.jpg'),
 (6, 'Administrative and Clerical','admin.jpg'),
-(7, 'Advertising, Marketing and PR','advert.jpg'),
+(7, 'Advertising, Marketing and PR','trevda.jpg'), /*trevda = advert spelled backwards to thwart adblock*/
 (8, 'Manufacturing and engineering','manufacturing.jpg'),
 (9, 'Environmental sciences','environment.jpg'),
 (10, 'Transport and Logistics','transport.jpg'),
