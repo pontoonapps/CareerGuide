@@ -63,7 +63,6 @@
 }
 
 #splash {
-  height: 15em;
   width: 95%;
   max-width: 30em;
   background-color: var(--main-bg-color);
@@ -73,6 +72,10 @@
   display: flex;
   flex-direction: column;
   justify-content: space-around;
+}
+
+#splash > ul {
+  margin: 0 1em 1em;
 }
 
 #splash > p {
@@ -175,7 +178,7 @@ main {
 #next-job-page {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: 5em 3.5em 1fr 4em;
+  grid-template-rows: 1fr 4em;
   row-gap: 0.3em;
   width: 100%;
   max-width: 50em;
@@ -187,7 +190,7 @@ main {
   height: var(--next-job-page-height, 90vh);
 }
 
-#next-job-page > #title {
+#item-info > #title {
   grid-row-start: 1;
   grid-row-end: 2;
   grid-column-start: 1;
@@ -197,15 +200,16 @@ main {
 #item-info {
   grid-column-start: 1;
   grid-column-end: 4;
-  grid-row-start: 3;
-  grid-row-end: 4;
+  grid-row-start: 1;
+  grid-row-end: 2;
   display: grid;
-  grid-template-rows: 8em auto 2em;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 5em 12em auto 2em;
   width: 90%;
   max-width: 40em;
   height: var(--item-info-height, 90%);
   padding: 0.5em;
-  margin: auto;
+  margin: 0.5em auto;
   background-color: var(--main-bg-color);
   box-shadow: 0 0 0.5em rgb(178, 207, 101);
   border-radius: 0.5em;
@@ -214,16 +218,20 @@ main {
 }
 
 #item-image {
-  width: 8em;
-  height: 8em;
+  grid-column-start: 2;
+  grid-column-end: 3;
+  grid-row-start: 2;
+  grid-row-end: 3;
+  width: 10em;
+  height: 10em;
   margin: 0 auto;
 }
 
 #answer-btns {
   grid-column-start: 1;
   grid-column-end: 4;
-  grid-row-start: 4;
-  grid-row-end: 5;
+  grid-row-start: 2;
+  grid-row-end: 3;
   display: flex;
   justify-content: space-around;
   justify-self: center;
@@ -233,15 +241,24 @@ main {
 }
 
 #btn-shortlist {
-  grid-column-start: 2;
+  grid-column-start: 3;
   grid-column-end: 4;
   grid-row-start: 2;
   grid-row-end: 3;
-  justify-self: end;
-  width: 10em;
+  font-size: 1.5em;
+  font-weight: bold;
+  border-radius: 0.2em;
+  height: 2em;
+  width: 2em;
+  justify-self: center;
+  align-self: start;
 }
 
-#info-text { /* maybe limit text length in this box with JS?? */
+#info-text {
+  grid-column-start: 1;
+  grid-column-end: 4;
+  grid-row-start: 3;
+  grid-row-end: 4;
   text-align: left;
   padding: 0 calc(20% - 75px); /* no padding on mobile */
   font-family: var(--text-font);
@@ -251,6 +268,10 @@ main {
 }
 
 .show-btn {
+  grid-column-start: 2;
+  grid-column-end: 3;
+  grid-row-start: 4;
+  grid-row-end: 5;
   cursor: pointer;
   color: var(--PONTLightBlue);
   font-weight: bold;
@@ -267,7 +288,7 @@ main {
 .list-item-container {
   display: grid;
   grid-template-rows: auto auto;
-  grid-template-columns: 5em auto 25%; /* allows for button on shortlist to be mobile friendly */
+  grid-template-columns: 6em auto 25%; /* allows for button on shortlist to be mobile friendly */
   width: 95%;
   max-width: 40em; /* could be a touch wider */
   margin-top: 0.5em;
@@ -301,6 +322,10 @@ main {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.like-history > .list-item-title {
+  white-space: normal;
 }
 
 .list-item-container.expanded > .list-item-title {
@@ -351,9 +376,8 @@ main {
   grid-column-end: 2;
   grid-row-start: 1;
   grid-row-end: 3;
-  max-height: 80%;
-  max-width: 80%;
-  display: flex;
+  max-height: 100%;
+  max-width: 100%;
   justify-self: center;
   align-self: center;
 }
