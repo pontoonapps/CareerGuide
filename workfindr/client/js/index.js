@@ -52,7 +52,7 @@ function disableGetStarted() {
 }
 
 async function checkLogin() {
-  const reponse = await fetch('user/');
+  const reponse = await fetch('user/id');
   if (reponse.status === 401) {
     document.querySelector('#login-requester').style.display = ''; // display loginRequester
     disableGetStarted(); // disable get started button
