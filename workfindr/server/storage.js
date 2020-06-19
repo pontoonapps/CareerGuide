@@ -115,6 +115,8 @@ async function getNextJob(userId) {
 
   const [jobs] = await sql.query(query, userId);
   const filteredJobs = await contentFilterJobs(jobs, userId);
+  console.log('unswiped jobs: ' + jobs.length);
+  console.log('jobs that match profile ' + filteredJobs.length);
   return filteredJobs[0];
 }
 
@@ -139,17 +141,31 @@ async function questionnaireProfile(userId) {
 }
 
 async function contentFilterJobs(jobs, userId) {
+  // get user's questionnaire answers
   const profile = await questionnaireProfile(userId);
 
+  const retArr = [];
+  const itemsToFilter = [];
+
+  // get list of items to remove
   for (const job of jobs) {
     for (const param of profile) {
       if (job[param.jobs_column] < param.min || job[param.jobs_column] > param.max) {
-        jobs.splice(jobs.indexOf(job), 1);
+        itemsToFilter.push(job);
         break;
       }
     }
   }
-  return jobs;
+
+  // add items NOT in itemsToFilter array to retArr
+  for (const job of jobs) {
+    if (itemsToFilter.includes(job)) {
+      continue;
+    } else {
+      retArr.push(job);
+    }
+  }
+  return retArr;
 }
 
 async function getNextQuestion(userId) {
