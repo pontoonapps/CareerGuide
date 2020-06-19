@@ -93,10 +93,16 @@ async function getNextJob(userId) {
     SELECT
       jobs.id,
       jobs.title_en,
-      jobs.titre_fr,
       jobs.description_en,
-      jobs.description_fr,
-      categories.icon_filename AS image
+      categories.icon_filename AS image,
+      teamwork,
+      physical_activity,
+      creativity,
+      driving,
+      travel,
+      hours_flexibility,
+      care_work,
+      danger
     FROM pontoonapps_workfindr2.jobs
       JOIN pontoonapps_workfindr2.categories
       ON jobs.category_id = pontoonapps_workfindr2.categories.id
@@ -104,11 +110,46 @@ async function getNextJob(userId) {
       SELECT job_id
       FROM pontoonapps_workfindr2.likes
       WHERE likes.user_id = ?
-    )
-    ORDER BY RAND()
-    LIMIT 1`;
+      AND (likes.type <> 'show later' OR likes.time_stamp > NOW() - INTERVAL 12 HOUR)
+    )`;
+
   const [jobs] = await sql.query(query, userId);
-  return jobs[0];
+  const filteredJobs = await contentFilterJobs(jobs, userId);
+  return filteredJobs[0];
+}
+
+async function questionnaireProfile(userId) {
+  const sql = await sqlPromise;
+
+  const query = `
+    SELECT
+      jobs_column,
+      min,
+      max
+    FROM pontoonapps_workfindr2.answers
+      JOIN pontoonapps_workfindr2.options
+      ON answers.question_id = options.question_id
+      AND answers.option_number = options.option_number
+      JOIN pontoonapps_workfindr2.questions
+      ON questions.id = answers.question_id
+    WHERE user_id = ?`;
+
+  const profile = await sql.query(query, userId);
+  return profile[0]; // TODO extra data (client encoding etc) sent from DB filtered with [0]???
+}
+
+async function contentFilterJobs(jobs, userId) {
+  const profile = await questionnaireProfile(userId);
+
+  for (const job of jobs) {
+    for (const param of profile) {
+      if (job[param.jobs_column] < param.min || job[param.jobs_column] > param.max) {
+        jobs.splice(jobs.indexOf(job), 1);
+        break;
+      }
+    }
+  }
+  return jobs;
 }
 
 async function getNextQuestion(userId) {
