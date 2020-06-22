@@ -49,9 +49,13 @@ async function phpAuth(req, res, next) {
 
     const loggedIn = await fetchResp.json();
 
-    if (loggedIn.logged_in && loggedIn.user_id != null) {
+    if (loggedIn.logged_in) {
       // put user information in the request
-      req.user = { id: loggedIn.user_id };
+      req.user = {
+        id: loggedIn.user_id,
+        recruiter: loggedIn.recruiter_id,
+        admin: loggedIn.admin_id,
+      };
     }
     next();
   } catch (e) {
@@ -60,7 +64,7 @@ async function phpAuth(req, res, next) {
 }
 
 function requireValidUser(req, res, next) {
-  if (!req.user) {
+  if (!req.user || req.user.id == null) {
     res.sendStatus(401);
   } else {
     next();
