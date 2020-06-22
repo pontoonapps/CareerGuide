@@ -110,11 +110,12 @@ async function getNextJob(userId) {
       SELECT job_id
       FROM pontoonapps_workfindr2.likes
       WHERE likes.user_id = ?
-      AND (likes.type <> 'show later' OR likes.time_stamp > NOW() - INTERVAL 12 HOUR)
+      AND (likes.type <> 'show later' OR
+           likes.time_stamp > NOW() - INTERVAL 12 HOUR)
     )`;
 
   const [jobs] = await sql.query(query, userId);
-  const filteredJobs = await contentFilterJobs(jobs, userId);
+  const filteredJobs = await filterJobsToMatchQuestionnaire(jobs, userId);
   console.log('unswiped jobs: ' + jobs.length);
   console.log('jobs that match profile ' + filteredJobs.length);
   return filteredJobs[0];
@@ -140,7 +141,7 @@ async function questionnaireProfile(userId) {
   return profile[0]; // TODO extra data (client encoding etc) sent from DB filtered with [0]???
 }
 
-async function contentFilterJobs(jobs, userId) {
+async function filterJobsToMatchQuestionnaire(jobs, userId) {
   // get user's questionnaire answers
   const profile = await questionnaireProfile(userId);
 
