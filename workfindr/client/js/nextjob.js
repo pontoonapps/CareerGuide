@@ -15,10 +15,20 @@ async function getNextItem() {
   }
 }
 
+function timeoutDelay(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+const BUTTON_DELAY = 500;
+
 async function submitItem(event) {
+  const delayPromise = timeoutDelay(BUTTON_DELAY);
   const answer = {};
   answer.itemId = currentItem.id;
   answer.choice = event.target.dataset.choice;
+
+  // show the button is active
+  event.target.classList.add('active-wait');
 
   // identify whether current item is job or question is there a better
   // way than a lack of description? should there be an attribute marking job or question?
@@ -28,6 +38,10 @@ async function submitItem(event) {
   } else {
     response = await submitJobAnswer(answer);
   }
+
+  await delayPromise;
+  event.target.classList.remove('active-wait');
+
   // log if error connecting to server
   if (!response.ok) {
     document.querySelector('h1').textContent = 'Something went wrong! Please refresh';
@@ -175,7 +189,7 @@ function addELs() {
     });
   }
   window.addEventListener('resize', () => {
-    if (desktop()) {
+    if (isDesktop()) {
       window.location.href = window.location;
     }
   });
@@ -219,7 +233,7 @@ function getHeights() {
   infoText.dataset.origHeight = infoText.offsetHeight;
 }
 
-function desktop() {
+function isDesktop() {
   if (navigator.userAgent.includes('Android')) return false;
   if (navigator.userAgent.includes('iPhone')) return false;
   if (navigator.userAgent.includes('Linux')) return true;
