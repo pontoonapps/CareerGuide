@@ -447,7 +447,7 @@ main {
   max-height: 100%;
 }
 
-.button:hover {
+button {
   cursor: pointer;
 }
 
@@ -456,7 +456,8 @@ main {
   border: 0.2em solid var(--PONTRed);
 }
 
-.btn-1:active {
+.btn-1:active,
+.btn-1.active-wait {
   color: var(--PONTRed);
   background-color: var(--main-bg-color);
 }
@@ -467,7 +468,8 @@ main {
   border: 0.2em solid var(--PONTLightBlue);
 }
 
-.btn-2:active {
+.btn-2:active,
+.btn-2.active-wait {
   color: var(--main-bg-color);
   background-color: var(--PONTLightBlue);
 }
@@ -477,7 +479,8 @@ main {
   border: 0.2em solid var(--PONTGreen);
 }
 
-.btn-3:active {
+.btn-3:active,
+.btn-3.active-wait {
   color: var(--PONTGreen);
   background-color: var(--main-bg-color);
 }
