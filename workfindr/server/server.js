@@ -83,15 +83,15 @@ app.post('/user/jobs', express.json(), asyncWrap(submitJobSwipe));
 app.get('/user/questions', asyncWrap(getQuestions));
 app.post('/user/questions', express.json(), asyncWrap(submitQuestAnswer));
 
+// the following is outside /user because it doesn't require valid login
+app.get('/user-id', (req, res) => res.send({ user: req.user }));
+
 // wrap async function for express.js error handling
 function asyncWrap(f) {
   return (req, res, next) => {
     Promise.resolve(f(req, res, next)).catch((e) => next(e || new Error()));
   };
 }
-
-// for testing purposes
-app.get('/user/id', (req, res) => res.send({ user: req.user }));
 
 // start server
 
