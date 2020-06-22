@@ -189,9 +189,8 @@ function addELs() {
     });
   }
   window.addEventListener('resize', () => {
-    if (isDesktop()) {
-      window.location.href = window.location;
-    }
+    setSwipePageHeight();
+    getHeights();
   });
   document.querySelector('#show-more').addEventListener('click', expandInfoText);
   document.querySelector('#show-less').addEventListener('click', () => {
