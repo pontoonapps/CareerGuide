@@ -115,13 +115,11 @@ async function getNextJob(userId) {
     )`;
 
   const [jobs] = await sql.query(query, userId);
-  const filteredJobs = await filterJobsToMatchQuestionnaire(jobs, userId);
-  console.log('unswiped jobs: ' + jobs.length);
-  console.log('jobs that match profile ' + filteredJobs.length);
-  return filteredJobs[0];
+  const matchingJobs = await filterJobsToMatchQuestionnaire(jobs, userId);
+  return matchingJobs[0]; // TODO use seedrandom to get a random job seeded by length
 }
 
-async function questionnaireProfile(userId) {
+async function getQuestionnaireProfile(userId) {
   const sql = await sqlPromise;
 
   const query = `
@@ -130,42 +128,32 @@ async function questionnaireProfile(userId) {
       min,
       max
     FROM pontoonapps_workfindr2.answers
-      JOIN pontoonapps_workfindr2.options
-      ON answers.question_id = options.question_id
-      AND answers.option_number = options.option_number
-      JOIN pontoonapps_workfindr2.questions
+    JOIN pontoonapps_workfindr2.questions
       ON questions.id = answers.question_id
+    JOIN pontoonapps_workfindr2.options
+      ON answers.question_id = options.question_id
+     AND answers.option_number = options.option_number
     WHERE user_id = ?`;
 
-  const profile = await sql.query(query, userId);
-  return profile[0]; // TODO extra data (client encoding etc) sent from DB filtered with [0]???
+  const [profile] = await sql.query(query, userId);
+  return profile;
 }
 
 async function filterJobsToMatchQuestionnaire(jobs, userId) {
   // get user's questionnaire answers
-  const profile = await questionnaireProfile(userId);
+  const profile = await getQuestionnaireProfile(userId);
 
   const retArr = [];
-  const itemsToFilter = [];
 
-  // get list of items to remove
   for (const job of jobs) {
-    for (const param of profile) {
-      if (job[param.jobs_column] < param.min || job[param.jobs_column] > param.max) {
-        itemsToFilter.push(job);
-        break;
-      }
-    }
+    // check whether the job fits every profile parameter
+    const matchesProfile = profile.every(param => {
+      return job[param.jobs_column] >= param.min &&
+             job[param.jobs_column] <= param.max;
+    });
+    if (matchesProfile) retArr.push(job);
   }
 
-  // add items NOT in itemsToFilter array to retArr
-  for (const job of jobs) {
-    if (itemsToFilter.includes(job)) {
-      continue;
-    } else {
-      retArr.push(job);
-    }
-  }
   return retArr;
 }
 
