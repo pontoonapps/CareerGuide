@@ -70,7 +70,23 @@ async function submitQuestionAnswer(answer) {
 
 async function loadNextItem() {
   currentItem = await getNextItem();
-  if (currentItem) displayItem(currentItem);
+  if (currentItem.jobs === 'none') {
+    displayNoJobs();
+  } else {
+    displayItem(currentItem);
+  }
+}
+
+function displayNoJobs() {
+  document.querySelector('#title').textContent = "That's all for now!";
+  document.querySelector('#item-image').src = 'img/question.jpg';
+  document.querySelector('#item-image').alt = 'question image';
+  document.querySelector('#info-text').textContent = `
+    Check out your job selection at the page or change your Questionnaire Answers
+    to keep browsing jobs.`;
+  for (const button of document.querySelectorAll('button')) {
+    button.style.display = 'none';
+  }
 }
 
 function displayInfoText(str) {

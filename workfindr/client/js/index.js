@@ -52,11 +52,14 @@ function disableGetStarted() {
 }
 
 async function checkLogin() {
-  const reponse = await fetch('user/id');
-  if (reponse.status === 401) {
-    document.querySelector('#login-requester').style.display = ''; // display loginRequester
-    disableGetStarted(); // disable get started button
-    disableNavbar(); // disable navbar
+  const response = await fetch('user-id');
+  if (response.ok) {
+    const userType = await response.json();
+    if (userType.user === undefined) { // TODO check if this works with recruiters
+      document.querySelector('#login-requester').style.display = ''; // display loginRequester
+      disableGetStarted(); // disable get started button
+      disableNavbar(); // disable navbar
+    }
   }
 }
 
