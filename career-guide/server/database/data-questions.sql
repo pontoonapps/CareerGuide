@@ -1,4 +1,4 @@
-INSERT INTO `pontoonapps_workfindr2`.`questions`
+INSERT INTO `pontoonapps_careerguide`.`questions`
 ( id, title_en, question_en, jobs_column )
 VALUES
 ( 1, 'Teamwork', 'Would you prefer to work alone or in a team?', 'teamwork' ),
@@ -12,7 +12,7 @@ VALUES
 
 
 
-INSERT INTO `pontoonapps_workfindr2`.`options`
+INSERT INTO `pontoonapps_careerguide`.`options`
 ( option_number, question_id, label_en, min, max )
 VALUES
 ( 1, 1, 'Alone', 1, 3 ),
