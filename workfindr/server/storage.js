@@ -1,6 +1,6 @@
 const mysql = require('mysql2/promise');
 const config = require('./config');
-const seedrand = require('seedrandom');
+const seedrandom = require('seedrandom');
 
 const sqlPromise = mysql.createPool(config.mysql);
 
@@ -117,12 +117,11 @@ async function getNextJob(userId) {
 
   const [jobs] = await sql.query(query, userId);
   const matchingJobs = await filterJobsToMatchQuestionnaire(jobs, userId);
-
-  // Review please
-  let seed = seedrand();
-  let val = Math.floor(seed()*matchingJobs.length);
-
-  return matchingJobs[val]; // TODO use seedrandom to get a random job seeded by length
+  if (matchingJobs.length === 0) {
+    return { jobs: 'none' };
+  }
+  const jobIndex = Math.floor(seedrandom(String(matchingJobs.length))() * matchingJobs.length);
+  return matchingJobs[jobIndex];
 }
 
 async function getQuestionnaireProfile(userId) {

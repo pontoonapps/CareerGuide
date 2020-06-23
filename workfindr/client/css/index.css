@@ -38,6 +38,10 @@
 
 #loadingLabel {
   color: var(--davys-gray);
+  position: absolute;
+  margin: 1.5em auto;
+  left: 0;
+  right: 0;
   text-align: center;
 }
 
