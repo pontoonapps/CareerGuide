@@ -15,7 +15,7 @@ VALUES
 -- jobs and categories are in data.sql,
 -- only jobs 1,2,3,4 are used in this test data
 
-INSERT INTO `pontoonapps_workfindr2`.`likes`
+INSERT INTO `pontoonapps_careerguide`.`likes`
 ( user_id, job_id, type )
 VALUES
 ( 1, 1, 'like' ),
@@ -25,7 +25,7 @@ VALUES
 ( 2, 4, 'dislike' ),
 ( 3, 4, 'dislike' );
 
-INSERT INTO `pontoonapps_workfindr2`.`shortlists`
+INSERT INTO `pontoonapps_careerguide`.`shortlists`
 ( user_id, job_id )
 VALUES
 ( 1, 1 ),

@@ -17,17 +17,17 @@ async function answeredJobs(userId) {
       categories.icon_filename AS image,
       likes.type AS answer,
       shortlists.job_id AS shortlist
-    FROM pontoonapps_workfindr2.jobs
-    JOIN pontoonapps_workfindr2.categories
-      ON pontoonapps_workfindr2.jobs.category_id = pontoonapps_workfindr2.categories.id
-    JOIN pontoonapps_workfindr2.likes
-      ON pontoonapps_workfindr2.jobs.id = pontoonapps_workfindr2.likes.job_id
-    LEFT JOIN pontoonapps_workfindr2.shortlists
-      ON pontoonapps_workfindr2.likes.job_id = pontoonapps_workfindr2.shortlists.job_id
-     AND pontoonapps_workfindr2.likes.user_id = pontoonapps_workfindr2.shortlists.user_id
+    FROM pontoonapps_careerguide.jobs
+    JOIN pontoonapps_careerguide.categories
+      ON pontoonapps_careerguide.jobs.category_id = pontoonapps_careerguide.categories.id
+    JOIN pontoonapps_careerguide.likes
+      ON pontoonapps_careerguide.jobs.id = pontoonapps_careerguide.likes.job_id
+    LEFT JOIN pontoonapps_careerguide.shortlists
+      ON pontoonapps_careerguide.likes.job_id = pontoonapps_careerguide.shortlists.job_id
+     AND pontoonapps_careerguide.likes.user_id = pontoonapps_careerguide.shortlists.user_id
     LEFT JOIN pontoonapps_jobseeker.users
-      ON pontoonapps_workfindr2.shortlists.user_id = pontoonapps_jobseeker.users.id
-    WHERE pontoonapps_workfindr2.likes.user_id = ?
+      ON pontoonapps_careerguide.shortlists.user_id = pontoonapps_jobseeker.users.id
+    WHERE pontoonapps_careerguide.likes.user_id = ?
     ORDER BY likes.time_stamp DESC`;
   const [answeredJobs] = await sql.query(query, userId);
   return answeredJobs;
@@ -44,11 +44,11 @@ async function answeredQuestions(userId) { // Answered Questions
       options.label_en AS answer_en,
       options.option_number AS answer_number,
       answers.option_number AS answered
-    FROM pontoonapps_workfindr2.questions
-    INNER JOIN pontoonapps_workfindr2.answers
+    FROM pontoonapps_careerguide.questions
+    INNER JOIN pontoonapps_careerguide.answers
       ON questions.id = answers.question_id
       AND answers.user_id = ?
-    INNER JOIN pontoonapps_workfindr2.options
+    INNER JOIN pontoonapps_careerguide.options
       ON questions.id = options.question_id
     ORDER BY question_id, answer_number`;
 
@@ -104,12 +104,12 @@ async function getNextJob(userId) {
       hours_flexibility,
       care_work,
       danger
-    FROM pontoonapps_workfindr2.jobs
-      JOIN pontoonapps_workfindr2.categories
-      ON jobs.category_id = pontoonapps_workfindr2.categories.id
+    FROM pontoonapps_careerguide.jobs
+      JOIN pontoonapps_careerguide.categories
+      ON jobs.category_id = pontoonapps_careerguide.categories.id
     WHERE jobs.id NOT IN (
       SELECT job_id
-      FROM pontoonapps_workfindr2.likes
+      FROM pontoonapps_careerguide.likes
       WHERE likes.user_id = ?
       AND (likes.type <> 'show later' OR
            likes.time_stamp > NOW() - INTERVAL 12 HOUR)
@@ -142,10 +142,10 @@ async function getQuestionnaireProfile(userId) {
       jobs_column,
       min,
       max
-    FROM pontoonapps_workfindr2.answers
-    JOIN pontoonapps_workfindr2.questions
+    FROM pontoonapps_careerguide.answers
+    JOIN pontoonapps_careerguide.questions
       ON questions.id = answers.question_id
-    JOIN pontoonapps_workfindr2.options
+    JOIN pontoonapps_careerguide.options
       ON answers.question_id = options.question_id
      AND answers.option_number = options.option_number
     WHERE user_id = ?`;
@@ -182,15 +182,15 @@ async function getNextQuestion(userId) {
       questions.question_en AS question_en,
       options.label_en AS answer_en,
       options.option_number AS answer_number
-    FROM pontoonapps_workfindr2.questions
-    JOIN pontoonapps_workfindr2.options
+    FROM pontoonapps_careerguide.questions
+    JOIN pontoonapps_careerguide.options
       ON questions.id = options.question_id
     WHERE questions.id = (
       SELECT questions.id
-      FROM pontoonapps_workfindr2.questions
+      FROM pontoonapps_careerguide.questions
       WHERE questions.id NOT IN (
         SELECT question_id
-        FROM pontoonapps_workfindr2.answers
+        FROM pontoonapps_careerguide.answers
         WHERE user_id = ?
       )
       ORDER BY questions.id ASC
@@ -223,7 +223,7 @@ async function insertQuestionAnswer(ansData) {
   const sql = await sqlPromise;
 
   const query = `
-    INSERT INTO pontoonapps_workfindr2.answers
+    INSERT INTO pontoonapps_careerguide.answers
       (user_id, question_id, option_number)
     VALUES
       (?, ?, ?)
@@ -250,7 +250,7 @@ async function insertChoice(jobData) {
   }
 
   const query = `
-    INSERT INTO pontoonapps_workfindr2.likes
+    INSERT INTO pontoonapps_careerguide.likes
       (user_id, job_id, type)
     VALUES
       (?, ?, ?)
@@ -263,7 +263,7 @@ async function insertShortlist(jobData) {
   const sql = await sqlPromise;
 
   const query = `
-    INSERT INTO pontoonapps_workfindr2.shortlists
+    INSERT INTO pontoonapps_careerguide.shortlists
       (user_id, job_id)
     VALUES
       (?, ?)
@@ -276,7 +276,7 @@ async function removeShortlist(jobData) {
   const sql = await sqlPromise;
 
   const query = `
-    DELETE FROM pontoonapps_workfindr2.shortlists
+    DELETE FROM pontoonapps_careerguide.shortlists
       WHERE
         user_id=?
       AND

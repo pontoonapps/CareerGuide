@@ -22,16 +22,16 @@ ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
 
-CREATE DATABASE IF NOT EXISTS `pontoonapps_workfindr2`;
+CREATE DATABASE IF NOT EXISTS `pontoonapps_careerguide`;
 
-CREATE TABLE IF NOT EXISTS `pontoonapps_workfindr2`.`categories` (
+CREATE TABLE IF NOT EXISTS `pontoonapps_careerguide`.`categories` (
   id                INT             PRIMARY KEY AUTO_INCREMENT,
   title_en          VARCHAR(255),
   icon_filename     VARCHAR(100)
 )
 ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-CREATE TABLE IF NOT EXISTS `pontoonapps_workfindr2`.`jobs` (
+CREATE TABLE IF NOT EXISTS `pontoonapps_careerguide`.`jobs` (
   id                INT             PRIMARY KEY AUTO_INCREMENT,
   title_en          VARCHAR(255),
   description_en    TEXT,
@@ -48,11 +48,11 @@ CREATE TABLE IF NOT EXISTS `pontoonapps_workfindr2`.`jobs` (
   care_work         INT             NOT NULL, -- (1) Care work ok / No Care work (9)
   danger            INT             NOT NULL, -- (1) Risk / No Risk (9)
 
-  FOREIGN KEY (category_id) REFERENCES `pontoonapps_workfindr2`.categories(id)
+  FOREIGN KEY (category_id) REFERENCES `pontoonapps_careerguide`.categories(id)
 )
 ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-CREATE TABLE IF NOT EXISTS `pontoonapps_workfindr2`.`likes` (
+CREATE TABLE IF NOT EXISTS `pontoonapps_careerguide`.`likes` (
   user_id           INT             NOT NULL,
   job_id            INT             NOT NULL,
   type              ENUM('like', 'dislike', 'show later'),
@@ -60,23 +60,23 @@ CREATE TABLE IF NOT EXISTS `pontoonapps_workfindr2`.`likes` (
 
   PRIMARY KEY (user_id, job_id),
   FOREIGN KEY (user_id) REFERENCES `pontoonapps_jobseeker`.users(id),
-  FOREIGN KEY (job_id) REFERENCES `pontoonapps_workfindr2`.jobs(id)
+  FOREIGN KEY (job_id) REFERENCES `pontoonapps_careerguide`.jobs(id)
 )
 ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-CREATE TABLE IF NOT EXISTS `pontoonapps_workfindr2`.`shortlists` (
+CREATE TABLE IF NOT EXISTS `pontoonapps_careerguide`.`shortlists` (
   user_id           INT             NOT NULL,
   job_id            INT             NOT NULL,
   time_stamp        TIMESTAMP       NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 
   PRIMARY KEY (user_id, job_id),
   FOREIGN KEY (user_id) REFERENCES `pontoonapps_jobseeker`.users(id),
-  FOREIGN KEY (job_id) REFERENCES `pontoonapps_workfindr2`.jobs(id)
+  FOREIGN KEY (job_id) REFERENCES `pontoonapps_careerguide`.jobs(id)
 )
 ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
-CREATE TABLE IF NOT EXISTS `pontoonapps_workfindr2`.`questions` (
+CREATE TABLE IF NOT EXISTS `pontoonapps_careerguide`.`questions` (
   id                INT             PRIMARY KEY AUTO_INCREMENT,
   title_en          VARCHAR(255)    NOT NULL,
   question_en       TEXT            NOT NULL,
@@ -87,7 +87,7 @@ CREATE TABLE IF NOT EXISTS `pontoonapps_workfindr2`.`questions` (
 ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
-CREATE TABLE IF NOT EXISTS `pontoonapps_workfindr2`.`options` (
+CREATE TABLE IF NOT EXISTS `pontoonapps_careerguide`.`options` (
   option_number     INT             NOT NULL,
   question_id       INT             NOT NULL,
   label_en          VARCHAR(255)    NOT NULL,
@@ -95,11 +95,11 @@ CREATE TABLE IF NOT EXISTS `pontoonapps_workfindr2`.`options` (
   max               INT             NOT NULL,
 
   PRIMARY KEY (option_number, question_id),
-  FOREIGN KEY (question_id) REFERENCES `pontoonapps_workfindr2`.questions(id)
+  FOREIGN KEY (question_id) REFERENCES `pontoonapps_careerguide`.questions(id)
 )
 ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-CREATE TABLE IF NOT EXISTS `pontoonapps_workfindr2`.`answers` (
+CREATE TABLE IF NOT EXISTS `pontoonapps_careerguide`.`answers` (
   user_id           INT             NOT NULL,
   question_id       INT             NOT NULL,
   option_number     INT             NOT NULL,
@@ -107,6 +107,6 @@ CREATE TABLE IF NOT EXISTS `pontoonapps_workfindr2`.`answers` (
 
   PRIMARY KEY (user_id, question_id),
   FOREIGN KEY (user_id) REFERENCES `pontoonapps_jobseeker`.users(id),
-  FOREIGN KEY (option_number, question_id) REFERENCES `pontoonapps_workfindr2`.options(option_number, question_id)
+  FOREIGN KEY (option_number, question_id) REFERENCES `pontoonapps_careerguide`.options(option_number, question_id)
 )
 ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
