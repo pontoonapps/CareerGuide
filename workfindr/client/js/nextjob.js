@@ -81,12 +81,29 @@ function displayNoJobs() {
   document.querySelector('#title').textContent = "That's all for now!";
   document.querySelector('#item-image').src = 'img/question.jpg';
   document.querySelector('#item-image').alt = 'question image';
-  document.querySelector('#info-text').textContent = `
-    Check out your job selection at the page or change your Questionnaire Answers
-    to keep browsing jobs.`;
+  document.querySelector('#info-text').textContent = '';
+
+  document.querySelector('#info-text').append(
+    'You have now seen all the recommended jobs that match your profile. ',
+    'Check out your likes and dislikes at ',
+    createLink('likehistory.html', 'the like history page'),
+    ', or see ',
+    createLink('shortlist.html', 'what you have shortlisted'),
+    ', or you can tweak your ',
+    createLink('questionnairereview.html', 'questionnaire answers'),
+    ' to get new recommendations.',
+  );
+
   for (const button of document.querySelectorAll('button')) {
     button.style.display = 'none';
   }
+}
+
+function createLink(href, textContent) {
+  const linkEl = document.createElement('a');
+  linkEl.href = href;
+  linkEl.textContent = textContent;
+  return linkEl;
 }
 
 function displayInfoText(str) {
