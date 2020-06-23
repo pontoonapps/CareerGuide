@@ -77,7 +77,7 @@ async function answeredQuestions(userId) { // Answered Questions
   return questions;
 }
 
-async function getSwipeItem(userId) {
+async function getItem(userId) {
   const question = await getNextQuestion(userId);
   if (question !== undefined) {
     return question;
@@ -222,7 +222,7 @@ async function insertQuestionAnswer(ansData) {
   await sql.query(query, [ansData.userId, ansData.itemId, ansData.choice, ansData.choice]);
 }
 
-async function insertSwipe(jobData) {
+async function insertChoice(jobData) {
   const sql = await sqlPromise;
 
   let answer;
@@ -277,9 +277,9 @@ async function removeShortlist(jobData) {
 module.exports = {
   answeredQuestions,
   answeredJobs,
-  getSwipeItem,
+  getItem,
   insertQuestionAnswer,
-  insertSwipe,
+  insertChoice,
   insertShortlist,
   removeShortlist,
 };

@@ -11,7 +11,7 @@ const config = require('./config');
 // functionality
 
 async function nextItem(req, res) {
-  const item = await db.getSwipeItem(req.user.id);
+  const item = await db.getItem(req.user.id);
   return res.json(item);
 }
 
@@ -28,7 +28,7 @@ async function submitQuestAnswer(req, res) {
   res.json();
 }
 
-async function submitJobSwipe(req, res) {
+async function submitJobChoice(req, res) {
   const jobData = req.body;
   jobData.userId = req.user.id;
   switch (jobData.choice) {
@@ -45,7 +45,7 @@ async function submitJobSwipe(req, res) {
       await shortlistItemRemove(jobData);
       break;
     default:
-      console.log('unrecognized choice in submitJobSwipe');
+      console.log('unrecognized choice in submitJobChoice');
   }
   // TODO send response depending on answer insert success (or failure)
   res.json();
@@ -57,7 +57,7 @@ async function getJobs(req, res) {
 }
 
 async function answerJob(jobData) {
-  await db.insertSwipe(jobData);
+  await db.insertChoice(jobData);
 }
 
 async function shortlistItem(jobData) {
@@ -78,7 +78,7 @@ app.use('/user', auth.guardMiddleware);
 app.get('/user/next-item', asyncWrap(nextItem));
 
 app.get('/user/jobs', asyncWrap(getJobs));
-app.post('/user/jobs', express.json(), asyncWrap(submitJobSwipe));
+app.post('/user/jobs', express.json(), asyncWrap(submitJobChoice));
 
 app.get('/user/questions', asyncWrap(getQuestions));
 app.post('/user/questions', express.json(), asyncWrap(submitQuestAnswer));
