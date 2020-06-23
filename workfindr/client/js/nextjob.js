@@ -70,7 +70,7 @@ async function submitQuestionAnswer(answer) {
 
 async function loadNextItem() {
   currentItem = await getNextItem();
-  if (currentItem.jobs === 'none') {
+  if (currentItem == null) {
     displayNoJobs();
   } else {
     displayItem(currentItem);

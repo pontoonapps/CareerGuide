@@ -39,7 +39,6 @@ async function loadLikeHistory() {
 
     listContainer.appendChild(jobContainer);
 
-
     empty.style.display = 'none';
   }
 }
