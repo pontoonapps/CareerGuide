@@ -118,10 +118,20 @@ async function getNextJob(userId) {
   const [jobs] = await sql.query(query, userId);
   const matchingJobs = await filterJobsToMatchQuestionnaire(jobs, userId);
   if (matchingJobs.length === 0) {
-    return { jobs: 'none' };
+    return null;
   }
-  const jobIndex = Math.floor(seedrandom(String(matchingJobs.length))() * matchingJobs.length);
-  return matchingJobs[jobIndex];
+
+  // select a pseudo-random job to return next
+  // seeded randomness assures the user sees the same job next if they refresh
+  return getPseudoRandomItem(matchingJobs);
+}
+
+// return a predictable random element from an array
+// randomness is seeded by array length
+function getPseudoRandomItem(arr) {
+  const rng = seedrandom(String(arr.length));
+  const i = Math.floor(rng() * arr.length);
+  return arr[i];
 }
 
 async function getQuestionnaireProfile(userId) {
