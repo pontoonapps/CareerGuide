@@ -205,7 +205,7 @@ function addELs() {
     });
   }
   window.addEventListener('resize', () => {
-    setSwipePageHeight();
+    setPageDimensions();
     getHeights();
   });
   document.querySelector('#show-more').addEventListener('click', expandInfoText);
@@ -214,7 +214,7 @@ function addELs() {
   });
 }
 
-function setSwipePageHeight() {
+function setPageDimensions() {
   // get required elements
   const nextJobPage = document.querySelector('#next-job-page');
   const navBar = document.querySelector('nav');
@@ -261,12 +261,12 @@ function isDesktop() {
 // start script (after page has loaded)
 
 async function loadPage() {
-  // display main before page load for setSwipePageHeight function
+  // display main before page load for setPageDimensions function
   document.querySelector('main').style.display = '';
   document.querySelector('#title').style.display = ''; // hide title to display loadingLabel
 
   addELs(); // add Event Listeners
-  setSwipePageHeight();
+  setPageDimensions();
   getHeights();
   await loadNextItem(); // await so buttons aren't displayed before being hidden
 

@@ -35,20 +35,21 @@ async function loadLikeHistory() {
     jobContainer.querySelector('.job-choice').classList.add(job.answer);
     jobContainer.querySelector('.job-choice').textContent = (job.answer === 'like' ? '👍' : '👎');
     jobContainer.querySelector('.job-choice').dataset.jobId = job.id;
-    jobContainer.querySelector('.job-choice').addEventListener('click', changeSwipe);
+    jobContainer.querySelector('.job-choice').addEventListener('click', changeChoice);
 
     listContainer.appendChild(jobContainer);
+
 
     empty.style.display = 'none';
   }
 }
 
-function changeSwipe(event) {
-  const succSub = submitSwipeChange(event);
+function changeChoice(event) {
+  const succSub = submitChoiceChange(event);
   if (succSub) {
     const answerBtn = event.target;
-    const updatedSwipe = event.target.classList[1];
-    switch (updatedSwipe) {
+    const updatedChoice = event.target.classList[1];
+    switch (updatedChoice) {
       case 'like':
         answerBtn.classList.remove('like');
         answerBtn.classList.add('dislike');
@@ -65,12 +66,12 @@ function changeSwipe(event) {
   }
 }
 
-async function submitSwipeChange(event) {
+async function submitChoiceChange(event) {
   const userInput = {};
-  const updatedSwipe = event.target.classList[1];
+  const updatedChoice = event.target.classList[1];
   const itemId = event.target.dataset.jobId;
   userInput.itemId = itemId;
-  switch (updatedSwipe) {
+  switch (updatedChoice) {
     case 'like':
       userInput.choice = 'dislike';
       break;
@@ -81,7 +82,7 @@ async function submitSwipeChange(event) {
   const response = await submitChange(userInput);
 
   if (!response.ok) {
-    console.log('Error from server: ' + response.statusText + '. Swipe change failed');
+    console.log('Error from server: ' + response.statusText + '. Choice change failed');
   }
   return (response.ok);
 }
