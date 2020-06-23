@@ -1,10 +1,10 @@
-# PONToon WorkFindr
+# PONToon Career Guide
 
 ## Installation
 
 ### Configuration
 
-0. Make a copy of the `config-template.json`, found inside [server/](https://github.com/jacekkopecky/pontoon/tree/master/workfindr/server) and rename it to `config.json`
+0. Make a copy of the `config-template.json`, found inside [server/](https://github.com/jacekkopecky/pontoon/tree/master/career-guide/server) and rename it to `config.json`
 1. Provide the deployment route
 2. Provide the right URL for the login check
 3. Input your details such as database username, password
