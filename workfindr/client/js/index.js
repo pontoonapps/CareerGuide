@@ -22,7 +22,7 @@ function gotoNextJobPage() {
   window.location = 'nextjob.html';
 }
 
-function disableNavbar() {
+function disableNavigation(userType) {
   const navBarSlide = document.querySelector('#navbar-slide');
 
   navBarSlide.style.cursor = 'not-allowed';
@@ -35,31 +35,38 @@ function disableNavbar() {
 
   // show login warning
   const navLogin = document.createElement('a');
-  navLogin.textContent = 'Please log in to access these pages';
+  navLogin.textContent = 'Please log in as a job seeker to access these pages';
   navLogin.classList.add('navbar-slide-item');
   navLogin.style.fontWeight = 'bold';
   navLogin.style.cursor = 'pointer';
   navLogin.href = 'https://pontoonapps.com/login.php';
   navBarSlide.appendChild(navLogin);
-}
 
-function disableGetStarted() {
+  // disable get started
   const getStarted = document.querySelector('#get-started');
 
   getStarted.style.background = 'silver';
   getStarted.style.border = 'none';
   getStarted.style.pointerEvents = 'none';
+
+  // show that the user needs to log in
+  document.querySelector('#login-requester').style.display = '';
+
+  if (userType && userType.id == null) {
+    document.querySelector('#login-admin').style.display = '';
+  }
 }
 
 async function checkLogin() {
   const response = await fetch('user-id');
   if (response.ok) {
     const userType = await response.json();
-    if (userType.user === undefined) { // TODO check if this works with recruiters
-      document.querySelector('#login-requester').style.display = ''; // display loginRequester
-      disableGetStarted(); // disable get started button
-      disableNavbar(); // disable navbar
+    if (userType.user == null || userType.user.id == null) {
+      disableNavigation(userType.user);
     }
+  } else {
+    console.error('error getting user information', response);
+    disableNavigation();
   }
 }
 
