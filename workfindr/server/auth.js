@@ -25,6 +25,10 @@ function dummyCookieAuth(req, res, next) {
     const id = knownUsers.indexOf(name);
     if (id > 0) {
       req.user = { id };
+    } else if (name === 'recruiter') {
+      req.user = { recruiter: 10 };
+    } else if (name === 'admin') {
+      req.user = { admin: 0 };
     }
   }
   next();
