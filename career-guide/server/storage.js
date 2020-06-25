@@ -96,36 +96,60 @@ async function getNextJob(userId) {
       jobs.title_en,
       jobs.description_en,
       categories.icon_filename AS image,
-      teamwork,
-      physical_activity,
-      creativity,
-      driving,
-      travel,
-      hours_flexibility,
-      care_work,
-      danger
-    FROM pontoonapps_careerguide.jobs
-      JOIN pontoonapps_careerguide.categories
-      ON jobs.category_id = pontoonapps_careerguide.categories.id
+      jobs.teamwork,
+      jobs.physical_activity,
+      jobs.creativity,
+      jobs.driving,
+      jobs.travel,
+      jobs.hours_flexibility,
+      jobs.care_work,
+      jobs.danger,
+      likes.type,
+      likes.time_stamp AS timeStamp
+    FROM      pontoonapps_careerguide.jobs
+    JOIN      pontoonapps_careerguide.categories
+      ON      jobs.category_id = categories.id
+    LEFT JOIN pontoonapps_careerguide.likes
+      ON      jobs.id = likes.job_id
     WHERE jobs.id NOT IN (
       SELECT job_id
       FROM pontoonapps_careerguide.likes
-      WHERE likes.user_id = ?
-      AND (likes.type <> 'show later' OR
-           likes.time_stamp > NOW() - INTERVAL 12 HOUR)
+      WHERE likes.user_id = 2
+      AND likes.type <> 'show later'
     )`;
 
   const [jobs] = await sql.query(query, userId);
-  const matchingJobs = await filterJobsToMatchQuestionnaire(jobs, userId);
-  if (matchingJobs.length === 0) {
+  const profileMatchingJobs = await filterJobsToMatchQuestionnaire(jobs, userId);
+
+  // valid jobs to show are not liked or were liked with show later more than 12 hours ago
+  const unseenJobs = profileMatchingJobs.filter((job) => {
+    const twelveHoursAgo = Date.now() - (1000 * 60 * 60 * 12); // 12 hours in milliseconds
+    if (job.type === null || (job.timeStamp < twelveHoursAgo && job.type === 'show later')) {
+      return true;
+    }
+  });
+
+  // get show laters less than 12 hours old and sort from oldest to newest
+  let newShowLaters = profileMatchingJobs.filter((job) => {
+    const twelveHoursAgo = Date.now() - (1000 * 60 * 60 * 12); // pass to big arrow functions instead of defining twice
+    if (job.type === 'show later' && job.timeStamp > twelveHoursAgo) {
+      return true;
+    }
+  });
+  newShowLaters = newShowLaters.sort((jobA, jobB) => { return jobA.timeStamp - jobB.timeStamp; });
+
+  // if there are no unseen jobs return the oldest shortlisted job
+  if (unseenJobs.length !== 0) {
+    return getPseudoRandomItem(unseenJobs);
+  } else if (newShowLaters.length !== 0) {
+    return newShowLaters[0];
+  } else {
     return null;
   }
-
-  // select a pseudo-random job to return next
-  // seeded randomness assures the user sees the same job next if they refresh
-  return getPseudoRandomItem(matchingJobs);
 }
 
+// select a pseudo-random job to return next
+// seeded randomness assures the user sees the same job next if they refresh
 // return a predictable random element from an array
 // randomness is seeded by array length
 function getPseudoRandomItem(arr) {
@@ -255,7 +279,8 @@ async function insertChoice(jobData) {
     VALUES
       (?, ?, ?)
     ON DUPLICATE KEY UPDATE
-      type = ?`;
+      type = ?,
+      time_stamp = NOW()`;
   await sql.query(query, [jobData.userId, jobData.itemId, answer, answer]);
 }
 
@@ -278,9 +303,9 @@ async function removeShortlist(jobData) {
   const query = `
     DELETE FROM pontoonapps_careerguide.shortlists
       WHERE
-        user_id=?
+        user_id = ?
       AND
-        job_id=?`;
+        job_id = ?`;
   await sql.query(query, [jobData.userId, jobData.itemId]);
 }
 
