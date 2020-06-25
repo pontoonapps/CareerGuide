@@ -1,3 +1,5 @@
+let SHORTLISTS = 0; // The amount of shortlisted jobs
+
 async function getShortlist() {
   const response = await fetch('user/jobs');
 
@@ -41,6 +43,7 @@ async function loadShortlist() {
 
     const listContainer = document.querySelector('#list-container');
     listContainer.appendChild(jobContainer);
+    SHORTLISTS += 1;
 
     empty.style.display = 'none';
   }
@@ -114,6 +117,11 @@ async function removeShortlistItem() {
   const succSub = await submitRemoval(event);
   if (succSub) {
     jobContainer.remove();
+    SHORTLISTS -= 1;
+    console.log(SHORTLISTS);
+    if (SHORTLISTS <= 0) {
+      document.querySelector('#empty-page').style.display = '';
+    }
   } else {
     document.querySelector('h1').textContent = 'Something went wrong! Please refresh';
   }

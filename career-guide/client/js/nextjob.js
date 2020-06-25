@@ -19,7 +19,7 @@ function timeoutDelay(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-const BUTTON_DELAY = 500;
+const BUTTON_DELAY = 250;
 
 async function submitItem(event) {
   const delayPromise = timeoutDelay(BUTTON_DELAY);
