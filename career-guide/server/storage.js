@@ -120,18 +120,16 @@ async function getNextJob(userId) {
 
   const [jobs] = await sql.query(query, userId);
   const profileMatchingJobs = await filterJobsToMatchQuestionnaire(jobs, userId);
-
+  const twelveHoursAgo = Date.now() - (1000 * 60 * 60 * 12); // 12 hours in milliseconds
   // valid jobs to show are not liked or were liked with show later more than 12 hours ago
-  const unseenJobs = profileMatchingJobs.filter((job) => {
-    const twelveHoursAgo = Date.now() - (1000 * 60 * 60 * 12); // 12 hours in milliseconds
+  const unseenJobs = profileMatchingJobs.filter(job => {
     if (job.type === null || (job.timeStamp < twelveHoursAgo && job.type === 'show later')) {
       return true;
     }
   });
 
   // get show laters less than 12 hours old and sort from oldest to newest
-  let newShowLaters = profileMatchingJobs.filter((job) => {
-    const twelveHoursAgo = Date.now() - (1000 * 60 * 60 * 12); // pass to big arrow functions instead of defining twice
+  let newShowLaters = profileMatchingJobs.filter(job => {
     if (job.type === 'show later' && job.timeStamp > twelveHoursAgo) {
       return true;
     }
