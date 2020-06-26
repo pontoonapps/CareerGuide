@@ -114,7 +114,7 @@ async function getNextJob(userId) {
     WHERE jobs.id NOT IN (
       SELECT job_id
       FROM pontoonapps_careerguide.likes
-      WHERE likes.user_id = 2
+      WHERE likes.user_id = ?
       AND likes.type <> 'show later'
     )`;
 
