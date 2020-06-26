@@ -104,43 +104,35 @@ async function getNextJob(userId) {
       jobs.hours_flexibility,
       jobs.care_work,
       jobs.danger,
-      likes.type,
-      likes.time_stamp AS timeStamp
+      (likes.time_stamp > NOW() - INTERVAL 12 HOUR) AS timeStampRecent
     FROM      pontoonapps_careerguide.jobs
     JOIN      pontoonapps_careerguide.categories
       ON      jobs.category_id = categories.id
     LEFT JOIN pontoonapps_careerguide.likes
       ON      jobs.id = likes.job_id
-    WHERE jobs.id NOT IN (
-      SELECT job_id
-      FROM pontoonapps_careerguide.likes
-      WHERE likes.user_id = ?
-      AND likes.type <> 'show later'
-    )`;
+     AND      likes.user_id = ?
+    WHERE likes.type IS NULL
+       OR likes.type = 'show later'
+    ORDER BY likes.time_stamp ASC
+    `;
 
   const [jobs] = await sql.query(query, userId);
+
   const profileMatchingJobs = await filterJobsToMatchQuestionnaire(jobs, userId);
-  const twelveHoursAgo = Date.now() - (1000 * 60 * 60 * 12); // 12 hours in milliseconds
-  // valid jobs to show are not liked or were liked with show later more than 12 hours ago
-  const unseenJobs = profileMatchingJobs.filter(job => {
-    if (job.type === null || (job.timeStamp < twelveHoursAgo && job.type === 'show later')) {
-      return true;
-    }
-  });
+
+  // valid jobs to show are not liked or were asked to be shown later more than 12 hours ago
+  const unseenJobs = profileMatchingJobs.filter(job => !job.timeStampRecent);
+
+  if (unseenJobs.length > 0) {
+    return getPseudoRandomItem(unseenJobs);
+  }
 
   // get show laters less than 12 hours old and sort from oldest to newest
-  let newShowLaters = profileMatchingJobs.filter(job => {
-    if (job.type === 'show later' && job.timeStamp > twelveHoursAgo) {
-      return true;
-    }
-  });
-  newShowLaters = newShowLaters.sort((jobA, jobB) => { return jobA.timeStamp - jobB.timeStamp; });
+  const recentShowLater = profileMatchingJobs.filter(job => job.timeStampRecent);
 
   // if there are no unseen jobs return the oldest shortlisted job
-  if (unseenJobs.length !== 0) {
-    return getPseudoRandomItem(unseenJobs);
-  } else if (newShowLaters.length !== 0) {
-    return newShowLaters[0];
+  if (recentShowLater.length > 0) {
+    return recentShowLater[0];
   } else {
     return null;
   }
