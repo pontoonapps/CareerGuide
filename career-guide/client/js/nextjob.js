@@ -181,24 +181,24 @@ function displayTitle(titleText) {
   }
 }
 
-function expandInfoText() {
+async function expandInfoText() {
   // set main grid height to auto
   document.documentElement.style.setProperty('--next-job-height', 'auto');
-  displayItem(currentItem); // hides show more button and un-truncates text
+  await displayItem(currentItem); // hides show more button and un-truncates text
   // show show less button
   document.querySelector('#show-less').style.display = '';
 }
 
-function collapseInfoText() {
+async function collapseInfoText() {
   // set main grid height to default value
   document.documentElement.style.removeProperty('--next-job-height');
-  displayItem(currentItem); // hides show less button and re-truncates text
+  await displayItem(currentItem); // hides show less button and re-truncates text
   // show show more button
   document.querySelector('#show-more').style.display = '';
 }
 
 function addELs() {
-  for (const button of document.querySelectorAll('button, #btn-shortlist')) {
+  for (const button of document.querySelectorAll('.job, .question, #btn-shortlist')) {
     button.addEventListener('click', async () => {
       if (await submitItem(event)) {
         loadNextItem();
