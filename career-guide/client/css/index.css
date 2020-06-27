@@ -254,8 +254,8 @@ main {
   grid-column-end: 4;
 }
 
-.job.button,
-.question.button {
+.job,
+.question {
   grid-row-start: 5;
   grid-row-end: 6;
   margin: 0.8em auto;
@@ -423,7 +423,7 @@ main {
   max-height: 15em;
 }
 
-.shortlist-btns > .button {
+.shortlist-btns > button {
   min-height: 4em;
 }
 
@@ -449,15 +449,12 @@ main {
   overflow: hidden;
 }
 
-.button {
+button {
+  cursor: pointer;
   color: var(--main-bg-color);
   padding: 0.2em;
   font-size: 1em;
   border-radius: 0.5em;
-}
-
-button {
-  cursor: pointer;
 }
 
 .btn-1 {

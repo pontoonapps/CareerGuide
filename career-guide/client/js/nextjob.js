@@ -198,7 +198,7 @@ function collapseInfoText() {
 }
 
 function addELs() {
-  for (const button of document.querySelectorAll('.button, #btn-shortlist')) {
+  for (const button of document.querySelectorAll('button, #btn-shortlist')) {
     button.addEventListener('click', async () => {
       if (await submitItem(event)) {
         loadNextItem();
