@@ -23,33 +23,28 @@ function gotoNextJobPage() {
 }
 
 function disableNavigation(userType) {
+  // disable nav bar buttons
   const navBarSlide = document.querySelector('#navbar-slide');
 
   navBarSlide.style.cursor = 'not-allowed';
-  for (const link of document.querySelectorAll('#navbar-slide > li')) {
+  for (const link of document.querySelectorAll('#navbar-slide > ul > li')) {
     link.lastChild.removeAttribute('href'); // remove href to remove pointer cursor
     link.style.pointerEvents = 'none';
     link.lastChild.style.fontStyle = 'italic';
     link.lastChild.style.color = 'silver';
   }
 
-  // show login warning
-  const navLogin = document.createElement('a');
-  navLogin.textContent = 'Please log in as a job seeker to access these pages';
-  navLogin.classList.add('navbar-slide-item');
-  navLogin.style.fontWeight = 'bold';
-  navLogin.style.cursor = 'pointer';
-  navLogin.href = 'https://pontoonapps.com/login.php';
-  navBarSlide.appendChild(navLogin);
-
-  // disable get started
+  // disable get started button
   const getStarted = document.querySelector('#get-started');
 
   getStarted.style.background = 'silver';
   getStarted.style.border = 'none';
-  getStarted.style.pointerEvents = 'none';
+  getStarted.style.cursor = 'not-allowed';
+  getStarted.removeEventListener('click', gotoNextJobPage);
 
-  // show that the user needs to log in
+  document.querySelector('#navbar-login-prompt').style.display = '';
+
+  // un-hide login requester div
   document.querySelector('#login-requester').style.display = '';
 
   if (userType && userType.id == null) {
@@ -63,7 +58,9 @@ async function checkLogin() {
     const userType = await response.json();
     if (userType.user == null || userType.user.id == null) {
       disableNavigation(userType.user);
+      return false;
     }
+    return true;
   } else {
     console.error('error getting user information', response);
     disableNavigation();
@@ -71,13 +68,15 @@ async function checkLogin() {
 }
 
 async function init() {
-  await checkLogin();
+  const goodLogin = await checkLogin();
 
   // hide loading label and show main
   document.querySelector('main').style.display = '';
   document.querySelector('#loadingLabel').style.display = 'none';
 
-  document.querySelector('#get-started').addEventListener('click', gotoNextJobPage);
+  if (goodLogin) {
+    document.querySelector('#get-started').addEventListener('click', gotoNextJobPage);
+  }
 }
 
 window.addEventListener('load', init);
