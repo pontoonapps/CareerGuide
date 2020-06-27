@@ -106,63 +106,7 @@ function createLink(href, textContent) {
   return linkEl;
 }
 
-function displayInfoText(str) {
-  // get required DOM elements
-  const infoText = document.querySelector('#info-text');
-  const showMore = document.querySelector('#show-more');
-  const showLess = document.querySelector('#show-less');
-
-  let cutStr = str;
-  infoText.textContent = str;
-  while (infoText.clientHeight < infoText.scrollHeight && cutStr.length > 0) {
-    cutStr = cutStr.slice(0, cutStr.lastIndexOf(' ')); // remove last word so text is not cut mid word
-    infoText.textContent = cutStr;
-  }
-
-  if (cutStr !== str) {
-    cutStr = cutStr.slice(0, cutStr.lastIndexOf(' ')); // remove one more word so elipses does not overflow
-    cutStr += '…';
-    infoText.textContent = cutStr;
-    showMore.style.display = ''; // remove "display: none;" if descrption was abbreivated
-  } else {
-    showMore.style.display = 'none'; // if string was not cut do not display showMore button
-  }
-  showLess.style.display = 'none';
-}
-
-function expandInfoText() {
-  // set heights to auto
-  document.documentElement.style.setProperty('--next-job-page-height', 'auto');
-  document.documentElement.style.setProperty('--item-info-height', 'auto');
-  document.documentElement.style.setProperty('--item-infotext-height', 'auto');
-
-  // hide show more button and show show less button
-  document.querySelector('#show-more').style.display = 'none';
-  document.querySelector('#show-less').style.display = '';
-
-  // display full length text
-  document.querySelector('#info-text').textContent = currentItem.description_en;
-}
-
-function resetElHeights() {
-  // get DOM elements
-  const nextJobPage = document.querySelector('#next-job-page');
-  const itemInfo = document.querySelector('#item-info');
-  const infoText = document.querySelector('#info-text');
-
-  // get original heights from dataset
-  const nextJobPageHeight = nextJobPage.dataset.origHeight;
-  const itemInfoHeight = itemInfo.dataset.origHeight;
-  const infoTextHeight = infoText.dataset.origHeight;
-
-  // set css variables to original heights
-  document.documentElement.style.setProperty('--next-job-page-height', `${nextJobPageHeight}px`);
-  document.documentElement.style.setProperty('--item-info-height', `${itemInfoHeight}px`);
-  document.documentElement.style.setProperty('--item-infotext-height', `${infoTextHeight}px`);
-}
-
 function displayItem(item) {
-  resetElHeights();
   displayTitle(item.title_en); // display info shared by questions and jobs (image and title)
   for (const button of document.querySelectorAll('button')) { // hide buttons
     button.style.display = 'none';
@@ -178,7 +122,7 @@ function displayItem(item) {
       button.dataset.choice = option.option_number;
       buttonIndex += 1;
     }
-    displayInfoText(item.question_en); // show question text
+    document.querySelector('#info-text').textContent = item.question_en;
 
     // show question image
     document.querySelector('#item-image').src = 'img/question.jpg';
@@ -188,11 +132,13 @@ function displayItem(item) {
     for (const jobButton of document.querySelectorAll('.job')) {
       jobButton.style.display = '';
     }
-    displayInfoText(item.description_en); // show job description
 
     // show image
     document.querySelector('#item-image').src = 'img/' + item.image;
     document.querySelector('#item-image').alt = 'item image: ' + item.image;
+
+    // show job description
+    document.querySelector('#info-text').textContent = item.description_en;
   }
 }
 
@@ -221,76 +167,16 @@ function addELs() {
       }
     });
   }
-  window.addEventListener('resize', () => {
-    setPageDimensions();
-    getHeights();
-  });
-  document.querySelector('#show-more').addEventListener('click', expandInfoText);
-  document.querySelector('#show-less').addEventListener('click', () => {
-    displayItem(currentItem);
-  });
-}
-
-function setPageDimensions() {
-  // get required elements
-  const nextJobPage = document.querySelector('#next-job-page');
-  const navBar = document.querySelector('nav');
-
-  // get display sizes
-  const vpHeight = window.innerHeight; // viewport height
-  const vpWidth = window.innerWidth; // viewport width
-  const navHeight = navBar.offsetHeight;
-  const nextJobPageWidth = nextJobPage.offsetWidth;
-  const sideMargin = (vpWidth - nextJobPageWidth) / 2; // margin required to center nextJobPage
-  const ftrHeight = 0; // TODO add footer
-  const heightBffr = vpHeight / 20; // height buffer of 1/20 added to make space for URL bar on mobile
-  const nextJobPageHeight = vpHeight - (navHeight + ftrHeight + heightBffr);
-
-  // apply to next job page
-  document.documentElement.style.setProperty('--nav-height', `${navHeight}px`);
-  document.documentElement.style.setProperty('--side-margin', `${sideMargin}px`);
-  document.documentElement.style.setProperty('--ftr-height', `${ftrHeight}px`);
-  document.documentElement.style.setProperty('--next-job-page-height', `${nextJobPageHeight}px`);
-}
-
-function getHeights() {
-  // get required DOM elements
-  const nextJobPage = document.querySelector('#next-job-page');
-  const itemInfo = document.querySelector('#item-info');
-  const infoText = document.querySelector('#info-text');
-
-  // save starting height values
-  nextJobPage.dataset.origHeight = nextJobPage.offsetHeight;
-  itemInfo.dataset.origHeight = itemInfo.offsetHeight;
-  infoText.dataset.origHeight = infoText.offsetHeight;
-}
-
-function isDesktop() {
-  if (navigator.userAgent.includes('Android')) return false;
-  if (navigator.userAgent.includes('iPhone')) return false;
-  if (navigator.userAgent.includes('Linux')) return true;
-  if (navigator.userAgent.includes('Windows')) return true;
-  if (navigator.userAgent.includes('Macintosh')) return true;
-  // if unsure don't refresh on resize as this can cause bigger issues than display errors
-  return false;
 }
 
 // start script (after page has loaded)
 
-async function loadPage() {
-  // display main before page load for setPageDimensions function
-  document.querySelector('main').style.display = '';
-  document.querySelector('#title').style.display = ''; // hide title to display loadingLabel
-
+function loadPage() {
   addELs(); // add Event Listeners
-  setPageDimensions();
-  getHeights();
-  await loadNextItem(); // await so buttons aren't displayed before being hidden
-
   document.querySelector('#loadingLabel').style.display = 'none'; // hide loadingLabel
   document.querySelector('#title').style.display = '';
-  document.querySelector('#answer-btns').style.display = '';
   document.querySelector('main').style.display = '';
+  loadNextItem();
 }
 
 window.addEventListener('load', loadPage);
