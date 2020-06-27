@@ -13,6 +13,7 @@
   /* defaults before the fonts load */
   --title-font: 'Varela Round', sans-serif;
   --text-font: 'Open Sans', sans-serif;
+  --navbarHeight: 5em;
 }
 
 * {
@@ -147,7 +148,7 @@ h1 {
 #navbar {
   box-shadow: 0 0 0.25rem 0.01rem var(--davys-gray);
   width: 100vw;
-  height: 5em;
+  height: var(--navbarHeight);
   display: flex;
   justify-content: center;
 }
@@ -183,106 +184,90 @@ main {
 #next-job-page {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: 1fr 4em;
-  row-gap: 0.3em;
+  grid-template-rows: 5em 8em 1fr 0.2fr;
+  grid-row-gap: 0.5em;
   width: 100%;
-  max-width: 50em;
-  position: absolute;
-  top: 0;
-
-  /* variables created in js/nextjob.js function setMainHeight */
-  margin: var(--nav-height, 5em) var(--side-margin, auto) var(--ftr-height, 0);
-  height: var(--next-job-page-height, 90vh);
-}
-
-#item-info > #title {
-  grid-row-start: 1;
-  grid-row-end: 2;
-  grid-column-start: 1;
-  grid-column-end: 4;
-}
-
-#item-info {
-  grid-column-start: 1;
-  grid-column-end: 4;
-  grid-row-start: 1;
-  grid-row-end: 2;
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: 5em 12em auto 2em;
-  width: 90%;
+  margin: 1em auto 0;
+  height: calc(95vh - var(--navbarHeight));
   max-width: 40em;
-  height: var(--item-info-height, 90%);
-  padding: 0.5em;
-  margin: 0.5em auto;
   background-color: var(--main-bg-color);
-  box-shadow: 0 0 0.5em rgb(178, 207, 101);
+  box-shadow: 0 0 0.25rem 0.05rem var(--PONTGreen);
   border-radius: 0.5em;
+}
 
-  /* max height set in client/js/nextjob.js */
+#next-job-page > #title {
+  grid-row-start: 1;
+  grid-row-end: 2;
+  grid-column-start: 1;
+  grid-column-end: 4;
 }
 
 #item-image {
-  grid-column-start: 2;
-  grid-column-end: 3;
   grid-row-start: 2;
   grid-row-end: 3;
-  width: 10em;
+  grid-column-start: 2;
+  grid-column-end: 3;
   height: 10em;
+  width: 10em;
   margin: 0 auto;
 }
 
-#answer-btns {
-  grid-column-start: 1;
-  grid-column-end: 4;
+#btn-shortlist {
   grid-row-start: 2;
   grid-row-end: 3;
-  display: flex;
-  justify-content: space-around;
-  justify-self: center;
-  align-items: stretch;
-  height: 100%;
-  width: inherit;
-}
-
-#btn-shortlist {
   grid-column-start: 3;
   grid-column-end: 4;
-  grid-row-start: 2;
-  grid-row-end: 3;
-  font-size: 1.5em;
-  font-weight: bold;
-  border-radius: 0.2em;
-  height: 2em;
-  width: 2em;
-  justify-self: center;
-  align-self: start;
+  align-self: left;
+  height: 1.5em;
+  width: 1.5em;
+  border-width: 0.1em;
+  border-radius: 0.5em;
+  font-size: 2em;
+  text-align: center;
+}
+
+#btn-dislike,
+#btn-option1 {
+  grid-row-start: 4;
+  grid-row-end: 5;
+  grid-column-start: 1;
+  grid-column-end: 2;
+}
+
+#btn-showLater,
+#btn-option2 {
+  grid-row-start: 4;
+  grid-row-end: 5;
+  grid-column-start: 2;
+  grid-column-end: 3;
+}
+
+#btn-like,
+#btn-option3 {
+  grid-row-start: 4;
+  grid-row-end: 5;
+  grid-column-start: 3;
+  grid-column-end: 4;
+}
+
+.job.button,
+.question.button {
+  margin: 0.8em auto;
+  width: calc(50% + 3.5em);
+  max-width: 100%;
+  height: 3em;
 }
 
 #info-text {
-  grid-column-start: 1;
-  grid-column-end: 4;
   grid-row-start: 3;
   grid-row-end: 4;
-  text-align: left;
-  padding: 0 calc(20% - 75px); /* no padding on mobile */
-  font-family: var(--text-font);
-  height: var(--item-infotext-height, auto);
+  grid-column-start: 1;
+  grid-column-end: 4;
   max-height: 100%;
+  text-align: left;
+  padding: 0 calc((20% - 75px) + 1.2em); /* no padding on mobile */
+  font-family: var(--text-font);
   overflow: auto;
-}
-
-.show-btn {
-  grid-column-start: 2;
-  grid-column-end: 3;
-  grid-row-start: 4;
-  grid-row-end: 5;
-  cursor: pointer;
-  color: var(--PONTLightBlue);
-  font-weight: bold;
-  justify-self: center;
-  align-self: center;
-  padding: 0.3em;
 }
 
 #list-container {
@@ -445,11 +430,6 @@ main {
   padding: 0.2em;
   font-size: 1em;
   border-radius: 0.5em;
-  margin: 0 0.25rem;
-  width: 100%;
-  max-width: 10rem;
-  min-height: 4em;
-  max-height: 100%;
 }
 
 button {
