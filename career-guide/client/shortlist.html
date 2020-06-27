@@ -2,29 +2,33 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="css/index.css">
-    <script async defer src="js/shared.js"></script>
-    <script async defer src="js/shortlist.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="css/index.css">
+  <script async defer src="js/shared.js"></script>
+  <script async defer src="js/shortlist.js"></script>
 
-    <title>Shortlist</title>
+  <title>Shortlist</title>
 </head>
 
 <body>
   <nav>
     <section id="navbar">
-        <section id="navbar-top">
-            <a href='./'><img class="navbar-item" id="logo" src="img/pontlogo.png"></a>
-            <img class="navbar-item" id="nav-btn" src="img/navbtn.svg">
-        </section>
+      <section id="navbar-top">
+        <a href='./'>
+          <img class="navbar-item" id="logo" src="img/pontlogo.png">
+        </a>
+        <img class="navbar-item" id="nav-btn" src="img/navbtn.svg">
+      </section>
     </section>
-        <ul id="navbar-slide">
-          <li><a class="navbar-slide-item" href="nextjob.html">Next Job</a></li>
-          <li><a class="navbar-slide-item" href="shortlist.html">Shortlist</a></li>
-          <li><a class="navbar-slide-item" href="likehistory.html">Like History</a></li>
-          <li><a class="navbar-slide-item" href="questionnairereview.html">Questionnaire Review</a></li>
-        </ul>
+    <div id="navbar-slide">
+      <ul>
+        <li><a class="navbar-slide-item" href="nextjob.html">Next Job</a></li>
+        <li><a class="navbar-slide-item" href="shortlist.html">Shortlist</a></li>
+        <li><a class="navbar-slide-item" href="likehistory.html">Like History</a></li>
+        <li><a class="navbar-slide-item" href="questionnairereview.html">Questionnaire Review</a></li>
+      </ul>
+    </div>
   </nav>
 
   <main>
@@ -33,16 +37,16 @@
   </main>
   <div id='list-container'></div>
   <template id='shortlist-template'>
-      <section class="list-item-container shortlist">
-          <img class="job-image">
-          <h3 class="job-title"></h3>
-          <p class="job-desc"></p>
-          <div class="shortlist-btns">
-            <button class="button btn-3 view-more">View More</button>
-            <button class="button btn-3 view-less" style="display: none;">View Less</button>
-            <button class="button btn-1 remove-shortlist-item" style="display: none;">Remove from Shortlist</button>
-          </div>
-      </section>
+    <section class="list-item-container shortlist">
+      <img class="job-image">
+      <h3 class="job-title"></h3>
+      <p class="job-desc"></p>
+      <div class="shortlist-btns">
+        <button class="btn-3 view-more">View More</button>
+        <button class="btn-3 view-less" style="display: none;">View Less</button>
+        <button class="btn-1 remove-shortlist-item" style="display: none;">Remove from Shortlist</button>
+      </div>
+    </section>
   </template>
 </body>
 </html>

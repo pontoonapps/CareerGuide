@@ -12,37 +12,41 @@
 </head>
 
 <body>
-    <nav>
-      <section id="navbar">
-        <section id="navbar-top">
-        <a href='./'><img class="navbar-item" id="logo" src="img/pontlogo.png"></a>
-            <img class="navbar-item" id="nav-btn" src="img/navbtn.svg">
-        </section>
+  <nav>
+    <section id="navbar">
+      <section id="navbar-top">
+        <a href='./'>
+          <img class="navbar-item" id="logo" src="img/pontlogo.png">
+        </a>
+        <img class="navbar-item" id="nav-btn" src="img/navbtn.svg">
       </section>
-      <ul id="navbar-slide">
+    </section>
+    <div id="navbar-slide">
+      <ul>
         <li><a class="navbar-slide-item" href="nextjob.html">Next Job</a></li>
         <li><a class="navbar-slide-item" href="shortlist.html">Shortlist</a></li>
         <li><a class="navbar-slide-item" href="likehistory.html">Like History</a></li>
         <li><a class="navbar-slide-item" href="questionnairereview.html">Questionnaire Review</a></li>
       </ul>
-    </nav>
+    </div>
+  </nav>
 
-    <main id="next-job-page">
-      <h1 id="title"></h1>
-      <img id="item-image"></img>
-      <button class="btn-2 job" id="btn-shortlist" data-choice="shortlist-add" title="add to shortlist">
-        ★
-      </button>
-      <p id="info-text"></p>
-      <button id="show-more" style="display: none">Show more</button>
-      <button id="show-less" style="display: none">Show less</button>
-      <button class="button btn-1 job" id="btn-dislike" data-choice="dislike">Dislike</button>
-      <button class="button btn-2 job" id="btn-showLater" data-choice="showLater">Show Later</button>
-      <button class="button btn-3 job" id="btn-like" data-choice="like">Like</button>
-      <button class="button btn-4 question" id="btn-option1"></button>
-      <button class="button btn-4 question" id="btn-option2"></button>
-      <button class="button btn-4 question" id="btn-option3"></button>
-    </main>
+  <main id="next-job-page">
+    <h1 id="title"></h1>
+    <img id="item-image"></img>
+    <button class="btn-2 job" id="btn-shortlist" data-choice="shortlist-add" title="add to shortlist">
+      ★
+    </button>
+    <p id="info-text"></p>
+    <button id="show-more" style="display: none">Show more</button>
+    <button id="show-less" style="display: none">Show less</button>
+    <button class="btn-1 job" id="btn-dislike" data-choice="dislike">Dislike</button>
+    <button class="btn-2 job" id="btn-showLater" data-choice="showLater">Show Later</button>
+    <button class="btn-3 job" id="btn-like" data-choice="like">Like</button>
+    <button class="btn-4 question" id="btn-option1"></button>
+    <button class="btn-4 question" id="btn-option2"></button>
+    <button class="btn-4 question" id="btn-option3"></button>
+  </main>
 </body>
 
 </html>
