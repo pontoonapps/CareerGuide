@@ -1,5 +1,3 @@
-let SHORTLISTS = 0; // The amount of shortlisted jobs
-
 async function getShortlist() {
   const response = await fetch('user/jobs');
 
@@ -21,8 +19,6 @@ async function loadShortlist() {
   const template = document.querySelector('#shortlist-template');
   const jobList = await getShortlist();
 
-  const empty = document.querySelector('#empty-page');
-
   for (const job of jobList) {
     if (job.shortlist === null) {
       continue;
@@ -43,9 +39,6 @@ async function loadShortlist() {
 
     const listContainer = document.querySelector('#list-container');
     listContainer.appendChild(jobContainer);
-    SHORTLISTS += 1;
-
-    empty.style.display = 'none';
   }
 
   for (const description of document.querySelectorAll('.job-desc')) {
@@ -77,11 +70,11 @@ function displayDetailedDesc(event) {
   }
 
   for (const removeBtn of document.querySelectorAll('.remove-shortlist-item')) {
-    removeBtn.style = 'display: none;'; // hide remove button
+    removeBtn.style = 'display: none'; // hide remove button
   }
 
   for (const viewLessBtn of document.querySelectorAll('.view-less')) {
-    viewLessBtn.style = 'display: none;'; // hide view less button
+    viewLessBtn.style = 'display: none'; // hide view less button
   }
 
   for (const viewMoreBtn of document.querySelectorAll('.view-more')) {
@@ -101,7 +94,7 @@ function displayDetailedDesc(event) {
   // hide view more and show view less and remove button
   removeBtn.style = '';
   viewLessBtn.style = '';
-  viewMoreBtn.style = 'display: none;';
+  viewMoreBtn.style = 'display: none';
 
   // add expanded class
   listItemContainer.classList.add('expanded');
@@ -117,11 +110,7 @@ async function removeShortlistItem() {
   const succSub = await submitRemoval(event);
   if (succSub) {
     jobContainer.remove();
-    SHORTLISTS -= 1;
-    console.log(SHORTLISTS);
-    if (SHORTLISTS <= 0) {
-      document.querySelector('#empty-page').style.display = '';
-    }
+    checkEmptyPage();
   } else {
     document.querySelector('h1').textContent = 'Something went wrong! Please refresh';
   }
@@ -155,13 +144,20 @@ function hideDetailedDesc() {
   truncateOverflow(jobDescription.textContent, jobDescription);
 
   // hide remove button and view less button, show view more button
-  removeBtn.style = 'display: none;';
-  viewLessBtn.style = 'display: none;';
+  removeBtn.style = 'display: none';
+  viewLessBtn.style = 'display: none';
   viewMoreBtn.style = '';
+}
+
+function checkEmptyPage() {
+  if (document.querySelector('.list-item-container') == null) {
+    document.querySelector('#empty-page').style.display = '';
+  }
 }
 
 async function loadPage() {
   await loadShortlist();
+  checkEmptyPage();
 
   // hide loading label and show main
   document.querySelector('main').style.display = '';

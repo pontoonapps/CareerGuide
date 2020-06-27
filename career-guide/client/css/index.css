@@ -194,7 +194,7 @@ main {
 #next-job-page {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: 5em 8em 1fr 1.5em 0.2fr;
+  grid-template-rows: 6em 10em 1fr 1.5em 0.2fr;
   width: 100%;
   margin: 1em auto 0;
   height: var(--next-job-height, calc(95vh - var(--navbarHeight)));

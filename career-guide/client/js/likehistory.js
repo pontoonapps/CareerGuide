@@ -19,8 +19,6 @@ async function loadLikeHistory() {
   const template = document.querySelector('#like-history-template');
   const jobList = await getLikeHistory();
 
-  const empty = document.querySelector('#empty-page');
-
   const listContainer = document.querySelector('#list-container');
   for (const job of jobList) {
     if (job.answer === 'show later') {
@@ -38,8 +36,6 @@ async function loadLikeHistory() {
     jobContainer.querySelector('.job-choice').addEventListener('click', changeChoice);
 
     listContainer.appendChild(jobContainer);
-
-    empty.style.display = 'none';
   }
 }
 
@@ -95,9 +91,15 @@ async function submitChange(userInput) {
   return response;
 }
 
+function checkEmptyPage() {
+  if (document.querySelector('.list-item-container') == null) {
+    document.querySelector('#empty-page').style.display = '';
+  }
+}
+
 async function loadPage() {
   await loadLikeHistory();
-
+  checkEmptyPage();
   // hide loading label and show main
   document.querySelector('main').style.display = '';
   document.querySelector('#loadingLabel').style.display = 'none';
