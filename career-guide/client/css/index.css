@@ -184,11 +184,10 @@ main {
 #next-job-page {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: 5em 8em 1fr 0.2fr;
-  grid-row-gap: 0.5em;
+  grid-template-rows: 5em 8em 1fr 1.5em 0.2fr;
   width: 100%;
   margin: 1em auto 0;
-  height: calc(95vh - var(--navbarHeight));
+  height: var(--next-job-height, calc(95vh - var(--navbarHeight)));
   max-width: 40em;
   background-color: var(--main-bg-color);
   box-shadow: 0 0 0.25rem 0.05rem var(--PONTGreen);
@@ -218,44 +217,54 @@ main {
   grid-column-start: 3;
   grid-column-end: 4;
   align-self: left;
-  height: 1.5em;
-  width: 1.5em;
+  height: 1.8em;
+  width: 1.8em;
   border-width: 0.1em;
   border-radius: 0.5em;
   font-size: 2em;
   text-align: center;
+  align-items: center;
 }
 
 #btn-dislike,
 #btn-option1 {
-  grid-row-start: 4;
-  grid-row-end: 5;
   grid-column-start: 1;
   grid-column-end: 2;
 }
 
 #btn-showLater,
 #btn-option2 {
-  grid-row-start: 4;
-  grid-row-end: 5;
   grid-column-start: 2;
   grid-column-end: 3;
 }
 
 #btn-like,
 #btn-option3 {
-  grid-row-start: 4;
-  grid-row-end: 5;
   grid-column-start: 3;
   grid-column-end: 4;
 }
 
 .job.button,
 .question.button {
+  grid-row-start: 5;
+  grid-row-end: 6;
   margin: 0.8em auto;
   width: calc(50% + 3.5em);
   max-width: 100%;
   height: 3em;
+}
+
+#show-more,
+#show-less {
+  grid-row-start: 4;
+  grid-row-end: 5;
+  grid-column-start: 2;
+  grid-column-end: 3;
+  font-size: inherit;
+  font-style: inherit;
+  color: var(--PONTLightBlue);
+  border: none;
+  background: none;
 }
 
 #info-text {
@@ -401,6 +410,7 @@ main {
   grid-row-start: 1;
   grid-row-end: 3;
   max-height: 15em;
+
 }
 
 /* TODO: Added shadow - this make them look more like buttons but is there a better way to accomplish this? */

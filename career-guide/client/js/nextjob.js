@@ -107,11 +107,11 @@ function createLink(href, textContent) {
 }
 
 function displayItem(item) {
-  displayTitle(item.title_en); // display info shared by questions and jobs (image and title)
   for (const button of document.querySelectorAll('button')) { // hide buttons
     button.style.display = 'none';
   }
 
+  displayTitle(item.title_en); // display info shared by questions and jobs (image and title)
   if (item.description_en === undefined) { // if question else job
     // show option buttons and add option number to dataset
     let buttonIndex = 0;
@@ -122,7 +122,7 @@ function displayItem(item) {
       button.dataset.choice = option.option_number;
       buttonIndex += 1;
     }
-    document.querySelector('#info-text').textContent = item.question_en;
+    displayInfoText(item.question_en);
 
     // show question image
     document.querySelector('#item-image').src = 'img/question.jpg';
@@ -138,8 +138,30 @@ function displayItem(item) {
     document.querySelector('#item-image').alt = 'item image: ' + item.image;
 
     // show job description
-    document.querySelector('#info-text').textContent = item.description_en;
+    displayInfoText(item.description_en);
   }
+}
+
+function displayInfoText(text) {
+  const infoText = document.querySelector('#info-text');
+  const showMore = document.querySelector('#show-more');
+  infoText.textContent = text;
+
+  if (infoText.clientHeight < infoText.scrollHeight) {
+    truncateOverflow(infoText);
+    showMore.style.display = '';
+  }
+}
+
+function truncateOverflow(container) {
+  let cutText = container.textContent;
+  while (container.clientHeight < container.scrollHeight && cutText.length > 0) {
+    cutText = cutText.slice(0, cutText.lastIndexOf(' ')); // remove last word so not cut mid word
+    container.textContent = cutText;
+  }
+  cutText = cutText.slice(0, cutText.lastIndexOf(' '));
+  cutText += '…';
+  container.textContent = cutText;
 }
 
 function displayTitle(titleText) {
@@ -159,6 +181,22 @@ function displayTitle(titleText) {
   }
 }
 
+function expandInfoText() {
+  // set main grid height to auto
+  document.documentElement.style.setProperty('--next-job-height', 'auto');
+  displayItem(currentItem); // hides show more button and un-truncates text
+  // show show less button
+  document.querySelector('#show-less').style.display = '';
+}
+
+function collapseInfoText() {
+  // set main grid height to default value
+  document.documentElement.style.removeProperty('--next-job-height');
+  displayItem(currentItem); // hides show less button and re-truncates text
+  // show show more button
+  document.querySelector('#show-more').style.display = '';
+}
+
 function addELs() {
   for (const button of document.querySelectorAll('.button, #btn-shortlist')) {
     button.addEventListener('click', async () => {
@@ -167,16 +205,19 @@ function addELs() {
       }
     });
   }
+  document.querySelector('#show-more').addEventListener('click', expandInfoText);
+  document.querySelector('#show-less').addEventListener('click', collapseInfoText);
 }
 
 // start script (after page has loaded)
 
-function loadPage() {
-  addELs(); // add Event Listeners
+async function loadPage() {
+  await timeoutDelay(100); // wait to avoid race condition with shared.js
+  loadNextItem();
   document.querySelector('#loadingLabel').style.display = 'none'; // hide loadingLabel
   document.querySelector('#title').style.display = '';
   document.querySelector('main').style.display = '';
-  loadNextItem();
+  addELs(); // add Event Listeners
 }
 
 window.addEventListener('load', loadPage);
