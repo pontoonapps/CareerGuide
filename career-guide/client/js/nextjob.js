@@ -204,6 +204,10 @@ function addELs() {
     button.addEventListener('click', async () => {
       if (await submitItem(event)) {
         loadNextItem();
+
+        // Remove the property to make sure the window will collapse again
+        // (only applies if the user has extended the window)
+        document.documentElement.style.removeProperty('--next-job-height');
       }
     });
   }
