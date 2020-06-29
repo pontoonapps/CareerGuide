@@ -150,6 +150,8 @@ function displayInfoText(text) {
   if (infoText.clientHeight < infoText.scrollHeight) {
     truncateOverflow(infoText);
     showMore.style.display = '';
+  } else if (infoText.clientHeight >= infoText.scrollHeight) {
+    showMore.style.display = 'none';
   }
 }
 
@@ -207,6 +209,7 @@ function addELs() {
   }
   document.querySelector('#show-more').addEventListener('click', expandInfoText);
   document.querySelector('#show-less').addEventListener('click', collapseInfoText);
+  window.addEventListener('resize', () => {  displayInfoText(currentItem.description_en); });
 }
 
 // start script (after page has loaded)
