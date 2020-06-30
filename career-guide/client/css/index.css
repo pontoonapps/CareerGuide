@@ -68,7 +68,7 @@
   padding: 0.5em 1em;
 }
 
-#splash {
+.splash {
   width: 95%;
   max-width: 30em;
   background-color: var(--main-bg-color);
@@ -81,15 +81,15 @@
   margin-bottom: 2em;
 }
 
-#splash > ul {
+.splash > ul {
   margin: 0 1em 1em;
 }
 
-#splash > p {
+.splash > p {
   margin: 1em 0;
 }
 
-#splash > #get-started {
+.splash > #get-started {
   width: 10em;
   margin: auto calc(50% - 5em);
   height: 4em;
