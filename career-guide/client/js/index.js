@@ -44,7 +44,7 @@ function disableNavigation(userType) {
 
   document.querySelector('#navbar-login-prompt').style.display = '';
 
-  // un-hide login requester div
+  // show that the user needs to log in
   document.querySelector('#login-requester').style.display = '';
 
   if (userType && userType.id == null) {
@@ -64,6 +64,7 @@ async function checkLogin() {
   } else {
     console.error('error getting user information', response);
     disableNavigation();
+    return false;
   }
 }
 

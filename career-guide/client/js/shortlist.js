@@ -70,15 +70,15 @@ function displayDetailedDesc(event) {
   }
 
   for (const removeBtn of document.querySelectorAll('.remove-shortlist-item')) {
-    removeBtn.style = 'display: none'; // hide remove button
+    removeBtn.style.display = 'none'; // hide remove button
   }
 
   for (const viewLessBtn of document.querySelectorAll('.view-less')) {
-    viewLessBtn.style = 'display: none'; // hide view less button
+    viewLessBtn.style.display = 'none'; // hide view less button
   }
 
   for (const viewMoreBtn of document.querySelectorAll('.view-more')) {
-    viewMoreBtn.style = ''; // show view more button
+    viewMoreBtn.style.display = ''; // show view more button
   }
 
   // change target container to detailed view
@@ -92,9 +92,9 @@ function displayDetailedDesc(event) {
   const listItemContainer = buttonContainer.parentNode;
 
   // hide view more and show view less and remove button
-  removeBtn.style = '';
-  viewLessBtn.style = '';
-  viewMoreBtn.style = 'display: none';
+  removeBtn.style.display = '';
+  viewLessBtn.style.display = '';
+  viewMoreBtn.style.display = 'none';
 
   // add expanded class
   listItemContainer.classList.add('expanded');
@@ -144,9 +144,9 @@ function hideDetailedDesc() {
   truncateOverflow(jobDescription.textContent, jobDescription);
 
   // hide remove button and view less button, show view more button
-  removeBtn.style = 'display: none';
-  viewLessBtn.style = 'display: none';
-  viewMoreBtn.style = '';
+  removeBtn.style.display = 'none';
+  viewLessBtn.style.display = 'none';
+  viewMoreBtn.style.display = '';
 }
 
 function checkEmptyPage() {
