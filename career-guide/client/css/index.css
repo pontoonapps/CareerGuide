@@ -204,6 +204,13 @@ main {
   border-radius: 0.5em;
 }
 
+@media screen and (max-width: 41em) {
+  #next-job-page {
+    box-shadow: none;
+    margin-bottom: 0;
+  }
+}
+
 #next-job-page > #title {
   grid-row-start: 1;
   grid-row-end: 2;
@@ -226,12 +233,15 @@ main {
   grid-row-end: 3;
   grid-column-start: 3;
   grid-column-end: 4;
-  align-self: left;
+  justify-self: end;
+  align-self: start;
   height: 1.8em;
   width: 1.8em;
+  margin: 1em;
   border-width: 0.1em;
   border-radius: 0.5em;
   font-size: 2em;
+  line-height: 1em;
   text-align: center;
   align-items: center;
 }
@@ -284,6 +294,7 @@ main {
   grid-column-end: 4;
   max-height: 100%;
   text-align: left;
+  align-self: start;
   padding: 0 calc((20% - 75px) + 1.2em); /* no padding on mobile */
   font-family: var(--text-font);
   overflow: auto;

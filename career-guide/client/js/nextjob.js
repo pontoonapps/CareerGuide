@@ -78,6 +78,7 @@ async function loadNextItem() {
 }
 
 function displayNoJobs() {
+  hideLoadingMessage();
   document.querySelector('#title').textContent = "That's all for now!";
   document.querySelector('#item-image').src = 'img/question.jpg';
   document.querySelector('#item-image').alt = 'question image';
@@ -107,6 +108,8 @@ function createLink(href, textContent) {
 }
 
 function displayItem(item) {
+  hideLoadingMessage();
+
   for (const button of document.querySelectorAll('button')) { // hide buttons
     button.style.display = 'none';
   }
@@ -199,7 +202,7 @@ async function collapseInfoText() {
   document.querySelector('#show-more').style.display = '';
 }
 
-function addELs() {
+function addEventListeners() {
   for (const button of document.querySelectorAll('.job, .question, #btn-shortlist')) {
     button.addEventListener('click', async () => {
       if (await submitItem(event)) {
@@ -213,18 +216,19 @@ function addELs() {
   }
   document.querySelector('#show-more').addEventListener('click', expandInfoText);
   document.querySelector('#show-less').addEventListener('click', collapseInfoText);
-  window.addEventListener('resize', () => {  displayInfoText(currentItem.description_en); });
+  window.addEventListener('resize', () => { displayInfoText(currentItem.description_en); });
+}
+
+function hideLoadingMessage() {
+  document.querySelector('#loadingLabel').style.display = 'none';
+  document.querySelector('#title').style.display = '';
+  document.querySelector('main').style.display = '';
 }
 
 // start script (after page has loaded)
-
-async function loadPage() {
-  await timeoutDelay(100); // wait to avoid race condition with shared.js
+function loadPage() {
+  addEventListeners();
   loadNextItem();
-  document.querySelector('#loadingLabel').style.display = 'none'; // hide loadingLabel
-  document.querySelector('#title').style.display = '';
-  document.querySelector('main').style.display = '';
-  addELs(); // add Event Listeners
 }
 
 window.addEventListener('load', loadPage);
