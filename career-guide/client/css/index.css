@@ -28,16 +28,6 @@
   color: var(--davys-gray);
 }
 
-#login-requester {
-  box-shadow: 0 0 0.25rem 0.01rem var(--PONTRed);
-  width: 95%;
-  max-width: 30em;
-  margin: 2em 0;
-  padding: 1em;
-  border-radius: 0.5em;
-  background-color: var(--main-bg-color);
-}
-
 #loadingLabel {
   color: var(--davys-gray);
   position: absolute;
@@ -58,14 +48,6 @@
   25% { content: '.'; }
   50% { content: '..'; }
   75% { content: '...'; }
-}
-
-#login-requester > h3 {
-  color: var(--PONTRed);
-}
-
-#login-requester > p {
-  padding: 0.5em 1em;
 }
 
 .splash {
@@ -93,6 +75,24 @@
   width: 10em;
   margin: auto calc(50% - 5em);
   height: 4em;
+}
+
+#login-requester {
+  box-shadow: 0 0 0.25rem 0.01rem var(--PONTRed);
+  width: 95%;
+  max-width: 30em;
+  margin: 2em 0;
+  padding: 1em;
+  border-radius: 0.5em;
+  background-color: var(--main-bg-color);
+}
+
+#login-requester > h3 {
+  color: var(--PONTRed);
+}
+
+#login-requester > p {
+  padding: 0.5em 1em;
 }
 
 body {
@@ -226,6 +226,14 @@ main {
   height: 10em;
   width: 10em;
   margin: 0 auto;
+}
+
+button {
+  cursor: pointer;
+  color: var(--main-bg-color);
+  padding: 0.2em;
+  font-size: 1em;
+  border-radius: 0.5em;
 }
 
 #btn-shortlist {
@@ -458,14 +466,6 @@ main {
   padding: 0.3em;
   text-align: left;
   overflow: hidden;
-}
-
-button {
-  cursor: pointer;
-  color: var(--main-bg-color);
-  padding: 0.2em;
-  font-size: 1em;
-  border-radius: 0.5em;
 }
 
 .btn-1 {
