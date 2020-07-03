@@ -307,6 +307,10 @@ button {
   overflow: auto;
 }
 
+#info-text.question-text {
+  text-align: center;
+}
+
 #list-container {
   max-width: max-content;
   margin: 0 auto;
@@ -378,7 +382,7 @@ button {
   justify-content: space-around;
   margin: 0.5em auto auto;
   width: inherit;
-  white-space: nowrap;
+  text-align: center;
 }
 
 .question-answer > * {
@@ -391,7 +395,6 @@ button {
   margin: 0.5em 0;
   border-radius: 3em;
   border: thin solid var(--davys-gray);
-  text-transform: capitalize;
   cursor: pointer;
 }
 
