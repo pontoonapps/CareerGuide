@@ -33,7 +33,7 @@ async function submitItem(event) {
   // identify whether current item is job or question is there a better
   // way than a lack of description? should there be an attribute marking job or question?
   let response;
-  if (currentItem.description_en === undefined) {
+  if (isQuestion(currentItem)) {
     response = await submitQuestionAnswer(answer);
   } else {
     response = await submitJobAnswer(answer);
@@ -79,12 +79,13 @@ async function loadNextItem() {
 
 function displayNoJobs() {
   hideLoadingMessage();
+  const infoText = document.querySelector('#info-text');
   document.querySelector('#title').textContent = "That's all for now!";
   document.querySelector('#item-image').src = 'img/question.jpg';
   document.querySelector('#item-image').alt = 'question image';
-  document.querySelector('#info-text').textContent = '';
 
-  document.querySelector('#info-text').append(
+  infoText.textContent = '';
+  infoText.append(
     'You have now seen all the recommended jobs that match your profile. ',
     'Check out your likes and dislikes at ',
     createLink('likehistory.html', 'the like history page'),
@@ -94,6 +95,9 @@ function displayNoJobs() {
     createLink('questionnairereview.html', 'questionnaire answers'),
     ' to get new recommendations.', // TODO update this text
   );
+
+  // set main grid height to auto so the text doesn't scroll
+  document.documentElement.style.setProperty('--next-job-height', 'auto');
 
   for (const button of document.querySelectorAll('button')) {
     button.style.display = 'none';
@@ -114,8 +118,12 @@ function displayItem(item) {
     button.style.display = 'none';
   }
 
-  displayTitle(item.title_en); // display info shared by questions and jobs (image and title)
-  if (item.description_en === undefined) { // if question else job
+  // display info shared by questions and jobs (image and title)
+  displayTitle(item.title_en);
+
+  if (isQuestion(item)) {
+    // item without description is a question
+
     // show option buttons and add option number to dataset
     let buttonIndex = 0;
     for (const option of item.options) {
@@ -125,7 +133,7 @@ function displayItem(item) {
       button.dataset.choice = option.option_number;
       buttonIndex += 1;
     }
-    displayInfoText(item.question_en);
+    displayInfoText(item);
 
     // show question image
     document.querySelector('#item-image').src = 'img/question.jpg';
@@ -141,14 +149,22 @@ function displayItem(item) {
     document.querySelector('#item-image').alt = 'item image: ' + item.image;
 
     // show job description
-    displayInfoText(item.description_en);
+    displayInfoText(item);
   }
 }
 
-function displayInfoText(text) {
+function isQuestion(item) {
+  return item.description_en == null;
+}
+
+function displayInfoText(item) {
   const infoText = document.querySelector('#info-text');
   const showMore = document.querySelector('#show-more');
+
+  const text = isQuestion(item) ? item.question_en : item.description_en;
   infoText.textContent = text;
+
+  infoText.classList.toggle('question-text', isQuestion(item));
 
   if (infoText.clientHeight < infoText.scrollHeight) {
     truncateOverflow(infoText);
@@ -216,7 +232,7 @@ function addEventListeners() {
   }
   document.querySelector('#show-more').addEventListener('click', expandInfoText);
   document.querySelector('#show-less').addEventListener('click', collapseInfoText);
-  window.addEventListener('resize', () => { displayInfoText(currentItem.description_en); });
+  window.addEventListener('resize', () => { displayInfoText(currentItem); });
 }
 
 function hideLoadingMessage() {
