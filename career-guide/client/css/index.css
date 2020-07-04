@@ -236,12 +236,6 @@ button {
 }
 
 #btn-shortlist {
-  grid-row-start: 2;
-  grid-row-end: 3;
-  grid-column-start: 3;
-  grid-column-end: 4;
-  justify-self: end;
-  align-self: start;
   height: 1.8em;
   width: 1.8em;
   border-width: 0.1em;
@@ -252,13 +246,29 @@ button {
   align-items: center;
 }
 
+#submit-shortlist {
+  max-width: 8em;
+  max-height: 8em;
+  justify-self: end;
+  align-self: center;
+  margin: 0.8em auto;
+}
+
+#submit-shortlist,
+#btn-shortlist {
+  grid-row-start: 2;
+  grid-row-end: 3;
+  grid-column-start: 3;
+  grid-column-end: 4;
+}
+
 #btn-dislike,
 #btn-option1 {
   grid-column-start: 1;
   grid-column-end: 2;
 }
 
-#btn-showLater,
+#btn-show-later,
 #btn-option2 {
   grid-column-start: 2;
   grid-column-end: 3;
