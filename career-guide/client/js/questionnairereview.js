@@ -52,19 +52,32 @@ async function loadQuestionnaireAnswers() {
   }
 }
 
+function timeoutDelay(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 async function updateAns() {
-  const questAns = event.target;
-  if (questAns.classList[1] !== 'selected') { // if item clicked is already selected no need to change answer
-    const succSubmit = await submitAnsChange(event);
-    if (succSubmit) {
-      const parent = questAns.parentNode;
+  const questionAnswer = event.target;
+  const toast = document.querySelector('#toast');
+  // change answer if new answer is not the same as previous and toast is not being displayed
+  if (questionAnswer.classList[1] !== 'selected' && toast.style.display === 'none') {
+    const success = await submitAnswerChange(event);
+    if (success) {
+      await timeoutDelay(100);
+      // un-highlight old answer and highlight new answer
+      const parent = questionAnswer.parentNode;
       parent.querySelector('.selected').classList.remove('selected');
-      questAns.classList.add('selected');
+      questionAnswer.classList.add('selected');
+
+      // display toast
+      toast.style.display = '';
+      await timeoutDelay(1500);
+      toast.style.display = 'none';
     }
   }
 }
 
-async function submitAnsChange(event) {
+async function submitAnswerChange(event) {
   const userInput = {};
   userInput.choice = event.target.dataset.choice;
   userInput.itemId = event.target.dataset.questionId;
