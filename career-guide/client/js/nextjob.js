@@ -77,6 +77,22 @@ async function loadNextItem() {
   }
 }
 
+function confirmShortlist() {
+  const shortlistBtn = document.querySelector('#btn-shortlist');
+  const submitShortlist = document.querySelector('#submit-shortlist');
+  shortlistBtn.style.display = 'none';
+  submitShortlist.style.display = '';
+}
+
+async function submitAndLoadNext(event) {
+  if (await submitItem(event)) {
+    loadNextItem();
+    // Remove the property to make sure the window will collapse again
+    // (only applies if the user has extended the window)
+    document.documentElement.style.removeProperty('--next-job-height');
+  }
+}
+
 function displayNoJobs() {
   hideLoadingMessage();
   const infoText = document.querySelector('#info-text');
@@ -219,17 +235,11 @@ async function collapseInfoText() {
 }
 
 function addEventListeners() {
-  for (const button of document.querySelectorAll('.job, .question, #btn-shortlist')) {
-    button.addEventListener('click', async () => {
-      if (await submitItem(event)) {
-        loadNextItem();
-
-        // Remove the property to make sure the window will collapse again
-        // (only applies if the user has extended the window)
-        document.documentElement.style.removeProperty('--next-job-height');
-      }
-    });
+  const submitButtonsSelecotr = '#btn-dislike, #btn-show-later, #btn-like, #submit-shortlist';
+  for (const button of document.querySelectorAll(submitButtonsSelecotr)) {
+    button.addEventListener('click', submitAndLoadNext);
   }
+  document.querySelector('#btn-shortlist').addEventListener('click', confirmShortlist);
   document.querySelector('#show-more').addEventListener('click', expandInfoText);
   document.querySelector('#show-less').addEventListener('click', collapseInfoText);
   window.addEventListener('resize', () => { displayInfoText(currentItem); });
