@@ -322,18 +322,19 @@ button {
 
 #list-container {
   max-width: max-content;
+  width: 100%;
   margin: 0 auto;
 }
 
 .list-item-container {
   display: grid;
   grid-template-rows: auto auto auto;
-  grid-template-columns: 6em auto 25%;
-  width: 95%;
+  grid-template-columns: 6em auto auto;
   max-width: 40em;
   margin-top: 0.5em;
   margin-bottom: 0.5em;
   padding: 0.5em;
+  width: 95%;
   background-color: white;
   box-shadow: 0 0 0.5em rgb(178, 207, 101);
   border-radius: 0.5em;
@@ -344,7 +345,7 @@ button {
 }
 
 .list-item-container.shortlist {
-  height: 8em;
+  height: 10em;
 }
 
 .list-item-container.expanded {
@@ -422,32 +423,23 @@ button {
   align-self: center;
 }
 
-.like-history > .btn-container {
+.btn-container {
   grid-column-start: 1;
   grid-column-end: 4;
   grid-row-start: 3;
   grid-row-end: 4;
   display: flex;
   justify-content: space-around;
+  width: 100%;
+  max-width: 20em;
+  margin: 0 auto;
 }
 
-.like-history > .btn-container > button {
+.btn-container > button {
   width: 40%;
+  max-width: 10em;
   height: 3.5em;
-}
-
-.shortlist-btns {
-  display: flex;
-  flex-wrap: wrap;
-  flex-direction: column;
-  justify-content: space-around;
-  align-items: stretch;
-  height: 100%;
-  grid-column-start: 3;
-  grid-column-end: 4;
-  grid-row-start: 1;
-  grid-row-end: 3;
-  max-height: 15em;
+  margin-top: 0.5em;
 }
 
 .shortlist-btns > button {
@@ -505,7 +497,7 @@ button {
 }
 
 .btn-3:active,
-.btn-3.active-wait{
+.btn-3.active-wait {
   color: var(--PONTGreen);
   background-color: var(--main-bg-color);
 }
