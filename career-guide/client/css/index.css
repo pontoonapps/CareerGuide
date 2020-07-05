@@ -196,7 +196,7 @@ main {
   grid-template-rows: 6em 10em 1fr 1.5em 0.2fr;
   width: 100%;
   margin: 1em auto 0;
-  height: var(--next-job-height, calc(95vh - var(--navbarHeight)));
+  height: var(--next-job-height, calc(85vh - var(--navbarHeight)));
   max-width: 40em;
   background-color: var(--main-bg-color);
   box-shadow: 0 0 0.25rem 0.05rem var(--PONTGreen);
@@ -327,10 +327,10 @@ button {
 
 .list-item-container {
   display: grid;
-  grid-template-rows: auto auto;
-  grid-template-columns: 6em auto 25%; /* allows for button on shortlist to be mobile friendly */
+  grid-template-rows: auto auto auto;
+  grid-template-columns: 6em auto 25%;
   width: 95%;
-  max-width: 40em; /* could be a touch wider */
+  max-width: 40em;
   margin-top: 0.5em;
   margin-bottom: 0.5em;
   padding: 0.5em;
@@ -354,7 +354,7 @@ button {
 
 .list-item-title {
   grid-column-start: 2;
-  grid-column-end: 3;
+  grid-column-end: 4;
   grid-row-start: 1;
   grid-row-end: 2;
   padding: 0.3em;
@@ -422,22 +422,18 @@ button {
   align-self: center;
 }
 
-.job-choice {
-  grid-column-start: 3;
+.like-history > .btn-container {
+  grid-column-start: 1;
   grid-column-end: 4;
-  grid-row-start: 1;
-  grid-row-end: 3;
-  max-height: 100%;
-  max-width: 100%;
-  padding: 0.5em;
-  border-radius: 3em;
+  grid-row-start: 3;
+  grid-row-end: 4;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  justify-self: center;
-  align-self: center;
-  font-size: 2em;
-  cursor: pointer;
+  justify-content: space-around;
+}
+
+.like-history > .btn-container > button {
+  width: 40%;
+  height: 3.5em;
 }
 
 .shortlist-btns {
@@ -472,7 +468,7 @@ button {
 
 .job-desc {
   grid-column-start: 2;
-  grid-column-end: 3;
+  grid-column-end: 4;
   grid-row-start: 2;
   grid-row-end: 3;
   padding: 0.3em;
@@ -509,7 +505,7 @@ button {
 }
 
 .btn-3:active,
-.btn-3.active-wait {
+.btn-3.active-wait{
   color: var(--PONTGreen);
   background-color: var(--main-bg-color);
 }

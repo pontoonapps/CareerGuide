@@ -21,39 +21,65 @@ async function loadLikeHistory() {
 
   const listContainer = document.querySelector('#list-container');
   for (const job of jobList) {
-    if (job.answer === 'show later') {
-      continue;
-    }
+    if (job.answer === 'show later') continue;
 
+    // btn-3 is green btn-1 is red
+    const jobChoiceClass = job.answer === 'like' ? 'btn-3' : 'btn-1';
+    const jobChoiceText = job.answer === 'like' ? 'Liked' : 'Disliked';
+    const jobShortlistText = job.shortlist == null ? 'Add to shortlist' : 'Remove from shortlist';
+    const shortlisted = job.shortlist == null ? 'not-shortlisted' : 'shortlisted';
     const jobContainer = document.importNode(template.content, true);
+
     jobContainer.querySelector('.job-image').src = 'img/' + job.image;
     jobContainer.querySelector('.job-image').alt = job.title_en + 'image';
     jobContainer.querySelector('.list-item-title').textContent = job.title_en;
     jobContainer.querySelector('.job-desc').textContent = job.description_en;
-    jobContainer.querySelector('.job-choice').classList.add(job.answer);
-    jobContainer.querySelector('.job-choice').textContent = (job.answer === 'like' ? '👍' : '👎');
+    jobContainer.querySelector('.job-choice').classList.add(jobChoiceClass);
+    jobContainer.querySelector('.job-choice').textContent = jobChoiceText;
     jobContainer.querySelector('.job-choice').dataset.jobId = job.id;
+    jobContainer.querySelector('.job-choice').dataset.answer = job.answer;
     jobContainer.querySelector('.job-choice').addEventListener('click', changeChoice);
+    jobContainer.querySelector('.job-shortlist').dataset.jobId = job.id;
+    jobContainer.querySelector('.job-shortlist').dataset.answer = shortlisted;
+    jobContainer.querySelector('.job-shortlist').textContent = jobShortlistText;
+    jobContainer.querySelector('.job-shortlist').addEventListener('click', changeChoice);
 
     listContainer.appendChild(jobContainer);
   }
 }
 
-function changeChoice(event) {
-  const succSub = submitChoiceChange(event);
-  if (succSub) {
-    const answerBtn = event.target;
-    const updatedChoice = event.target.classList[1];
-    switch (updatedChoice) {
+async function changeChoice(event) {
+  const jobChoiceBtn = event.target;
+  const delayPromise = timeoutDelay(BUTTON_DELAY);
+  jobChoiceBtn.classList.add('active-wait'); // show the button is active
+
+  const success = await submitChoiceChange(event);
+
+  await delayPromise;
+  jobChoiceBtn.classList.remove('active-wait');
+
+  if (success) {
+    const startingChoice = jobChoiceBtn.dataset.answer;
+    switch (startingChoice) {
       case 'like':
-        answerBtn.classList.remove('like');
-        answerBtn.classList.add('dislike');
-        answerBtn.textContent = '👎';
+        jobChoiceBtn.classList.remove('btn-3');
+        jobChoiceBtn.classList.add('btn-1');
+        jobChoiceBtn.dataset.answer = 'dislike';
+        jobChoiceBtn.textContent = 'Disliked';
         break;
       case 'dislike':
-        answerBtn.classList.remove('dislike');
-        answerBtn.classList.add('like');
-        answerBtn.textContent = '👍';
+        jobChoiceBtn.classList.remove('btn-1');
+        jobChoiceBtn.classList.add('btn-3');
+        jobChoiceBtn.dataset.answer = 'like';
+        jobChoiceBtn.textContent = 'Liked';
+        break;
+      case 'shortlisted':
+        jobChoiceBtn.textContent = 'Add to shortlist';
+        jobChoiceBtn.dataset.answer = 'not-shortlisted';
+        break;
+      case 'not-shortlisted':
+        jobChoiceBtn.textContent = 'Remove from shortlist';
+        jobChoiceBtn.dataset.answer = 'shortlisted';
         break;
     }
   } else {
@@ -63,8 +89,9 @@ function changeChoice(event) {
 
 async function submitChoiceChange(event) {
   const userInput = {};
-  const updatedChoice = event.target.classList[1];
-  const itemId = event.target.dataset.jobId;
+  const answerBtn = event.target;
+  const updatedChoice = answerBtn.dataset.answer;
+  const itemId = answerBtn.dataset.jobId;
   userInput.itemId = itemId;
   switch (updatedChoice) {
     case 'like':
@@ -73,8 +100,14 @@ async function submitChoiceChange(event) {
     case 'dislike':
       userInput.choice = 'like';
       break;
+    case 'shortlisted':
+      userInput.choice = 'shortlist-remove';
+      break;
+    case 'not-shortlisted':
+      userInput.choice = 'shortlist-add';
+      break;
   }
-  const response = await submitChange(userInput);
+  const response = await postJobChange(userInput);
 
   if (!response.ok) {
     console.log('Error from server: ' + response.statusText + '. Choice change failed');
@@ -82,7 +115,7 @@ async function submitChoiceChange(event) {
   return (response.ok);
 }
 
-async function submitChange(userInput) {
+async function postJobChange(userInput) {
   const response = await fetch('user/jobs', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -90,6 +123,12 @@ async function submitChange(userInput) {
   });
   return response;
 }
+
+function timeoutDelay(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+const BUTTON_DELAY = 500;
 
 function checkEmptyPage() {
   if (document.querySelector('.list-item-container') == null) {

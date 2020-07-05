@@ -41,7 +41,7 @@ async function submitJobChoice(req, res) {
       await shortlistItem(jobData);
       await answerJob(jobData);
       break;
-    case 'shortlist-rem':
+    case 'shortlist-remove':
       await shortlistItemRemove(jobData);
       break;
     default:
