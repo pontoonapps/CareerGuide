@@ -27,7 +27,7 @@ async function loadShortlist() {
 
     jobContainer.querySelector('.job-image').src = 'img/' + job.image;
     jobContainer.querySelector('.job-image').alt = job.title_en + ' image';
-    jobContainer.querySelector('.job-title').textContent = job.title_en;
+    jobContainer.querySelector('.list-item-title').textContent = job.title_en;
     jobContainer.querySelector('.job-desc').textContent = job.description_en;
     jobContainer.querySelector('.job-desc').dataset.fullDescription = job.description_en;
     jobContainer.querySelector('.view-more').addEventListener('click', displayDetailedDesc);
