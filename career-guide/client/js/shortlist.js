@@ -119,7 +119,7 @@ async function removeShortlistItem() {
 async function submitRemoval(event) {
   const removal = {};
   removal.itemId = event.target.dataset.jobid;
-  removal.choice = 'shortlist-rem';
+  removal.choice = 'shortlist-remove';
   const response = await fetch('user/jobs', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },

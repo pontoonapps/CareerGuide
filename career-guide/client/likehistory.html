@@ -33,15 +33,17 @@
     <h1 id="title">Like History</h1>
     <h2 id="empty-page" style="display: none">You haven't liked anything yet</h2>
   </main>
-  <div id='list-container'>
-  </div>
+  <div id='list-container'></div>
   <template id="like-history-template">
-    <section class="list-item-container like-history">
+    <div class="list-item-container like-history">
       <img class="job-image">
       <h3 class="list-item-title"></h3>
       <p class="job-desc"></p>
-      <p class="job-choice"></p>
-    </section>
+      <div class="btn-container">
+        <button class="job-choice"></button>
+        <button class="job-shortlist btn-2"></button>
+      </div>
+    </div>
   </template>
 </body>
 </html>
