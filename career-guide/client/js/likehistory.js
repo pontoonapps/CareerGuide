@@ -15,10 +15,10 @@ async function getLikeHistory() {
   return [];
 }
 
-async function loadLikeHistory() {
-  const template = document.querySelector('#like-history-template');
-  const jobList = await getLikeHistory();
+function displayLikeHistory(jobList) {
+  clearListContainer();
 
+  const template = document.querySelector('#like-history-template');
   const listContainer = document.querySelector('#list-container');
   for (const job of jobList) {
     if (job.answer === 'show later') continue;
@@ -45,6 +45,13 @@ async function loadLikeHistory() {
     jobContainer.querySelector('.job-shortlist').addEventListener('click', changeChoice);
 
     listContainer.appendChild(jobContainer);
+  }
+}
+
+function clearListContainer() {
+  const listContainer = document.querySelector('#list-container');
+  while (listContainer.childNodes.length > 0) {
+    listContainer.childNodes[0].remove();
   }
 }
 
@@ -124,6 +131,37 @@ async function postJobChange(userInput) {
   return response;
 }
 
+function addFilterEventListners() {
+  for (const button of document.querySelectorAll('#history-filter-btns > button')) {
+    button.addEventListener('click', setFilter);
+  }
+}
+
+async function setFilter(event) {
+  // if filter button is already selected do nothing
+  if (event.target.classList.contains('selected')) return;
+
+  // clear selected from previous selected filter
+  for (const button of document.querySelectorAll('#history-filter-btns > button')) {
+    button.classList.remove('selected');
+  }
+  event.target.classList.add('selected');
+
+  const filter = event.target.dataset.filter;
+  const likeHistory = await getLikeHistory();
+
+  if (filter === 'none') {
+    displayLikeHistory(likeHistory);
+    return;
+  }
+
+  const filteredHistory = [];
+  for (const job of likeHistory) {
+    if (job.answer === filter) filteredHistory.push(job);
+  }
+  displayLikeHistory(filteredHistory);
+}
+
 function timeoutDelay(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
@@ -137,8 +175,9 @@ function checkEmptyPage() {
 }
 
 async function loadPage() {
-  await loadLikeHistory();
+  displayLikeHistory(await getLikeHistory());
   checkEmptyPage();
+  addFilterEventListners();
   // hide loading label and show main
   document.querySelector('main').style.display = '';
   document.querySelector('#loadingLabel').style.display = 'none';
