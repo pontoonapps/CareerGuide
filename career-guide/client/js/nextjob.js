@@ -212,7 +212,8 @@ function displayTitle(titleText) {
   while (overflowing === true && fontEm > 0) {
     fontEm -= 0.1;
     document.documentElement.style.setProperty('--title-fontsize', `${fontEm}em`);
-    if (titleEl.clientHeight === titleEl.scrollHeight && titleEl.clientWidth === titleEl.scrollWidth) {
+    if (titleEl.clientHeight === titleEl.scrollHeight &&
+      titleEl.clientWidth === titleEl.scrollWidth) {
       overflowing = false;
     }
   }
@@ -235,7 +236,12 @@ async function collapseInfoText() {
 }
 
 function addEventListeners() {
-  const submitButtonsSelecotr = '#btn-dislike, #btn-show-later, #btn-like, #submit-shortlist';
+  const submitButtonsSelecotr = `
+    .question,
+    #btn-dislike,
+    #btn-show-later,
+    #btn-like,
+    #submit-shortlist`;
   for (const button of document.querySelectorAll(submitButtonsSelecotr)) {
     button.addEventListener('click', submitAndLoadNext);
   }
