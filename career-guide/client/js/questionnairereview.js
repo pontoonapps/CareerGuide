@@ -2,8 +2,8 @@ async function getQuestionnaireAnswers() {
   const response = await fetch('user/questions');
 
   if (response.ok) {
-    const qList = await response.json();
-    return qList;
+    const questionList = await response.json();
+    return questionList;
   }
 
   if (response.status === 401) {
@@ -19,7 +19,7 @@ async function loadQuestionnaireAnswers() {
   const template = document.querySelector('#questionnaire-template');
   const questions = await getQuestionnaireAnswers();
 
-  const empty = document.querySelector('#empty-page');
+  const emptyPageWarning = document.querySelector('#empty-page');
 
   for (const question of questions) {
     const questionContainer = document.importNode(template.content, true);
@@ -41,14 +41,14 @@ async function loadQuestionnaireAnswers() {
     // add event listeners and data attributes
     for (const questionAnswer of questionContainer.querySelectorAll('.question-answer div')) {
       questionAnswer.dataset.questionId = question.question_id;
-      questionAnswer.addEventListener('click', updateAns);
+      questionAnswer.addEventListener('click', updateAnswer);
     }
 
     // append to main
     const main = document.querySelector('main');
     main.appendChild(questionContainer);
 
-    empty.style.display = 'none';
+    emptyPageWarning.style.display = 'none';
   }
 }
 
@@ -56,11 +56,17 @@ function timeoutDelay(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-async function updateAns() {
+async function updateAnswer() {
   const questionAnswer = event.target;
-  const toast = document.querySelector('#toast');
+
+  // add toast
+  const toast = document.createElement('div');
+  toast.classList.add('toast');
+  toast.textContent = 'Saved';
+  document.querySelector('main').appendChild(toast);
+
   // change answer if new answer is not the same as previous and toast is not being displayed
-  if (questionAnswer.classList[1] !== 'selected' && toast.style.display === 'none') {
+  if (questionAnswer.classList[1] !== 'selected') {
     const success = await submitAnswerChange(event);
     if (success) {
       await timeoutDelay(100);
@@ -69,10 +75,9 @@ async function updateAns() {
       parent.querySelector('.selected').classList.remove('selected');
       questionAnswer.classList.add('selected');
 
-      // display toast
-      toast.style.display = '';
-      await timeoutDelay(1500);
-      toast.style.display = 'none';
+      // remove toast
+      await timeoutDelay(3000);
+      toast.remove();
     }
   }
 }

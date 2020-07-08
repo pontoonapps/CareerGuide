@@ -527,24 +527,33 @@ button {
   border-color: var(--PONTGreen);
 }
 
-#toast {
+.toast {
   position: fixed;
   background-color: var(--davys-gray);
   color: var(--main-bg-color);
   text-align: center;
   bottom: 5vh;
   width: 50vw;
+  max-width: 10em;
   margin: 0 auto;
   padding: 1em;
   border-radius: 1em;
   cursor: default;
   animation-name: fade;
-  animation-duration: 0.5s;
-  animation-delay: 1s;
+  animation-duration: 0.7s;
+  animation-delay: 2s;
   animation-iteration-count: 1;
+  animation-fill-mode: both;
 }
 
 @keyframes fade {
-  0% { opacity: 100%; }
-  100% { opacity: 0%; }
+  0% {
+    z-index: 1;
+    opacity: 100%;
+  }
+
+  100% {
+    opacity: 0%;
+    z-index: -1;
+  }
 }
