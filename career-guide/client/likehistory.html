@@ -32,8 +32,17 @@
   <main>
     <h1 id="title">Like History</h1>
     <h2 id="empty-page" style="display: none">You haven't liked anything yet</h2>
+    <div id="history-filter">
+      <h3>Show me:</h3>
+      <div id=history-filter-btns>
+        <button data-filter="like">Likes only</button>
+        <button data-filter="none" class="selected">Everything</button>
+        <button data-filter="dislike">Dislikes only</button>
+      </div>
+    </div>
+    <div id="list-container"></div>
   </main>
-  <div id='list-container'></div>
+
   <template id="like-history-template">
     <div class="list-item-container like-history">
       <img class="job-image">
