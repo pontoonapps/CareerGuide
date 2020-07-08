@@ -339,18 +339,6 @@ button {
   background-color: white;
   box-shadow: 0 0 0.5em rgb(178, 207, 101);
   border-radius: 0.5em;
-}
-
-.list-item-container.like-history {
-  height: auto;
-}
-
-.list-item-container.shortlist {
-  height: 10em;
-}
-
-.list-item-container.expanded {
-  min-height: 12em;
   height: auto;
 }
 
@@ -360,17 +348,9 @@ button {
   grid-row-start: 1;
   grid-row-end: 2;
   padding: 0.3em;
-  text-align: left;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 .like-history > .list-item-title {
-  white-space: normal;
-}
-
-.list-item-container.expanded > .list-item-title {
   white-space: normal;
 }
 
@@ -443,17 +423,21 @@ button {
   margin-top: 0.5em;
 }
 
-.shortlist-btns > button {
-  min-height: 4em;
+.remove-shortlist-item {
+  grid-column-start: 1;
+  grid-column-end: 4;
+  grid-row-start: 3;
+  grid-row-end: 4;
+  margin: 0 auto;
+  max-width: 20em;
+  height: 3.5em;
 }
 
-/* TODO: Added shadow - this make them look more like buttons but is there a better way to accomplish this? */
 .like {
   background: var(--PONTGreen);
   box-shadow: 0 0 0.2em var(--davys-gray);
 }
 
-/* TODO: Added shadow - this make them look more like buttons but is there a better way to accomplish this? */
 .dislike {
   background: var(--PONTRed);
   box-shadow: 0 0 0.2em var(--davys-gray);
@@ -465,8 +449,6 @@ button {
   grid-row-start: 2;
   grid-row-end: 3;
   padding: 0.3em;
-  text-align: left;
-  overflow: hidden;
 }
 
 .btn-1 {
@@ -474,7 +456,6 @@ button {
   border: 0.2em solid var(--PONTRed);
 }
 
-.btn-1:active,
 .btn-1.active-wait {
   color: var(--PONTRed);
   background-color: var(--main-bg-color);
@@ -486,7 +467,6 @@ button {
   border: 0.2em solid var(--PONTLightBlue);
 }
 
-.btn-2:active,
 .btn-2.active-wait {
   color: var(--main-bg-color);
   background-color: var(--PONTLightBlue);
@@ -497,7 +477,6 @@ button {
   border: 0.2em solid var(--PONTGreen);
 }
 
-.btn-3:active,
 .btn-3.active-wait {
   color: var(--PONTGreen);
   background-color: var(--main-bg-color);
