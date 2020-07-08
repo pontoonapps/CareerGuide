@@ -169,7 +169,8 @@ h1 {
   padding: 0.5em;
   min-width: 20em;
   width: inherit;
-  max-width: 50em;
+
+  /* max-width: 50em; requested to be removed by Marc */
 }
 
 #logo {
