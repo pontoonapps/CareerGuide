@@ -371,6 +371,7 @@ button {
   display: grid;
   grid-template-rows: auto auto auto;
   grid-template-columns: 6em auto auto;
+  box-sizing: border-box;
   width: 100%;
   max-width: 40em;
   margin: auto;
