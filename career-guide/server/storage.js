@@ -89,38 +89,28 @@ async function getItem(userId) {
 
 async function getNextJob(userId) {
   // a fresh job is not liked or disliked but may be marked as show later
-  const freshJobs = await getUnlikedJobs(userId);
+  const freshJobs = await getFreshJobs(userId);
   const profile = await getQuestionnaireProfile(userId); // get user's questionnaire answers
-  const profileMatchingJobs = await filterJobsToMatchQuestionnaire(freshJobs, profile);
 
-  // valid jobs to show are not liked or were asked to be shown later more than 12 hours ago
-  const unseenJobs = profileMatchingJobs.filter(job => !job.timeStampRecent);
+  // get list of jobs with lowest match score (higher match score is worse match)
+  const noTimeStampRecent = removeRecentShowlaters(freshJobs);
+  const closestMatches = await getClosestMatches(noTimeStampRecent, profile);
 
-  if (unseenJobs.length > 0) {
-    console.debug('selecting from unseen. ' + unseenJobs.length + ' remaining');
-    return getPseudoRandomItem(unseenJobs);
+  if (closestMatches.length > 0) {
+    for (const job of closestMatches) {
+      console.log(job);
+    }
+    return getPseudoRandomItem(closestMatches);
   }
-  // get show laters less than 12 hours old and sort from oldest to newest
-  const recentShowLater = unseenJobs.filter(job => job.timeStampRecent);
 
-  // if there are no unseen jobs return the oldest shortlisted job
+  // get show laters less than 12 hours old (sorted by sql in getUnlikedJobs)
+  const recentShowLater = freshJobs.filter(job => job.timeStampRecent);
+
   if (recentShowLater.length > 0) {
-    console.debug('selecting from recent show laters. ' + recentShowLater.length + ' remaining');
     return recentShowLater[0];
   }
 
-  // get list of jobs with lowest match score (higher match score is worse match)
-  const closestMatches = await getClosestMatches(freshJobs, profile);
-
-  // if no unseen or recently shortlisted jobs, display from closest matches
-  if (closestMatches.length > 0) {
-    console.debug('selecting from closest matches. Current match score: ' +
-      closestMatches[0].matchScore);
-    console.debug('number of matches at this score remaining: ' + closestMatches.length);
-    return getPseudoRandomItem(closestMatches);
-  } else {
-    return null;
-  }
+  return null;
 }
 
 // select a pseudo-random job to return next
@@ -133,7 +123,7 @@ function getPseudoRandomItem(arr) {
   return arr[i];
 }
 
-async function getUnlikedJobs(userId) {
+async function getFreshJobs(userId) {
   const sql = await sqlPromise;
 
   const query = `
@@ -165,13 +155,36 @@ async function getUnlikedJobs(userId) {
   return jobs;
 }
 
-function getClosestMatches(freshJobs, profile) {
+function getClosestMatches(jobs, profile) {
+  const scoredJobs = getMatchScore(jobs, profile);
+
+  // sort by match score
+  scoredJobs.sort((a, b) => { return a.matchScore - b.matchScore; });
+  const lowestMatchScore = scoredJobs[0].matchScore;
+  const closestMatches = [];
+  for (const job of scoredJobs) {
+    if (job.matchScore > lowestMatchScore) break;
+    closestMatches.push(job);
+  }
+  return closestMatches;
+}
+
+function removeRecentShowlaters(jobs) {
+  const noRecentShowLaters = [];
+  for (const job of jobs) {
+    if (job.timeStampRecent != null) continue; // new show laters culled as shown separately
+    noRecentShowLaters.push(job);
+  }
+  return noRecentShowLaters;
+}
+
+function getMatchScore(jobs, profile) {
   const nonMatchingJobs = [];
 
   // get non matching jobs which have not been marked as show later within 12 hours
-  for (const job of freshJobs) {
+  for (const job of jobs) {
     job.matchScore = 0;
-    if (job.timeStampRecent != null) continue;
+
     for (const param of profile) {
       if (job[param.jobs_column] < param.min) {
         job.matchScore += param.min - job[param.jobs_column];
@@ -179,21 +192,9 @@ function getClosestMatches(freshJobs, profile) {
         job.matchScore += job[param.jobs_column] - param.max;
       }
     }
-    if (job.matchScore > 0) nonMatchingJobs.push(job);
+    nonMatchingJobs.push(job);
   }
-
-  // sort by match score
-  nonMatchingJobs.sort((a, b) => { return a.matchScore - b.matchScore; });
-  const lowestMatchScore = nonMatchingJobs[0].matchScore;
-  const closestMatches = [];
-  for (const job of nonMatchingJobs) {
-    if (job.matchScore === lowestMatchScore) {
-      closestMatches.push(job);
-    } else {
-      break;
-    }
-  }
-  return closestMatches;
+  return nonMatchingJobs;
 }
 
 async function getQuestionnaireProfile(userId) {
@@ -214,21 +215,6 @@ async function getQuestionnaireProfile(userId) {
 
   const [profile] = await sql.query(query, userId);
   return profile;
-}
-
-function filterJobsToMatchQuestionnaire(jobs, profile) {
-  const retArr = [];
-
-  for (const job of jobs) {
-    // check whether the job fits every profile parameter
-    const matchesProfile = profile.every(param => {
-      return job[param.jobs_column] >= param.min &&
-             job[param.jobs_column] <= param.max;
-    });
-    if (matchesProfile) retArr.push(job);
-  }
-
-  return retArr;
 }
 
 async function getNextQuestion(userId) {
