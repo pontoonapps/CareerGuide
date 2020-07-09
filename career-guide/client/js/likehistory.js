@@ -1,3 +1,5 @@
+import { createToast, removeToast } from './shared-module.js';
+
 async function getLikeHistory() {
   const response = await fetch('user/jobs');
 
@@ -66,6 +68,15 @@ async function changeChoice(event) {
   jobChoiceBtn.classList.remove('active-wait');
 
   if (success) {
+    const filterState = document.querySelector('#history-filter-btns').querySelector('.selected');
+    const filter = filterState.dataset.filter;
+    if (filter !== 'none') {
+      const likeHistory = await getLikeHistory();
+      displayFilter(filter, likeHistory);
+    }
+
+    const toastElem = createToast();
+
     const startingChoice = jobChoiceBtn.dataset.answer;
     switch (startingChoice) {
       case 'like':
@@ -89,6 +100,7 @@ async function changeChoice(event) {
         jobChoiceBtn.dataset.answer = 'shortlisted';
         break;
     }
+    removeToast(toastElem);
   } else {
     document.querySelector('h1').textContent = 'Something went wrong! Please refresh';
   }
@@ -131,7 +143,7 @@ async function postJobChange(userInput) {
   return response;
 }
 
-function addFilterEventListners() {
+function addFilterEventListeners() {
   for (const button of document.querySelectorAll('#history-filter-btns > button')) {
     button.addEventListener('click', setFilter);
   }
@@ -154,7 +166,10 @@ async function setFilter(event) {
     displayLikeHistory(likeHistory);
     return;
   }
+  displayFilter(filter, likeHistory);
+}
 
+function displayFilter(filter, likeHistory) {
   const filteredHistory = [];
   for (const job of likeHistory) {
     if (job.answer === filter) filteredHistory.push(job);
@@ -166,7 +181,7 @@ function timeoutDelay(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-const BUTTON_DELAY = 500;
+const BUTTON_DELAY = 250;
 
 function checkEmptyPage() {
   if (document.querySelector('.list-item-container') == null) {
@@ -177,7 +192,7 @@ function checkEmptyPage() {
 async function loadPage() {
   displayLikeHistory(await getLikeHistory());
   checkEmptyPage();
-  addFilterEventListners();
+  addFilterEventListeners();
   // hide loading label and show main
   document.querySelector('main').style.display = '';
   document.querySelector('#loadingLabel').style.display = 'none';
