@@ -1,3 +1,5 @@
+import { createToast, removeToast, timeoutDelay } from './shared-module.js';
+
 async function getQuestionnaireAnswers() {
   const response = await fetch('user/questions');
 
@@ -52,18 +54,11 @@ async function loadQuestionnaireAnswers() {
   }
 }
 
-function timeoutDelay(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
-
 async function updateAnswer() {
   const questionAnswer = event.target;
 
   // add toast
-  const toast = document.createElement('div');
-  toast.classList.add('toast');
-  toast.textContent = 'Saved';
-  document.querySelector('main').appendChild(toast);
+  const toastElem = createToast();
 
   // change answer if new answer is not the same as previous and toast is not being displayed
   if (questionAnswer.classList[1] !== 'selected') {
@@ -76,8 +71,7 @@ async function updateAnswer() {
       questionAnswer.classList.add('selected');
 
       // remove toast
-      await timeoutDelay(3000);
-      toast.remove();
+      removeToast(toastElem);
     }
   }
 }
