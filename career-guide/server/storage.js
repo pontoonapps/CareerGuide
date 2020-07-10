@@ -92,14 +92,15 @@ async function getNextJob(userId) {
   const freshJobs = await getFreshJobs(userId);
   const profile = await getQuestionnaireProfile(userId); // get user's questionnaire answers
 
-  // get list of jobs with lowest match score (higher match score is worse match)
-  const noTimeStampRecent = removeRecentShowlaters(freshJobs);
-  const closestMatches = await getClosestMatches(noTimeStampRecent, profile);
+  // select from jobs which most closely match user's profile
+  const noTimeStampRecent = freshJobs.filter(job => !job.timeStampRecent);
+  const scoredJobs = getMatchScore(noTimeStampRecent, profile);
 
-  if (closestMatches.length > 0) {
-    for (const job of closestMatches) {
-      console.log(job);
-    }
+  if (scoredJobs.length > 0) {
+    scoredJobs.sort((a, b) => { return a.matchScore - b.matchScore; });
+    const lowestScore = scoredJobs[0].matchScore;
+    const closestMatches = scoredJobs.filter(job => job.matchScore === lowestScore);
+
     return getPseudoRandomItem(closestMatches);
   }
 
@@ -155,36 +156,9 @@ async function getFreshJobs(userId) {
   return jobs;
 }
 
-function getClosestMatches(jobs, profile) {
-  const scoredJobs = getMatchScore(jobs, profile);
-
-  // sort by match score
-  scoredJobs.sort((a, b) => { return a.matchScore - b.matchScore; });
-  const lowestMatchScore = scoredJobs[0].matchScore;
-  const closestMatches = [];
-  for (const job of scoredJobs) {
-    if (job.matchScore > lowestMatchScore) break;
-    closestMatches.push(job);
-  }
-  return closestMatches;
-}
-
-function removeRecentShowlaters(jobs) {
-  const noRecentShowLaters = [];
-  for (const job of jobs) {
-    if (job.timeStampRecent != null) continue; // new show laters culled as shown separately
-    noRecentShowLaters.push(job);
-  }
-  return noRecentShowLaters;
-}
-
 function getMatchScore(jobs, profile) {
-  const nonMatchingJobs = [];
-
-  // get non matching jobs which have not been marked as show later within 12 hours
   for (const job of jobs) {
     job.matchScore = 0;
-
     for (const param of profile) {
       if (job[param.jobs_column] < param.min) {
         job.matchScore += param.min - job[param.jobs_column];
@@ -192,9 +166,8 @@ function getMatchScore(jobs, profile) {
         job.matchScore += job[param.jobs_column] - param.max;
       }
     }
-    nonMatchingJobs.push(job);
   }
-  return nonMatchingJobs;
+  return jobs;
 }
 
 async function getQuestionnaireProfile(userId) {
