@@ -92,7 +92,7 @@ function displayNoJobs() {
     createLink('shortlist.html', 'what you have shortlisted'),
     ', or you can tweak your ',
     createLink('questionnairereview.html', 'questionnaire answers'),
-    ' to get new recommendations.',
+    ' to get new recommendations.', // TODO update this text
   );
 
   for (const button of document.querySelectorAll('button')) {
