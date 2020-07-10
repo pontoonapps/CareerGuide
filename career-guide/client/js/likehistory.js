@@ -1,4 +1,4 @@
-import { createToast, removeToast } from './shared-module.js';
+import { createToast } from './shared-module.js';
 
 async function getLikeHistory() {
   const response = await fetch('user/jobs');
@@ -18,8 +18,6 @@ async function getLikeHistory() {
 }
 
 function displayLikeHistory(jobList) {
-  clearListContainer();
-
   const template = document.querySelector('#like-history-template');
   const listContainer = document.querySelector('#list-container');
   for (const job of jobList) {
@@ -50,10 +48,19 @@ function displayLikeHistory(jobList) {
   }
 }
 
-function clearListContainer() {
-  const listContainer = document.querySelector('#list-container');
-  while (listContainer.childNodes.length > 0) {
-    listContainer.childNodes[0].remove();
+function hideFiltered() {
+  const listItems = document.querySelectorAll('.list-item-container');
+  const filter = document.querySelector('#history-filter-btns > .selected').dataset.filter;
+  for (const container of listItems) {
+    const jobChoice = container.querySelector('.btn-container > .job-choice').dataset.answer;
+
+    if (filter === 'none') {
+      container.style.display = '';
+    } else if (jobChoice === filter) {
+      container.style.display = '';
+    } else {
+      container.style.display = 'none';
+    }
   }
 }
 
@@ -68,15 +75,7 @@ async function changeChoice(event) {
   jobChoiceBtn.classList.remove('active-wait');
 
   if (success) {
-    const filterState = document.querySelector('#history-filter-btns').querySelector('.selected');
-    const filter = filterState.dataset.filter;
-    if (filter !== 'none') {
-      const likeHistory = await getLikeHistory();
-      displayFilter(filter, likeHistory);
-    }
-
-    const toastElem = createToast();
-
+    createToast();
     const startingChoice = jobChoiceBtn.dataset.answer;
     switch (startingChoice) {
       case 'like':
@@ -100,7 +99,7 @@ async function changeChoice(event) {
         jobChoiceBtn.dataset.answer = 'shortlisted';
         break;
     }
-    removeToast(toastElem);
+    hideFiltered();
   } else {
     document.querySelector('h1').textContent = 'Something went wrong! Please refresh';
   }
@@ -149,7 +148,7 @@ function addFilterEventListeners() {
   }
 }
 
-async function setFilter(event) {
+function setFilter(event) {
   // if filter button is already selected do nothing
   if (event.target.classList.contains('selected')) return;
 
@@ -157,24 +156,9 @@ async function setFilter(event) {
   for (const button of document.querySelectorAll('#history-filter-btns > button')) {
     button.classList.remove('selected');
   }
-  event.target.classList.add('selected');
 
-  const filter = event.target.dataset.filter;
-  const likeHistory = await getLikeHistory();
-
-  if (filter === 'none') {
-    displayLikeHistory(likeHistory);
-    return;
-  }
-  displayFilter(filter, likeHistory);
-}
-
-function displayFilter(filter, likeHistory) {
-  const filteredHistory = [];
-  for (const job of likeHistory) {
-    if (job.answer === filter) filteredHistory.push(job);
-  }
-  displayLikeHistory(filteredHistory);
+  event.target.classList.add('selected'); // add selected class to new filter
+  hideFiltered();
 }
 
 function timeoutDelay(ms) {

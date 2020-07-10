@@ -1,4 +1,4 @@
-import { createToast, removeToast, timeoutDelay } from './shared-module.js';
+import { createToast } from './shared-module.js';
 
 async function getQuestionnaireAnswers() {
   const response = await fetch('user/questions');
@@ -57,21 +57,15 @@ async function loadQuestionnaireAnswers() {
 async function updateAnswer() {
   const questionAnswer = event.target;
 
-  // add toast
-  const toastElem = createToast();
-
   // change answer if new answer is not the same as previous and toast is not being displayed
   if (questionAnswer.classList[1] !== 'selected') {
     const success = await submitAnswerChange(event);
     if (success) {
-      await timeoutDelay(100);
+      createToast();
       // un-highlight old answer and highlight new answer
       const parent = questionAnswer.parentNode;
       parent.querySelector('.selected').classList.remove('selected');
       questionAnswer.classList.add('selected');
-
-      // remove toast
-      removeToast(toastElem);
     }
   }
 }
