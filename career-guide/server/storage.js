@@ -93,18 +93,19 @@ async function getNextJob(userId) {
   const profile = await getQuestionnaireProfile(userId); // get user's questionnaire answers
 
   // select from jobs which most closely match user's profile
-  const noTimeStampRecent = freshJobs.filter(job => !job.timeStampRecent);
-  const scoredJobs = getMatchScore(noTimeStampRecent, profile);
+  const jobsNotSeenRecently = freshJobs.filter(job => !job.timeStampRecent);
+  scoreJobs(jobsNotSeenRecently, profile);
 
-  if (scoredJobs.length > 0) {
-    scoredJobs.sort((a, b) => { return a.matchScore - b.matchScore; });
-    const lowestScore = scoredJobs[0].matchScore;
-    const closestMatches = scoredJobs.filter(job => job.matchScore === lowestScore);
+  if (jobsNotSeenRecently.length > 0) {
+    const lowestScore = jobsNotSeenRecently[0].matchScore;
+    const closestMatches = jobsNotSeenRecently.filter(job => job.matchScore === lowestScore);
 
     return getPseudoRandomItem(closestMatches);
   }
 
-  // get show laters less than 12 hours old (sorted by sql in getUnlikedJobs)
+  // if we run out of jobs that have not been shown recently,
+  // get jobs marked as "show later" less than 12 hours ago
+  // (sorted by sql in order the user has seen the jobs)
   const recentShowLater = freshJobs.filter(job => job.timeStampRecent);
 
   if (recentShowLater.length > 0) {
@@ -150,13 +151,13 @@ async function getFreshJobs(userId) {
      AND      likes.user_id = ?
     WHERE likes.type IS NULL
        OR likes.type = 'show later'
-    ORDER BY likes.time_stamp ASC`;
+    ORDER BY likes.time_stamp ASC, jobs.id ASC`;
 
   const [jobs] = await sql.query(query, userId);
   return jobs;
 }
 
-function getMatchScore(jobs, profile) {
+function scoreJobs(jobs, profile) {
   for (const job of jobs) {
     job.matchScore = 0;
     for (const param of profile) {
@@ -167,7 +168,9 @@ function getMatchScore(jobs, profile) {
       }
     }
   }
-  return jobs;
+
+  // sort jobs from best to worst match
+  jobs.sort((a, b) => { return a.matchScore - b.matchScore; });
 }
 
 async function getQuestionnaireProfile(userId) {
