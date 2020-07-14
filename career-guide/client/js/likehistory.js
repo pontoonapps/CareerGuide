@@ -1,4 +1,4 @@
-import { createToast, initNav } from './shared.js';
+import { createToast, initPage, hideLoadingMessage, buttonDelay, checkEmptyPage } from './shared.js';
 
 async function getLikeHistory() {
   const response = await fetch('user/jobs');
@@ -66,7 +66,7 @@ function hideFiltered() {
 
 async function changeChoice(event) {
   const jobChoiceBtn = event.target;
-  const delayPromise = timeoutDelay(BUTTON_DELAY);
+  const delayPromise = buttonDelay();
   jobChoiceBtn.classList.add('active-wait'); // show the button is active
 
   const success = await submitChoiceChange(event);
@@ -161,26 +161,14 @@ function setFilter(event) {
   hideFiltered();
 }
 
-function timeoutDelay(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
-
-const BUTTON_DELAY = 250;
-
-function checkEmptyPage() {
-  if (document.querySelector('.list-item-container') == null) {
-    document.querySelector('#empty-page').style.display = '';
-  }
-}
-
 async function loadPage() {
-  initNav();
+  initPage();
   displayLikeHistory(await getLikeHistory());
   checkEmptyPage();
   addFilterEventListeners();
+
   // hide loading label and show main
-  document.querySelector('main').style.display = '';
-  document.querySelector('#loadingLabel').style.display = 'none';
+  hideLoadingMessage();
 }
 
 window.addEventListener('load', loadPage);

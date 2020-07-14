@@ -1,4 +1,4 @@
-import { createToast, initNav } from './shared.js';
+import { createToast, initPage, hideLoadingMessage } from './shared.js';
 
 async function getQuestionnaireAnswers() {
   const response = await fetch('user/questions');
@@ -95,12 +95,11 @@ async function submitChange(userInput) {
 }
 
 async function loadPage() {
-  initNav();
+  initPage();
   await loadQuestionnaireAnswers();
 
   // hide loading label and show main
-  document.querySelector('main').style.display = '';
-  document.querySelector('#loadingLabel').style.display = 'none';
+  hideLoadingMessage();
 }
 
 window.addEventListener('load', loadPage);

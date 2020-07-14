@@ -21,10 +21,14 @@ function clickOffNav() {
   }
 }
 
-function initNav() {
+function initPage() {
   document.querySelector('#nav-btn').addEventListener('click', toggleNav);
   document.addEventListener('click', clickOffNav);
 
+  initLoading();
+}
+
+function initLoading() {
   // hide main content and display loading
   document.querySelector('main').style.display = 'none';
   const loadingLabel = document.createElement('h1');
@@ -33,17 +37,44 @@ function initNav() {
   document.querySelector('body').appendChild(loadingLabel);
 }
 
+function hideLoadingMessage() {
+  document.querySelector('#loadingLabel').style.display = 'none';
+  document.querySelector('#title').style.display = '';
+  document.querySelector('main').style.display = '';
+}
+
+const TOAST_FADE_DELAY = 3000;
+
 async function createToast() {
   // add toast
   const toastElem = document.createElement('div');
   toastElem.classList.add('toast');
   toastElem.textContent = 'Saved';
   document.querySelector('main').appendChild(toastElem);
-  await new Promise(resolve => setTimeout(resolve, 3000));
+  await timeoutDelay(TOAST_FADE_DELAY);
   toastElem.remove();
+}
+
+const BUTTON_DELAY = 250;
+
+function buttonDelay() {
+  return timeoutDelay(BUTTON_DELAY);
+}
+
+function timeoutDelay(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+function checkEmptyPage() {
+  if (document.querySelector('.list-item-container') == null) {
+    document.querySelector('#empty-page').style.display = '';
+  }
 }
 
 export {
   createToast,
-  initNav,
+  initPage,
+  hideLoadingMessage,
+  checkEmptyPage,
+  buttonDelay,
 };

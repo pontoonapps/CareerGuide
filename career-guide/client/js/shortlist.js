@@ -1,4 +1,4 @@
-import { initNav } from './shared.js';
+import { initPage, hideLoadingMessage, buttonDelay, checkEmptyPage } from './shared.js';
 
 async function getShortlist() {
   const response = await fetch('user/jobs');
@@ -41,7 +41,7 @@ async function loadShortlist() {
 }
 
 async function removeShortlistItem(event) {
-  const delayPromise = timeoutDelay(BUTTON_DELAY);
+  const delayPromise = buttonDelay();
 
   const removeBtn = event.target;
   const jobContainer = removeBtn.parentNode;
@@ -60,12 +60,6 @@ async function removeShortlistItem(event) {
   }
 }
 
-function timeoutDelay(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
-
-const BUTTON_DELAY = 500;
-
 async function submitRemoval(removeBtn) {
   const removal = {};
   removal.itemId = removeBtn.dataset.jobid;
@@ -78,20 +72,13 @@ async function submitRemoval(removeBtn) {
   return response;
 }
 
-function checkEmptyPage() {
-  if (document.querySelector('.list-item-container') == null) {
-    document.querySelector('#empty-page').style.display = '';
-  }
-}
-
 async function loadPage() {
-  initNav();
+  initPage();
   await loadShortlist();
   checkEmptyPage();
 
   // hide loading label and show main
-  document.querySelector('main').style.display = '';
-  document.querySelector('#loadingLabel').style.display = 'none';
+  hideLoadingMessage();
 }
 
 window.addEventListener('load', loadPage);

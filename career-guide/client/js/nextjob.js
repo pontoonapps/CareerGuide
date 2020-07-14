@@ -1,4 +1,4 @@
-import { initNav } from './shared.js';
+import { initPage, hideLoadingMessage, buttonDelay } from './shared.js';
 
 let currentItem; // job being displayed on page
 
@@ -17,14 +17,8 @@ async function getNextItem() {
   }
 }
 
-function timeoutDelay(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
-
-const BUTTON_DELAY = 250;
-
 async function submitItem(event) {
-  const delayPromise = timeoutDelay(BUTTON_DELAY);
+  const delayPromise = buttonDelay();
   const answer = {};
   answer.itemId = currentItem.id;
   answer.choice = event.target.dataset.choice;
@@ -238,13 +232,13 @@ async function collapseInfoText() {
 }
 
 function addEventListeners() {
-  const submitButtonsSelecotr = `
+  const submitButtonsSelector = `
     .question,
     #btn-dislike,
     #btn-show-later,
     #btn-like,
     #submit-shortlist`;
-  for (const button of document.querySelectorAll(submitButtonsSelecotr)) {
+  for (const button of document.querySelectorAll(submitButtonsSelector)) {
     button.addEventListener('click', submitAndLoadNext);
   }
   document.querySelector('#btn-shortlist').addEventListener('click', confirmShortlist);
@@ -253,15 +247,9 @@ function addEventListeners() {
   window.addEventListener('resize', () => { displayInfoText(currentItem); });
 }
 
-function hideLoadingMessage() {
-  document.querySelector('#loadingLabel').style.display = 'none';
-  document.querySelector('#title').style.display = '';
-  document.querySelector('main').style.display = '';
-}
-
 // start script (after page has loaded)
 function loadPage() {
-  initNav();
+  initPage();
   addEventListeners();
   loadNextItem();
 }
