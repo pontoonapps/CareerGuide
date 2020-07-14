@@ -30,6 +30,7 @@ function displayLikeHistory(jobList) {
     jobContainer.querySelector('.job-image').alt = job.title_en + 'image';
     jobContainer.querySelector('.list-item-title').textContent = job.title_en;
     jobContainer.querySelector('.job-desc').textContent = job.description_en;
+    jobContainer.querySelector('.like-history-timestamp').textContent = formatTimestamp(job);
 
     // get job buttons
     const jobBtns = getContainerButtons(jobContainer);
@@ -47,6 +48,25 @@ function displayLikeHistory(jobList) {
 
     listContainer.appendChild(jobContainer);
   }
+}
+
+function formatTimestamp(job) {
+  // rtf is RelativeTimeFormat
+  const rtf = new Intl.RelativeTimeFormat('en', { style: 'narrow' });
+  const jsFormatTimestamp = Date.parse(job.timestamp);
+  const secondsSinceLike = Math.floor((Date.now() - jsFormatTimestamp) / 1000);
+  if (secondsSinceLike < 60) {
+    return rtf.format(-secondsSinceLike, 'second');
+  } else if (secondsSinceLike < 60 * 60) {
+    return rtf.format(Math.floor(-secondsSinceLike / 60), 'minute');
+  } else if (secondsSinceLike < 60 * 60 * 24) {
+    return rtf.format(Math.floor(-secondsSinceLike / (60 * 60)), 'hour');
+  } else if (secondsSinceLike < 60 * 60 * 24 * 7) {
+    return rtf.format(Math.floor(-secondsSinceLike / (60 * 60 * 24)), 'day');
+  } else if (secondsSinceLike > 60 * 60 * 24 * 7) {
+    return new Intl.DateTimeFormat('en-GB').format(jsFormatTimestamp);
+  }
+  // test: UPDATE likes SET time_stamp = DATE_SUB(time_stamp, INTERVAL $ DAY) where job_id = $;
 }
 
 function getContainerButtons(container) {

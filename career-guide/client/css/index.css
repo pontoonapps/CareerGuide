@@ -346,15 +346,17 @@ button {
 #history-filter-btns {
   display: flex;
   align-content: center;
-  justify-content: space-around;
+  justify-content: space-between;
 }
 
 #history-filter-btns > button {
   background-color: white;
   color: black;
   height: auto;
-  padding: 1em;
+  padding: 0.5em 0.5em;
   border: thin solid var(--davys-gray);
+  width: 30%;
+  max-width: 8em;
 }
 
 #history-filter-btns > button.selected {
@@ -370,7 +372,7 @@ button {
 .list-item-container {
   display: grid;
   grid-template-rows: auto auto auto;
-  grid-template-columns: 6em auto auto;
+  grid-template-columns: 6em auto auto 1.5em;
   box-sizing: border-box;
   width: 100%;
   max-width: 40em;
@@ -382,6 +384,15 @@ button {
   box-shadow: 0 0 0.5em rgb(178, 207, 101);
   border-radius: 0.5em;
   height: auto;
+}
+
+.like-history-timestamp {
+  grid-column-start: 1;
+  grid-column-end: 4;
+  grid-row-start: 4;
+  grid-row-end: 5;
+  margin-top: 0.5em;
+  color: var(--davys-gray);
 }
 
 .list-item-title {
