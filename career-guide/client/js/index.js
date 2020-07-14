@@ -1,5 +1,4 @@
-import { initPage, hideLoadingMessage } from './shared.js';
-
+import { shared } from './shared.js';
 // this code (until the next comment) will go when we no longer need dummy auth
 
 const userSelector = document.querySelector('#user-select');
@@ -71,11 +70,12 @@ async function checkLogin() {
 }
 
 async function init() {
-  initPage();
+  shared.showLoadingLabel();
+  shared.initNavbar();
   const goodLogin = await checkLogin();
 
   // hide loading label and show main
-  hideLoadingMessage();
+  shared.hideLoadingLabel();
 
   if (goodLogin) {
     document.querySelector('#get-started').addEventListener('click', gotoNextJobPage);

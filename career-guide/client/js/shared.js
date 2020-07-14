@@ -1,3 +1,50 @@
+export const shared = defineSharedFunctions();
+
+function defineSharedFunctions() {
+  const shared = {};
+
+  shared.createToast = async function () {
+    const toastElem = document.createElement('div');
+    toastElem.classList.add('toast');
+    toastElem.textContent = 'Saved';
+    document.querySelector('main').appendChild(toastElem);
+    await timeoutDelay(3000);
+    toastElem.remove();
+  };
+
+  shared.initNavbar = function () {
+    document.querySelector('#nav-btn').addEventListener('click', toggleNav);
+    document.addEventListener('click', clickOffNav);
+  };
+
+  shared.showLoadingLabel = function () {
+    // hide main content and display loading
+    document.querySelector('main').style.display = 'none';
+    const loadingLabel = document.createElement('h1');
+    loadingLabel.textContent = 'Loading';
+    loadingLabel.id = 'loadingLabel';
+    document.querySelector('body').appendChild(loadingLabel);
+  };
+
+  shared.hideLoadingLabel = function () {
+    document.querySelector('#loadingLabel').style.display = 'none';
+    document.querySelector('#title').style.display = '';
+    document.querySelector('main').style.display = '';
+  };
+
+  shared.checkEmptyPage = function () {
+    if (document.querySelector('.list-item-container') == null) {
+      document.querySelector('#empty-page').style.display = '';
+    }
+  };
+
+  shared.buttonDelay = function () {
+    return timeoutDelay(250);
+  };
+
+  return shared;
+}
+
 function showNav() {
   document.querySelector('#navbar-slide').classList.add('active');
 }
@@ -21,60 +68,6 @@ function clickOffNav() {
   }
 }
 
-function initPage() {
-  document.querySelector('#nav-btn').addEventListener('click', toggleNav);
-  document.addEventListener('click', clickOffNav);
-
-  initLoading();
-}
-
-function initLoading() {
-  // hide main content and display loading
-  document.querySelector('main').style.display = 'none';
-  const loadingLabel = document.createElement('h1');
-  loadingLabel.textContent = 'Loading';
-  loadingLabel.id = 'loadingLabel';
-  document.querySelector('body').appendChild(loadingLabel);
-}
-
-function hideLoadingMessage() {
-  document.querySelector('#loadingLabel').style.display = 'none';
-  document.querySelector('#title').style.display = '';
-  document.querySelector('main').style.display = '';
-}
-
-const TOAST_FADE_DELAY = 3000;
-
-async function createToast() {
-  // add toast
-  const toastElem = document.createElement('div');
-  toastElem.classList.add('toast');
-  toastElem.textContent = 'Saved';
-  document.querySelector('main').appendChild(toastElem);
-  await timeoutDelay(TOAST_FADE_DELAY);
-  toastElem.remove();
-}
-
-const BUTTON_DELAY = 250;
-
-function buttonDelay() {
-  return timeoutDelay(BUTTON_DELAY);
-}
-
 function timeoutDelay(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
-
-function checkEmptyPage() {
-  if (document.querySelector('.list-item-container') == null) {
-    document.querySelector('#empty-page').style.display = '';
-  }
-}
-
-export {
-  createToast,
-  initPage,
-  hideLoadingMessage,
-  checkEmptyPage,
-  buttonDelay,
-};
