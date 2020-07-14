@@ -1,3 +1,5 @@
+import { initNav } from './shared.js';
+
 // this code (until the next comment) will go when we no longer need dummy auth
 
 const userSelector = document.querySelector('#user-select');
@@ -69,6 +71,7 @@ async function checkLogin() {
 }
 
 async function init() {
+  initNav();
   const goodLogin = await checkLogin();
 
   // hide loading label and show main

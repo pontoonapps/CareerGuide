@@ -1,4 +1,4 @@
-import { createToast } from './shared-module.js';
+import { createToast, initNav } from './shared.js';
 
 async function getQuestionnaireAnswers() {
   const response = await fetch('user/questions');
@@ -95,6 +95,7 @@ async function submitChange(userInput) {
 }
 
 async function loadPage() {
+  initNav();
   await loadQuestionnaireAnswers();
 
   // hide loading label and show main
