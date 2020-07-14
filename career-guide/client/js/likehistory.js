@@ -169,6 +169,18 @@ function addEventListeners() {
   for (const button of document.querySelectorAll('.job-shortlist-add')) {
     button.addEventListener('click', confirmShortlist);
   }
+
+  document.addEventListener('click', () => {
+    // if a confirm shortlist button was clicked do nothing, else hide confirm buttons
+    if (event.target.dataset.answer === 'shortlist-add') return;
+
+    for (const confirmBtn of document.querySelectorAll('.job-shortlist-add-confirm')) {
+      if (confirmBtn.style.display === '') {
+        confirmBtn.style.display = 'none';
+        confirmBtn.previousElementSibling.style.display = '';
+      }
+    }
+  });
 }
 
 async function confirmShortlist(event) {
