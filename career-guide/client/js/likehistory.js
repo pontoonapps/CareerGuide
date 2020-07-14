@@ -99,7 +99,8 @@ async function changeChoice(event) {
         jobChoiceBtn.dataset.answer = 'shortlisted';
         break;
     }
-    hideFiltered();
+    // Uncomment if you want filter to update when answer is changed
+    // hideFiltered();
   } else {
     document.querySelector('h1').textContent = 'Something went wrong! Please refresh';
   }
@@ -149,8 +150,9 @@ function addFilterEventListeners() {
 }
 
 function setFilter(event) {
+  // Commented out because we should allow the user to refresh their filter
   // if filter button is already selected do nothing
-  if (event.target.classList.contains('selected')) return;
+  // if (event.target.classList.contains('selected')) return;
 
   // clear selected from previous selected filter
   for (const button of document.querySelectorAll('#history-filter-btns > button')) {
