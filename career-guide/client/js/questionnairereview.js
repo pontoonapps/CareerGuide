@@ -1,4 +1,4 @@
-import { createToast, initPage, hideLoadingMessage } from './shared.js';
+import { shared } from './shared.js';
 
 async function getQuestionnaireAnswers() {
   const response = await fetch('user/questions');
@@ -61,7 +61,7 @@ async function updateAnswer() {
   if (questionAnswer.classList[1] !== 'selected') {
     const success = await submitAnswerChange(event);
     if (success) {
-      createToast();
+      shared.createToast();
       // un-highlight old answer and highlight new answer
       const parent = questionAnswer.parentNode;
       parent.querySelector('.selected').classList.remove('selected');
@@ -95,11 +95,10 @@ async function submitChange(userInput) {
 }
 
 async function loadPage() {
-  initPage();
+  shared.showLoadingLabel();
+  shared.initNavbar();
   await loadQuestionnaireAnswers();
-
-  // hide loading label and show main
-  hideLoadingMessage();
+  shared.hideLoadingLabel();
 }
 
 window.addEventListener('load', loadPage);

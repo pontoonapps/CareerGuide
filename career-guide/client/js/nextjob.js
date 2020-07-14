@@ -1,4 +1,4 @@
-import { initPage, hideLoadingMessage, buttonDelay } from './shared.js';
+import { shared } from './shared.js';
 
 let currentItem; // job being displayed on page
 
@@ -18,7 +18,7 @@ async function getNextItem() {
 }
 
 async function submitItem(event) {
-  const delayPromise = buttonDelay();
+  const delayPromise = shared.buttonDelay();
   const answer = {};
   answer.itemId = currentItem.id;
   answer.choice = event.target.dataset.choice;
@@ -90,7 +90,6 @@ async function submitAndLoadNext(event) {
 }
 
 function displayNoJobs() {
-  hideLoadingMessage();
   const infoText = document.querySelector('#info-text');
   document.querySelector('#title').textContent = "That's all for now!";
   document.querySelector('#item-image').src = 'img/question.jpg';
@@ -124,8 +123,6 @@ function createLink(href, textContent) {
 }
 
 function displayItem(item) {
-  hideLoadingMessage();
-
   for (const button of document.querySelectorAll('button')) { // hide buttons
     button.style.display = 'none';
   }
@@ -247,11 +244,12 @@ function addEventListeners() {
   window.addEventListener('resize', () => { displayInfoText(currentItem); });
 }
 
-// start script (after page has loaded)
-function loadPage() {
-  initPage();
+async function loadPage() {
+  shared.showLoadingLabel();
+  shared.initNavbar();
   addEventListeners();
-  loadNextItem();
+  await loadNextItem();
+  shared.hideLoadingLabel();
 }
 
 window.addEventListener('load', loadPage);

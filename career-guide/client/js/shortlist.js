@@ -1,4 +1,4 @@
-import { initPage, hideLoadingMessage, buttonDelay, checkEmptyPage } from './shared.js';
+import { shared } from './shared.js';
 
 async function getShortlist() {
   const response = await fetch('user/jobs');
@@ -41,7 +41,7 @@ async function loadShortlist() {
 }
 
 async function removeShortlistItem(event) {
-  const delayPromise = buttonDelay();
+  const delayPromise = shared.buttonDelay();
 
   const removeBtn = event.target;
   const jobContainer = removeBtn.parentNode;
@@ -54,7 +54,8 @@ async function removeShortlistItem(event) {
   removeBtn.classList.remove('active-wait');
   if (succSub) {
     jobContainer.remove();
-    checkEmptyPage();
+    shared.checkEmptyPage();
+    shared.createToast();
   } else {
     document.querySelector('h1').textContent = 'Something went wrong! Please refresh';
   }
@@ -73,12 +74,11 @@ async function submitRemoval(removeBtn) {
 }
 
 async function loadPage() {
-  initPage();
+  shared.showLoadingLabel();
+  shared.initNavbar();
   await loadShortlist();
-  checkEmptyPage();
-
-  // hide loading label and show main
-  hideLoadingMessage();
+  shared.checkEmptyPage();
+  shared.hideLoadingLabel();
 }
 
 window.addEventListener('load', loadPage);
