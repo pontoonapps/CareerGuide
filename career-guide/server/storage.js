@@ -6,7 +6,7 @@ const sqlPromise = mysql.createPool(config.mysql);
 
 async function answeredJobs(userId) {
   const sql = await sqlPromise;
-
+  // TODO add likes.time_stamp to routes and auth documentation
   const query = `
     SELECT
       jobs.id,
@@ -16,7 +16,8 @@ async function answeredJobs(userId) {
       jobs.description_fr AS description_fr,
       categories.icon_filename AS image,
       likes.type AS answer,
-      shortlists.job_id AS shortlist
+      shortlists.job_id AS shortlist,
+      likes.time_stamp AS timestamp
     FROM pontoonapps_careerguide.jobs
     JOIN pontoonapps_careerguide.categories
       ON pontoonapps_careerguide.jobs.category_id = pontoonapps_careerguide.categories.id
