@@ -1,4 +1,4 @@
-import { createToast } from './shared-module.js';
+import { createToast, initNav } from './shared.js';
 
 async function getLikeHistory() {
   const response = await fetch('user/jobs');
@@ -174,6 +174,7 @@ function checkEmptyPage() {
 }
 
 async function loadPage() {
+  initNav();
   displayLikeHistory(await getLikeHistory());
   checkEmptyPage();
   addFilterEventListeners();

@@ -21,7 +21,7 @@ function clickOffNav() {
   }
 }
 
-function init() {
+function initNav() {
   document.querySelector('#nav-btn').addEventListener('click', toggleNav);
   document.addEventListener('click', clickOffNav);
 
@@ -33,4 +33,17 @@ function init() {
   document.querySelector('body').appendChild(loadingLabel);
 }
 
-window.addEventListener('load', init);
+async function createToast() {
+  // add toast
+  const toastElem = document.createElement('div');
+  toastElem.classList.add('toast');
+  toastElem.textContent = 'Saved';
+  document.querySelector('main').appendChild(toastElem);
+  await new Promise(resolve => setTimeout(resolve, 3000));
+  toastElem.remove();
+}
+
+export {
+  createToast,
+  initNav,
+};

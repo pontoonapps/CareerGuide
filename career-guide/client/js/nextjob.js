@@ -1,3 +1,5 @@
+import { initNav } from './shared.js';
+
 let currentItem; // job being displayed on page
 
 async function getNextItem() {
@@ -259,6 +261,7 @@ function hideLoadingMessage() {
 
 // start script (after page has loaded)
 function loadPage() {
+  initNav();
   addEventListeners();
   loadNextItem();
 }

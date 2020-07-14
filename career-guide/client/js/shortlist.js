@@ -1,3 +1,5 @@
+import { initNav } from './shared.js';
+
 async function getShortlist() {
   const response = await fetch('user/jobs');
 
@@ -83,6 +85,7 @@ function checkEmptyPage() {
 }
 
 async function loadPage() {
+  initNav();
   await loadShortlist();
   checkEmptyPage();
 
