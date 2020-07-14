@@ -48,8 +48,35 @@
       <h3 class="list-item-title"></h3>
       <p class="job-desc"></p>
       <div class="btn-container">
-        <button class="job-choice"></button>
-        <button class="job-shortlist btn-2"></button>
+        <button
+          style="display: none"
+          class="job-choice-liked btn-3"
+          data-answer="like">
+          Liked
+        </button>
+        <button
+          style="display: none"
+          class="job-choice-disliked btn-1"
+          data-answer="dislike">
+          Disliked
+        </button>
+        <button
+          style="display: none"
+          class="job-shortlist-remove btn-2"
+          data-answer="shortlist-remove">
+          Remove from shortlist
+        </button>
+        <button
+          style="display: none"
+          class="job-shortlist-add btn-2">
+          Add to shortlist
+        </button>
+        <button
+          style="display: none"
+          class="job-shortlist-add-confirm btn-2"
+          data-answer="shortlist-add">
+          Like and add to shortlist?
+        </button>
       </div>
     </div>
   </template>
