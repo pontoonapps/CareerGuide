@@ -161,16 +161,17 @@ function scoreJobs(jobs, profile) {
   for (const job of jobs) {
     job.matchScore = 0;
     for (const param of profile) {
-      if (job[param.jobs_column] < param.min) {
-        job.matchScore += param.min - job[param.jobs_column];
-      } else if (job[param.jobs_column] > param.max) {
-        job.matchScore += job[param.jobs_column] - param.max;
+      const jobParam = job[param.jobs_column];
+      if (jobParam < param.min) {
+        job.matchScore += param.min - jobParam;
+      } else if (jobParam > param.max) {
+        job.matchScore += jobParam - param.max;
       }
     }
   }
 
   // sort jobs from best to worst match
-  jobs.sort((a, b) => { return a.matchScore - b.matchScore; });
+  jobs.sort((a, b) => (a.matchScore - b.matchScore));
 }
 
 async function getQuestionnaireProfile(userId) {
