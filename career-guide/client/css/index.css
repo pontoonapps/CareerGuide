@@ -473,8 +473,8 @@ button {
 .remove-shortlist-item {
   grid-column-start: 1;
   grid-column-end: 4;
-  grid-row-start: 3;
-  grid-row-end: 4;
+  grid-row-start: 4;
+  grid-row-end: 5;
   margin: 0 auto;
   max-width: 20em;
   height: 3.5em;
@@ -490,10 +490,18 @@ button {
   box-shadow: 0 0 0.2em var(--davys-gray);
 }
 
-.job-desc {
+.like-history > .job-desc {
   grid-column-start: 2;
   grid-column-end: 4;
   grid-row-start: 3;
+  grid-row-end: 4;
+  padding: 0.3em;
+}
+
+.shortlist > .job-desc {
+  grid-column-start: 2;
+  grid-column-end: 4;
+  grid-row-start: 2;
   grid-row-end: 4;
   padding: 0.3em;
 }
