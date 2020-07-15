@@ -30,7 +30,7 @@ function displayLikeHistory(jobList) {
     jobContainer.querySelector('.job-image').alt = job.title_en + 'image';
     jobContainer.querySelector('.list-item-title').textContent = job.title_en;
     jobContainer.querySelector('.job-desc').textContent = job.description_en;
-    jobContainer.querySelector('.like-history-timestamp').textContent = formatTimestamp(job);
+    jobContainer.querySelector('.like-history-timestamp').textContent = 'Last changed: ' + formatTimestamp(job);
 
     // get job buttons
     const jobBtns = getContainerButtons(jobContainer);
@@ -52,7 +52,7 @@ function displayLikeHistory(jobList) {
 
 function formatTimestamp(job) {
   // rtf is RelativeTimeFormat
-  const rtf = new Intl.RelativeTimeFormat('en', { style: 'narrow' });
+  const rtf = new Intl.RelativeTimeFormat('en', { style: 'long' });
   const jsFormatTimestamp = Date.parse(job.timestamp);
   const secondsSinceLike = Math.floor((Date.now() - jsFormatTimestamp) / 1000);
   if (secondsSinceLike < 60) {
