@@ -1,4 +1,4 @@
-import { shared } from './shared.js';
+import * as shared from './shared.js';
 
 async function getQuestionnaireAnswers() {
   const response = await fetch('user/questions');

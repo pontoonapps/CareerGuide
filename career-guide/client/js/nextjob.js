@@ -1,4 +1,4 @@
-import { shared } from './shared.js';
+import * as shared from './shared.js';
 
 let currentItem; // job being displayed on page
 
