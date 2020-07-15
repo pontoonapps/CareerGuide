@@ -1,4 +1,4 @@
-import { shared } from './shared.js';
+import * as shared from './shared.js';
 
 async function getLikeHistory() {
   const response = await fetch('user/jobs');
@@ -63,7 +63,7 @@ function formatTimestamp(job) {
     return rtf.format(Math.floor(-secondsSinceLike / (60 * 60)), 'hour');
   } else if (secondsSinceLike < 60 * 60 * 24 * 7) {
     return rtf.format(Math.floor(-secondsSinceLike / (60 * 60 * 24)), 'day');
-  } else if (secondsSinceLike > 60 * 60 * 24 * 7) {
+  } else {
     return new Intl.DateTimeFormat('en-GB').format(jsFormatTimestamp);
   }
   // test: UPDATE likes SET time_stamp = DATE_SUB(time_stamp, INTERVAL $ DAY) where job_id = $;

@@ -1,4 +1,4 @@
-import { shared } from './shared.js';
+import * as shared from './shared.js';
 // this code (until the next comment) will go when we no longer need dummy auth
 
 const userSelector = document.querySelector('#user-select');

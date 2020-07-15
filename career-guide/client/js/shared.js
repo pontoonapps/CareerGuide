@@ -1,48 +1,40 @@
-export const shared = defineSharedFunctions();
+export async function createToast() {
+  const toastElem = document.createElement('div');
+  toastElem.classList.add('toast');
+  toastElem.textContent = 'Saved';
+  document.querySelector('main').appendChild(toastElem);
+  await timeoutDelay(3000);
+  toastElem.remove();
+}
 
-function defineSharedFunctions() {
-  const shared = {};
+export function initNavbar() {
+  document.querySelector('#nav-btn').addEventListener('click', toggleNav);
+  document.addEventListener('click', clickOffNav);
+}
 
-  shared.createToast = async function () {
-    const toastElem = document.createElement('div');
-    toastElem.classList.add('toast');
-    toastElem.textContent = 'Saved';
-    document.querySelector('main').appendChild(toastElem);
-    await timeoutDelay(3000);
-    toastElem.remove();
-  };
+export function showLoadingLabel() {
+  // hide main content and display loading
+  document.querySelector('main').style.display = 'none';
+  const loadingLabel = document.createElement('h1');
+  loadingLabel.textContent = 'Loading';
+  loadingLabel.id = 'loadingLabel';
+  document.querySelector('body').appendChild(loadingLabel);
+}
 
-  shared.initNavbar = function () {
-    document.querySelector('#nav-btn').addEventListener('click', toggleNav);
-    document.addEventListener('click', clickOffNav);
-  };
+export function hideLoadingLabel() {
+  document.querySelector('#loadingLabel').style.display = 'none';
+  document.querySelector('#title').style.display = '';
+  document.querySelector('main').style.display = '';
+}
 
-  shared.showLoadingLabel = function () {
-    // hide main content and display loading
-    document.querySelector('main').style.display = 'none';
-    const loadingLabel = document.createElement('h1');
-    loadingLabel.textContent = 'Loading';
-    loadingLabel.id = 'loadingLabel';
-    document.querySelector('body').appendChild(loadingLabel);
-  };
+export function checkEmptyPage() {
+  if (document.querySelector('.list-item-container') == null) {
+    document.querySelector('#empty-page').style.display = '';
+  }
+}
 
-  shared.hideLoadingLabel = function () {
-    document.querySelector('#loadingLabel').style.display = 'none';
-    document.querySelector('#title').style.display = '';
-    document.querySelector('main').style.display = '';
-  };
-
-  shared.checkEmptyPage = function () {
-    if (document.querySelector('.list-item-container') == null) {
-      document.querySelector('#empty-page').style.display = '';
-    }
-  };
-
-  shared.buttonDelay = function () {
-    return timeoutDelay(250);
-  };
-
-  return shared;
+export function buttonDelay() {
+  return timeoutDelay(250);
 }
 
 function showNav() {
