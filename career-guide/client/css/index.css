@@ -391,7 +391,6 @@ button {
   grid-column-end: 4;
   grid-row-start: 2;
   grid-row-end: 3;
-  font-style: italic;
   padding-left: 0.3em;
   color: gray;
 }

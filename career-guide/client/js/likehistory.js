@@ -31,8 +31,8 @@ function displayLikeHistory(jobList) {
     jobContainer.querySelector('.list-item-title').textContent = job.title_en;
     jobContainer.querySelector('.job-desc').textContent = job.description_en;
     const timeStamp = jobContainer.querySelector('.like-history-timestamp');
-    timeStamp.textContent = job.answer === 'like' ? 'Liked: ' : 'Disliked: ';
-    timeStamp.textContent += formatTimestamp(job);
+    timeStamp.textContent = job.answer === 'like' ? 'liked ' : 'disliked ';
+    timeStamp.textContent += formatTimestamp(new Date(Date.parse(job.timestamp)));
 
     // get job buttons
     const jobBtns = getContainerButtons(jobContainer);
@@ -52,21 +52,11 @@ function displayLikeHistory(jobList) {
   }
 }
 
-function formatTimestamp(job) {
-  const jsts = new Date(Date.parse(job.timestamp)); // JavaScriptTimeStamp
-  const secondsSinceLike = Math.floor((Date.now() - jsts) / 1000);
+// support browsers without Intl.RelativeTimeFormat
+const formatTimestamp = (Intl && Intl.RelativeTimeFormat) ? formatTimestampNice : formatTimestampFallback;
 
-  // safari format safe date as safari does not support Intl
-  if (navigator.userAgent.includes('Safari')) {
-    const year = jsts.getFullYear();
-    // if day or month is only one character (ie 2020/5/4) add leading 0 (ie 2020/05/04)
-    const month = String(jsts.getMonth()).length > 1 ? jsts.getMonth() : '0' + jsts.getMonth();
-    const day = String(jsts.getDate()).length > 1 ? jsts.getDate() : '0' + jsts.getDate();
-    const hours = String(jsts.getHours()).length > 1 ? jsts.getHours() : '0' + jsts.getHours();
-    const mins = String(jsts.getMinutes()).length > 1 ? jsts.getMinutes() : '0' + jsts.getMinutes();
-    return year + '/' + month + '/' + day + ' ' + hours + ':' + mins;
-  }
-
+function formatTimestampNice(ts) {
+  const secondsSinceLike = Math.floor((Date.now() - ts) / 1000);
   const rtf = new Intl.RelativeTimeFormat('en', { style: 'long' }); // rtf is RelativeTimeFormat
   if (secondsSinceLike < 60) {
     return rtf.format(-secondsSinceLike, 'second');
@@ -77,8 +67,18 @@ function formatTimestamp(job) {
   } else if (secondsSinceLike < 60 * 60 * 24 * 7) {
     return rtf.format(Math.floor(-secondsSinceLike / (60 * 60 * 24)), 'day');
   } else {
-    return new Intl.DateTimeFormat('en-GB').format(jsts);
+    return new Intl.DateTimeFormat('en-GB').format(ts);
   }
+}
+
+function formatTimestampFallback(ts) {
+  const year = ts.getFullYear();
+  // if day or month is only one character (ie 2020/5/4) add leading 0 (ie 2020/05/04)
+  const month = String(ts.getMonth()).length > 1 ? ts.getMonth() : '0' + ts.getMonth();
+  const day = String(ts.getDate()).length > 1 ? ts.getDate() : '0' + ts.getDate();
+  const hours = String(ts.getHours()).length > 1 ? ts.getHours() : '0' + ts.getHours();
+  const mins = String(ts.getMinutes()).length > 1 ? ts.getMinutes() : '0' + ts.getMinutes();
+  return year + '/' + month + '/' + day + ' ' + hours + ':' + mins;
 }
 
 function getContainerButtons(container) {
@@ -127,8 +127,8 @@ async function changeChoice(event) {
     shared.createToast();
     updateJobBtn(event, jobBtns);
     timeStamp.textContent = event.target.dataset.answer === 'like'
-      ? 'Disliked: just now'
-      : 'Liked: just now';
+      ? 'disliked just now'
+      : 'liked just now';
   } else {
     document.querySelector('h1').textContent = 'Something went wrong! Please refresh';
   }
