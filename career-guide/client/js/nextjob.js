@@ -97,14 +97,12 @@ function displayNoJobs() {
 
   infoText.textContent = '';
   infoText.append(
-    'You have now seen all the recommended jobs that match your profile. ',
+    'Congratulations, you have now seen all the jobs in our system! ',
     'Check out your likes and dislikes at ',
     createLink('likehistory.html', 'the like history page'),
     ', or see ',
     createLink('shortlist.html', 'what you have shortlisted'),
-    ', or you can tweak your ',
-    createLink('questionnairereview.html', 'questionnaire answers'),
-    ' to get new recommendations.', // TODO update this text
+    '.',
   );
 
   // set main grid height to auto so the text doesn't scroll
