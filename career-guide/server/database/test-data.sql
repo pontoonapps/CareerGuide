@@ -12,6 +12,15 @@ VALUES
 ( 9, 'test9' ),
 (10, 'passive' );
 
+-- only users 1,2,3 are registered with careerguide
+
+INSERT INTO `pontoonapps_careerguide`.`users`
+( id, pontoon_user_id )
+VALUES
+( 1,  1 ),
+( 2,  2 ),
+( 3,  3 );
+
 -- jobs and categories are in data.sql,
 -- only jobs 1,2,3,4 are used in this test data
 
