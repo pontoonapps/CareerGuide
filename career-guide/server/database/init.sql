@@ -24,6 +24,17 @@ ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE DATABASE IF NOT EXISTS `pontoonapps_careerguide`;
 
+CREATE TABLE IF NOT EXISTS `pontoonapps_careerguide`.`users` (
+ `id`                 INT           NOT NULL AUTO_INCREMENT,
+ `pontoon_user_id`    INT           UNIQUE DEFAULT NULL, -- either pontoon_user_id or tmp_name must exist
+ `tmp_name`           VARCHAR(32)   UNIQUE DEFAULT NULL, -- if both exist, user started as temporary user
+ `date_created`       DATETIME      NOT NULL DEFAULT current_timestamp(),
+ `date_modified`      DATETIME      NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+ PRIMARY KEY (`id`),
+ FOREIGN KEY (`pontoon_user_id`) REFERENCES `pontoonapps_jobseeker`.users(id)
+)
+ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 CREATE TABLE IF NOT EXISTS `pontoonapps_careerguide`.`categories` (
   id                INT             PRIMARY KEY AUTO_INCREMENT,
   title_en          VARCHAR(255),
@@ -59,7 +70,7 @@ CREATE TABLE IF NOT EXISTS `pontoonapps_careerguide`.`likes` (
   time_stamp        TIMESTAMP       NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 
   PRIMARY KEY (user_id, job_id),
-  FOREIGN KEY (user_id) REFERENCES `pontoonapps_jobseeker`.users(id),
+  FOREIGN KEY (user_id) REFERENCES `pontoonapps_careerguide`.users(id),
   FOREIGN KEY (job_id) REFERENCES `pontoonapps_careerguide`.jobs(id)
 )
 ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -70,7 +81,7 @@ CREATE TABLE IF NOT EXISTS `pontoonapps_careerguide`.`shortlists` (
   time_stamp        TIMESTAMP       NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 
   PRIMARY KEY (user_id, job_id),
-  FOREIGN KEY (user_id) REFERENCES `pontoonapps_jobseeker`.users(id),
+  FOREIGN KEY (user_id) REFERENCES `pontoonapps_careerguide`.users(id),
   FOREIGN KEY (job_id) REFERENCES `pontoonapps_careerguide`.jobs(id)
 )
 ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -106,7 +117,7 @@ CREATE TABLE IF NOT EXISTS `pontoonapps_careerguide`.`answers` (
   time_stamp        TIMESTAMP       NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 
   PRIMARY KEY (user_id, question_id),
-  FOREIGN KEY (user_id) REFERENCES `pontoonapps_jobseeker`.users(id),
+  FOREIGN KEY (user_id) REFERENCES `pontoonapps_careerguide`.users(id),
   FOREIGN KEY (option_number, question_id) REFERENCES `pontoonapps_careerguide`.options(option_number, question_id)
 )
 ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
