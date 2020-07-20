@@ -245,11 +245,16 @@ function setFilter(event) {
   hideFiltered();
 }
 
+function hideIfEmpty() {
+  const filter = document.querySelector('#history-filter');
+  shared.isEmptyPage(filter);
+}
+
 async function loadPage() {
   shared.showLoadingLabel();
   shared.initNavbar();
   displayLikeHistory(await getLikeHistory());
-  shared.checkEmptyPage();
+  hideIfEmpty();
   addEventListeners();
 
   // hide loading label and show main
