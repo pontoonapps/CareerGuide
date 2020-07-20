@@ -23,6 +23,24 @@ function gotoNextJobPage() {
   window.location = 'nextjob.html';
 }
 
+function confirmAccountReset() {
+
+}
+
+function hideOverlay() {
+  const overlay = document.querySelector('#overlay');
+  const confirmResetContainer = document.querySelector('#confirm-reset-container');
+  overlay.style.display = 'none';
+  confirmResetContainer.style.display = 'none';
+}
+
+function accountReset() {
+  const overlay = document.querySelector('#overlay');
+  const confirmAccountReset = document.querySelector('#confirm-reset-container');
+  overlay.style.display = '';
+  confirmAccountReset.style.display = '';
+}
+
 function disableNavigation(userType) {
   // disable nav bar buttons
   const navBarSlide = document.querySelector('#navbar-slide');
@@ -46,6 +64,7 @@ function disableNavigation(userType) {
     btn.style.cursor = 'not-allowed';
   });
   getStarted.removeEventListener('click', gotoNextJobPage);
+  resetAccount.removeEventListener('click', accountReset);
 
   document.querySelector('#navbar-login-prompt').style.display = '';
 
@@ -73,6 +92,13 @@ async function checkLogin() {
   }
 }
 
+function addEventListeners() {
+  document.querySelector('#get-started').addEventListener('click', gotoNextJobPage);
+  document.querySelector('#reset-account').addEventListener('click', accountReset);
+  document.querySelector('#confirm-account-reset').addEventListener('click', confirmAccountReset);
+  document.querySelector('#hide-overlay').addEventListener('click', hideOverlay);
+}
+
 async function init() {
   shared.showLoadingLabel();
   shared.initNavbar();
@@ -82,7 +108,7 @@ async function init() {
   shared.hideLoadingLabel();
 
   if (goodLogin) {
-    document.querySelector('#get-started').addEventListener('click', gotoNextJobPage);
+    addEventListeners();
   }
 }
 

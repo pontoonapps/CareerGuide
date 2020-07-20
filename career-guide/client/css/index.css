@@ -24,6 +24,40 @@
 
 /* set global margin and padding to 0 so defaults don't interfer with layout */
 
+button {
+  cursor: pointer;
+  color: var(--main-bg-color);
+  padding: 0.2em;
+  font-size: 1em;
+  border-radius: 0.5em;
+}
+
+#overlay {
+  height: 100vh;
+  width: 100vw;
+  position: fixed;
+  top: 0;
+  background-color: gray;
+  opacity: 80%;
+}
+
+#confirm-reset-container {
+  height: 8em;
+  top: 30%;
+  position: fixed;
+  background-color: var(--main-bg-color);
+}
+
+#confirm-reset-btn-container {
+  display: flex;
+  justify-content: space-around;
+  margin: 0 auto;
+}
+
+#confirm-reset-btn-container > button {
+  width: 33%;
+}
+
 #empty-page {
   color: var(--davys-gray);
 }
@@ -227,14 +261,6 @@ main {
   height: 10em;
   width: 10em;
   margin: 0 auto;
-}
-
-button {
-  cursor: pointer;
-  color: var(--main-bg-color);
-  padding: 0.2em;
-  font-size: 1em;
-  border-radius: 0.5em;
 }
 
 .btn-container > button {
