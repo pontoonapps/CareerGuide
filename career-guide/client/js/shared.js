@@ -27,9 +27,25 @@ export function hideLoadingLabel() {
   document.querySelector('main').style.display = '';
 }
 
-export function checkEmptyPage() {
-  if (document.querySelector('.list-item-container') == null) {
+function checkEmptyPage() {
+  return (document.querySelector('.list-item-container') == null);
+}
+
+/*
+  This function checks if a page is empty:
+    If empty, it takes the parameters you passed, doesn't matter if it's an
+    array or single objects, it'll hide them all.
+*/
+export function isEmptyPage() {
+  if (checkEmptyPage()) {
     document.querySelector('#empty-page').style.display = '';
+    for (const param of arguments) {
+      if (Array.isArray(param)) {
+        for (const obj of param) {
+          obj.style.display = 'none';
+        }
+      } else param.style.display = 'none';
+    }
   }
 }
 
