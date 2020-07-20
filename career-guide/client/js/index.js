@@ -35,12 +35,16 @@ function disableNavigation(userType) {
     link.lastChild.style.color = 'silver';
   }
 
-  // disable get started button
+  // disable get started button and reset account button
+  const resetAccount = document.querySelector('#reset-account');
   const getStarted = document.querySelector('#get-started');
+  const splashBtns = [resetAccount, getStarted];
 
-  getStarted.style.background = 'silver';
-  getStarted.style.border = 'none';
-  getStarted.style.cursor = 'not-allowed';
+  splashBtns.forEach((btn) => {
+    btn.style.background = 'silver';
+    btn.style.border = 'none';
+    btn.style.cursor = 'not-allowed';
+  });
   getStarted.removeEventListener('click', gotoNextJobPage);
 
   document.querySelector('#navbar-login-prompt').style.display = '';
