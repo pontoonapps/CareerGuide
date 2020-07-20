@@ -308,6 +308,23 @@ async function removeShortlist(jobData) {
   await sql.query(query, [jobData.userId, jobData.itemId]);
 }
 
+async function resetUserAccount(userId) {
+  const sql = await sqlPromise;
+
+  const query = `
+    DELETE
+      pontoonapps_careerguide.answers,
+      pontoonapps_careerguide.likes,
+      pontoonapps_careerguide.shortlists
+    FROM  pontoonapps_careerguide.answers
+    JOIN  pontoonapps_careerguide.likes
+    ON    pontoonapps_careerguide.likes.user_id = pontoonapps_careerguide.answers.user_id
+    JOIN  pontoonapps_careerguide.shortlists
+    ON    pontoonapps_careerguide.shortlists.user_id = pontoonapps_careerguide.likes.user_id
+    WHERE pontoonapps_careerguide.answers.user_id = ?`; // TODO answers.user_id? why not just user_id?
+  await sql.query(query, [userId]);
+}
+
 module.exports = {
   answeredQuestions,
   answeredJobs,
@@ -316,4 +333,5 @@ module.exports = {
   insertChoice,
   insertShortlist,
   removeShortlist,
+  resetUserAccount,
 };

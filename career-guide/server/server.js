@@ -68,6 +68,10 @@ async function shortlistItemRemove(jobData) {
   await db.removeShortlist(jobData);
 }
 
+async function resetAccount(req) {
+  await db.resetUserAccount(req.user.id);
+}
+
 // routes
 
 app.use(cookieParser());
@@ -82,6 +86,8 @@ app.post('/user/jobs', express.json(), asyncWrap(submitJobChoice));
 
 app.get('/user/questions', asyncWrap(getQuestions));
 app.post('/user/questions', express.json(), asyncWrap(submitQuestAnswer));
+
+app.get('/user/reset-account', express.json(), asyncWrap(resetAccount));
 
 // the following is outside /user because it doesn't require valid login
 app.get('/user-id', (req, res) => res.send({ user: req.user }));

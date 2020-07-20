@@ -23,8 +23,13 @@ function gotoNextJobPage() {
   window.location = 'nextjob.html';
 }
 
-function confirmAccountReset() {
-
+async function confirmAccountReset() {
+  const response = await fetch('user/reset-account');
+  if (response.ok) {
+    console.log('reset successful');
+  } else {
+    console.log(response);
+  }
 }
 
 function hideOverlay() {
