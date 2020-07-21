@@ -247,7 +247,7 @@ function setFilter(event) {
 
 function hideIfEmpty() {
   const filter = document.querySelector('#history-filter');
-  shared.isEmptyPage(filter);
+  shared.checkEmptyPage(filter);
 }
 
 async function loadPage() {
