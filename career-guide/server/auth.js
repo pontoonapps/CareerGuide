@@ -1,5 +1,6 @@
 const fetch = require('node-fetch');
 const config = require('./config');
+const storage = require('./storage');
 
 module.exports = {
   authenticator: process.env.TESTING_DUMMY_AUTH ? dummyCookieAuth : phpAuth,
@@ -19,11 +20,13 @@ const knownUsers = [
   'test9',
 ];
 
-function dummyCookieAuth(req, res, next) {
+async function dummyCookieAuth(req, res, next) {
   const name = req.cookies.PHPSESSID;
   if (name) {
-    const id = knownUsers.indexOf(name);
-    if (id > 0) {
+    const pontoonId = knownUsers.indexOf(name);
+    if (pontoonId > 0) {
+      let id = await storage.getUserIdForPontoonUser(pontoonId);
+      if (id == null) id = await storage.registerPontoonUser(pontoonId);
       req.user = { id };
     } else if (name === 'recruiter') {
       req.user = { recruiter: 10 };
@@ -54,9 +57,12 @@ async function phpAuth(req, res, next) {
     const loggedIn = await fetchResp.json();
 
     if (loggedIn.logged_in) {
+      let id = await storage.getUserIdForPontoonUser(loggedIn.user_id);
+      if (id == null) id = await storage.registerPontoonUser(loggedIn.user_id);
+
       // put user information in the request
       req.user = {
-        id: loggedIn.user_id,
+        id: id,
         recruiter: loggedIn.recruiter_id,
         admin: loggedIn.admin_id,
       };
