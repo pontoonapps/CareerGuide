@@ -24,8 +24,6 @@ async function answeredJobs(userId) {
     LEFT JOIN pontoonapps_careerguide.shortlists
       ON pontoonapps_careerguide.likes.job_id = pontoonapps_careerguide.shortlists.job_id
      AND pontoonapps_careerguide.likes.user_id = pontoonapps_careerguide.shortlists.user_id
-    LEFT JOIN pontoonapps_jobseeker.users
-      ON pontoonapps_careerguide.shortlists.user_id = pontoonapps_jobseeker.users.id
     WHERE pontoonapps_careerguide.likes.user_id = ?
     ORDER BY likes.time_stamp DESC`;
 
