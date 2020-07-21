@@ -54,7 +54,7 @@ async function removeShortlistItem(event) {
   removeBtn.classList.remove('active-wait');
   if (succSub) {
     jobContainer.remove();
-    shared.isEmptyPage();
+    shared.checkEmptyPage();
     shared.createToast();
   } else {
     document.querySelector('h1').textContent = 'Something went wrong! Please refresh';
@@ -77,7 +77,7 @@ async function loadPage() {
   shared.showLoadingLabel();
   shared.initNavbar();
   await loadShortlist();
-  shared.isEmptyPage();
+  shared.checkEmptyPage();
   shared.hideLoadingLabel();
 }
 
