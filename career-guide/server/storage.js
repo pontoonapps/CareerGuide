@@ -256,6 +256,8 @@ async function insertQuestionAnswer(ansData) {
     ON DUPLICATE KEY UPDATE
       option_number = ?`;
   await sql.query(query, [ansData.userId, ansData.itemId, ansData.choice, ansData.choice]);
+
+  await updateUserMtime(ansData.userId);
 }
 
 async function insertChoice(jobData) {
@@ -284,6 +286,8 @@ async function insertChoice(jobData) {
       type = ?,
       time_stamp = NOW()`;
   await sql.query(query, [jobData.userId, jobData.itemId, answer, answer]);
+
+  await updateUserMtime(jobData.userId);
 }
 
 async function insertShortlist(jobData) {
@@ -297,6 +301,8 @@ async function insertShortlist(jobData) {
     ON DUPLICATE KEY UPDATE
       job_id = ?`;
   await sql.query(query, [jobData.userId, jobData.itemId, jobData.itemId]);
+
+  await updateUserMtime(jobData.userId);
 }
 
 async function removeShortlist(jobData) {
@@ -308,6 +314,8 @@ async function removeShortlist(jobData) {
     AND   job_id = ?`;
 
   await sql.query(query, [jobData.userId, jobData.itemId]);
+
+  await updateUserMtime(jobData.userId);
 }
 
 async function getUserIdForPontoonUser(pontoonId) {
@@ -342,6 +350,18 @@ async function registerPontoonUser(pontoonId) {
   console.log(`registered pontoon user ${pontoonId} as ${id}`);
 
   return id;
+}
+
+async function updateUserMtime(userId) {
+  const sql = await sqlPromise;
+
+  const query = `
+    UPDATE pontoonapps_careerguide.users
+    SET date_modified = CURRENT_TIMESTAMP()
+    WHERE
+      id = ?`;
+
+  await sql.query(query, userId);
 }
 
 module.exports = {
