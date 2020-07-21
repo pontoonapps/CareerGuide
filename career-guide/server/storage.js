@@ -310,6 +310,40 @@ async function removeShortlist(jobData) {
   await sql.query(query, [jobData.userId, jobData.itemId]);
 }
 
+async function getUserIdForPontoonUser(pontoonId) {
+  const sql = await sqlPromise;
+
+  const read = `
+    SELECT
+      id
+    FROM pontoonapps_careerguide.users
+    WHERE pontoon_user_id = ?`;
+
+  const [rows] = await sql.query(read, pontoonId);
+
+  if (rows.length > 0) return rows[0].id;
+  else return null;
+}
+
+async function registerPontoonUser(pontoonId) {
+  const sql = await sqlPromise;
+
+  // register the user first
+  // INSERT IGNORE will be a noop if the user is already there
+  const insert = `
+    INSERT IGNORE
+    INTO pontoonapps_careerguide.users(pontoon_user_id)
+    VALUES (?)`;
+
+  await sql.query(insert, pontoonId);
+
+  // return the (new) ID for the user
+  const id = await getUserIdForPontoonUser(pontoonId);
+  console.log(`registered pontoon user ${pontoonId} as ${id}`);
+
+  return id;
+}
+
 module.exports = {
   answeredQuestions,
   answeredJobs,
@@ -318,4 +352,6 @@ module.exports = {
   insertChoice,
   insertShortlist,
   removeShortlist,
+  getUserIdForPontoonUser,
+  registerPontoonUser,
 };
