@@ -2,9 +2,15 @@ const fetch = require('node-fetch');
 const config = require('./config');
 const storage = require('./storage');
 
+const GUEST_COOKIE = 'pontoonapps_cg_guest';
+const GUEST_COOKIE_OPTS = {
+  maxAge: 31 * 24 * 60 * 60 * 1000, // a month
+};
+
 module.exports = {
   authenticator: process.env.TESTING_DUMMY_AUTH ? dummyCookieAuth : phpAuth,
   guardMiddleware: requireValidUser,
+  guestLogin: guestLogin,
 };
 
 const knownUsers = [
@@ -79,4 +85,17 @@ function requireValidUser(req, res, next) {
   } else {
     next();
   }
+}
+
+async function guestLogin(req, res) {
+  // if already logged in, respond with "forbidden"
+  if (req.user && req.user.id != null) {
+    res.sendStatus(403);
+    return;
+  }
+
+  const guestUserName = await storage.createGuestUser();
+
+  res.cookie(GUEST_COOKIE, guestUserName, GUEST_COOKIE_OPTS);
+  res.send(`Welcome user ${guestUserName}`);
 }

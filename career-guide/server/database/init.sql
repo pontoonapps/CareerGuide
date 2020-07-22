@@ -26,8 +26,8 @@ CREATE DATABASE IF NOT EXISTS `pontoonapps_careerguide`;
 
 CREATE TABLE IF NOT EXISTS `pontoonapps_careerguide`.`users` (
  `id`                 INT           NOT NULL AUTO_INCREMENT,
- `pontoon_user_id`    INT           UNIQUE DEFAULT NULL, -- either pontoon_user_id or tmp_name must exist
- `tmp_name`           VARCHAR(32)   UNIQUE DEFAULT NULL, -- if both exist, user started as temporary user
+ `pontoon_user_id`    INT           UNIQUE DEFAULT NULL, -- either pontoon_user_id or guest_name must exist
+ `guest_name`         VARCHAR(32)   UNIQUE DEFAULT NULL, -- if both exist, user started as guest user
  `date_created`       DATETIME      NOT NULL DEFAULT current_timestamp(),
  `date_modified`      DATETIME      NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
  PRIMARY KEY (`id`),

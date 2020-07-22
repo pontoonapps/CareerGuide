@@ -338,12 +338,12 @@ async function registerPontoonUser(pontoonId) {
 
   // register the user first
   // INSERT IGNORE will be a noop if the user is already there
-  const insert = `
+  const query = `
     INSERT IGNORE
     INTO pontoonapps_careerguide.users(pontoon_user_id)
     VALUES (?)`;
 
-  await sql.query(insert, pontoonId);
+  await sql.query(query, pontoonId);
 
   // return the (new) ID for the user
   const id = await getUserIdForPontoonUser(pontoonId);
@@ -364,6 +364,40 @@ async function updateUserMtime(userId) {
   await sql.query(query, userId);
 }
 
+const MAX_TRIES = 3;
+async function createGuestUser() {
+  const sql = await sqlPromise;
+
+  let done;
+  let tries = 0;
+
+  while (done == null && tries < MAX_TRIES) {
+    tries += 1;
+    try {
+      const newId = Math.trunc(Math.random() * Number.MAX_SAFE_INTEGER);
+
+      // try registering the user, will fail if the random name already exists
+      const query = `
+        INSERT INTO pontoonapps_careerguide.users(guest_name)
+        VALUES (?)`;
+
+      await sql.query(query, newId);
+
+      // if the query succeeds, return the new ID
+      done = newId;
+    } catch (e) {
+      if (e.code !== 'ER_DUP_ENTRY' || tries >= MAX_TRIES) {
+        console.error(e);
+        throw e;
+      }
+    }
+  }
+
+  // return the (new) ID for the user
+  console.log(`registered guest user ${done}`);
+  return done;
+}
+
 module.exports = {
   answeredQuestions,
   answeredJobs,
@@ -374,4 +408,5 @@ module.exports = {
   removeShortlist,
   getUserIdForPontoonUser,
   registerPontoonUser,
+  createGuestUser,
 };
