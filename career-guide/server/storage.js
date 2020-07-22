@@ -301,28 +301,21 @@ async function removeShortlist(jobData) {
 
   const query = `
     DELETE FROM pontoonapps_careerguide.shortlists
-      WHERE
-        user_id = ?
-      AND
-        job_id = ?`;
+    WHERE       user_id = ?
+    AND         job_id  = ?`;
   await sql.query(query, [jobData.userId, jobData.itemId]);
 }
 
 async function resetUserAccount(userId) {
   const sql = await sqlPromise;
 
-  const query = `
-    DELETE
-      pontoonapps_careerguide.answers,
-      pontoonapps_careerguide.likes,
-      pontoonapps_careerguide.shortlists
-    FROM  pontoonapps_careerguide.answers
-    JOIN  pontoonapps_careerguide.likes
-    ON    pontoonapps_careerguide.likes.user_id = pontoonapps_careerguide.answers.user_id
-    JOIN  pontoonapps_careerguide.shortlists
-    ON    pontoonapps_careerguide.shortlists.user_id = pontoonapps_careerguide.likes.user_id
-    WHERE pontoonapps_careerguide.answers.user_id = ?`; // TODO answers.user_id? why not just user_id?
-  await sql.query(query, [userId]);
+  const queries = [
+    'DELETE FROM pontoonapps_careerguide.answers    WHERE user_id = ?',
+    'DELETE FROM pontoonapps_careerguide.likes      WHERE user_id = ?',
+    'DELETE FROM pontoonapps_careerguide.shortlists WHERE user_id = ?',
+  ];
+
+  await queries.forEach((query) => sql.query(query, [userId]));
 }
 
 module.exports = {
