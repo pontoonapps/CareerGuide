@@ -114,10 +114,6 @@ body {
   display: none;
 }
 
-#navbar-slide > ul {
-  list-style: none;
-}
-
 #navbar-login-prompt {
   font-weight: bold;
   cursor: pointer;

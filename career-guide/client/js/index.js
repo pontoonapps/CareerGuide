@@ -28,11 +28,13 @@ function disableNavigation(userType) {
   const navBarSlide = document.querySelector('#navbar-slide');
 
   navBarSlide.style.cursor = 'not-allowed';
-  for (const link of document.querySelectorAll('#navbar-slide > ul > li')) {
-    link.lastChild.removeAttribute('href'); // remove href to remove pointer cursor
-    link.style.pointerEvents = 'none';
-    link.lastChild.style.fontStyle = 'italic';
-    link.lastChild.style.color = 'silver';
+  for (const link of document.querySelectorAll('#navbar-slide > a')) {
+    if (link.id !== 'navbar-login-prompt') {
+      link.removeAttribute('href'); // remove href to remove pointer cursor
+      link.style.pointerEvents = 'none';
+      link.style.fontStyle = 'italic';
+      link.style.color = 'silver';
+    }
   }
 
   // disable get started button
@@ -41,7 +43,6 @@ function disableNavigation(userType) {
   getStarted.style.background = 'silver';
   getStarted.style.border = 'none';
   getStarted.style.cursor = 'not-allowed';
-  getStarted.removeEventListener('click', gotoNextJobPage);
 
   document.querySelector('#navbar-login-prompt').style.display = '';
 
