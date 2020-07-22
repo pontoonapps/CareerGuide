@@ -333,7 +333,9 @@ async function getUserIdForPontoonUser(pontoonId) {
   else return null;
 }
 
-async function registerPontoonUser(pontoonId) {
+async function registerPontoonUser(pontoonId, guestId) {
+  if (guestId != null) return registerGuestAsPontoonUser(pontoonId, guestId);
+
   const sql = await sqlPromise;
 
   // register the user first
@@ -351,6 +353,43 @@ async function registerPontoonUser(pontoonId) {
 
   return id;
 }
+
+async function registerGuestAsPontoonUser(pontoonId, guestId) {
+  const sql = await sqlPromise;
+
+  const query = `
+    UPDATE pontoonapps_careerguide.users
+    SET pontoon_user_id = ?
+    WHERE id = ?`;
+
+  await sql.query(query, [pontoonId, guestId]);
+
+  console.log(`registered pontoon user ${pontoonId} as formerly guest ${guestId}`);
+  return guestId;
+}
+
+async function getUserInfoForGuestUser(name) {
+  const sql = await sqlPromise;
+
+  const read = `
+    SELECT
+      id,
+      pontoon_user_id
+    FROM pontoonapps_careerguide.users
+    WHERE guest_name = ?`;
+
+  const [rows] = await sql.query(read, name);
+
+  if (rows.length > 0) {
+    return {
+      id: rows[0].id,
+      pontoonId: rows[0].pontoon_user_id,
+    };
+  } else {
+    return null;
+  }
+}
+
 
 async function updateUserMtime(userId) {
   const sql = await sqlPromise;
@@ -408,5 +447,6 @@ module.exports = {
   removeShortlist,
   getUserIdForPontoonUser,
   registerPontoonUser,
+  getUserInfoForGuestUser,
   createGuestUser,
 };

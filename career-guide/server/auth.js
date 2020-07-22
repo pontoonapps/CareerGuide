@@ -2,18 +2,63 @@ const fetch = require('node-fetch');
 const config = require('./config');
 const storage = require('./storage');
 
+/*
+ * authentication on pontoonapps.com
+ * check with /is_logged_in.php whether the user is logged in
+ */
+async function phpLoginInfo(req) {
+  const fetchResp = await fetch(config.LOGIN_CHECK_URL, {
+    method: 'GET',
+    headers: {
+      cookie: req.get('cookie'),
+    },
+  });
+
+  if (!fetchResp.ok) {
+    throw new Error(`login check at ${config.LOGIN_CHECK_URL} returned ${fetchResp.status}`);
+  }
+
+  const loggedIn = await fetchResp.json();
+  return loggedIn.logged_in ? loggedIn : null;
+}
+
+/*
+ * authentication of guest users with an extra cookie
+ */
 const GUEST_COOKIE = 'pontoonapps_cg_guest';
 const GUEST_COOKIE_OPTS = {
   maxAge: 31 * 24 * 60 * 60 * 1000, // a month
 };
-
-module.exports = {
-  authenticator: process.env.TESTING_DUMMY_AUTH ? dummyCookieAuth : phpAuth,
-  guardMiddleware: requireValidUser,
-  guestLogin: guestLogin,
+const GUEST_COOKIE_CLEAR_OPTS = {
+  maxAge: -24 * 60 * 60 * 1000, // a day ago, delete the cookie
 };
 
-const knownUsers = [
+async function getGuestLoginId(req, res) {
+  const name = req.cookies[GUEST_COOKIE];
+  if (!name) return null;
+
+  const userInfo = await storage.getUserInfoForGuestUser(name);
+
+  if (userInfo == null || userInfo.pontoonId != null) {
+    // the guest user already has a pontoon user ID, the guest cookie is no longer necessary
+    res.clearCookie(GUEST_COOKIE, GUEST_COOKIE_CLEAR_OPTS);
+    return null;
+  }
+
+  if (userInfo != null) {
+    // refresh the cookie
+    res.cookie(GUEST_COOKIE, name, GUEST_COOKIE_OPTS);
+    return userInfo.id;
+  } else {
+    return null;
+  }
+}
+
+/*
+ * testing authentication with dummy users
+ * enabled with process.env.TESTING_DUMMY_AUTH
+ */
+const knownDummyUsers = [
   undefined, // no index 0
   'jacek',
   'kane',
@@ -26,56 +71,56 @@ const knownUsers = [
   'test9',
 ];
 
-async function dummyCookieAuth(req, res, next) {
+// for testing purposes, just get the user name from the PHPSESSID cookie
+function dummyLoginInfo(req) {
   const name = req.cookies.PHPSESSID;
   if (name) {
-    const pontoonId = knownUsers.indexOf(name);
+    const pontoonId = knownDummyUsers.indexOf(name);
     if (pontoonId > 0) {
-      let id = await storage.getUserIdForPontoonUser(pontoonId);
-      if (id == null) id = await storage.registerPontoonUser(pontoonId);
-      req.user = { id };
+      return { user_id: pontoonId };
     } else if (name === 'recruiter') {
-      req.user = { recruiter: 10 };
+      return { recruiter_id: 10 };
     } else if (name === 'admin') {
-      req.user = { admin: 0 };
+      return { admin_id: 0 };
     }
   }
-  next();
+  return null;
 }
 
 /*
- * check with /is_logged_in.php whether the user is logged in
+ * actual authentication code
  */
-async function phpAuth(req, res, next) {
+const getRealUserLoginInfo = process.env.TESTING_DUMMY_AUTH ? dummyLoginInfo : phpLoginInfo;
+
+async function authenticate(req, res, next) {
   try {
-    const fetchResp = await fetch(config.LOGIN_CHECK_URL, {
-      method: 'GET',
-      headers: {
-        cookie: req.get('cookie'),
-      },
-    });
+    const guestId = await getGuestLoginId(req, res);
+    const loggedIn = await getRealUserLoginInfo(req);
 
-    if (!fetchResp.ok) {
-      next(new Error(`login check at ${config.LOGIN_CHECK_URL} returned ${fetchResp.status}`));
-      return;
-    }
+    if (loggedIn) {
+      // put user information in request
+      req.user = {};
 
-    const loggedIn = await fetchResp.json();
+      if (loggedIn.user_id != null) {
+        let id = await storage.getUserIdForPontoonUser(loggedIn.user_id);
+        if (id == null) id = await storage.registerPontoonUser(loggedIn.user_id, guestId);
+        req.user.id = id;
+      }
 
-    if (loggedIn.logged_in) {
-      let id = await storage.getUserIdForPontoonUser(loggedIn.user_id);
-      if (id == null) id = await storage.registerPontoonUser(loggedIn.user_id);
-
-      // put user information in the request
+      // copy information about other types of users
+      req.user.recruiter = loggedIn.recruiter_id;
+      req.user.admin = loggedIn.admin_id;
+    } else if (guestId != null) {
+      // guest ID is used only if the user is not otherwise logged in
       req.user = {
-        id: id,
-        recruiter: loggedIn.recruiter_id,
-        admin: loggedIn.admin_id,
+        id: guestId,
+        guest: true,
       };
     }
+
     next();
   } catch (e) {
-    next(new Error(`login check at ${config.LOGIN_CHECK_URL} threw ${e.message}`));
+    next(e || new Error());
   }
 }
 
@@ -99,3 +144,9 @@ async function guestLogin(req, res) {
   res.cookie(GUEST_COOKIE, guestUserName, GUEST_COOKIE_OPTS);
   res.send(`Welcome user ${guestUserName}`);
 }
+
+module.exports = {
+  authenticator: authenticate,
+  guardMiddleware: requireValidUser,
+  guestLogin: guestLogin,
+};
