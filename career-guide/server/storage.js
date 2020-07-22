@@ -6,14 +6,12 @@ const sqlPromise = mysql.createPool(config.mysql);
 
 async function answeredJobs(userId) {
   const sql = await sqlPromise;
-  // TODO add likes.time_stamp to routes and auth documentation
+
   const query = `
     SELECT
       jobs.id,
       jobs.title_en AS title_en,
-      jobs.titre_fr AS title_fr,
       jobs.description_en AS description_en,
-      jobs.description_fr AS description_fr,
       categories.icon_filename AS image,
       likes.type AS answer,
       shortlists.job_id AS shortlist,
@@ -30,11 +28,12 @@ async function answeredJobs(userId) {
       ON pontoonapps_careerguide.shortlists.user_id = pontoonapps_jobseeker.users.id
     WHERE pontoonapps_careerguide.likes.user_id = ?
     ORDER BY likes.time_stamp DESC`;
+
   const [answeredJobs] = await sql.query(query, userId);
   return answeredJobs;
 }
 
-async function answeredQuestions(userId) { // Answered Questions
+async function answeredQuestions(userId) {
   const sql = await sqlPromise;
 
   const query = `
@@ -100,7 +99,6 @@ async function getNextJob(userId) {
   if (jobsNotSeenRecently.length > 0) {
     const lowestScore = jobsNotSeenRecently[0].matchScore;
     const closestMatches = jobsNotSeenRecently.filter(job => job.matchScore === lowestScore);
-
     return getPseudoRandomItem(closestMatches);
   }
 
@@ -179,10 +177,7 @@ async function getQuestionnaireProfile(userId) {
   const sql = await sqlPromise;
 
   const query = `
-    SELECT
-      jobs_column,
-      min,
-      max
+    SELECT jobs_column, min, max
     FROM pontoonapps_careerguide.answers
     JOIN pontoonapps_careerguide.questions
       ON questions.id = answers.question_id
@@ -238,7 +233,6 @@ async function getNextQuestion(userId) {
     question_en: questionData[0].question_en,
     title_en: questionData[0].title_en,
   };
-
   return question;
 }
 
@@ -301,10 +295,9 @@ async function removeShortlist(jobData) {
 
   const query = `
     DELETE FROM pontoonapps_careerguide.shortlists
-      WHERE
-        user_id = ?
-      AND
-        job_id = ?`;
+    WHERE user_id = ?
+    AND   job_id = ?`;
+
   await sql.query(query, [jobData.userId, jobData.itemId]);
 }
 
