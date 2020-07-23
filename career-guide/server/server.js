@@ -87,6 +87,7 @@ app.post('/user/questions', express.json(), asyncWrap(submitQuestAnswer));
 app.get('/user-id', (req, res) => res.send({ user: req.user }));
 
 app.post('/guest-login', asyncWrap(auth.guestLogin));
+app.post('/guest-logout', asyncWrap(auth.guestLogout));
 
 // wrap async function for express.js error handling
 function asyncWrap(f) {
