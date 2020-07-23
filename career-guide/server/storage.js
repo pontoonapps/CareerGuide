@@ -91,6 +91,7 @@ async function getNextJob(userId) {
   // a fresh job is not liked or disliked but may be marked as show later
   const freshJobs = await getFreshJobs(userId);
   const profile = await getQuestionnaireProfile(userId); // get user's questionnaire answers
+  let nextJob;
 
   // select from jobs which most closely match user's profile
   const jobsNotSeenRecently = freshJobs.filter(job => !job.timeStampRecent);
@@ -99,7 +100,8 @@ async function getNextJob(userId) {
   if (jobsNotSeenRecently.length > 0) {
     const lowestScore = jobsNotSeenRecently[0].matchScore;
     const closestMatches = jobsNotSeenRecently.filter(job => job.matchScore === lowestScore);
-    return getPseudoRandomItem(closestMatches);
+    nextJob = getPseudoRandomItem(closestMatches);
+    return formatNextJob(nextJob);
   }
 
   // if we run out of jobs that have not been shown recently,
@@ -108,10 +110,20 @@ async function getNextJob(userId) {
   const recentShowLater = freshJobs.filter(job => job.timeStampRecent);
 
   if (recentShowLater.length > 0) {
-    return recentShowLater[0];
+    nextJob = recentShowLater[0];
+    return formatNextJob(nextJob);
   }
 
   return null;
+}
+
+function formatNextJob(job) {
+  return {
+    id: job.id,
+    title_en: job.title_en,
+    description_en: job.description_en,
+    image: job.image,
+  };
 }
 
 // select a pseudo-random job to return next
