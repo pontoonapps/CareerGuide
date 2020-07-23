@@ -248,6 +248,10 @@ async function loadPage() {
   addEventListeners();
   await loadNextItem();
   shared.hideLoadingLabel();
+
+  // truncate info text and display show later button if required
+  // info text will overflow if added while info text's display is none
+  displayInfoText(currentItem);
 }
 
 window.addEventListener('load', loadPage);
