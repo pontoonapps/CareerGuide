@@ -133,10 +133,16 @@ function requireValidUser(req, res, next) {
 }
 
 async function guestLogin(req, res) {
-  // if already logged in, respond with "forbidden"
-  if (req.user && req.user.id != null) {
-    res.sendStatus(403);
-    return;
+  if (req.user) {
+    if (req.user.guest) {
+      res.send('already logged in as guest');
+      return;
+    }
+    if (req.user.id != null) {
+      // if logged in as a normal user (not a guest), respond with "forbidden"
+      res.sendStatus(403);
+      return;
+    }
   }
 
   const guestUserName = await storage.createGuestUser();
@@ -145,8 +151,14 @@ async function guestLogin(req, res) {
   res.send(`Welcome user ${guestUserName}`);
 }
 
+function guestLogout(req, res) {
+  res.clearCookie(GUEST_COOKIE, GUEST_COOKIE_CLEAR_OPTS);
+  res.send('goodbye guest user');
+}
+
 module.exports = {
   authenticator: authenticate,
   guardMiddleware: requireValidUser,
-  guestLogin: guestLogin,
+  guestLogin,
+  guestLogout,
 };
