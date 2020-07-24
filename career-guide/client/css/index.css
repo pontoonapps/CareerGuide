@@ -59,6 +59,7 @@ button {
 }
 
 .splash {
+  width: 100%;
   max-width: 30em;
   background-color: var(--main-bg-color);
   box-shadow: 0 0 0.25rem 0.01rem var(--davys-gray);
@@ -68,6 +69,7 @@ button {
   flex-direction: column;
   justify-content: space-around;
   margin-bottom: 2em;
+  box-sizing: border-box;
 }
 
 .splash > ul {
@@ -101,6 +103,35 @@ button {
   padding: 1em;
   border-radius: 0.5em;
   background-color: var(--main-bg-color);
+}
+
+#guest-login-info-btns,
+#login-requester-btns {
+  display: flex;
+  justify-content: space-around;
+}
+
+#guest-login-info-btns > a,
+#login-requester-btns > a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  cursor: pointer;
+  color: var(--main-bg-color);
+  padding: 0.2em;
+  font-size: 1em;
+  border-radius: 0.5em;
+  width: 25%;
+  min-height: 3em;
+  text-decoration: none;
+}
+
+.btn-container > button {
+  width: 40%;
+  max-width: 10em;
+  height: 3.5em;
+  margin-top: 0.5em;
 }
 
 #login-requester > h3 {
@@ -163,6 +194,14 @@ body {
   background-color: var(--PONTBlue);
 }
 
+#guest-notice {
+  color: var(--PONTRed);
+  font-weight: bold;
+  justify-self: center;
+  grid-column-start: 1;
+  grid-column-end: 3;
+}
+
 #title {
   font-size: var(--title-fontsize, 2em);
   color: var(--PONTRed);
@@ -179,19 +218,10 @@ h1 {
   box-shadow: 0 0 0.25rem 0.01rem var(--davys-gray);
   width: 100vw;
   height: var(--navbarHeight);
-  display: flex;
-  justify-content: center;
-}
-
-#navbar-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0.5em;
-  min-width: 20em;
-  width: inherit;
-
-  /* max-width: 50em; requested to be removed by Marc */
+  display: grid;
+  grid-template-columns: auto auto;
+  grid-auto-rows: auto min-content;
+  align-content: center;
 }
 
 #logo {
@@ -199,11 +229,14 @@ h1 {
   height: 3em;
   object-fit: scale-down;
   margin: 0.25rem;
+  justify-self: start;
 }
 
 #nav-btn {
   padding: 1rem;
   cursor: pointer;
+  justify-self: end;
+  align-self: center;
 }
 
 main {
