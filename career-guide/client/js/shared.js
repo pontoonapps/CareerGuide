@@ -49,6 +49,15 @@ export function buttonDelay() {
   return timeoutDelay(250);
 }
 
+export function checkGuestLogin() {
+  // TODO how to check for guest login?
+  if (document.cookie.includes('pontoonapps_cg_guest')) {
+    document.querySelector('#guest-notice').style.display = '';
+    return true;
+  }
+  return false;
+}
+
 function showNav() {
   document.querySelector('#navbar-slide').classList.add('active');
 }
@@ -75,3 +84,5 @@ function clickOffNav() {
 function timeoutDelay(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
+
+checkGuestLogin();

@@ -12,10 +12,11 @@
 <body>
   <nav>
     <section id="navbar">
-      <section id="navbar-top">
-        <a href='https://pontoonapps.com/'><img class="navbar-item" id="logo" src="img/pontlogo.png"></a>
-        <img class="navbar-item" id="nav-btn" src="img/navbtn.svg">
-      </section>
+      <a href='https://pontoonapps.com/'>
+        <img class="navbar-item" id="logo" src="img/pontlogo.png">
+      </a>
+      <img class="navbar-item" id="nav-btn" src="img/navbtn.svg">
+      <p id="guest-notice">Guest Account</p>
     </section>
     <div id="navbar-slide">
       <a class="navbar-slide-item" href="nextjob.html">Next Job</a>
@@ -42,7 +43,25 @@
           Note that Admin or Recruiter accounts cannot be used on Career Guide, please log in as a job seeker.
         </span>
       </p>
+      <div id="login-requester-btns">
+        <a id="sign-in" class="btn-3" href="https://pontoonapps.com/login.php">Sign in</a>
+        <a id="sign-up" class="btn-3" href="https://pontoonapps.com/user_signup.php">Sign up</a>
+        <button id="guest-login" class="btn-3">Login as Guest</button>
+      </div>
     </div>
+
+    <div id="guest-login-info" style="display: none" class="splash">
+      <h3>You are currently logged in as a guest</h3>
+      <p>
+        To save your progress please create a PONToonapps account. If you already have an account
+        login to continue where you last left off.
+      </p>
+      <div id="guest-login-info-btns">
+        <a id="sign-in" class="btn-3" href="https://pontoonapps.com/login.php">Sign in</a>
+        <a id="sign-up" class="btn-3" href="https://pontoonapps.com/user_signup.php">Sign up</a>
+      </div>
+    </div>
+
     <div class="splash">
       <h3>What is Career Guide?</h3>
       <p>
@@ -58,7 +77,7 @@
         <li>Shortlist jobs you're interested in</li>
         <li>Learn about jobs that may be a good fit for you</li>
       </ul>
-      <a href="/nextjob.html" class="btn-3" id="get-started">Get Started!</a>
+      <a class="btn-3" id="get-started" href="/nextjob.html">Get Started!</a>
     </div>
     <div class="splash">
       <h3>Project PONToon</h3>

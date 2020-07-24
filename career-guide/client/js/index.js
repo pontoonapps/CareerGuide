@@ -52,6 +52,10 @@ function disableNavigation(userType) {
 }
 
 async function checkLogin() {
+  if (shared.checkGuestLogin()) {
+    document.querySelector('#guest-login-info').style.display = '';
+  }
+
   const response = await fetch('user-id');
   if (response.ok) {
     const userType = await response.json();
@@ -68,11 +72,27 @@ async function checkLogin() {
   }
 }
 
-function init() {
+async function createGuest() {
+  const response = await fetch('guest-login', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+  });
+
+  if (response.ok) {
+    window.location.reload();
+  } else {
+    document.querySelector('h1').textContent = 'Something went wrong please refresh';
+  }
+}
+
+async function init() {
   shared.showLoadingLabel();
   shared.initNavbar();
 
-  checkLogin(); // check login status and disable navbar if invalid
+  await checkLogin(); // check login status and disable navbar if invalid
+
+  document.querySelector('#guest-login').addEventListener('click', createGuest);
+
   shared.hideLoadingLabel(); // hide loading label and show main
 }
 
