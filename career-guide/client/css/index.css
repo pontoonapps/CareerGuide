@@ -114,32 +114,12 @@ button {
 body {
   background-color: var(--main-bg-color);
   color: var(--main-color);
-<<<<<<< HEAD
-<<<<<<< HEAD
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-position: center;
   background-size: cover;
   background-image: url('../img/bgimg.png');
-=======
-<<<<<<< Updated upstream
-  background-image: url('../img/bgimg.png');
-=======
-<<<<<<< HEAD
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  background-position: center;
-  background-size: cover;
-  background-image: url('../img/bgimg.png');
->>>>>>> change get started <button> to <a>
   overflow-x: hidden;
-=======
-  background-image: url('../img/bgimg.png');
->>>>>>> change get started <button> to <a>
-<<<<<<< HEAD
-=======
->>>>>>> Stashed changes
->>>>>>> change get started <button> to <a>
 
   /* to prevent the horizontal scrollbar turning on automatically with the vertical scroll bar */
 }
