@@ -19,19 +19,15 @@ function selectUser() {
 
 // keep the following code:
 
-function gotoNextJobPage() {
-  window.location = 'nextjob.html';
-}
-
 function disableNavigation(userType) {
-  // disable nav bar buttons
+  // disable nav bar links
   const navBarSlide = document.querySelector('#navbar-slide');
 
   navBarSlide.style.cursor = 'not-allowed';
   for (const link of document.querySelectorAll('#navbar-slide > a')) {
     if (link.id !== 'navbar-login-prompt') {
       link.removeAttribute('href'); // remove href to remove pointer cursor
-      link.style.pointerEvents = 'none';
+      link.style.pointerEvents = 'none'; // remove pointer events so no highlighting on hover
       link.style.fontStyle = 'italic';
       link.style.color = 'silver';
     }
@@ -43,6 +39,7 @@ function disableNavigation(userType) {
   getStarted.style.background = 'silver';
   getStarted.style.border = 'none';
   getStarted.style.cursor = 'not-allowed';
+  getStarted.removeAttribute('href');
 
   document.querySelector('#navbar-login-prompt').style.display = '';
 
@@ -65,22 +62,18 @@ async function checkLogin() {
     return true;
   } else {
     console.error('error getting user information', response);
+    document.querySelector('h1').textContent = 'Something went wrong! Please refresh';
     disableNavigation();
     return false;
   }
 }
 
-async function init() {
+function init() {
   shared.showLoadingLabel();
   shared.initNavbar();
-  const goodLogin = await checkLogin();
 
-  // hide loading label and show main
-  shared.hideLoadingLabel();
-
-  if (goodLogin) {
-    document.querySelector('#get-started').addEventListener('click', gotoNextJobPage);
-  }
+  checkLogin(); // check login status and disable navbar if invalid
+  shared.hideLoadingLabel(); // hide loading label and show main
 }
 
 window.addEventListener('load', init);
