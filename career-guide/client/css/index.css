@@ -334,6 +334,11 @@ main {
   text-align: center;
 }
 
+.btn-container > button {
+  min-height: 4em;
+  width: 40%;
+}
+
 #history-filter {
   background-color: white;
   box-shadow: 0 0 0.5em rgb(178, 207, 101);
