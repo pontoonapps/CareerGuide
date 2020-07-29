@@ -95,13 +95,31 @@ async function showUserTypeInfo() {
   // for normal logged-in user, we don't need to show anything
 }
 
+function hideLogoutGuest() {
+  const logoutGuestBtn = document.querySelector('#logout-guest');
+  const confirmLogoutGuestBtn = document.querySelector('#confirm-logout-guest');
+  if (event.target !== logoutGuestBtn) {
+    logoutGuestBtn.style.display = '';
+    confirmLogoutGuestBtn.style.display = 'none';
+  }
+}
+
+function confirmLogoutGuest() {
+  const logoutGuestBtn = document.querySelector('#logout-guest');
+  const confirmLogoutGuestBtn = document.querySelector('#confirm-logout-guest');
+  logoutGuestBtn.style.display = 'none';
+  confirmLogoutGuestBtn.style.display = '';
+}
+
 async function init() {
   shared.showLoadingLabel();
   shared.initNavbar();
   await showUserTypeInfo();
 
   document.querySelector('#guest-login').addEventListener('click', createGuest);
-  document.querySelector('#logout-guest').addEventListener('click', logoutGuest);
+  document.querySelector('#logout-guest').addEventListener('click', confirmLogoutGuest);
+  document.querySelector('#confirm-logout-guest').addEventListener('click', logoutGuest);
+  document.addEventListener('click', hideLogoutGuest);
 
   shared.hideLoadingLabel(); // hide loading label and show main
 }
