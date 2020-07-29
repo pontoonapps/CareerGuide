@@ -19,7 +19,7 @@ function selectUser() {
 
 // keep the following code:
 
-function disableNavigation(userType) {
+function disableNavigation() {
   // disable nav bar links
   const navBarSlide = document.querySelector('#navbar-slide');
 
@@ -40,36 +40,6 @@ function disableNavigation(userType) {
   getStarted.style.border = 'none';
   getStarted.style.cursor = 'not-allowed';
   getStarted.removeAttribute('href');
-
-  document.querySelector('#navbar-login-prompt').style.display = '';
-
-  // show that the user needs to log in
-  document.querySelector('#login-requester').style.display = '';
-
-  if (userType && userType.id == null) {
-    document.querySelector('#login-admin').style.display = '';
-  }
-}
-
-async function checkLogin() {
-  if (shared.checkGuestLogin()) {
-    document.querySelector('#guest-login-info').style.display = '';
-  }
-
-  const response = await fetch('user-id');
-  if (response.ok) {
-    const userType = await response.json();
-    if (userType.user == null || userType.user.id == null) {
-      disableNavigation(userType.user);
-      return false;
-    }
-    return true;
-  } else {
-    console.error('error getting user information', response);
-    document.querySelector('h1').textContent = 'Something went wrong! Please refresh';
-    disableNavigation();
-    return false;
-  }
 }
 
 async function createGuest() {
@@ -85,11 +55,31 @@ async function createGuest() {
   }
 }
 
+async function showUserTypeInfo() {
+  const loginStatus = await shared.checkLogin();
+  if (!loginStatus) {
+    disableNavigation();
+
+    // show that the user must log in
+    document.querySelector('#login-requester').style.display = '';
+    console.log('bad login');
+    return;
+  }
+
+  if (loginStatus.user.id == null) {
+    disableNavigation();
+    document.querySelector('#login-requester').style.display = '';
+  }
+
+  if (loginStatus.user.guest) {
+    document.querySelector('#guest-login-info').style.display = '';
+  }
+}
+
 async function init() {
   shared.showLoadingLabel();
   shared.initNavbar();
-
-  await checkLogin(); // check login status and disable navbar if invalid
+  await showUserTypeInfo();
 
   document.querySelector('#guest-login').addEventListener('click', createGuest);
 
