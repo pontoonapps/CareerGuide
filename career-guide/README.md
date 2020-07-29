@@ -6,6 +6,8 @@ Career guide is a tool designed to inspire job seekers using a content based rec
 
 To run the app the database must first be set up.
 
+##### TODO Jack please enter isntallation details for deployment
+
 ### Setting up the database
 
 Create a copy of career-guide/server/config-template.json to career-guide/server/config.json
@@ -23,36 +25,24 @@ Next run the following sql scripts to initialize the database:
 
 ### File structure
 
-```javascript
+
 ├── career-guide/
-│  ├── client/                   // resources accessible on the client side
-│  │  ├── css/                   // CSS files
-│  │  ├── img/                   // client images
-│  │  ├── js/                    // javascript files
-│  │  ├── index.html
-│  │  ├── likehistory.html          
-│  │  ├── nextjob.html          
-│  │  ├── questionnairereview.html          
-│  │  └── shortlist.html          
+│  ├── client/                   // resources for the client side (images JS CSS HTML)
 │  ├── docs/                     // documentation files (not including readme)
-│  │  ├── images/                // all documentation images
-│  │  └── routes-and-auth.md     // documentation for server API
 │  ├── server/                   // all server side resources
 │  │  ├── database/              // all resources required to setup and run the database
-│  │  │  ├── migrations/
-│  │  │  ├── data-jobs.sql       // file containing jobs data
-│  │  │  ├── data-questions.sql  // file containing questions data
-│  │  │  ├── init.sql            // file to create databases
+│  │  │  ├── migrations/         // TODO Jack what does this folder do?
+│  │  │  ├── data-jobs.sql       // jobs data
+│  │  │  ├── data-questions.sql  // questions data
+│  │  │  ├── init.sql            // creates databases
 │  │  │  ├── reset-db.sh         // script to reset database (drops tables)
 │  │  │  └── test-data.sql       // script containing limited data for testing
 │  │  ├── auth.js  
 │  │  ├── config-template.json   // template file for requirements specific to deployment
 │  │  ├── server.js              // script containing all routes
 │  │  └── storage.js             // script containing all functions which run SQL
-│  ├── package-lock.json
-│  ├── package.json
 └──└── README.md
-```
+
 
 ### Database
 
