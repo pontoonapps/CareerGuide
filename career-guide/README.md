@@ -3,7 +3,7 @@
 ## Installation
 
 #### ERD
-![ERD](docs/images/erd)
+![ERD](docs/images/erd.png)
 
 ### Configuration
 
