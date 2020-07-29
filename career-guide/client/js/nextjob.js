@@ -245,6 +245,7 @@ function addEventListeners() {
 async function loadPage() {
   shared.showLoadingLabel();
   shared.initNavbar();
+  await shared.checkLogin();
   addEventListeners();
   await loadNextItem();
   shared.hideLoadingLabel();

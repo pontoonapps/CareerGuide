@@ -49,14 +49,21 @@ export function buttonDelay() {
   return timeoutDelay(250);
 }
 
-async function checkGuestLogin() {
-  const loginStatus = await checkLogin();
+// show you're a guest, or redirect to main page if you're not logged in at all
+export async function checkLogin() {
+  const loginStatus = await getLoginStatus();
+
   if (loginStatus.user.guest) {
     document.querySelector('#guest-notice').style.display = '';
   }
+
+  if (loginStatus.user.id == null) {
+    // if the user isn't logged in, redirect them to the main page
+    window.location = './';
+  }
 }
 
-export async function checkLogin() {
+export async function getLoginStatus() {
   const response = await fetch('user-id');
   if (response.ok) {
     const userType = await response.json();
@@ -98,5 +105,3 @@ function clickOffNav() {
 function timeoutDelay(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
-
-checkGuestLogin();

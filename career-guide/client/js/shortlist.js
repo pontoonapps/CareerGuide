@@ -76,6 +76,7 @@ async function submitRemoval(removeBtn) {
 async function loadPage() {
   shared.showLoadingLabel();
   shared.initNavbar();
+  await shared.checkLogin();
   await loadShortlist();
   shared.checkEmptyPage();
   shared.hideLoadingLabel();
