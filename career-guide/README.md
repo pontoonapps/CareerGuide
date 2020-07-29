@@ -2,6 +2,9 @@
 
 ## Installation
 
+#### ERD
+![ERD](docs/images/erd)
+
 ### Configuration
 
 0. Make a copy of the `config-template.json`, found inside [server/](https://github.com/jacekkopecky/pontoon/tree/master/career-guide/server) and rename it to `config.json`
