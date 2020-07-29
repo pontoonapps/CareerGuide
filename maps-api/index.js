@@ -6,7 +6,9 @@ const config = require('./config');
 const rootApp = express();
 const api = require('./api');
 
-rootApp.use(path.join(config.DEPLOYMENT_ROOT || '/', 'v2/'), api.v2);
-rootApp.use(config.DEPLOYMENT_ROOT || '/', api.v1);
+const root = config.DEPLOYMENT_ROOT || '/';
+
+rootApp.use(path.join(root, 'v2/'), api.v2);
+rootApp.use(root, api.v1);
 
 rootApp.listen(process.env.PORT || undefined);
