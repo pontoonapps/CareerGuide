@@ -232,10 +232,8 @@ async function addUpdateTrainingCentrePinV1(tcId, pin) {
 
 function addUpdateTrainingCentrePinV2(tcId, pin) {
   if (pin.id != null) {
-    console.log('a');
     return updateTrainingCentrePinV2(tcId, pin);
   } else {
-    console.log('b');
     return addTrainingCentrePinV2(tcId, pin);
   }
 }
