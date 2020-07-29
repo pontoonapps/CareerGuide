@@ -55,6 +55,19 @@ async function createGuest() {
   }
 }
 
+async function logoutGuest() {
+  const response = await fetch('guest-logout', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+  });
+
+  if (response.ok) {
+    window.location.reload();
+  } else {
+    document.querySelector('h1').textContent = 'Something went wrong please refresh';
+  }
+}
+
 async function showUserTypeInfo() {
   const loginStatus = await shared.checkLogin();
   if (!loginStatus) {
@@ -82,6 +95,7 @@ async function init() {
   await showUserTypeInfo();
 
   document.querySelector('#guest-login').addEventListener('click', createGuest);
+  document.querySelector('#logout-guest').addEventListener('click', logoutGuest);
 
   shared.hideLoadingLabel(); // hide loading label and show main
 }
