@@ -1,6 +1,14 @@
 # PONToon Career Guide
 
+TODO a brief description goes here
+
 ## Installation
+
+TODO rough but accurate, probably encompasses config and db config
+
+## Design
+
+TODO point to routes-and-auth, give broad-strokes overview, introduce the ERD
 
 #### ERD
 ![ERD](docs/images/erd.png)
