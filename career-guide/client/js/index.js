@@ -71,24 +71,28 @@ async function logoutGuest() {
 }
 
 async function showUserTypeInfo() {
-  const loginStatus = await shared.checkLogin();
+  const loginStatus = await shared.getLoginStatus();
   if (!loginStatus) {
     disableNavigation();
 
     // show that the user must log in
     document.querySelector('#login-requester').style.display = '';
-    console.log('bad login');
     return;
   }
 
+  // pontoonapps.com recruiters and admins don't have ID in login info, they cannot use career guide
   if (loginStatus.user.id == null) {
     disableNavigation();
     document.querySelector('#login-requester').style.display = '';
+    return;
   }
 
   if (loginStatus.user.guest) {
     document.querySelector('#guest-login-info').style.display = '';
+    document.querySelector('#guest-notice').style.display = '';
   }
+
+  // for normal logged-in user, we don't need to show anything
 }
 
 async function init() {

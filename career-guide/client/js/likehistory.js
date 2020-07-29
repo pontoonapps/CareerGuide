@@ -253,6 +253,7 @@ function hideIfEmpty() {
 async function loadPage() {
   shared.showLoadingLabel();
   shared.initNavbar();
+  await shared.checkLogin();
   displayLikeHistory(await getLikeHistory());
   hideIfEmpty();
   addEventListeners();
