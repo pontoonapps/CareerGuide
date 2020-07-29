@@ -25,11 +25,13 @@ function disableNavigation() {
 
   navBarSlide.style.cursor = 'not-allowed';
   for (const link of document.querySelectorAll('#navbar-slide > a')) {
-    if (link.id !== 'navbar-login-prompt') {
+    if (!link.classList.contains('visible-when-logged-out')) {
       link.removeAttribute('href'); // remove href to remove pointer cursor
       link.style.pointerEvents = 'none'; // remove pointer events so no highlighting on hover
       link.style.fontStyle = 'italic';
       link.style.color = 'silver';
+    } else {
+      link.style.display = '';
     }
   }
 
