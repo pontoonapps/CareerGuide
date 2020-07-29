@@ -2,12 +2,12 @@
 
 :root {
   --main-bg-color: white;
-  --main-color: black;      /* where we set background we also need to set color */
-  --PONTBlue: #36b6b0;      /* renamed from verdigris to PONTBlue (though it is more turqoise so blue may not be the best choice) */
-  --PONTLightBlue: #7fb9e6; /* renamed from teagreen to PONTLightBlue */
-  --PONTRed: #e8491f;       /* renamed from flame to PONTRed */
-  --PONTGreen: #b2cf65;     /* renamed from middlegreenyellow to PONTGreen */
-  --PONTOrange: #e69911;    /* rename from gamboge to PONTOrange */
+  --main-color: black;
+  --PONTBlue: #36b6b0;
+  --PONTLightBlue: #7fb9e6;
+  --PONTRed: #e8491f;
+  --PONTGreen: #b2cf65;
+  --PONTOrange: #e69911;
   --davys-gray: #333;
 
   /* defaults before the fonts load */
@@ -30,6 +30,14 @@ button {
   padding: 0.2em;
   font-size: 1em;
   border-radius: 0.5em;
+}
+
+.btn-container > button {
+  width: 40%;
+  max-width: 10em;
+  height: 3.5em;
+  margin-top: 0.5em;
+  min-height: 4em;
 }
 
 #empty-page {
@@ -72,12 +80,16 @@ button {
   box-sizing: border-box;
 }
 
+#login-requester {
+  box-shadow: 0 0 0.25rem 0.01rem var(--PONTRed);
+}
+
 .splash > ul {
   margin: 0 1em 1em;
 }
 
 .splash > p {
-  margin: 1em 0;
+  margin: 0.75em 0;
 }
 
 .splash > #get-started {
@@ -95,16 +107,6 @@ button {
   text-decoration: none;
 }
 
-#login-requester {
-  box-shadow: 0 0 0.25rem 0.01rem var(--PONTRed);
-  width: 95%;
-  max-width: 30em;
-  margin: 2em 0;
-  padding: 1em;
-  border-radius: 0.5em;
-  background-color: var(--main-bg-color);
-}
-
 #guest-login-info-btns,
 #login-requester-btns {
   display: flex;
@@ -112,6 +114,7 @@ button {
 }
 
 #guest-login-info-btns > a,
+#guest-login-info-btns > button,
 #login-requester-btns > a {
   display: flex;
   align-items: center;
@@ -122,24 +125,13 @@ button {
   padding: 0.2em;
   font-size: 1em;
   border-radius: 0.5em;
-  width: 25%;
   min-height: 3em;
   text-decoration: none;
-}
-
-.btn-container > button {
-  width: 40%;
-  max-width: 10em;
-  height: 3.5em;
-  margin-top: 0.5em;
+  width: 25%;
 }
 
 #login-requester > h3 {
   color: var(--PONTRed);
-}
-
-#login-requester > p {
-  padding: 0.5em 1em;
 }
 
 body {
@@ -365,11 +357,6 @@ main {
 
 #info-text.question-text {
   text-align: center;
-}
-
-.btn-container > button {
-  min-height: 4em;
-  width: 40%;
 }
 
 #history-filter {
