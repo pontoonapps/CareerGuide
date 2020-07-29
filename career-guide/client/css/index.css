@@ -189,9 +189,8 @@ body {
 #guest-notice {
   color: var(--PONTRed);
   font-weight: bold;
-  justify-self: center;
-  grid-column-start: 1;
-  grid-column-end: 3;
+  margin: 0 auto;
+  width: max-content;
 }
 
 #title {
@@ -210,25 +209,29 @@ h1 {
   box-shadow: 0 0 0.25rem 0.01rem var(--davys-gray);
   width: 100vw;
   height: var(--navbarHeight);
-  display: grid;
-  grid-template-columns: auto auto;
-  grid-auto-rows: auto min-content;
-  align-content: center;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 1em 0 0;
+  box-sizing: border-box;
 }
 
 #logo {
   width: 15em;
   height: 3em;
   object-fit: scale-down;
-  margin: 0.25rem;
-  justify-self: start;
+  margin: 0.25rem auto;
+}
+
+#logo-link {
+  align-self: center;
 }
 
 #nav-btn {
-  padding: 1rem;
+  padding: 1em;
   cursor: pointer;
   justify-self: end;
   align-self: center;
+  flex-shrink: 0;
 }
 
 main {
