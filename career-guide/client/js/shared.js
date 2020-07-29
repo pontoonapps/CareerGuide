@@ -49,13 +49,27 @@ export function buttonDelay() {
   return timeoutDelay(250);
 }
 
-export function checkGuestLogin() {
-  // TODO how to check for guest login?
-  if (document.cookie.includes('pontoonapps_cg_guest')) {
+async function checkGuestLogin() {
+  const loginStatus = await checkLogin();
+  if (loginStatus.user.guest) {
     document.querySelector('#guest-notice').style.display = '';
-    return true;
   }
-  return false;
+}
+
+export async function checkLogin() {
+  const response = await fetch('user-id');
+  if (response.ok) {
+    const userType = await response.json();
+    if (userType.user == null) { // return false if not logged in
+      return false;
+    } else {
+      return userType;
+    }
+  } else {
+    console.error('error getting user information', response);
+    document.querySelector('h1').textContent = 'Something went wrong! Please refresh';
+    return false;
+  }
 }
 
 function showNav() {
