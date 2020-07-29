@@ -32,7 +32,7 @@ The main routes are:
 * POST `<root>/v2/pins` – add a user pin (accepts JSON)
   * if the JSON includes an ID, this is an update operation (existence of that ID among this user's pins is checked)
   * if the JSON does not include an ID, this is an add operation (creates a new pin)
-  * returns 204 No Content on success
+  * returns 200 OK on success, the new/updated pin in the response
   * returns 409 Conflict if an update is requested but the ID doesn't exist
   * returns 400 Bad Request when data is malformed
 * POST `<root>/v2/pins/delete` – remove a pin identified by ID and created by the calling user (accepts JSON)
@@ -53,6 +53,7 @@ Original (v1) API:
 * POST `<root>/pins/delete` – remove a pin identified by name and created by the calling user (accepts JSON)
   * the incoming JSON should only be `{ "name": "..." }`
   * a user can only delete their own pins
+  * if the user has multiple pins with the same name (v2), all will be deleted by this v1 call
   * returns 204 No Content on success (even if pin with the name didn't exist)
   * returns 400 Bad Request when data is malformed
 
