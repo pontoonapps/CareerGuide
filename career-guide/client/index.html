@@ -35,14 +35,17 @@
 
   <main>
     <h1 id="title">Welcome to Career Guide</h1>
-    <div id="login-requester" style="display: none">
+    <div id="login-requester" class="splash" style="display: none">
       <h3>Please Note</h3>
       <p>You need to be logged in to use Career Guide.</p>
-      <p><a href="https://pontoonapps.com/login.php">Click here</a> to go to the login screen.
-        <span id="login-admin" style="display: none">
-          Note that Admin or Recruiter accounts cannot be used on Career Guide, please log in as a job seeker.
-        </span>
+      <p>
+        If you already have a PONToonapps account, click Sign in to proceed with your existing
+         account. If you do not already have an account, create one with the Sign up button or
+         click Login as Guest to proceed with a guest account.
       </p>
+      <span id="login-admin" style="display: none">
+        Note that Admin or Recruiter accounts cannot be used on Career Guide, please log in as a job seeker.
+      </span>
       <div id="login-requester-btns">
         <a id="sign-in" class="btn-3" href="https://pontoonapps.com/login.php">Sign in</a>
         <a id="sign-up" class="btn-3" href="https://pontoonapps.com/user_signup.php">Sign up</a>
@@ -53,12 +56,15 @@
     <div id="guest-login-info" style="display: none" class="splash">
       <h3>You are currently logged in as a guest</h3>
       <p>
-        To save your progress please create a PONToonapps account. If you already have an account
-        login to continue where you last left off.
+        A guest account may disappear if you haven't used it for a while, and the data is only
+         available on this computer. If you'd like to keep your data, you can create a PONToonapps
+         account. If you already have one, the answers in a guest account may be lost when you log
+         into your PONToonapps account.
       </p>
       <div id="guest-login-info-btns">
         <a id="sign-in" class="btn-3" href="https://pontoonapps.com/login.php">Sign in</a>
         <a id="sign-up" class="btn-3" href="https://pontoonapps.com/user_signup.php">Sign up</a>
+        <button id="logout-guest" class="btn-1">Logout</button>
       </div>
     </div>
 
