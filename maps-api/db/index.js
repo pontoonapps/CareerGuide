@@ -1,6 +1,7 @@
 const mysql = require('mysql2/promise');
 const hashy = require('hashy');
-const config = require('./config');
+
+const config = require('../config');
 
 const dbConn = mysql.createPool({
   host: 'localhost',
@@ -57,14 +58,14 @@ async function findUserRole(user, pwd) {
 
 async function listUserPins(userId) {
   const sql = await dbConn;
-  const query = `SELECT name, category, description, phone, website,
+  const query = `SELECT id, name, category, description, phone, website,
                         email, address_line_1, address_line_2,
                         postcode, latitude, longitude, notes,
                         null as tc_email
                  FROM user_map_pins
                  WHERE user_id = ?
                  UNION
-                 SELECT p.name, p.category, p.description, p.phone, p.website,
+                 SELECT p.id, p.name, p.category, p.description, p.phone, p.website,
                         p.email, p.address_line_1, p.address_line_2,
                         p.postcode, p.latitude, p.longitude, p.notes,
                         r.email as tc_email
@@ -80,7 +81,7 @@ async function listUserPins(userId) {
 
 async function listTrainingCentrePins(tcId) {
   const sql = await dbConn;
-  const query = `SELECT name, category, description, phone, website,
+  const query = `SELECT id, name, category, description, phone, website,
                         email, address_line_1, address_line_2,
                         postcode, latitude, longitude, notes,
                         null as tc_email
@@ -100,7 +101,10 @@ function extractPinInfo(rows) {
 
     // copy non-empty values only, formatted for maintainability
     /* eslint-disable no-multi-spaces */
+    if (row.id != null)             pin.id              = row.id;
     if (row.name != null)           pin.name            = row.name;
+    if (row.latitude != null)       pin.latitude        = row.latitude;
+    if (row.longitude != null)      pin.longitude       = row.longitude;
     if (row.category != null)       pin.category        = row.category;
     if (row.description != null)    pin.description     = row.description;
     if (row.phone != null)          pin.phone           = row.phone;
@@ -109,8 +113,6 @@ function extractPinInfo(rows) {
     if (row.address_line_1 != null) pin.address_line_1  = row.address_line_1;
     if (row.address_line_2 != null) pin.address_line_2  = row.address_line_2;
     if (row.postcode != null)       pin.postcode        = row.postcode;
-    if (row.latitude != null)       pin.latitude        = row.latitude;
-    if (row.longitude != null)      pin.longitude       = row.longitude;
     if (row.notes != null)          pin.notes           = row.notes;
     if (row.tc_email != null) pin.training_centre_email = row.tc_email;
     /* eslint-enable no-multi-spaces */
@@ -121,55 +123,181 @@ function extractPinInfo(rows) {
   return pins;
 }
 
-async function addUpdateUserPin(userId, pin) {
+async function getUserPinIDByName(userId, pinName) {
   const sql = await dbConn;
-  const query =
-    `INSERT INTO user_map_pins (user_id, name, category,
-       description, phone, website, email, address_line_1,
-       address_line_2, postcode, latitude, longitude, notes)
-     VALUES (?)
-     ON DUPLICATE KEY UPDATE
-       category = VALUES(category),
-       description = VALUES(description),
-       phone = VALUES(phone),
-       website = VALUES(website),
-       email = VALUES(email),
-       address_line_1 = VALUES(address_line_1),
-       address_line_2 = VALUES(address_line_2),
-       postcode = VALUES(postcode),
-       latitude = VALUES(latitude),
-       longitude = VALUES(longitude),
-       notes = VALUES(notes)`;
-  await sql.query(query, [[userId, pin.name, pin.category,
-    pin.description, pin.phone, pin.website, pin.email, pin.address_line_1,
-    pin.address_line_2, pin.postcode, pin.latitude, pin.longitude, pin.notes]]);
+  const query = `SELECT id
+                 FROM user_map_pins
+                 WHERE user_id = ? AND name = ?`;
+  const [rows] = await sql.query(query, [userId, pinName]);
+  return rows.length === 0 ? null : rows[0].id;
 }
 
-async function addUpdateTrainingCentrePin(tcId, pin) {
+async function getTrainingCentrePinIDByName(tcId, pinName, table) {
   const sql = await dbConn;
-  const query =
-    `INSERT INTO training_centre_map_pins (training_centre_id, name, category,
-       description, phone, website, email, address_line_1,
-       address_line_2, postcode, latitude, longitude, notes)
-     VALUES (?)
-     ON DUPLICATE KEY UPDATE
-       category = VALUES(category),
-       description = VALUES(description),
-       phone = VALUES(phone),
-       website = VALUES(website),
-       email = VALUES(email),
-       address_line_1 = VALUES(address_line_1),
-       address_line_2 = VALUES(address_line_2),
-       postcode = VALUES(postcode),
-       latitude = VALUES(latitude),
-       longitude = VALUES(longitude),
-       notes = VALUES(notes)`;
-  await sql.query(query, [[tcId, pin.name, pin.category,
-    pin.description, pin.phone, pin.website, pin.email, pin.address_line_1,
-    pin.address_line_2, pin.postcode, pin.latitude, pin.longitude, pin.notes]]);
+  const query = `SELECT id
+                 FROM training_centre_map_pins
+                 WHERE training_centre_id = ? AND name = ?`;
+  const [rows] = await sql.query(query, [tcId, pinName]);
+  return rows.length === 0 ? null : rows[0].id;
 }
 
-async function deleteUserPin(userId, pinName) {
+async function addUpdateUserPinV1(userId, pin) {
+  // find pin ID if the user already has a pin with this name
+  const pinId = await getUserPinIDByName(userId, pin.name);
+
+  // call v2 version of this function now that we have the ID
+  if (pinId != null) {
+    pin.id = pinId;
+    return updateUserPinV2(userId, pin);
+  } else {
+    return addUserPinV2(userId, pin);
+  }
+}
+
+function addUpdateUserPinV2(userId, pin) {
+  if (pin.id != null) {
+    return updateUserPinV2(userId, pin);
+  } else {
+    return addUserPinV2(userId, pin);
+  }
+}
+
+async function updateUserPinV2(userId, pin) {
+  const sql = await dbConn;
+  const query =
+    `UPDATE user_map_pins
+     SET
+       name = ?,
+       latitude = ?,
+       longitude = ?,
+       category = ?,
+       description = ?,
+       phone = ?,
+       website = ?,
+       email = ?,
+       address_line_1 = ?,
+       address_line_2 = ?,
+       postcode = ?,
+       notes = ?
+     WHERE id = ?
+       AND user_id = ?`;
+
+  const [rows] = await sql.query(query, [
+    pin.name,
+    pin.latitude,
+    pin.longitude,
+    pin.category,
+    pin.description,
+    pin.phone,
+    pin.website,
+    pin.email,
+    pin.address_line_1,
+    pin.address_line_2,
+    pin.postcode,
+    pin.notes,
+    pin.id,
+    userId,
+  ]);
+
+  return rows.affectedRows > 0 ? pin : null;
+}
+
+async function addUserPinV2(userId, pin) {
+  const sql = await dbConn;
+  const query =
+    `INSERT INTO user_map_pins (user_id, name, latitude, longitude,
+       category, description, phone, website, email,
+       address_line_1, address_line_2, postcode, notes)
+     VALUES (?)`;
+  const [rows] = await sql.query(query, [[userId, pin.name, pin.latitude, pin.longitude,
+    pin.category, pin.description, pin.phone, pin.website, pin.email,
+    pin.address_line_1, pin.address_line_2, pin.postcode, pin.notes]]);
+
+  pin.id = rows.insertId;
+  return pin;
+}
+
+async function addUpdateTrainingCentrePinV1(tcId, pin) {
+  // find pin ID if the traning centre already has a pin with this name
+  const pinId = await getTrainingCentrePinIDByName(tcId, pin.name);
+
+  // call v2 version of this function now that we have the ID
+  if (pinId != null) {
+    pin.id = pinId;
+    return updateTrainingCentrePinV2(tcId, pin);
+  } else {
+    return addTrainingCentrePinV2(tcId, pin);
+  }
+}
+
+function addUpdateTrainingCentrePinV2(tcId, pin) {
+  if (pin.id != null) {
+    console.log('a');
+    return updateTrainingCentrePinV2(tcId, pin);
+  } else {
+    console.log('b');
+    return addTrainingCentrePinV2(tcId, pin);
+  }
+}
+
+async function updateTrainingCentrePinV2(tcId, pin) {
+  const sql = await dbConn;
+  const query =
+    `UPDATE training_centre_map_pins
+     SET
+       name = ?,
+       latitude = ?,
+       longitude = ?,
+       category = ?,
+       description = ?,
+       phone = ?,
+       website = ?,
+       email = ?,
+       address_line_1 = ?,
+       address_line_2 = ?,
+       postcode = ?,
+       notes = ?
+     WHERE id = ?
+       AND training_centre_id = ?`;
+
+  const [rows] = await sql.query(query, [
+    pin.name,
+    pin.latitude,
+    pin.longitude,
+    pin.category,
+    pin.description,
+    pin.phone,
+    pin.website,
+    pin.email,
+    pin.address_line_1,
+    pin.address_line_2,
+    pin.postcode,
+    pin.notes,
+    pin.id,
+    tcId,
+  ]);
+
+  return rows.affectedRows > 0 ? pin : null;
+}
+
+async function addTrainingCentrePinV2(tcId, pin) {
+  const sql = await dbConn;
+  const query =
+    `INSERT INTO training_centre_map_pins
+       (training_centre_id, name, latitude, longitude,
+        category, description, phone, website, email,
+        address_line_1, address_line_2, postcode, notes)
+     VALUES (?)`;
+  const [rows] = await sql.query(query,
+    [[tcId, pin.name, pin.latitude, pin.longitude,
+      pin.category, pin.description, pin.phone, pin.website, pin.email,
+      pin.address_line_1, pin.address_line_2, pin.postcode, pin.notes]]);
+
+  pin.id = rows.insertId;
+  return pin;
+}
+
+async function deleteUserPinV1(userId, pinName) {
   const sql = await dbConn;
   const query = `DELETE
                  FROM user_map_pins
@@ -178,12 +306,30 @@ async function deleteUserPin(userId, pinName) {
   return rows.affectedRows > 0;
 }
 
-async function deleteTrainingCentrePin(tcId, pinName) {
+async function deleteTrainingCentrePinV1(tcId, pinName) {
   const sql = await dbConn;
   const query = `DELETE
                  FROM training_centre_map_pins
                  WHERE training_centre_id = ? AND name = ?`;
   const [rows] = await sql.query(query, [tcId, pinName]);
+  return rows.affectedRows > 0;
+}
+
+async function deleteUserPinV2(userId, pinId) {
+  const sql = await dbConn;
+  const query = `DELETE
+                 FROM user_map_pins
+                 WHERE user_id = ? AND id = ?`;
+  const [rows] = await sql.query(query, [userId, pinId]);
+  return rows.affectedRows > 0;
+}
+
+async function deleteTrainingCentrePinV2(tcId, pinId) {
+  const sql = await dbConn;
+  const query = `DELETE
+                 FROM training_centre_map_pins
+                 WHERE training_centre_id = ? AND id = ?`;
+  const [rows] = await sql.query(query, [tcId, pinId]);
   return rows.affectedRows > 0;
 }
 
@@ -269,15 +415,27 @@ async function removeUserFromTrainingCentre(userId, tcEmail) {
 }
 
 module.exports = {
-  findUserRole,
-  findUserTrainingCentres,
-  listUserPins,
-  listTrainingCentrePins,
-  addUpdateUserPin,
-  addUpdateTrainingCentrePin,
-  deleteUserPin,
-  deleteTrainingCentrePin,
-  listTrainingCentreUsers,
-  updateTrainingCentreUsers,
-  removeUserFromTrainingCentre,
+  v1: {
+    addUpdateUserPin: addUpdateUserPinV1,
+    addUpdateTrainingCentrePin: addUpdateTrainingCentrePinV1,
+    deleteUserPin: deleteUserPinV1,
+    deleteTrainingCentrePin: deleteTrainingCentrePinV1,
+  },
+  v2: {
+    addUpdateUserPin: addUpdateUserPinV2,
+    addUpdateTrainingCentrePin: addUpdateTrainingCentrePinV2,
+    deleteUserPin: deleteUserPinV2,
+    deleteTrainingCentrePin: deleteTrainingCentrePinV2,
+  },
+  v1v2: {
+    listUserPins,
+    listTrainingCentrePins,
+    findUserTrainingCentres,
+    listTrainingCentreUsers,
+    updateTrainingCentreUsers,
+    removeUserFromTrainingCentre,
+  },
+  common: {
+    findUserRole,
+  },
 };
