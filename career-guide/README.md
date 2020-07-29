@@ -1,30 +1,60 @@
 # PONToon Career Guide
 
-TODO a brief description goes here
+Career guide is a tool designed to inspire job seekers using a content based recommender system to display jobs based on what suits that job seeker best.
 
 ## Installation
 
-TODO rough but accurate, probably encompasses config and db config
+To run the app the database must first be set up.
+
+### Setting up the database
+
+Create a copy of career-guide/server/config-template.json to career-guide/server/config.json
+
+Set the attributes in the newly created config.json file to match your database and server.
+
+Next run the following sql scripts to initialize the database:
+
+1. `career-guide/server/database/init.sql`
+2. `career-guide/server/database/data-jobs.sql`
+3. `career-guide/server/database/data-questions.sql`
+4. `career-guide/server/database/test-data.sql` (Only required for testing, not deployment)
 
 ## Design
 
-TODO point to routes-and-auth, give broad-strokes overview, introduce the ERD
+### File structure
+
+```javascript
+├── career-guide/
+│  ├── client/                   // resources accessible on the client side
+│  │  ├── css/                   // CSS files
+│  │  ├── img/                   // client images
+│  │  ├── js/                    // javascript files
+│  │  ├── index.html
+│  │  ├── likehistory.html          
+│  │  ├── nextjob.html          
+│  │  ├── questionnairereview.html          
+│  │  └── shortlist.html          
+│  ├── docs/                     // documentation files (not including readme)
+│  │  ├── images/                // all documentation images
+│  │  └── routes-and-auth.md     // documentation for server API
+│  ├── server/                   // all server side resources
+│  │  ├── database/              // all resources required to setup and run the database
+│  │  │  ├── migrations/
+│  │  │  ├── data-jobs.sql       // file containing jobs data
+│  │  │  ├── data-questions.sql  // file containing questions data
+│  │  │  ├── init.sql            // file to create databases
+│  │  │  ├── reset-db.sh         // script to reset database (drops tables)
+│  │  │  └── test-data.sql       // script containing limited data for testing
+│  │  ├── auth.js  
+│  │  ├── config-template.json   // template file for requirements specific to deployment
+│  │  ├── server.js              // script containing all routes
+│  │  └── storage.js             // script containing all functions which run SQL
+│  ├── package-lock.json
+│  ├── package.json
+└──└── README.md
+```
+
+### Database
 
 #### ERD
 ![ERD](docs/images/erd.png)
-
-### Configuration
-
-0. Make a copy of the `config-template.json`, found inside [server/](https://github.com/jacekkopecky/pontoon/tree/master/career-guide/server) and rename it to `config.json`
-1. Provide the deployment route
-2. Provide the right URL for the login check
-3. Input your details such as database username, password
-
-#### Database Configuration
-There is two different databases that needs to be setup.
-To initialize these databases you need to run the SQL code inside the database folder, in the following order:
-
-0. `init.sql`
-1. `data-jobs.sql`
-2. `data-questions.sql`
-3. `test-data.sql` (Not a necessity)
