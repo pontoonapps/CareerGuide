@@ -1,4 +1,4 @@
-# PONToon Community Map App API
+# PONToon Community Map App API (v2)
 
 This is a Node.js-based API, backed in MySQL, that contains map _pins_ submitted by users and provided by users' training centers.
 
