@@ -6,7 +6,7 @@ Career guide is a tool designed to inspire job seekers using a content based rec
 
 To run the app the database must first be set up.
 
-##### TODO Jack please enter isntallation details for deployment
+##### TODO Jack please enter installation details for deployment
 
 ### Setting up the database
 
@@ -25,7 +25,7 @@ Next run the following sql scripts to initialize the database:
 
 ### File structure
 
-
+```
 ├── career-guide/
 │  ├── client/                   // resources for the client side (images JS CSS HTML)
 │  ├── docs/                     // documentation files (not including readme)
@@ -42,7 +42,7 @@ Next run the following sql scripts to initialize the database:
 │  │  ├── server.js              // script containing all routes
 │  │  └── storage.js             // script containing all functions which run SQL
 └──└── README.md
-
+```
 
 ### Database
 
