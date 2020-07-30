@@ -84,6 +84,11 @@ async function showUserTypeInfo() {
   if (loginStatus.user.id == null) {
     disableNavigation();
     document.querySelector('#login-requester').style.display = '';
+    document.querySelector('#login-admin').style.display = '';
+
+    // hide the login buttons: recruiters and admins cannot use career guide,
+    // they have to log out so none of the buttons apply to them
+    document.querySelector('#login-requester-btns').style.display = 'none';
     return;
   }
 

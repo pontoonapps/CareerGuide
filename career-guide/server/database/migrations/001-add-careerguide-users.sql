@@ -81,6 +81,7 @@ ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
 -- 4. register all users in backup likes, answers, shortlists
+-- these queries will generate a lot of warnings for duplicate IDs, that's expected
 
 INSERT IGNORE INTO `pontoonapps_careerguide`.`users` (pontoon_user_id)
 SELECT user_id FROM `pontoonapps_careerguide`.backup_likes;
