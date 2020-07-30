@@ -2,19 +2,13 @@
 -- this script migrates from an existing v1 database to v2
 
 -- --------- tasks:
--- 1. rename original *_map_pins tables to v1_backup_*
--- 2. create new  *_map_pins tables
--- 3. copy backup map pins to the new tables
+-- 1. create new  *_map_pins_v2 tables
+-- 2. copy old map pins to the new tables
 
 
--- 1. rename original *_map_pins tables to v1_backup_*
+-- 1. create new  *_map_pins_v2 tables
 
-ALTER TABLE user_map_pins RENAME TO v1_backup_user_map_pins;
-ALTER TABLE training_centre_map_pins RENAME TO v1_backup_training_centre_map_pins;
-
--- 2. create new  *_map_pins tables
-
-CREATE TABLE user_map_pins (
+CREATE TABLE user_map_pins_v2 (
   id                 INT             AUTO_INCREMENT PRIMARY KEY,
   user_id            INT             NOT NULL,
   name               VARCHAR(255)    NOT NULL,
@@ -33,7 +27,7 @@ CREATE TABLE user_map_pins (
 );
 
 
-CREATE TABLE training_centre_map_pins (
+CREATE TABLE training_centre_map_pins_v2 (
   id                 INT             AUTO_INCREMENT PRIMARY KEY,
   training_centre_id INT             NOT NULL,
   name               VARCHAR(255)    NOT NULL,
@@ -52,9 +46,9 @@ CREATE TABLE training_centre_map_pins (
 );
 
 
--- 3. copy map pins from backup to the new tables
+-- 2. copy old map pins to the new tables
 
-INSERT INTO user_map_pins (
+INSERT INTO user_map_pins_v2 (
   user_id, name, latitude, longitude,
   category, description, phone, website,
   email, address_line_1, address_line_2,
@@ -65,17 +59,17 @@ SELECT
   category, description, phone, website,
   email, address_line_1, address_line_2,
   postcode, notes
-FROM v1_backup_user_map_pins;
+FROM user_map_pins;
 
-INSERT INTO training_centre_map_pins (
-  user_id, name, latitude, longitude,
+INSERT INTO training_centre_map_pins_v2 (
+  training_centre_id, name, latitude, longitude,
   category, description, phone, website,
   email, address_line_1, address_line_2,
   postcode, notes
 )
 SELECT
-  user_id, name, latitude, longitude,
+  training_centre_id, name, latitude, longitude,
   category, description, phone, website,
   email, address_line_1, address_line_2,
   postcode, notes
-FROM v1_backup_training_centre_map_pins;
+FROM training_centre_map_pins;
