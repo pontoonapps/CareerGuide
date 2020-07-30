@@ -1,4 +1,4 @@
-CREATE TABLE user_map_pins (
+CREATE TABLE user_map_pins_v2 (
   id                 INT             AUTO_INCREMENT PRIMARY KEY,
   user_id            INT             NOT NULL,
   name               VARCHAR(255)    NOT NULL,
@@ -17,7 +17,7 @@ CREATE TABLE user_map_pins (
 );
 
 
-CREATE TABLE training_centre_map_pins (
+CREATE TABLE training_centre_map_pins_v2 (
   id                 INT             AUTO_INCREMENT PRIMARY KEY,
   training_centre_id INT             NOT NULL,
   name               VARCHAR(255)    NOT NULL,

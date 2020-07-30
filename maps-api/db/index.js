@@ -62,14 +62,14 @@ async function listUserPins(userId) {
                         email, address_line_1, address_line_2,
                         postcode, latitude, longitude, notes,
                         null as tc_email
-                 FROM user_map_pins
+                 FROM user_map_pins_v2
                  WHERE user_id = ?
                  UNION
                  SELECT p.id, p.name, p.category, p.description, p.phone, p.website,
                         p.email, p.address_line_1, p.address_line_2,
                         p.postcode, p.latitude, p.longitude, p.notes,
                         r.email as tc_email
-                 FROM training_centre_map_pins p
+                 FROM training_centre_map_pins_v2 p
                  JOIN training_centre_assignments a
                  USING (training_centre_id)
                  JOIN recruiters r
@@ -85,7 +85,7 @@ async function listTrainingCentrePins(tcId) {
                         email, address_line_1, address_line_2,
                         postcode, latitude, longitude, notes,
                         null as tc_email
-                 FROM training_centre_map_pins
+                 FROM training_centre_map_pins_v2
                  WHERE training_centre_id = ?`;
   const [rows] = await sql.query(query, [tcId]);
 
@@ -126,7 +126,7 @@ function extractPinInfo(rows) {
 async function getUserPinIDByName(userId, pinName) {
   const sql = await dbConn;
   const query = `SELECT id
-                 FROM user_map_pins
+                 FROM user_map_pins_v2
                  WHERE user_id = ? AND name = ?`;
   const [rows] = await sql.query(query, [userId, pinName]);
   return rows.length === 0 ? null : rows[0].id;
@@ -135,7 +135,7 @@ async function getUserPinIDByName(userId, pinName) {
 async function getTrainingCentrePinIDByName(tcId, pinName, table) {
   const sql = await dbConn;
   const query = `SELECT id
-                 FROM training_centre_map_pins
+                 FROM training_centre_map_pins_v2
                  WHERE training_centre_id = ? AND name = ?`;
   const [rows] = await sql.query(query, [tcId, pinName]);
   return rows.length === 0 ? null : rows[0].id;
@@ -165,7 +165,7 @@ function addUpdateUserPinV2(userId, pin) {
 async function updateUserPinV2(userId, pin) {
   const sql = await dbConn;
   const query =
-    `UPDATE user_map_pins
+    `UPDATE user_map_pins_v2
      SET
        name = ?,
        latitude = ?,
@@ -205,7 +205,7 @@ async function updateUserPinV2(userId, pin) {
 async function addUserPinV2(userId, pin) {
   const sql = await dbConn;
   const query =
-    `INSERT INTO user_map_pins (user_id, name, latitude, longitude,
+    `INSERT INTO user_map_pins_v2 (user_id, name, latitude, longitude,
        category, description, phone, website, email,
        address_line_1, address_line_2, postcode, notes)
      VALUES (?)`;
@@ -241,7 +241,7 @@ function addUpdateTrainingCentrePinV2(tcId, pin) {
 async function updateTrainingCentrePinV2(tcId, pin) {
   const sql = await dbConn;
   const query =
-    `UPDATE training_centre_map_pins
+    `UPDATE training_centre_map_pins_v2
      SET
        name = ?,
        latitude = ?,
@@ -281,7 +281,7 @@ async function updateTrainingCentrePinV2(tcId, pin) {
 async function addTrainingCentrePinV2(tcId, pin) {
   const sql = await dbConn;
   const query =
-    `INSERT INTO training_centre_map_pins
+    `INSERT INTO training_centre_map_pins_v2
        (training_centre_id, name, latitude, longitude,
         category, description, phone, website, email,
         address_line_1, address_line_2, postcode, notes)
@@ -298,7 +298,7 @@ async function addTrainingCentrePinV2(tcId, pin) {
 async function deleteUserPinV1(userId, pinName) {
   const sql = await dbConn;
   const query = `DELETE
-                 FROM user_map_pins
+                 FROM user_map_pins_v2
                  WHERE user_id = ? AND name = ?`;
   const [rows] = await sql.query(query, [userId, pinName]);
   return rows.affectedRows > 0;
@@ -307,7 +307,7 @@ async function deleteUserPinV1(userId, pinName) {
 async function deleteTrainingCentrePinV1(tcId, pinName) {
   const sql = await dbConn;
   const query = `DELETE
-                 FROM training_centre_map_pins
+                 FROM training_centre_map_pins_v2
                  WHERE training_centre_id = ? AND name = ?`;
   const [rows] = await sql.query(query, [tcId, pinName]);
   return rows.affectedRows > 0;
@@ -316,7 +316,7 @@ async function deleteTrainingCentrePinV1(tcId, pinName) {
 async function deleteUserPinV2(userId, pinId) {
   const sql = await dbConn;
   const query = `DELETE
-                 FROM user_map_pins
+                 FROM user_map_pins_v2
                  WHERE user_id = ? AND id = ?`;
   const [rows] = await sql.query(query, [userId, pinId]);
   return rows.affectedRows > 0;
@@ -325,7 +325,7 @@ async function deleteUserPinV2(userId, pinId) {
 async function deleteTrainingCentrePinV2(tcId, pinId) {
   const sql = await dbConn;
   const query = `DELETE
-                 FROM training_centre_map_pins
+                 FROM training_centre_map_pins_v2
                  WHERE training_centre_id = ? AND id = ?`;
   const [rows] = await sql.query(query, [tcId, pinId]);
   return rows.affectedRows > 0;
