@@ -1,0 +1,28 @@
++----+---------------------------------------------------+-------------------+
+| id | title_en                                          | icon_filename     |
++----+---------------------------------------------------+-------------------+
+|  1 | Agriculture, horticulture and Animal services     | agriculture.jpg   |
+|  2 | Property and Facilities Management                | property.jpg      |
+|  3 | Financial services                                | financial.jpg     |
+|  4 | Performing arts, and media                        | art.jpg           |
+|  5 | Health and Social Care                            | health.jpg        |
+|  6 | Administrative and Clerical                       | admin.jpg         |
+|  7 | Advertising, Marketing and PR                     | trevda.jpg        |
+|  8 | Manufacturing and engineering                     | manufacturing.jpg |
+|  9 | Environmental sciences                            | environment.jpg   |
+| 10 | Transport and Logistics                           | transport.jpg     |
+| 11 | Arts, crafts and design                           | art.jpg           |
+| 12 | Retail sales and customer service                 | retail.jpg        |
+| 13 | Legal services                                    | legal.jpg         |
+| 14 | Science and research                              | science.jpg       |
+| 15 | Security and uniformed services                   | security.jpg      |
+| 16 | Sport, leisure and tourism                        | sport.jpg         |
+| 17 | General and Personal Services                     | general.jpg       |
+| 18 | Catering services                                 | cater.jpg         |
+| 19 | Business Management and planning                  | business.jpg      |
+| 20 | Publishing and journalism                         | publishing.jpg    |
+| 21 | Information technology and information management | it.jpg            |
+| 22 | Education and training                            | education.jpg     |
++----+---------------------------------------------------+-------------------+
+
+// table taken from database: pontoonapps_careerguide table: categories
