@@ -93,7 +93,7 @@ function displayNoJobs() {
   const infoText = document.querySelector('#info-text');
   document.querySelector('#title').textContent = "That's all for now!";
   document.querySelector('#item-image').src = 'img/question.jpg';
-  document.querySelector('#item-image').alt = 'question image';
+  document.querySelector('#item-image').alt = 'question mark';
 
   infoText.textContent = '';
   infoText.append(
@@ -144,7 +144,7 @@ function displayItem(item) {
 
     // show question image
     document.querySelector('#item-image').src = 'img/question.jpg';
-    document.querySelector('#item-image').alt = 'question image';
+    document.querySelector('#item-image').alt = 'question mark';
   } else {
     // show job buttons
     for (const jobButton of document.querySelectorAll('.job')) {
@@ -153,7 +153,7 @@ function displayItem(item) {
 
     // show image
     document.querySelector('#item-image').src = 'img/' + item.image;
-    document.querySelector('#item-image').alt = 'item image: ' + item.image;
+    document.querySelector('#item-image').alt = 'job icon';
 
     // show job description
     displayInfoText(item);
