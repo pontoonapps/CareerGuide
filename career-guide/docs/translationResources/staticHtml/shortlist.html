@@ -1,0 +1,52 @@
+<html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="css/index.css">
+  <script async="" defer="" src="js/shortlist.js" type="module"></script>
+  <link rel="icon" type="image/png" sizes="16x16" href="/image/favicon.png">
+  <title>Shortlist</title>
+</head>
+
+<body>
+  <nav>
+    <section id="navbar">
+      <a id="logo-link" href=".">
+        <img class="navbar-item" id="logo" src="img/pontlogo.png">
+      </a>
+      <img class="navbar-item" id="nav-btn" src="img/navbtn.svg">
+    </section>
+    <p id="guest-notice" style="">Guest Account</p>
+    <div id="navbar-slide">
+      <a class="navbar-slide-item" href="nextjob.html">Next Job</a>
+      <a class="navbar-slide-item" href="shortlist.html">Shortlist</a>
+      <a class="navbar-slide-item" href="likehistory.html">Like History</a>
+      <a class="navbar-slide-item" href="questionnairereview.html">Questionnaire Review</a>
+      <a class="navbar-slide-item" href="https://pontoonapps.com/jobsectors.php">Job Sector Guide</a>
+    </div>
+  </nav>
+
+  <main style="">
+    <h1 id="title">Shortlist</h1>
+    <h2 id="empty-page" style="">You haven't shortlisted any jobs yet</h2>
+  </main>
+  <div id="list-container">
+    <section class="list-item-container shortlist">
+      <img class="job-image" src="img/science.jpg" alt="Archaeologist image">
+      <h3 class="list-item-title">JOB TITLE FROM DATABASE</h3>
+      <p class="job-desc">JOB DESCRIPTION FROM DATABASE</p>
+      <button class="btn-2 remove-shortlist-item" data-jobid="543">Remove from Shortlist</button>
+    </section>
+  </div>
+  <template id="shortlist-template">
+    <section class="list-item-container shortlist">
+      <img class="job-image">
+      <h3 class="list-item-title"></h3>
+      <p class="job-desc"></p>
+      <button class="btn-2 remove-shortlist-item">Remove from Shortlist</button>
+    </section>
+  </template>
+
+
+<h1 id="loadingLabel" style="">Loading</h1>
+</body>
+</html>
