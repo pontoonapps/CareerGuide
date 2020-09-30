@@ -53,7 +53,7 @@ async function createGuest() {
   if (response.ok) {
     window.location.reload();
   } else {
-    document.querySelector('h1').textContent = 'Something went wrong please refresh';
+    document.querySelector('h1').textContent = 'Something went wrong! Please refresh';
   }
 }
 
@@ -66,7 +66,7 @@ async function logoutGuest() {
   if (response.ok) {
     window.location.reload();
   } else {
-    document.querySelector('h1').textContent = 'Something went wrong please refresh';
+    document.querySelector('h1').textContent = 'Something went wrong! Please refresh';
   }
 }
 
