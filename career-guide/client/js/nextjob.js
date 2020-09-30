@@ -152,7 +152,9 @@ function displayItem(item) {
     }
 
     // show image
-    document.querySelector('#item-image').src = 'img/' + item.image;
+    document.querySelector('#item-image').src = 'img/' + item.image;'
+
+    // TODO: needs a different alt, something like category + ' image'
     document.querySelector('#item-image').alt = 'item image: ' + item.image;
 
     // show job description
