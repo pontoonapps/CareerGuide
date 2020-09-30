@@ -1,5 +1,6 @@
+// context: strings that show on next-job page
+
 That's all for now!
 
 Congratulations, you have now seen all the jobs in our system!
 Check out your likes and dislikes at the like history page or see what you have shortlisted.
-

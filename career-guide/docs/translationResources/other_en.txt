@@ -1,6 +1,24 @@
+// context: this is a "toast" showing at the bottom of the page
+// see like-history
+
 saved
+
+
+// context: page titles, showing in browser tab name
+
 Next Job
 Shortlist
 Like History
 Questionnaire Review
 Job Sector Guide
+
+
+// context: error message that can be shown on the page
+
+Something went wrong! Please refresh
+
+
+// context: these are "alt" attributes on images
+
+question mark
+job icon
