@@ -1,14 +1,64 @@
-+----+---------------------+------------------------------------------------------------------------------+-------------------+
-| id | title_en            | question_en                                                                  | jobs_column       |
-+----+---------------------+------------------------------------------------------------------------------+-------------------+
-|  1 | Teamwork            | Would you prefer to work alone or in a team?                                 | teamwork          |
-|  2 | Activity            | Are you looking for physical work?                                           | physical_activity |
-|  3 | Creative/Scientific | Would you like a career in the creative industries                           | creativity        |
-|  4 | Driving             | Would you like to do a job where you are required to drive?                  | driving           |
-|  5 | Travelling          | Would you prefer to travel while working?                                    | travel            |
-|  6 | Working Hours       | What type of working hours are you looking for?                              | hours_flexibility |
-|  7 | Care work           | Are you willing to work in care? (looking after the elderly/children etc...) | care_work         |
-|  8 | Risks               | Are you willing to work Dangerous Jobs?                                      | danger            |
-+----+---------------------+------------------------------------------------------------------------------+-------------------+
+// context: questionnaire for the user, by question and answer options
+// question titles and text and options text need to be translated
+
+---+---------------------+-------------------------------------------------
+id | title_en            | question_en
+---+---------------------+-------------------------------------------------
+ 1 | Teamwork            | Would you prefer to work alone or in a team?
+
+     Options:
+     1 | Alone
+     2 | I don't mind
+     3 | In a Team
+
+ 2 | Activity            | Are you looking for physical work?
+
+     Options:
+     1 | No
+     2 | I don't mind
+     3 | Yes
+
+ 3 | Creative/Scientific | Would you like a career in the creative industries
+
+     Options:
+     1 | No
+     2 | I don't mind
+     3 | Yes
+
+ 4 | Driving             | Would you like to do a job where you are required to drive?
+
+     Options:
+     1 | No
+     2 | Willing to drive
+     3 | Yes
+
+ 5 | Travelling          | Would you prefer to travel while working?
+
+     Options:
+     1 | No
+     2 | Occasionally
+     3 | Yes
+
+ 6 | Working Hours       | What type of working hours are you looking for?
+
+     Options:
+     1 | Flexible
+     2 | I don't mind
+     3 | Fixed
+
+ 7 | Care work           | Are you willing to work in care? (looking after the elderly/children etc...)
+
+     Options:
+     1 | No
+     2 | I don't mind
+     3 | Yes
+
+ 8 | Risks               | Are you willing to work Dangerous Jobs?
+
+     Options:
+     1 | No
+     2 | To an extent
+     3 | Yes
+
 
 // table taken from database: pontoonapps_careerguide table: questions
