@@ -34,8 +34,9 @@
   </nav>
 
   <main>
-    <h1 id="title">Welcome to Career Guide</h1>
-    <div id="login-requester" class="splash" style="display: none">
+    <h1 class="title english">Welcome to Career Guide</h1>
+    <h1 class="title french">Bienvenue à Career Guide</h1>
+    <div class="login-requester english splash" style="display: none">
       <h3>Please Note</h3>
       <p>You need to be logged in to use Career Guide.</p>
       <p>
@@ -43,17 +44,34 @@
          account. If you do not already have an account, create one with the Sign up button or
          click Login as Guest to proceed with a guest account.
       </p>
-      <p id="login-admin" style="display: none">
+      <p class="login-admin" style="display: none">
         Note that Admin or Recruiter accounts cannot be used on Career Guide, please <a href="https://pontoonapps.com/recruiters/logout.php">log out</a>.
       </p>
+      <div class="login-requester-btns">
+        <a class="sign-in btn-3" href="https://pontoonapps.com/login.php">Sign in</a>
+        <a class="sign-up btn-3" href="https://pontoonapps.com/user_signup.php">Sign up</a>
+        <button class="guest-login btn-3">Login as Guest</button>
+      </div>
+    </div>
+    <div class="login-requester french splash" style="display: none">
+      <h3>Notez s'il vous plaît</h3>
+      <p>Vous devez être connecté pour utiliser Career Guide</p>
+      <p>
+        Si vous avez déjà un compte PONToonapps, cliquez sur Se connecter pour continuer avec votre
+         Compte. Si vous n'avez pas encore de compte, créez-en un avec le bouton Inscription ou
+         cliquez sur Se connecter en tant qu'invité pour ouvrir un compte d'invité.
+      </p>
+      <p class="login-admin" style="display: none">
+        Notez que les comptes administrateur ou recruteur ne peuvent pas être utilisés sur le guide de carrière, veuillez vous <a href="https://pontoonapps.com/recruiters/logout.php">connecter</a>.
+      </p>
       <div id="login-requester-btns">
-        <a id="sign-in" class="btn-3" href="https://pontoonapps.com/login.php">Sign in</a>
-        <a id="sign-up" class="btn-3" href="https://pontoonapps.com/user_signup.php">Sign up</a>
-        <button id="guest-login" class="btn-3">Login as Guest</button>
+        <a class="sign-in btn-3" href="https://pontoonapps.com/login.php">se connecteri</a>
+        <a class="sign-up btn-3" href="https://pontoonapps.com/user_signup.php">s'inscrire</a>
+        <button class="guest-login btn-3">se connecter en tant qu'invité</button>
       </div>
     </div>
 
-    <div id="guest-login-info" style="display: none" class="splash">
+    <div class="guest-login-info english splash" style="display: none">
       <h3>You are currently logged in as a guest</h3>
       <p>
         A guest account may disappear if you haven't used it for a while, and the data is only
@@ -61,16 +79,32 @@
          account. If you already have one, the answers in a guest account may be lost when you log
          into your PONToonapps account.
       </p>
-      <div id="guest-login-info-btns">
-        <a id="sign-up" class="btn-3" href="https://pontoonapps.com/user_signup.php">Sign up</a>
-        <button id="logout-guest" class="btn-1">Logout</button>
-        <button id="confirm-logout-guest" class="btn-1" style="display: none">
+      <div class="guest-login-info-btns">
+        <a class="sign-up btn-3" href="https://pontoonapps.com/user_signup.php">Sign up</a>
+        <button class="logout-guest btn-1">Logout</button>
+        <button class="confirm-logout-guest btn-2" style="display: none">
+          Are you sure? This guest account will be lost.
+        </button>
+      </div>
+    </div>
+    <div clas="guest-login-info french splash" style="display: none">
+      <h3>You are currently logged in as a guest</h3>
+      <p>
+        A guest account may disappear if you haven't used it for a while, and the data is only
+         available on this computer. If you'd like to keep your data, you can create a PONToonapps
+         account. If you already have one, the answers in a guest account may be lost when you log
+         into your PONToonapps account.
+      </p>
+      <div class="guest-login-info-btns">
+        <a class="sign-up btn-3" href="https://pontoonapps.com/user_signup.php">Sign up</a>
+        <button class="logout-guest btn-1">Logout</button>
+        <button class="confirm-logout-guest btn-1" style="display: none">
           Are you sure? This guest account will be lost.
         </button>
       </div>
     </div>
 
-    <div class="splash">
+    <div class="splash english">
       <h3>What is Career Guide?</h3>
       <p>
         Build a profile and find the job that is a fit for you. Simple profile building allows you
@@ -85,9 +119,27 @@
         <li>Shortlist jobs you're interested in</li>
         <li>Learn about jobs that may be a good fit for you</li>
       </ul>
-      <a class="btn-3" id="get-started" href="/nextjob.html">Get Started!</a>
+      <a class="get-started btn-3" href="/nextjob.html">Get Started!</a>
     </div>
-    <div class="splash">
+    <div class="splash french">
+      <h3>qu'est-ce que CareerGuie</h3>
+      <p>
+        Créez un profil et trouvez l'emploi qui vous convient. La création de profil simple vous permet
+         pour voir les emplois que vous voudrez voir et éviter tout ce qui ne vous convient pas.
+        Traits:
+      </p>
+      <ul>
+        <li>Répondez aux questions pour créer votre profil</li>
+        <li>J'aime et n'aime pas les emplois tels qu'ils sont présentés</li>
+        <li>Obtenez des idées d'emplois en fonction de votre profil</li>
+        <li>Parcourez une sélection de plus de 750 emplois</li>
+        <li>Liste des emplois qui vous intéressent</li>
+        <li>Renseignez-vous sur les emplois qui pourraient vous convenir</li>
+      </ul>
+      <a class="get-started btn-3" href="/nextjob.html">Commencer</a>
+    </div>
+
+    <div class="splash english">
       <h3>Project PONToon</h3>
       <p>
         Partnership Opportunity using New Technologies fostering sOcial and ecOnomic inclusioN
@@ -100,6 +152,20 @@
         <a href='https://www.pontoonproject.eu'>https://www.pontoonproject.eu</a>
       </p>
     </div>
+    <div class="splash french">
+      <h3>Projet PONToon</h3>
+      <p>
+        Opportunité de partenariat utilisant les nouvelles technologies favorisant l'inclusion sociale et écOnomique
+         2017-2021, est une collaboration de renforcement des compétences numériques de 5,8 millions d'euros entre les participants
+         dans le sud de l'Angleterre et le nord de la France. Le projet est financé à 69% par le
+         Fonds de développement régional, programme Interreg France (Manche) Angleterre et est fourni par
+         11 partenaires, Université de Portsmouth (chef de file), Amiens Métropole, Aspex, ADICE, Digital
+         Peninsula Network, Devon Mind, Eastleigh Borough Council, GIP-FCIP de l'académie de Caen,
+         MEFP, TRAJECTIO et WSX Enterprise.
+        <a href='https://www.pontoonproject.eu'>https://www.pontoonproject.eu</a>
+      </p>
+    </div>
+
     <aside>
       Select testing user:
       <select id='user-select'>
