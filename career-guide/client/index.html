@@ -4,12 +4,24 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" type="text/css" href="css/index.css">
+  <style>
+    /* style in HTML to prevent flash of wrong language */
+    body.in-english .french { display: none !important; }
+    body.in-french .english { display: none !important; }
+  </style>
   <script async defer src="js/index.js" type="module"></script>
   <link rel="icon" type="image/png" sizes="16x16" href="/image/favicon.png">
   <title>Career Guide</title>
 </head>
 
-<body>
+<body class="in-english">
+  <script>
+    // script in HTML to prevent flash of wrong language
+    if (localStorage.getItem('PONTOON_CG_LANG') === 'french') {
+      document.querySelector('body').classList.remove('in-english');
+      document.querySelector('body').classList.add('in-french');
+    }
+  </script>
   <nav>
     <section id="navbar">
       <a id="logo-link" href='https://pontoonapps.com/'>
@@ -63,9 +75,9 @@
          click Login as Guest to proceed with a guest account.
       </p>
       <p class="french">
-        If you already have a PONToonapps account, click Sign in to proceed with your existing
-         account. If you do not already have an account, create one with the Sign up button or
-         click Login as Guest to proceed with a guest account.
+        Si vous avez déjà un compte PONToonapps, cliquez sur Se connecter pour continuer avec votre
+         Compte. Si vous n'avez pas encore de compte, créez-en un avec le bouton Inscription ou
+         cliquez sur Se connecter en tant qu'invité pour ouvrir un compte d'invité.
       </p>
       <p id="login-admin" style="display: none">
         <span class="english">Note that Admin or Recruiter accounts cannot be used on Career Guide, please </span>
@@ -156,7 +168,7 @@
     </div>
     <div class="splash">
       <h3 class="english">Project PONToon</h3>
-      <h3 class="english">projet PONToon</h3>
+      <h3 class="french">projet PONToon</h3>
       <p class="english">
         Partnership Opportunity using New Technologies fostering sOcial and ecOnomic inclusioN
          2017-2021, is a 5.8 million euro digital upskilling collaboration between participants
