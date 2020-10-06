@@ -115,7 +115,8 @@ button {
 
 #guest-login-info-btns > a,
 #guest-login-info-btns > button,
-#login-requester-btns > a {
+#login-requester-btns > a,
+#login-requester-btns > button {
   display: flex;
   align-items: center;
   justify-content: center;
