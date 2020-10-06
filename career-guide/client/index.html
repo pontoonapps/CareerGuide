@@ -19,129 +19,145 @@
     </section>
     <p id="guest-notice" style="display: none">Guest Account</p>
     <div id="navbar-slide">
-      <a class="navbar-slide-item" href="nextjob.html">Next Job</a>
-      <a class="navbar-slide-item" href="shortlist.html">Shortlist</a>
-      <a class="navbar-slide-item" href="likehistory.html">Like History</a>
-      <a class="navbar-slide-item" href="questionnairereview.html">Questionnaire Review</a>
-      <a class="navbar-slide-item visible-when-logged-out" href="https://pontoonapps.com/jobsectors.php">Job Sector Guide</a>
+      <a class="navbar-slide-item" href="nextjob.html">
+        <span class="english">Next Job</span>
+        <span class="french">travail suivant</span>
+      </a>
+      <a class="navbar-slide-item" href="shortlist.html">
+        <span class="english">Shortlist</span>
+        <span class="french">liste restreinte</span>
+      </a>
+      <a class="navbar-slide-item" href="likehistory.html">
+        <span class="english">Like History</span>
+        <span class="french">comme l'histoire</span>
+      </a>
+      <a class="navbar-slide-item" href="questionnairereview.html">
+        <span class="english">Questionnaire Review</span>
+        <span class="french">historique du questionnaire</span>
+      </a>
+      <a class="navbar-slide-item visible-when-logged-out" href="https://pontoonapps.com/jobsectors.php">
+        <span class="english">Job Sector Guide</span>
+        <span class="french">guide du secteur d'emploi</span>
+      </a>
       <a style="display: none"
         href="https://pontoonapps.com/login.php"
         id="navbar-login-prompt"
         class="navbar-slide-item visible-when-logged-out">
-        Please log in as a job seeker to access these pages
+        <span class="english">Please log in as a job seeker to access these pages</span>
+        <span class="french">Veuillez vous connecter en tant que demandeur d'emploi pour accéder à ces pages</span>
       </a>
     </div>
   </nav>
 
   <main>
-    <h1 class="title english">Welcome to Career Guide</h1>
-    <h1 class="title french">Bienvenue à Career Guide</h1>
-    <div class="login-requester english splash" style="display: none">
-      <h3>Please Note</h3>
-      <p>You need to be logged in to use Career Guide.</p>
-      <p>
+    <h1 id="title" class="english">Welcome to Career Guide</h1>
+    <h1 id="title" class="french">Bienvenue dans le guide de carrière</h1>
+    <div id="login-requester" class="splash" style="display: none">
+      <h3 class="english">Please Note</h3>
+      <h3 class="french">Notez s'il vous plaît</h3>
+      <p class="english">You need to be logged in to use Career Guide.</p>
+      <p class="french">Vous devez être connecté pour utiliser le Guide des carrières.</p>
+      <p class="english">
         If you already have a PONToonapps account, click Sign in to proceed with your existing
          account. If you do not already have an account, create one with the Sign up button or
          click Login as Guest to proceed with a guest account.
       </p>
-      <p class="login-admin" style="display: none">
-        Note that Admin or Recruiter accounts cannot be used on Career Guide, please <a href="https://pontoonapps.com/recruiters/logout.php">log out</a>.
+      <p class="french">
+        If you already have a PONToonapps account, click Sign in to proceed with your existing
+         account. If you do not already have an account, create one with the Sign up button or
+         click Login as Guest to proceed with a guest account.
       </p>
-      <div class="login-requester-btns">
-        <a class="sign-in btn-3" href="https://pontoonapps.com/login.php">Sign in</a>
-        <a class="sign-up btn-3" href="https://pontoonapps.com/user_signup.php">Sign up</a>
-        <button class="guest-login btn-3">Login as Guest</button>
-      </div>
-    </div>
-    <div class="login-requester french splash" style="display: none">
-      <h3>Notez s'il vous plaît</h3>
-      <p>Vous devez être connecté pour utiliser Career Guide</p>
-      <p>
-        Si vous avez déjà un compte PONToonapps, cliquez sur Se connecter pour continuer avec votre
-         Compte. Si vous n'avez pas encore de compte, créez-en un avec le bouton Inscription ou
-         cliquez sur Se connecter en tant qu'invité pour ouvrir un compte d'invité.
-      </p>
-      <p class="login-admin" style="display: none">
-        Notez que les comptes administrateur ou recruteur ne peuvent pas être utilisés sur le guide de carrière, veuillez vous <a href="https://pontoonapps.com/recruiters/logout.php">connecter</a>.
+      <p id="login-admin" style="display: none">
+        <span class="english">Note that Admin or Recruiter accounts cannot be used on Career Guide, please </span>
+        <span class="french">Notez que les comptes Administrateur ou Recruteur ne peuvent pas être utilisés sur le Guide de carrière, veuillez </span>
+        <a href="https://pontoonapps.com/recruiters/logout.php">
+          <span class="english">log out</span>
+          <span class="french">Se déconnecter</span>
+        </a>
       </p>
       <div id="login-requester-btns">
-        <a class="sign-in btn-3" href="https://pontoonapps.com/login.php">se connecteri</a>
-        <a class="sign-up btn-3" href="https://pontoonapps.com/user_signup.php">s'inscrire</a>
-        <button class="guest-login btn-3">se connecter en tant qu'invité</button>
-      </div>
-    </div>
-
-    <div class="guest-login-info english splash" style="display: none">
-      <h3>You are currently logged in as a guest</h3>
-      <p>
-        A guest account may disappear if you haven't used it for a while, and the data is only
-         available on this computer. If you'd like to keep your data, you can create a PONToonapps
-         account. If you already have one, the answers in a guest account may be lost when you log
-         into your PONToonapps account.
-      </p>
-      <div class="guest-login-info-btns">
-        <a class="sign-up btn-3" href="https://pontoonapps.com/user_signup.php">Sign up</a>
-        <button class="logout-guest btn-1">Logout</button>
-        <button class="confirm-logout-guest btn-2" style="display: none">
-          Are you sure? This guest account will be lost.
-        </button>
-      </div>
-    </div>
-    <div clas="guest-login-info french splash" style="display: none">
-      <h3>You are currently logged in as a guest</h3>
-      <p>
-        A guest account may disappear if you haven't used it for a while, and the data is only
-         available on this computer. If you'd like to keep your data, you can create a PONToonapps
-         account. If you already have one, the answers in a guest account may be lost when you log
-         into your PONToonapps account.
-      </p>
-      <div class="guest-login-info-btns">
-        <a class="sign-up btn-3" href="https://pontoonapps.com/user_signup.php">Sign up</a>
-        <button class="logout-guest btn-1">Logout</button>
-        <button class="confirm-logout-guest btn-1" style="display: none">
-          Are you sure? This guest account will be lost.
+        <a id="sign-in" class="btn-3" href="https://pontoonapps.com/login.php">
+          <span class="english">Sign in</span>
+          <span class="french">se connecter</span>
+        </a>
+        <a id="sign-up" class="btn-3" href="https://pontoonapps.com/user_signup.php">
+          <span class="english">Sign up</span>
+          <span class="french">s'inscrire</span>
+        </a>
+        <button id="guest-login" class="btn-3">
+          <span class="english">Login as guest</span>
+          <span class="french">se connecter en tant qu'invité</span>
         </button>
       </div>
     </div>
 
-    <div class="splash english">
-      <h3>What is Career Guide?</h3>
-      <p>
+    <div id="guest-login-info" style="display: none" class="splash">
+      <h3 class="english">You are currently logged in as a guest</h3>
+      <h3 class="french">Vous êtes actuellement connecté en tant qu'invité</h3>
+      <p class="english">
+        A guest account may disappear if you haven't used it for a while, and the data is only
+         available on this computer. If you'd like to keep your data, you can create a PONToonapps
+         account. If you already have one, the answers in a guest account may be lost when you log
+         into your PONToonapps account.
+      </p>
+      <p class="french">
+        Un compte invité peut disparaître si vous ne l'avez pas utilisé pendant un certain temps, et les données ne sont que
+         disponible sur cet ordinateur. Si vous souhaitez conserver vos données, vous pouvez créer un PONToonapps
+         Compte. Si vous en avez déjà un, les réponses dans un compte invité peuvent être perdues lorsque vous vous connectez
+         sur votre compte PONToonapps.
+      </p>
+      <div id="guest-login-info-btns">
+        <a id="sign-up" class="btn-3" href="https://pontoonapps.com/user_signup.php">
+          <span class="english">Sign up</span>
+          <span class="french">s'inscrire</span>
+        </a>
+        <button id="logout-guest" class="btn-1">
+          <span class="english">Logout</span>
+          <span class="french">Se déconnecter</span>
+        </button>
+        <button id="confirm-logout-guest" class="btn-1" style="display: none">
+          <span class="english">Are you sure? This guest account will be lost.</span>
+          <span class="french">Êtes-vous sûr? Ce compte invité sera perdu.</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="splash">
+      <h3 class="english">What is Career Guide?</h3>
+      <h3 class="french">Qu'est-ce que Career Guide</h3>
+      <p class="english">
         Build a profile and find the job that is a fit for you. Simple profile building allows you
          to see the jobs you will want to see, and avoid anything that isn’t a fit for you.
         Features:
       </p>
-      <ul>
-        <li>Answer questions to build your profile</li>
-        <li>Like and dislike jobs as they are presented</li>
-        <li>Get job ideas based on your profile</li>
-        <li>Browse a selection of over 750 jobs</li>
-        <li>Shortlist jobs you're interested in</li>
-        <li>Learn about jobs that may be a good fit for you</li>
-      </ul>
-      <a class="get-started btn-3" href="/nextjob.html">Get Started!</a>
-    </div>
-    <div class="splash french">
-      <h3>qu'est-ce que CareerGuie</h3>
-      <p>
+      <p class="french">
         Créez un profil et trouvez l'emploi qui vous convient. La création de profil simple vous permet
          pour voir les emplois que vous voudrez voir et éviter tout ce qui ne vous convient pas.
         Traits:
       </p>
       <ul>
-        <li>Répondez aux questions pour créer votre profil</li>
-        <li>J'aime et n'aime pas les emplois tels qu'ils sont présentés</li>
-        <li>Obtenez des idées d'emplois en fonction de votre profil</li>
-        <li>Parcourez une sélection de plus de 750 emplois</li>
-        <li>Liste des emplois qui vous intéressent</li>
-        <li>Renseignez-vous sur les emplois qui pourraient vous convenir</li>
+        <li class="english">Answer questions to build your profile</li>
+        <li class="english">Like and dislike jobs as they are presented</li>
+        <li class="english">Get job ideas based on your profile</li>
+        <li class="english">Browse a selection of over 750 jobs</li>
+        <li class="english">Shortlist jobs you're interested in</li>
+        <li class="english">Learn about jobs that may be a good fit for you</li>
+        <li class="french">Répondez aux questions pour créer votre profil</li>
+        <li class="french">J'aime et n'aime pas les emplois tels qu'ils sont présentés</li>
+        <li class="french">Obtenez des idées d'emplois en fonction de votre profil</li>
+        <li class="french">Parcourez une sélection de plus de 750 emplois</li>
+        <li class="french">Liste des emplois qui vous intéressent</li>
+        <li class="french">Renseignez-vous sur les emplois qui pourraient vous convenir</li>
       </ul>
-      <a class="get-started btn-3" href="/nextjob.html">Commencer</a>
+      <a class="btn-3" id="get-started" href="/nextjob.html">
+        <span class="english">Get Started!</span>
+        <span class="french">Commencer</span>
+      </a>
     </div>
-
-    <div class="splash english">
-      <h3>Project PONToon</h3>
-      <p>
+    <div class="splash">
+      <h3 class="english">Project PONToon</h3>
+      <h3 class="english">projet PONToon</h3>
+      <p class="english">
         Partnership Opportunity using New Technologies fostering sOcial and ecOnomic inclusioN
          2017-2021, is a 5.8 million euro digital upskilling collaboration between participants
          in Southern England and Northern France. The project is 69% funded by the European
@@ -151,10 +167,7 @@
          MEFP, TRAJECTIO and WSX Enterprise.
         <a href='https://www.pontoonproject.eu'>https://www.pontoonproject.eu</a>
       </p>
-    </div>
-    <div class="splash french">
-      <h3>Projet PONToon</h3>
-      <p>
+      <p class="french">
         Opportunité de partenariat utilisant les nouvelles technologies favorisant l'inclusion sociale et écOnomique
          2017-2021, est une collaboration de renforcement des compétences numériques de 5,8 millions d'euros entre les participants
          dans le sud de l'Angleterre et le nord de la France. Le projet est financé à 69% par le
@@ -165,7 +178,6 @@
         <a href='https://www.pontoonproject.eu'>https://www.pontoonproject.eu</a>
       </p>
     </div>
-
     <aside>
       Select testing user:
       <select id='user-select'>
