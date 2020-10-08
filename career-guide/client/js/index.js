@@ -1,20 +1,22 @@
 import * as shared from './shared.js';
 // this code (until the next comment) will go when we no longer need dummy auth
 
-const userSelector = document.querySelector('#user-select');
+function enableUserSelector() {
+  const userSelector = document.querySelector('#user-select');
 
-if (window.location.hostname === 'pontoonapps.com') {
-  userSelector.parentElement.style.display = 'none';
-} else {
-  // use dummy auth selector
-  userSelector.addEventListener('change', selectUser);
-  userSelector.value = localStorage.getItem('dummy-user') || 'none';
-}
+  if (window.location.hostname === 'pontoonapps.com') {
+    userSelector.parentElement.style.display = 'none';
+  } else {
+    // use dummy auth selector
+    userSelector.addEventListener('change', selectUser);
+    userSelector.value = localStorage.getItem('dummy-user') || 'none';
+  }
 
-function selectUser() {
-  const user = userSelector.value;
-  localStorage.setItem('dummy-user', user);
-  document.cookie = `PHPSESSID=${user}; path=/`;
+  function selectUser() {
+    const user = userSelector.value;
+    localStorage.setItem('dummy-user', user);
+    document.cookie = `PHPSESSID=${user}; path=/`;
+  }
 }
 
 // keep the following code:
@@ -117,6 +119,8 @@ function confirmLogoutGuest() {
 }
 
 async function init() {
+  enableUserSelector();
+
   shared.showLoadingLabel();
   shared.initNavbar();
   await showUserTypeInfo();
