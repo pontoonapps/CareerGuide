@@ -59,7 +59,9 @@ async function createGuest() {
   }
 }
 
-async function logoutGuest() {
+async function logoutGuest(event) {
+  event.stopPropagation();
+
   const response = await fetch('guest-logout', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -105,13 +107,12 @@ async function showUserTypeInfo() {
 function hideLogoutGuest() {
   const logoutGuestBtn = document.querySelector('#logout-guest');
   const confirmLogoutGuestBtn = document.querySelector('#confirm-logout-guest');
-  if (event.target !== logoutGuestBtn) {
-    logoutGuestBtn.style.display = '';
-    confirmLogoutGuestBtn.style.display = 'none';
-  }
+  logoutGuestBtn.style.display = '';
+  confirmLogoutGuestBtn.style.display = 'none';
 }
 
-function confirmLogoutGuest() {
+function confirmLogoutGuest(event) {
+  event.stopPropagation();
   const logoutGuestBtn = document.querySelector('#logout-guest');
   const confirmLogoutGuestBtn = document.querySelector('#confirm-logout-guest');
   logoutGuestBtn.style.display = 'none';
@@ -128,6 +129,9 @@ async function init() {
   document.querySelector('#guest-login').addEventListener('click', createGuest);
   document.querySelector('#logout-guest').addEventListener('click', confirmLogoutGuest);
   document.querySelector('#confirm-logout-guest').addEventListener('click', logoutGuest);
+
+  // if we're showing the button to confirm guest logout, clicking anywhere else will hide it again
+  // the event listeners above stop their click event propagating to hideLogoutGuest
   document.addEventListener('click', hideLogoutGuest);
 
   shared.hideLoadingLabel(); // hide loading label and show main
