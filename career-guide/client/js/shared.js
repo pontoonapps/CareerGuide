@@ -10,6 +10,26 @@ export async function createToast() {
 export function initNavbar() {
   document.querySelector('#nav-btn').addEventListener('click', toggleNav);
   document.addEventListener('click', clickOffNav);
+
+  const currentLanguageEnglishBtn = document.querySelector('#current-language-english');
+  const currentLanguageFrenchBtn = document.querySelector('#current-language-french');
+  currentLanguageEnglishBtn.addEventListener('click', changeLanguage);
+  currentLanguageFrenchBtn.addEventListener('click', changeLanguage);
+}
+
+function changeLanguage(event) {
+  switch (event.target.id) {
+    case 'current-language-english':
+      // if current language is english, change to french
+      document.querySelector('body').classList.remove('in-english');
+      document.querySelector('body').classList.add('in-french');
+      break;
+    case 'current-language-french':
+      // if current language is french, change to english
+      document.querySelector('body').classList.remove('in-french');
+      document.querySelector('body').classList.add('in-english');
+      break;
+  }
 }
 
 export function showLoadingLabel() {

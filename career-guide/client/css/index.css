@@ -40,6 +40,19 @@ button {
   min-height: 4em;
 }
 
+.language-indicator {
+  border: none;
+  background-color: transparent;
+}
+
+.language-indicator > img {
+  height: 1.5em;
+  width: 3em;
+  border: 0.2em double var(--davys-gray);
+  border-radius: 1em;
+  pointer-events: none;
+}
+
 #empty-page {
   color: var(--davys-gray);
 }
