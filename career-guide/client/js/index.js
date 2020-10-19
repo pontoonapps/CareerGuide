@@ -1,20 +1,22 @@
 import * as shared from './shared.js';
 // this code (until the next comment) will go when we no longer need dummy auth
 
-const userSelector = document.querySelector('#user-select');
+function enableUserSelector() {
+  const userSelector = document.querySelector('#user-select');
 
-if (window.location.hostname === 'pontoonapps.com') {
-  userSelector.parentElement.style.display = 'none';
-} else {
-  // use dummy auth selector
-  userSelector.addEventListener('change', selectUser);
-  userSelector.value = localStorage.getItem('dummy-user') || 'none';
-}
+  if (window.location.hostname === 'pontoonapps.com') {
+    userSelector.parentElement.style.display = 'none';
+  } else {
+    // use dummy auth selector
+    userSelector.addEventListener('change', selectUser);
+    userSelector.value = localStorage.getItem('dummy-user') || 'none';
+  }
 
-function selectUser() {
-  const user = userSelector.value;
-  localStorage.setItem('dummy-user', user);
-  document.cookie = `PHPSESSID=${user}; path=/`;
+  function selectUser() {
+    const user = userSelector.value;
+    localStorage.setItem('dummy-user', user);
+    document.cookie = `PHPSESSID=${user}; path=/`;
+  }
 }
 
 // keep the following code:
@@ -57,7 +59,9 @@ async function createGuest() {
   }
 }
 
-async function logoutGuest() {
+async function logoutGuest(event) {
+  event.stopPropagation();
+
   const response = await fetch('guest-logout', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -103,13 +107,12 @@ async function showUserTypeInfo() {
 function hideLogoutGuest() {
   const logoutGuestBtn = document.querySelector('#logout-guest');
   const confirmLogoutGuestBtn = document.querySelector('#confirm-logout-guest');
-  if (event.target !== logoutGuestBtn) {
-    logoutGuestBtn.style.display = '';
-    confirmLogoutGuestBtn.style.display = 'none';
-  }
+  logoutGuestBtn.style.display = '';
+  confirmLogoutGuestBtn.style.display = 'none';
 }
 
-function confirmLogoutGuest() {
+function confirmLogoutGuest(event) {
+  event.stopPropagation();
   const logoutGuestBtn = document.querySelector('#logout-guest');
   const confirmLogoutGuestBtn = document.querySelector('#confirm-logout-guest');
   logoutGuestBtn.style.display = 'none';
@@ -117,6 +120,8 @@ function confirmLogoutGuest() {
 }
 
 async function init() {
+  enableUserSelector();
+
   shared.showLoadingLabel();
   shared.initNavbar();
   await showUserTypeInfo();
@@ -124,6 +129,9 @@ async function init() {
   document.querySelector('#guest-login').addEventListener('click', createGuest);
   document.querySelector('#logout-guest').addEventListener('click', confirmLogoutGuest);
   document.querySelector('#confirm-logout-guest').addEventListener('click', logoutGuest);
+
+  // if we're showing the button to confirm guest logout, clicking anywhere else will hide it again
+  // the event listeners above stop their click event propagating to hideLogoutGuest
   document.addEventListener('click', hideLogoutGuest);
 
   shared.hideLoadingLabel(); // hide loading label and show main
