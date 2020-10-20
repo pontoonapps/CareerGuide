@@ -23,11 +23,13 @@ function changeLanguage(event) {
       // if current language is english, change to french
       document.querySelector('body').classList.remove('in-english');
       document.querySelector('body').classList.add('in-french');
+      localStorage.setItem('PONTOON_CG_LANG', 'french');
       break;
     case 'current-language-french':
       // if current language is french, change to english
       document.querySelector('body').classList.remove('in-french');
       document.querySelector('body').classList.add('in-english');
+      localStorage.setItem('PONTOON_CG_LANG', 'english'); // should this be  set to english or removed?
       break;
   }
 }
