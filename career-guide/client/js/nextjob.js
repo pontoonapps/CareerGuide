@@ -121,7 +121,8 @@ function createLink(href, textContent) {
 }
 
 function displayItem(item) {
-  for (const button of document.querySelectorAll('button')) { // hide buttons
+  // hide buttons in main (main specified to skip language selector in <nav>)
+  for (const button of document.querySelectorAll('main > button')) {
     button.style.display = 'none';
   }
 
@@ -233,9 +234,11 @@ function addEventListeners() {
     #btn-show-later,
     #btn-like,
     #submit-shortlist`;
+
   for (const button of document.querySelectorAll(submitButtonsSelector)) {
     button.addEventListener('click', submitAndLoadNext);
   }
+
   document.querySelector('#btn-shortlist').addEventListener('click', confirmShortlist);
   document.querySelector('#show-more').addEventListener('click', expandInfoText);
   document.querySelector('#show-less').addEventListener('click', collapseInfoText);
