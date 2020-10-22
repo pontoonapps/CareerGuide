@@ -71,8 +71,14 @@
   </nav>
 
   <main>
-    <h1 id="title">Shortlist</h1>
-    <h2 id="empty-page" style="display: none">You haven't shortlisted any jobs yet</h2>
+    <h1 id="title">
+      <span class="english">Shortlist</span>
+      <span class="french">Présélection</span>
+    </h1>
+    <h2 id="empty-page" style="display: none">
+      <span class="english">You haven't shortlisted any jobs yet</span>
+      <span class="french">Vous n'avez pas encore ajouté des métiers à cette liste</span>
+    </h2>
   </main>
   <div id='list-container'></div>
   <template id='shortlist-template'>
@@ -80,7 +86,10 @@
       <img class="job-image" alt="job icon">
       <h3 class="list-item-title"></h3>
       <p class="job-desc"></p>
-      <button class="btn-2 remove-shortlist-item">Remove from Shortlist</button>
+      <button class="btn-2 remove-shortlist-item">
+        <span class="english">Remove from Shortlist</span>
+        <span class="french">Remove from Shortlist</span>
+      </button>
     </section>
   </template>
 </body>
