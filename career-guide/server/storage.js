@@ -11,7 +11,9 @@ async function answeredJobs(userId) {
     SELECT
       jobs.id,
       jobs.title_en AS title_en,
+      jobs.titre_fr AS title_fr,
       jobs.description_en AS description_en,
+      jobs.description_fr AS description_fr,
       categories.icon_filename AS image,
       likes.type AS answer,
       shortlists.job_id AS shortlist,
@@ -61,16 +63,23 @@ async function answeredQuestions(userId) {
       options = []; // reset options array for this question
       currentQuestion = row.question_id; // update id of current question
 
+      // TODO: Add french translation to title_fr, question_fr
       questions.push({
         question_id: row.question_id,
         title_en: row.title_en,
+        title_fr: 'No translation available yet', // temporary string
         question_en: row.question_en,
+        question_fr: 'No translation available yet', // temporary string
         answer_number: row.answered,
         options: options,
       });
     }
+    // TODO: Add french translation to answer_fr
     // push the current question's option data
-    options.push({ answer_en: row.answer_en, answer_number: row.answer_number });
+    options.push({
+      answer_en: row.answer_en,
+      answer_fr: 'No translation available yet', // temporary string
+      answer_number: row.answer_number });
   }
   return questions;
 }
@@ -118,7 +127,9 @@ function formatNextJobForAPI(job) {
   return {
     id: job.id,
     title_en: job.title_en,
+    title_fr: job.title_fr,
     description_en: job.description_en,
+    description_fr: job.description_fr,
     image: job.image,
   };
 }
@@ -140,7 +151,9 @@ async function getFreshJobs(userId) {
     SELECT
       jobs.id,
       jobs.title_en,
+      jobs.titre_fr AS title_fr,
       jobs.description_en,
+      jobs.description_fr,
       categories.icon_filename AS image,
       jobs.teamwork,
       jobs.physical_activity,
@@ -230,16 +243,23 @@ async function getNextQuestion(userId) {
     return;
   }
 
+  // TODO: Add translation to label_fr
   // aggregate the options
   const options = [];
   for (const row of questionData) {
-    options.push({ label_en: row.answer_en, option_number: row.answer_number });
+    options.push({
+      label_en: row.answer_en,
+      label_fr: 'No translation available yet', // temporary string
+      option_number: row.answer_number,
+    });
   }
 
+  // TODO: Add translation to question_fr
   const question = {
     id: questionData[0].question_id,
     options: options,
     question_en: questionData[0].question_en,
+    question_fr: 'No translation available yet', // temporary string
     title_en: questionData[0].title_en,
   };
   return question;
