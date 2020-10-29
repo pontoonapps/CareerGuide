@@ -34,6 +34,10 @@ function changeLanguage(event) {
   }
 }
 
+export function getLanguage() {
+  return localStorage.getItem('PONTOON_CG_LANG');
+}
+
 export function showLoadingLabel() {
   // hide main content and display loading
   document.querySelector('main').style.display = 'none';
