@@ -127,8 +127,14 @@ function displayItem(item) {
   }
 
   // display info shared by questions and jobs (image and title)
-  displayTitle(item.title_en);
+  const title = document.querySelector('#title');
+  shared.bothLanguages(title, item.title_en, item.title_fr); // sets title text
+  displayTitle(); // shrinks title font size if overflowing
+  // TODO the font size is changed for the text CURRENTLY in the title, changing lanuage
+  // could cause the new text to be larger and therefore overflow. Should displayTitle
+  // be run again when changing language?
 
+  const infoText = document.querySelector('#info-text');
   if (isQuestion(item)) {
     // item without description is a question
 
@@ -137,10 +143,12 @@ function displayItem(item) {
     for (const option of item.options) {
       const button = document.querySelectorAll('.question')[buttonIndex];
       button.style.display = '';
-      button.textContent = option.label_en;
+      shared.bothLanguages(button, option.label_en, option.label_fr);
       button.dataset.choice = option.option_number;
       buttonIndex += 1;
     }
+
+    shared.bothLanguages(infoText, item.question_en, item.question_fr);
     displayInfoText(item);
 
     // show question image
@@ -157,6 +165,7 @@ function displayItem(item) {
     document.querySelector('#item-image').alt = 'job icon';
 
     // show job description
+    shared.bothLanguages(infoText, item.description_en, item.description_fr);
     displayInfoText(item);
   }
 }
@@ -168,9 +177,6 @@ function isQuestion(item) {
 function displayInfoText(item) {
   const infoText = document.querySelector('#info-text');
   const showMore = document.querySelector('#show-more');
-
-  const text = isQuestion(item) ? item.question_en : item.description_en;
-  infoText.textContent = text;
 
   infoText.classList.toggle('question-text', isQuestion(item));
 
@@ -193,9 +199,8 @@ function truncateOverflow(container) {
   container.textContent = cutText;
 }
 
-function displayTitle(titleText) {
+function displayTitle() {
   const titleEl = document.querySelector('#title');
-  titleEl.textContent = titleText;
 
   // set title then fontsize to 2em, if title overflows decrease font size until no overflow
   let fontEm = 2;

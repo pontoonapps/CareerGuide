@@ -63,13 +63,12 @@ async function answeredQuestions(userId) {
       options = []; // reset options array for this question
       currentQuestion = row.question_id; // update id of current question
 
-      // TODO: Add french translation to title_fr, question_fr
       questions.push({
         question_id: row.question_id,
         title_en: row.title_en,
-        title_fr: 'No translation available yet', // temporary string
+        title_fr: row.title_fr,
         question_en: row.question_en,
-        question_fr: 'No translation available yet', // temporary string
+        question_fr: row.question_fr,
         answer_number: row.answered,
         options: options,
       });
@@ -78,7 +77,7 @@ async function answeredQuestions(userId) {
     // push the current question's option data
     options.push({
       answer_en: row.answer_en,
-      answer_fr: 'No translation available yet', // temporary string
+      answer_fr: row.answer_fr,
       answer_number: row.answer_number });
   }
   return questions;
@@ -147,6 +146,7 @@ function getPseudoRandomItem(arr) {
 async function getFreshJobs(userId) {
   const sql = await sqlPromise;
 
+  // TODO should be title not titre
   const query = `
     SELECT
       jobs.id,
@@ -219,8 +219,11 @@ async function getNextQuestion(userId) {
     SELECT
       questions.id AS question_id,
       questions.title_en AS title_en,
+      questions.title_fr AS title_fr,
       questions.question_en AS question_en,
+      questions.question_fr AS question_fr,
       options.label_en AS answer_en,
+      options.label_fr AS answer_fr,
       options.option_number AS answer_number
     FROM pontoonapps_careerguide.questions
     JOIN pontoonapps_careerguide.options
@@ -239,29 +242,30 @@ async function getNextQuestion(userId) {
     ORDER BY answer_number`;
   const [questionData] = await sql.query(query, [userId, userId]);
 
+  console.log(questionData);
   if (questionData[0] === undefined) {
     return;
   }
 
-  // TODO: Add translation to label_fr
   // aggregate the options
   const options = [];
   for (const row of questionData) {
     options.push({
       label_en: row.answer_en,
-      label_fr: 'No translation available yet', // temporary string
+      label_fr: row.answer_fr,
       option_number: row.answer_number,
     });
   }
 
-  // TODO: Add translation to question_fr
   const question = {
     id: questionData[0].question_id,
     options: options,
     question_en: questionData[0].question_en,
-    question_fr: 'No translation available yet', // temporary string
+    question_fr: questionData[0].question_fr,
     title_en: questionData[0].title_en,
+    title_fr: questionData[0].title_fr,
   };
+
   return question;
 }
 

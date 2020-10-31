@@ -34,6 +34,25 @@ function changeLanguage(event) {
   }
 }
 
+export function bothLanguages(container, englishText, frenchText) {
+  while (container.childNodes.length > 0) {
+    container.removeChild(container.childNodes[0]);
+  }
+
+  const englishSpan = document.createElement('span');
+  const frenchSpan = document.createElement('span');
+
+  englishSpan.textContent = englishText;
+  frenchSpan.textContent = frenchText;
+
+  englishSpan.classList.add('english');
+  frenchSpan.classList.add('french');
+
+  container.appendChild(englishSpan);
+  container.appendChild(frenchSpan);
+}
+
+// this is done in the javascript inline with the HTML. TODO delete?
 export function getLanguage() {
   return localStorage.getItem('PONTOON_CG_LANG');
 }
