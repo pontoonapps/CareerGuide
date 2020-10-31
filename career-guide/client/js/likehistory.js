@@ -27,11 +27,24 @@ function displayLikeHistory(jobList) {
 
     // display job data
     jobContainer.querySelector('.job-image').src = 'img/' + job.image;
-    jobContainer.querySelector('.list-item-title').textContent = job.title_en;
-    jobContainer.querySelector('.job-desc').textContent = job.description_en;
-    const timeStamp = jobContainer.querySelector('.like-history-timestamp');
-    timeStamp.textContent = job.answer === 'like' ? 'liked ' : 'disliked ';
-    timeStamp.textContent += formatTimestamp(new Date(Date.parse(job.timestamp)));
+
+    const jobTitle = jobContainer.querySelector('.list-item-title');
+    shared.bothLanguages(jobTitle, job.title_en, job.title_fr);
+
+    const jobDescription = jobContainer.querySelector('.job-desc');
+    shared.bothLanguages(jobDescription, job.description_en, job.description_fr);
+
+    const timestampContainer = jobContainer.querySelector('.like-history-timestamp');
+
+    const timestampLikeEnglish = job.answer === 'like' ? 'liked ' : 'disliked ';
+    const timestampTimeEnglish = formatTimestamp(new Date(Date.parse(job.timestamp)));
+    const timestampEnglish = timestampLikeEnglish + timestampTimeEnglish;
+
+    const timestampLikeFrench = job.answer === 'like' ? 'Aimé' : 'Pas aimé';
+    const timestampTimeFrench = 'TODO!!';
+    const timestampFrench = timestampLikeFrench + timestampTimeFrench;
+
+    shared.bothLanguages(timestampContainer, timestampEnglish, timestampFrench);
 
     // get job buttons
     const jobBtns = getContainerButtons(jobContainer);
@@ -52,6 +65,7 @@ function displayLikeHistory(jobList) {
 }
 
 // support browsers without Intl.RelativeTimeFormat
+// TODO add seperate formatting functions for french and english
 const formatTimestamp = (Intl && Intl.RelativeTimeFormat) ? formatTimestampNice : formatTimestampFallback;
 
 function formatTimestampNice(ts) {
@@ -127,7 +141,7 @@ async function changeChoice(event) {
     updateJobBtn(event, jobBtns);
     timeStamp.textContent = event.target.dataset.answer === 'like'
       ? 'disliked just now'
-      : 'liked just now';
+      : 'liked just now'; // TODO french translation of liked / disliked just now
   } else {
     document.querySelector('h1').textContent = 'Something went wrong! Please refresh';
   }

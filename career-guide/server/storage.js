@@ -39,9 +39,10 @@ async function answeredQuestions(userId) {
   const query = `
     SELECT
       questions.id AS question_id,
-      questions.title_en AS title_en,
       questions.question_en AS question_en,
+      questions.question_fr AS question_fr,
       options.label_en AS answer_en,
+      options.label_fr AS answer_fr,
       options.option_number AS answer_number,
       answers.option_number AS answered
     FROM pontoonapps_careerguide.questions

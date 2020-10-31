@@ -28,9 +28,14 @@ async function loadShortlist() {
     const jobContainer = document.importNode(template.content, true);
 
     jobContainer.querySelector('.job-image').src = 'img/' + job.image;
-    jobContainer.querySelector('.list-item-title').textContent = job.title_en;
-    jobContainer.querySelector('.job-desc').textContent = job.description_en;
-    jobContainer.querySelector('.job-desc').dataset.fullDescription = job.description_en;
+
+    const jobTitle = jobContainer.querySelector('.list-item-title');
+    shared.bothLanguages(jobTitle, job.title_en, job.title_fr);
+
+    const jobDescription = jobContainer.querySelector('.job-desc');
+    shared.bothLanguages(jobDescription, job.description_en, job.description_fr);
+
+    // removed dataset.fullDescription because this isn't required unless we're truncating the text
     jobContainer.querySelector('.remove-shortlist-item').addEventListener('click', removeShortlistItem);
     jobContainer.querySelector('.remove-shortlist-item').dataset.jobid = job.id;
 
