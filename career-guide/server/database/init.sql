@@ -38,6 +38,7 @@ ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 CREATE TABLE IF NOT EXISTS `pontoonapps_careerguide`.`categories` (
   id                INT             PRIMARY KEY AUTO_INCREMENT,
   title_en          VARCHAR(255),
+  title_fr          VARCHAR(255),
   icon_filename     VARCHAR(100)
 )
 ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
