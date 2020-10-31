@@ -1,0 +1,6 @@
+// context: strings that show on next-job page
+
+C'est tout pour le moment ! 
+
+Félicitations, vous avez visionné tous les emplois inscrits dans notre système !
+Consultez vos "j'aime" et "je n'aime pas" sur la page dédiée, ou retrouvez les emplois que vous avez sélectionnés. 

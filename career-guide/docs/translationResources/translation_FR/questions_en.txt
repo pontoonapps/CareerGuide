@@ -1,0 +1,64 @@
+// context: questionnaire for the user, by question and answer options
+// question titles and text and options text need to be translated
+
+---+---------------------+-------------------------------------------------
+id | title_en            | question_en
+---+---------------------+-------------------------------------------------
+ 1 | Travail en équipe   | Préférez-vous travailler tout(e) seul(e) ou en équipe ?
+
+     Options:
+     1 | Tout(e) seul(e)
+     2 | Peu importe
+     3 | Dans une équipe
+
+ 2 | Activité physique        | Souhaitez-vous faire des activités physiques ?
+
+     Options:
+     1 | Non
+     2 | Cela ne me dérange pas
+     3 | Oui
+
+ 3 | Créatif/Scientifique | Aimeriez-vous faire carrière dans les métiers créatifs ?
+
+     Options:
+     1 | Non
+     2 | Cela ne me dérange pas
+     3 | Oui
+
+ 4 | Conduire             | Aimeriez-vous avoir un travail où vous êtes amené(e) à conduire ? 
+
+     Options:
+     1 | Non
+     2 | Cela ne me dérange pas 
+     3 | Oui 
+
+ 5 | Voyager          | Aimeriez-vous voyager pour votre travail ? 
+
+     Options:
+     1 | Non
+     2 | Occasionnellement
+     3 | Oui
+
+ 6 | Horaires de travail       | Quel type d'horaires de travail aimeriez-vous avoir ?
+
+     Options:
+     1 | Flexibles
+     2 | Peu importe
+     3 | Fixes
+
+ 7 | Services à la personne    | Aimeriez-vous travailler dans le secteur des services à la personne ?
+
+     Options:
+     1 | Non
+     2 | Cela ne me dérange pas
+     3 | Oui
+
+ 8 | Risques             | Accepteriez-vous de faire un travail dangereux ?
+
+     Options:
+     1 | Non
+     2 | Jusqu'à un certain point 
+     3 | Oui
+
+
+// table taken from database: pontoonapps_careerguide table: questions

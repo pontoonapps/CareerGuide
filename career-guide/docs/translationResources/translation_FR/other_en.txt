@@ -1,0 +1,24 @@
+// context: this is a "toast" showing at the bottom of the page
+// see like-history
+
+sauvegardé
+
+
+// context: page titles, showing in browser tab name
+
+Emploi suivant
+Préselectionnez
+Liste des emplois favoris 
+Revue du questionnaire
+Guide des secteurs d'emploi
+
+
+// context: error message that can be shown on the page
+
+Un problème est survenu ! Rechargez la page!
+
+
+// context: these are "alt" attributes on images
+
+question mark
+job icon
