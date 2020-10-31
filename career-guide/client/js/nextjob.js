@@ -95,7 +95,7 @@ function displayNoJobs() {
   document.querySelector('#item-image').src = 'img/question.jpg';
   document.querySelector('#item-image').alt = 'question mark';
 
-  infoText.textContent = '';
+  infoText.textContent = ''; // TODO add french text for all jobs seen
   infoText.append(
     'Congratulations, you have now seen all the jobs in our system! ',
     'Check out your likes and dislikes at ',

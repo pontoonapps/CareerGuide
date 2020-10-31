@@ -1,7 +1,7 @@
 export async function createToast() {
   const toastElem = document.createElement('div');
   toastElem.classList.add('toast');
-  toastElem.textContent = 'Saved';
+  bothLanguages(toastElem, 'Saved', 'Sauvegardé');
   document.querySelector('main').appendChild(toastElem);
   await timeoutDelay(3000);
   toastElem.remove();
@@ -61,7 +61,7 @@ export function showLoadingLabel() {
   // hide main content and display loading
   document.querySelector('main').style.display = 'none';
   const loadingLabel = document.createElement('h1');
-  loadingLabel.textContent = 'Loading';
+  bothLanguages(loadingLabel, 'Loading', 'Chargement');
   loadingLabel.id = 'loadingLabel';
   document.querySelector('body').appendChild(loadingLabel);
 }
