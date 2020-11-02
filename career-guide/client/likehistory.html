@@ -11,7 +11,7 @@
   </style>
   <script async defer src="js/likehistory.js" type="module"></script>
   <link rel="icon" type="image/png" sizes="16x16" href="/image/favicon.png">
-  <title>Like History</title>
+  <title data-french-title="Historique des métiers favoris" data-english-title="Like History">Like History</title>
 </head>
 
 <body class="in-english">
@@ -20,6 +20,8 @@
     if (localStorage.getItem('PONTOON_CG_LANG') === 'french') {
       document.querySelector('body').classList.remove('in-english');
       document.querySelector('body').classList.add('in-french');
+      const title = document.querySelector('title');
+      title.textContent = title.dataset.frenchTitle;
     }
   </script>
   <nav>

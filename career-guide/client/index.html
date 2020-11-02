@@ -11,7 +11,7 @@
   </style>
   <script async defer src="js/index.js" type="module"></script>
   <link rel="icon" type="image/png" sizes="16x16" href="/image/favicon.png">
-  <title>Career Guide</title>
+  <title data-french-title="Guide Carrièrei" data-english-title="Career Guide">Career Guide</title>
 </head>
 
 <body class="in-english">
@@ -20,6 +20,9 @@
     if (localStorage.getItem('PONTOON_CG_LANG') === 'french') {
       document.querySelector('body').classList.remove('in-english');
       document.querySelector('body').classList.add('in-french');
+      // TODO double check this translation as it was taken from "welcome to career guide"
+      const title = document.querySelector('title');
+      title.textContent = title.dataset.frenchTitle;
     }
   </script>
   <nav>

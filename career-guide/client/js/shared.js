@@ -18,17 +18,22 @@ export function initNavbar() {
 }
 
 function changeLanguage(event) {
+  // the french title and english titles are kept in the dataset of the title tag
+  // alternatively a global variable could be used in the HTML script tag
+  const title = document.querySelector('title');
   switch (event.target.id) {
     case 'current-language-english':
       // if current language is english, change to french
       document.querySelector('body').classList.remove('in-english');
       document.querySelector('body').classList.add('in-french');
+      title.textContent = title.dataset.frenchTitle;
       localStorage.setItem('PONTOON_CG_LANG', 'french');
       break;
     case 'current-language-french':
       // if current language is french, change to english
       document.querySelector('body').classList.remove('in-french');
       document.querySelector('body').classList.add('in-english');
+      title.textContent = title.dataset.englishTitle;
       localStorage.setItem('PONTOON_CG_LANG', 'english'); // should this be  set to english or removed?
       break;
   }
