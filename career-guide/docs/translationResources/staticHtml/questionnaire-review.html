@@ -1,0 +1,56 @@
+<html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="css/index.css">
+  <script async="" defer="" src="js/questionnairereview.js" type="module"></script>
+  <link rel="icon" type="image/png" sizes="16x16" href="/image/favicon.png">
+  <title>Questionnaire Review</title>
+</head>
+
+<body>
+  <nav>
+    <section id="navbar">
+      <a id="logo-link" href=".">
+        <img class="navbar-item" id="logo" src="img/pontlogo.png">
+      </a>
+      <img class="navbar-item" id="nav-btn" src="img/navbtn.svg">
+    </section>
+    <p id="guest-notice" style="">Guest Account</p>
+    <div id="navbar-slide">
+      <a class="navbar-slide-item" href="nextjob.html">Next Job</a>
+      <a class="navbar-slide-item" href="shortlist.html">Shortlist</a>
+      <a class="navbar-slide-item" href="likehistory.html">Like History</a>
+      <a class="navbar-slide-item" href="questionnairereview.html">Questionnaire Review</a>
+      <a class="navbar-slide-item" href="https://pontoonapps.com/jobsectors.php">Job Sector Guide</a>
+    </div>
+  </nav>
+
+  <main style="">
+    <h1 id="title">Questionnaire Review</h1>
+    <h2 id="empty-page" style="">You haven't answered any questions yet</h2>
+
+    <section class="list-item-container">
+      <h3 class="question-title">QUESTION TITLE FROM DATABASE</h3>
+      <div class="question-answer">
+        <div style="" data-choice="1" data-question-id="1">ANSWER OPTION FROM DATABASE</div><!--display none only required if questions have a varying number of answers-->
+        <div style="" data-choice="2" data-question-id="1">ANSWER OPTION FROM DATABASE</div>
+        <div style="" data-choice="3" class="selected" data-question-id="1">ANSWER OPTION FROM DATABASE</div>
+      </div>
+    </section>
+
+  </main>
+  <template id="questionnaire-template">
+    <section class="list-item-container">
+      <h3 class="question-title"></h3>
+      <div class="question-answer">
+        <div style="display: none;"></div><!--display none only required if questions have a varying number of answers-->
+        <div style="display: none;"></div>
+        <div style="display: none;"></div>
+      </div>
+    </section>
+  </template>
+
+
+<h1 id="loadingLabel" style="">Loading</h1>
+</body>
+</html>

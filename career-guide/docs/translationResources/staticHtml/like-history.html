@@ -1,0 +1,95 @@
+<html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="css/index.css">
+  <script async="" defer="" src="js/likehistory.js" type="module"></script>
+  <link rel="icon" type="image/png" sizes="16x16" href="/image/favicon.png">
+  <title>Like History</title>
+</head>
+
+<body>
+  <nav>
+    <section id="navbar">
+      <a id="logo-link" href=".">
+        <img class="navbar-item" id="logo" src="img/pontlogo.png">
+      </a>
+      <img class="navbar-item" id="nav-btn" src="img/navbtn.svg">
+    </section>
+    <p id="guest-notice" style="">Guest Account</p>
+    <div id="navbar-slide">
+      <a class="navbar-slide-item" href="nextjob.html">Next Job</a>
+      <a class="navbar-slide-item" href="shortlist.html">Shortlist</a>
+      <a class="navbar-slide-item" href="likehistory.html">Like History</a>
+      <a class="navbar-slide-item" href="questionnairereview.html">Questionnaire Review</a>
+      <a class="navbar-slide-item" href="https://pontoonapps.com/jobsectors.php">Job Sector Guide</a>
+    </div>
+  </nav>
+
+  <main style="">
+    <h1 id="title">Like History</h1>
+    <h2 id="empty-page">You haven't liked anything yet</h2>
+    <div id="history-filter">
+      <h3>Show me:</h3>
+      <div id="history-filter-btns">
+        <button data-filter="like" class="">Likes only</button>
+        <button data-filter="none" class="selected">Both likes and dislikes</button>
+        <button data-filter="dislike" class="">Dislikes only</button>
+      </div>
+    </div>
+    <div id="list-container">
+    <div class="list-item-container like-history" style="">
+      <img class="job-image" src="img/science.jpg" alt="job icon">
+      <h3 class="list-item-title">JOB TITLE FROM DATABASE</h3>
+      <p class="like-history-timestamp">liked 12 minutes ago // CHANGE TO FRENCH FORMAT</p><p>
+      </p><p class="job-desc">JOB DESCRIPTION FROM DATABASE</p>
+      <div class="btn-container">
+        <button style="" class="job-choice-liked btn-3" data-answer="like" data-job-id="543">
+          Liked
+        </button>
+        <button style="" class="job-choice-disliked btn-1" data-answer="dislike" data-job-id="543">
+          Disliked
+        </button>
+        <button style="" class="job-shortlist-remove btn-2" data-answer="shortlist-remove" data-job-id="543">
+          Remove from shortlist
+        </button>
+        <button style="" class="job-shortlist-add btn-2" data-job-id="543">
+          Add to shortlist
+        </button>
+        <button style="" class="job-shortlist-add-confirm btn-2" data-answer="shortlist-add" data-job-id="543">
+          Like and add to shortlist?
+        </button>
+      </div>
+    </div>
+
+  <div class="toast">Saved</div></main>
+
+  <template id="like-history-template">
+    <div class="list-item-container like-history">
+      <img class="job-image">
+      <h3 class="list-item-title"></h3>
+      <p class="like-history-timestamp"></p><p>
+      </p><p class="job-desc"></p>
+      <div class="btn-container">
+        <button style="display: none" class="job-choice-liked btn-3" data-answer="like">
+          Liked
+        </button>
+        <button style="display: none" class="job-choice-disliked btn-1" data-answer="dislike">
+          Disliked
+        </button>
+        <button style="display: none" class="job-shortlist-remove btn-2" data-answer="shortlist-remove">
+          Remove from shortlist
+        </button>
+        <button style="display: none" class="job-shortlist-add btn-2">
+          Add to shortlist
+        </button>
+        <button style="display: none" class="job-shortlist-add-confirm btn-2" data-answer="shortlist-add">
+          Like and add to shortlist?
+        </button>
+      </div>
+    </div>
+  </template>
+
+
+<h1 id="loadingLabel" style="">Loading</h1>
+</body>
+</html>
