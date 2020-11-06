@@ -28,7 +28,7 @@ VALUES
   (22, 'Education and training', 'Éducation et formation', 'education.jpg');
 
 INSERT INTO
-  `pontoonapps_careerguide`.`jobs` (id, title_en, description_en, titre_fr, description_fr, category_id, teamwork, physical_activity, creativity, driving, travel, hours_flexibility, care_work, danger)
+  `pontoonapps_careerguide`.`jobs` (id, title_en, description_en, title_fr, description_fr, category_id, teamwork, physical_activity, creativity, driving, travel, hours_flexibility, care_work, danger)
 VALUES
   (1, 'Arboricultural Officer','You will be tasked with maintaining and managing trees for the local councils or contractors. Your task will also include planning tree planting schemes, advising on planning applications to take account of tree protection laws and supervising tree care and tree planting contracts with site visitors.', 'Agent(e) Arboricole','Vous serez chargé de l''entretien et de la gestion des arbres pour les collectivités locales ou les entrepreneurs. Votre tâche consistera également à gérer des projets de plantation d''arbres, à donner des conseils sur les demandes de planification afin de tenir compte des lois sur la protection des arbres et à superviser les contracts d''entretien et de plantation d''arbres avec les visiteurs du site.',1, 3, 6, 7, 1, 8,2, 9, 8),
   (2, 'Pest Control','You will regulate or manage a species defined as a pest either in the wild or residental property', 'Antiparasitaire','Vous allez réglementer ou gérer une espèce définie comme un organisme nuisible, que ce soit dans la propriété sauvage ou résidentielle',1, 4, 3, 6, 1, 3,7, 7, 4),

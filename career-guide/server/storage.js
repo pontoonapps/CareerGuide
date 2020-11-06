@@ -11,7 +11,7 @@ async function answeredJobs(userId) {
     SELECT
       jobs.id,
       jobs.title_en AS title_en,
-      jobs.titre_fr AS title_fr,
+      jobs.title_fr AS title_fr,
       jobs.description_en AS description_en,
       jobs.description_fr AS description_fr,
       categories.icon_filename AS image,
@@ -150,7 +150,7 @@ async function getFreshJobs(userId) {
     SELECT
       jobs.id,
       jobs.title_en,
-      jobs.titre_fr AS title_fr,
+      jobs.title_fr,
       jobs.description_en,
       jobs.description_fr,
       categories.icon_filename AS image,

@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS `pontoonapps_careerguide`.`jobs` (
   id                INT             PRIMARY KEY AUTO_INCREMENT,
   title_en          VARCHAR(255),
   description_en    TEXT,
-  titre_fr          VARCHAR(255),
+  title_fr          VARCHAR(255),
   description_fr    TEXT,
   category_id       INT             NOT NULL,
 
