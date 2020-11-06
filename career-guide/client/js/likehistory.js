@@ -37,11 +37,11 @@ function displayLikeHistory(jobList) {
     const timestampContainer = jobContainer.querySelector('.like-history-timestamp');
 
     const timestampLikeEnglish = job.answer === 'like' ? 'liked ' : 'disliked ';
-    const timestampTimeEnglish = formatTimestamp(new Date(Date.parse(job.timestamp)));
+    const timestampTimeEnglish = formatTimestamp(new Date(Date.parse(job.timestamp)), 'en-GB');
     const timestampEnglish = timestampLikeEnglish + timestampTimeEnglish;
 
-    const timestampLikeFrench = job.answer === 'like' ? 'Aimé' : 'Pas aimé';
-    const timestampTimeFrench = 'TODO!!';
+    const timestampLikeFrench = job.answer === 'like' ? 'Aimé ' : 'Pas aimé ';
+    const timestampTimeFrench = formatTimestamp(new Date(Date.parse(job.timestamp)), 'fr');
     const timestampFrench = timestampLikeFrench + timestampTimeFrench;
 
     shared.bothLanguages(timestampContainer, timestampEnglish, timestampFrench);
@@ -65,12 +65,11 @@ function displayLikeHistory(jobList) {
 }
 
 // support browsers without Intl.RelativeTimeFormat
-// TODO add seperate formatting functions for french and english
 const formatTimestamp = (Intl && Intl.RelativeTimeFormat) ? formatTimestampNice : formatTimestampFallback;
 
-function formatTimestampNice(ts) {
+function formatTimestampNice(ts, languageFormat) {
   const secondsSinceLike = Math.floor((Date.now() - ts) / 1000);
-  const rtf = new Intl.RelativeTimeFormat('en', { style: 'long' }); // rtf is RelativeTimeFormat
+  const rtf = new Intl.RelativeTimeFormat(languageFormat, { style: 'long' }); // rtf is RelativeTimeFormat
   if (secondsSinceLike < 60) {
     return rtf.format(-secondsSinceLike, 'second');
   } else if (secondsSinceLike < 60 * 60) {
@@ -80,7 +79,7 @@ function formatTimestampNice(ts) {
   } else if (secondsSinceLike < 60 * 60 * 24 * 7) {
     return rtf.format(Math.floor(-secondsSinceLike / (60 * 60 * 24)), 'day');
   } else {
-    return new Intl.DateTimeFormat('en-GB').format(ts);
+    return new Intl.DateTimeFormat(languageFormat).format(ts);
   }
 }
 
