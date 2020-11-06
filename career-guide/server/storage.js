@@ -74,8 +74,7 @@ async function answeredQuestions(userId) {
         options: options,
       });
     }
-    // TODO: Add french translation to answer_fr
-    // push the current question's option data
+
     options.push({
       answer_en: row.answer_en,
       answer_fr: row.answer_fr,
@@ -147,7 +146,6 @@ function getPseudoRandomItem(arr) {
 async function getFreshJobs(userId) {
   const sql = await sqlPromise;
 
-  // TODO should be title not titre
   const query = `
     SELECT
       jobs.id,
