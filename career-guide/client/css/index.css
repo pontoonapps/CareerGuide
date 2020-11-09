@@ -40,17 +40,31 @@ button {
   min-height: 4em;
 }
 
-.language-indicator {
+.language-selector {
   border: none;
   background-color: transparent;
+  width: 45%;
 }
 
-.language-indicator > img {
+.language-selector > img {
   height: 1.5em;
+  max-width: 95%;
   width: 3em;
-  border: 0.2em double var(--davys-gray);
-  border-radius: 1em;
   pointer-events: none;
+  margin: 0 auto;
+  /* transparent border to maintain language selector image size */
+  border: 0.2em double transparent;
+  border-radius: 1em;
+}
+
+#languageSelectorWrapper {
+  height: min-content;
+  align-self: center;
+}
+
+body.in-english #current-language-english > img,
+body.in-french #current-language-french > img {
+  border: 0.2em double var(--davys-gray);
 }
 
 #empty-page {

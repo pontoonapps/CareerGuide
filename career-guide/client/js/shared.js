@@ -22,14 +22,14 @@ function changeLanguage(event) {
   // alternatively a global variable could be used in the HTML script tag
   const title = document.querySelector('title');
   switch (event.target.id) {
-    case 'current-language-english':
+    case 'current-language-french':
       // if current language is english, change to french
       document.querySelector('body').classList.remove('in-english');
       document.querySelector('body').classList.add('in-french');
       title.textContent = title.dataset.frenchTitle;
       localStorage.setItem('PONTOON_CG_LANG', 'french');
       break;
-    case 'current-language-french':
+    case 'current-language-english':
       // if current language is french, change to english
       document.querySelector('body').classList.remove('in-french');
       document.querySelector('body').classList.add('in-english');
