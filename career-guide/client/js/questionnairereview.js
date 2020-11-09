@@ -28,11 +28,10 @@ async function loadQuestionnaireAnswers() {
 
     // fill in template with question data
     const questionTitle = questionContainer.querySelector('.question-title');
-    console.log(question);
     shared.bothLanguages(questionTitle, question.question_en, question.question_fr);
     let buttonIndex = 0;
     for (const option of question.options) {
-      const btn = questionContainer.querySelectorAll('.question-answer div')[buttonIndex];
+      const btn = questionContainer.querySelectorAll('.question-answer button')[buttonIndex];
       btn.style.display = '';
       // btn.textContent = option.answer_en;
       shared.bothLanguages(btn, option.answer_en, option.answer_fr);
@@ -44,7 +43,7 @@ async function loadQuestionnaireAnswers() {
     }
 
     // add event listeners and data attributes
-    for (const questionAnswer of questionContainer.querySelectorAll('.question-answer div')) {
+    for (const questionAnswer of questionContainer.querySelectorAll('.question-answer button')) {
       questionAnswer.dataset.questionId = question.question_id;
       questionAnswer.addEventListener('click', updateAnswer);
     }
