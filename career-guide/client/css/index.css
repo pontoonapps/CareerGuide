@@ -60,6 +60,7 @@ button {
 #languageSelectorWrapper {
   height: min-content;
   align-self: center;
+  margin-right: auto;
 }
 
 body.in-english #current-language-english > img,
