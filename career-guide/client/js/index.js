@@ -60,7 +60,7 @@ async function createGuest() {
 }
 
 async function logoutGuest(event) {
-  event.stopPropagation();
+  // event.stopPropagation(); TODO, is this required with: button > span { pointer-events: none; }
 
   const response = await fetch('guest-logout', {
     method: 'POST',

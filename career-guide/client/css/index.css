@@ -619,6 +619,14 @@ main {
   animation-fill-mode: both;
 }
 
+/* prevent event.target from being language span in buttons
+as event target is used to send data to the server */
+button > span.english,
+button > span.french {
+  pointer-events: none;
+}
+
+
 @keyframes fade {
   0% {
     z-index: 1;
