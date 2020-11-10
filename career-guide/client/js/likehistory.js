@@ -67,9 +67,9 @@ function displayLikeHistory(jobList) {
 // support browsers without Intl.RelativeTimeFormat
 const formatTimestamp = (Intl && Intl.RelativeTimeFormat) ? formatTimestampNice : formatTimestampFallback;
 
-function formatTimestampNice(ts, languageFormat) {
+function formatTimestampNice(ts, language) {
   const secondsSinceLike = Math.floor((Date.now() - ts) / 1000);
-  const rtf = new Intl.RelativeTimeFormat(languageFormat, { style: 'long' }); // rtf is RelativeTimeFormat
+  const rtf = new Intl.RelativeTimeFormat(language, { style: 'long' }); // rtf is RelativeTimeFormat
   if (secondsSinceLike < 60) {
     return rtf.format(-secondsSinceLike, 'second');
   } else if (secondsSinceLike < 60 * 60) {
@@ -79,7 +79,7 @@ function formatTimestampNice(ts, languageFormat) {
   } else if (secondsSinceLike < 60 * 60 * 24 * 7) {
     return rtf.format(Math.floor(-secondsSinceLike / (60 * 60 * 24)), 'day');
   } else {
-    return new Intl.DateTimeFormat(languageFormat).format(ts);
+    return new Intl.DateTimeFormat(language).format(ts);
   }
 }
 

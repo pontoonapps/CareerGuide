@@ -66,8 +66,6 @@ async function answeredQuestions(userId) {
 
       questions.push({
         question_id: row.question_id,
-        title_en: row.title_en,
-        title_fr: row.title_fr,
         question_en: row.question_en,
         question_fr: row.question_fr,
         answer_number: row.answered,
@@ -241,7 +239,6 @@ async function getNextQuestion(userId) {
     ORDER BY answer_number`;
   const [questionData] = await sql.query(query, [userId, userId]);
 
-  console.log(questionData);
   if (questionData[0] === undefined) {
     return;
   }

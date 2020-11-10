@@ -65,7 +65,7 @@ button {
 
 body.in-english #current-language-english > img,
 body.in-french #current-language-french > img {
-  border: 0.2em double var(--davys-gray);
+  border-color: var(--davys-gray);
 }
 
 #empty-page {

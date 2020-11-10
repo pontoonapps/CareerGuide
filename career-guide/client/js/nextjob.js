@@ -121,7 +121,7 @@ function createLink(href, textContent) {
 }
 
 function displayItem(item) {
-  // hide buttons in main (main specified to skip language selector in <nav>)
+  // hide buttons in <main> (only in <main> to skip language selector in <nav>)
   for (const button of document.querySelectorAll('main > button')) {
     button.style.display = 'none';
   }
@@ -129,9 +129,9 @@ function displayItem(item) {
   // display info shared by questions and jobs (image and title)
   const title = document.querySelector('#title');
   shared.bothLanguages(title, item.title_en, item.title_fr); // sets title text
-  displayTitle(); // shrinks title font size if overflowing
+  resizeTitle(); // shrinks title font size if overflowing
   // TODO the font size is changed for the text CURRENTLY in the title, changing lanuage
-  // could cause the new text to be larger and therefore overflow. Should displayTitle
+  // could cause the new text to be larger and therefore overflow. Should resizeTitle
   // be run again when changing language?
 
   const infoText = document.querySelector('#info-text');
@@ -199,14 +199,14 @@ function truncateOverflow(container) {
   container.textContent = cutText;
 }
 
-function displayTitle() {
+function resizeTitle() {
   const titleEl = document.querySelector('#title');
 
   // set title then fontsize to 2em, if title overflows decrease font size until no overflow
   let fontEm = 2;
   let overflowing = true;
   document.documentElement.style.setProperty('--title-fontsize', `${fontEm}em`);
-  while (overflowing === true && fontEm > 0) {
+  while (overflowing === true && fontEm > 1) {
     fontEm -= 0.1;
     document.documentElement.style.setProperty('--title-fontsize', `${fontEm}em`);
     if (titleEl.clientHeight === titleEl.scrollHeight &&
@@ -248,6 +248,8 @@ function addEventListeners() {
   document.querySelector('#show-more').addEventListener('click', expandInfoText);
   document.querySelector('#show-less').addEventListener('click', collapseInfoText);
   window.addEventListener('resize', () => { displayInfoText(currentItem); });
+
+  document.addEventListener('language-changed', resizeTitle);
 }
 
 async function loadPage() {

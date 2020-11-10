@@ -34,15 +34,21 @@ function changeLanguage(event) {
       document.querySelector('body').classList.remove('in-french');
       document.querySelector('body').classList.add('in-english');
       title.textContent = title.dataset.englishTitle;
-      localStorage.setItem('PONTOON_CG_LANG', 'english'); // should this be  set to english or removed?
+      localStorage.setItem('PONTOON_CG_LANG', 'english');
       break;
   }
+  document.dispatchEvent(new Event('language-changed'));
 }
 
+// set the French and English text in a given container element;
+// this assumes the container only contains this text.
 export function bothLanguages(container, englishText, frenchText) {
-  while (container.childNodes.length > 0) {
-    container.removeChild(container.childNodes[0]);
+  if (typeof container === 'string') {
+    container = document.querySelector(container);
   }
+
+  // empty the container
+  container.textContent = '';
 
   const englishSpan = document.createElement('span');
   const frenchSpan = document.createElement('span');
