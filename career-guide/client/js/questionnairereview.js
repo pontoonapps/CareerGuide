@@ -13,6 +13,7 @@ async function getQuestionnaireAnswers() {
     window.location = './';
   } else {
     console.log('Error from server: ' + response.status + '. Could not get question history');
+    shared.errorTitle();
   }
   return [];
 }
@@ -84,6 +85,7 @@ async function submitAnswerChange(event) {
     return response.ok;
   } else {
     console.log('Error from server:  ' + response.statusText + '. Could not submit answer change.');
+    shared.errorTitle();
   }
 }
 

@@ -13,6 +13,7 @@ async function getShortlist() {
     window.location = './';
   } else {
     console.log('Error from server: ' + response.status + '. Could not get shortlist');
+    shared.errorTitle();
   }
   return [];
 }
@@ -61,7 +62,7 @@ async function removeShortlistItem(event) {
     shared.checkEmptyPage();
     shared.createToast();
   } else {
-    document.querySelector('h1').textContent = 'Something went wrong! Please refresh';
+    shared.errorTitle();
   }
 }
 

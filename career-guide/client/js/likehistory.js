@@ -126,8 +126,6 @@ async function changeChoice(event) {
   const delayPromise = shared.buttonDelay();
   const jobBtnsContainer = event.target.parentElement;
   const jobBtns = getContainerButtons(jobBtnsContainer);
-  const likeHistoryContainer = jobBtnsContainer.parentElement;
-  const timeStamp = likeHistoryContainer.querySelector('.like-history-timestamp');
 
   // show the clicked button is active while waiting for the server to respond
   event.target.classList.add('active-wait');
@@ -136,13 +134,17 @@ async function changeChoice(event) {
   event.target.classList.remove('active-wait');
 
   if (success) {
+    const likeHistoryContainer = jobBtnsContainer.parentElement;
+    const timeStamp = likeHistoryContainer.querySelector('.like-history-timestamp');
     shared.createToast();
     updateJobBtn(event, jobBtns);
-    timeStamp.textContent = event.target.dataset.answer === 'like'
-      ? 'disliked just now'
-      : 'liked just now'; // TODO french translation of liked / disliked just now
+    if (event.target.dataset.answer === 'like') {
+      shared.bothLanguages(timeStamp, 'liked just now', 'AWAITING TRANSLATION');
+    } else {
+      shared.bothLanguages(timeStamp, 'disliked just now', 'AWAITING TRANSLATION');
+    }
   } else {
-    document.querySelector('h1').textContent = 'Something went wrong! Please refresh';
+    shared.errorTitle();
   }
 }
 
@@ -194,6 +196,7 @@ async function submitChoiceChange(event) {
   const response = await postJobChange(userInput);
   if (!response.ok) {
     console.log('Error from server: ' + response.statusText + '. Choice change failed');
+    shared.errorTitle();
   }
   return (response.ok);
 }

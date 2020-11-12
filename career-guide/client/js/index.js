@@ -55,7 +55,7 @@ async function createGuest() {
   if (response.ok) {
     window.location.reload();
   } else {
-    document.querySelector('h1').textContent = 'Something went wrong! Please refresh';
+    shared.errorTitle();
   }
 }
 
@@ -70,7 +70,7 @@ async function logoutGuest(event) {
   if (response.ok) {
     window.location.reload();
   } else {
-    document.querySelector('h1').textContent = 'Something went wrong! Please refresh';
+    shared.errorTitle();
   }
 }
 

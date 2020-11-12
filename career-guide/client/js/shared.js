@@ -125,9 +125,13 @@ export async function getLoginStatus() {
     }
   } else {
     console.error('error getting user information', response);
-    document.querySelector('h1').textContent = 'Something went wrong! Please refresh';
+    errorTitle();
     return false;
   }
+}
+
+export function errorTitle() {
+  bothLanguages('h1', 'Something went wrong! Please refresh', 'Un problème est survenu ! Rechargez la page!');
 }
 
 function showNav() {
