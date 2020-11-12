@@ -127,14 +127,12 @@ function displayItem(item) {
   }
 
   // display info shared by questions and jobs (image and title)
-  const title = document.querySelector('#title');
-  shared.bothLanguages(title, item.title_en, item.title_fr); // sets title text
+  shared.bothLanguages('#title', item.title_en, item.title_fr); // sets title text
   resizeTitle(); // shrinks title font size if overflowing
   // TODO the font size is changed for the text CURRENTLY in the title, changing lanuage
   // could cause the new text to be larger and therefore overflow. Should resizeTitle
   // be run again when changing language?
 
-  const infoText = document.querySelector('#info-text');
   if (isQuestion(item)) {
     // item without description is a question
 
@@ -148,7 +146,7 @@ function displayItem(item) {
       buttonIndex += 1;
     }
 
-    shared.bothLanguages(infoText, item.question_en, item.question_fr);
+    shared.bothLanguages('#info-text', item.question_en, item.question_fr);
     displayInfoText(item);
 
     // show question image
@@ -165,7 +163,7 @@ function displayItem(item) {
     document.querySelector('#item-image').alt = 'job icon';
 
     // show job description
-    shared.bothLanguages(infoText, item.description_en, item.description_fr);
+    shared.bothLanguages('#info-text', item.description_en, item.description_fr);
     displayInfoText(item);
   }
 }
