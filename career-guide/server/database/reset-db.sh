@@ -13,4 +13,4 @@ mysql -u $username -p$password -e "
   SOURCE server/database/init.sql
   SOURCE server/database/data-questions.sql
   SOURCE server/database/data-jobs.sql
-  SOURCE server/database/test-data.sql"
+  SOURCE server/database/test-data.sql" --default-character-set=utf8
