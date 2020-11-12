@@ -9,7 +9,7 @@
     "start": "node server/server.js",
     "dev": "TESTING_DUMMY_AUTH=1 PORT=8080 nodemon server/server.js",
     "dev-win": "set TESTING_DUMMY_AUTH=1 & set PORT=8080 & nodemon server/server.js",
-    "reset-db": "server/database/reset-db.sh"
+    "reset-db": "sh server/database/reset-db.sh"
   },
   "author": "",
   "license": "ISC",
