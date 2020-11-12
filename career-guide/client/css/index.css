@@ -63,8 +63,8 @@ button {
   margin-right: auto;
 }
 
-body.in-english #current-language-english > img,
-body.in-french #current-language-french > img {
+body.in-english #set-language-english > img,
+body.in-french #set-language-french > img {
   border-color: var(--davys-gray);
 }
 
