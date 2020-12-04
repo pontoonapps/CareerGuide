@@ -92,7 +92,7 @@ async function submitAndLoadNext(event) {
 
 function displayNoJobs() {
   document.querySelector('#title').textContent = "That's all for now!";
-  shared.bothLanguages('#title', "That's alll for now!", "C'est tout pour le moment !");
+  shared.bothLanguages('#title', "That's all for now!", "C'est tout pour le moment !");
   document.querySelector('#item-image').src = 'img/question.jpg';
   document.querySelector('#item-image').alt = 'question mark';
 
