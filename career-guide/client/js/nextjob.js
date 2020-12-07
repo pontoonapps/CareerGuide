@@ -96,7 +96,8 @@ function displayNoJobs() {
   document.querySelector('#item-image').src = 'img/question.jpg';
   document.querySelector('#item-image').alt = 'question mark';
 
-  // TODO, get more detailed translations so we know where to put links in french text
+  // TODO, get more detailed translations so we know where to put links in French text
+  // and we can put them back in the English text
   shared.bothLanguages(
     '#info-text',
     'Congratulations, you have seen all the jobs in our system! ' +
