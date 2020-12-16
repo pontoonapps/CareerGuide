@@ -40,6 +40,34 @@ button {
   min-height: 4em;
 }
 
+.language-selector {
+  border: none;
+  background-color: transparent;
+  width: 45%;
+}
+
+.language-selector > img {
+  height: 1.5em;
+  max-width: 95%;
+  width: 3em;
+  pointer-events: none;
+  margin: 0 auto;
+  /* transparent border to maintain language selector image size */
+  border: 0.2em double transparent;
+  border-radius: 1em;
+}
+
+#languageSelectorWrapper {
+  height: min-content;
+  align-self: center;
+  margin-right: auto;
+}
+
+body.in-english #set-language-english > img,
+body.in-french #set-language-french > img {
+  border-color: var(--davys-gray);
+}
+
 #empty-page {
   color: var(--davys-gray);
 }
@@ -115,7 +143,8 @@ button {
 
 #guest-login-info-btns > a,
 #guest-login-info-btns > button,
-#login-requester-btns > a {
+#login-requester-btns > a,
+#login-requester-btns > button {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -468,7 +497,7 @@ main {
   text-align: center;
 }
 
-.question-answer > * {
+.question-answer > button {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -479,6 +508,8 @@ main {
   border-radius: 3em;
   border: thin solid var(--davys-gray);
   cursor: pointer;
+  color: var(--main-color);
+  background-color: transparent;
 }
 
 .question-answer > .selected {
@@ -604,6 +635,14 @@ main {
   animation-iteration-count: 1;
   animation-fill-mode: both;
 }
+
+/* prevent event.target from being language span in buttons
+as event target is used to send data to the server */
+button > span.english,
+button > span.french {
+  pointer-events: none;
+}
+
 
 @keyframes fade {
   0% {

@@ -13,6 +13,7 @@ async function getQuestionnaireAnswers() {
     window.location = './';
   } else {
     console.log('Error from server: ' + response.status + '. Could not get question history');
+    shared.errorTitle();
   }
   return [];
 }
@@ -27,12 +28,14 @@ async function loadQuestionnaireAnswers() {
     const questionContainer = document.importNode(template.content, true);
 
     // fill in template with question data
-    questionContainer.querySelector('.question-title').textContent = question.question_en;
+    const questionTitle = questionContainer.querySelector('.question-title');
+    shared.bothLanguages(questionTitle, question.question_en, question.question_fr);
     let buttonIndex = 0;
     for (const option of question.options) {
-      const btn = questionContainer.querySelectorAll('.question-answer div')[buttonIndex];
+      const btn = questionContainer.querySelectorAll('.question-answer button')[buttonIndex];
       btn.style.display = '';
-      btn.textContent = option.answer_en;
+      // btn.textContent = option.answer_en;
+      shared.bothLanguages(btn, option.answer_en, option.answer_fr);
       btn.dataset.choice = option.answer_number;
       if (option.answer_number === question.answer_number) {
         btn.classList.add('selected');
@@ -41,7 +44,7 @@ async function loadQuestionnaireAnswers() {
     }
 
     // add event listeners and data attributes
-    for (const questionAnswer of questionContainer.querySelectorAll('.question-answer div')) {
+    for (const questionAnswer of questionContainer.querySelectorAll('.question-answer button')) {
       questionAnswer.dataset.questionId = question.question_id;
       questionAnswer.addEventListener('click', updateAnswer);
     }
@@ -82,6 +85,7 @@ async function submitAnswerChange(event) {
     return response.ok;
   } else {
     console.log('Error from server:  ' + response.statusText + '. Could not submit answer change.');
+    shared.errorTitle();
   }
 }
 

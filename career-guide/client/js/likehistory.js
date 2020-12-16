@@ -27,11 +27,24 @@ function displayLikeHistory(jobList) {
 
     // display job data
     jobContainer.querySelector('.job-image').src = 'img/' + job.image;
-    jobContainer.querySelector('.list-item-title').textContent = job.title_en;
-    jobContainer.querySelector('.job-desc').textContent = job.description_en;
-    const timeStamp = jobContainer.querySelector('.like-history-timestamp');
-    timeStamp.textContent = job.answer === 'like' ? 'liked ' : 'disliked ';
-    timeStamp.textContent += formatTimestamp(new Date(Date.parse(job.timestamp)));
+
+    const jobTitle = jobContainer.querySelector('.list-item-title');
+    shared.bothLanguages(jobTitle, job.title_en, job.title_fr);
+
+    const jobDescription = jobContainer.querySelector('.job-desc');
+    shared.bothLanguages(jobDescription, job.description_en, job.description_fr);
+
+    const timestampContainer = jobContainer.querySelector('.like-history-timestamp');
+
+    const timestampLikeEnglish = job.answer === 'like' ? 'liked ' : 'disliked ';
+    const timestampTimeEnglish = formatTimestamp(new Date(Date.parse(job.timestamp)), 'en-GB');
+    const timestampEnglish = timestampLikeEnglish + timestampTimeEnglish;
+
+    const timestampLikeFrench = job.answer === 'like' ? 'Aimé ' : 'Pas aimé ';
+    const timestampTimeFrench = formatTimestamp(new Date(Date.parse(job.timestamp)), 'fr');
+    const timestampFrench = timestampLikeFrench + timestampTimeFrench;
+
+    shared.bothLanguages(timestampContainer, timestampEnglish, timestampFrench);
 
     // get job buttons
     const jobBtns = getContainerButtons(jobContainer);
@@ -54,9 +67,9 @@ function displayLikeHistory(jobList) {
 // support browsers without Intl.RelativeTimeFormat
 const formatTimestamp = (Intl && Intl.RelativeTimeFormat) ? formatTimestampNice : formatTimestampFallback;
 
-function formatTimestampNice(ts) {
+function formatTimestampNice(ts, language) {
   const secondsSinceLike = Math.floor((Date.now() - ts) / 1000);
-  const rtf = new Intl.RelativeTimeFormat('en', { style: 'long' }); // rtf is RelativeTimeFormat
+  const rtf = new Intl.RelativeTimeFormat(language, { style: 'long' }); // rtf is RelativeTimeFormat
   if (secondsSinceLike < 60) {
     return rtf.format(-secondsSinceLike, 'second');
   } else if (secondsSinceLike < 60 * 60) {
@@ -66,7 +79,7 @@ function formatTimestampNice(ts) {
   } else if (secondsSinceLike < 60 * 60 * 24 * 7) {
     return rtf.format(Math.floor(-secondsSinceLike / (60 * 60 * 24)), 'day');
   } else {
-    return new Intl.DateTimeFormat('en-GB').format(ts);
+    return new Intl.DateTimeFormat(language).format(ts);
   }
 }
 
@@ -113,8 +126,6 @@ async function changeChoice(event) {
   const delayPromise = shared.buttonDelay();
   const jobBtnsContainer = event.target.parentElement;
   const jobBtns = getContainerButtons(jobBtnsContainer);
-  const likeHistoryContainer = jobBtnsContainer.parentElement;
-  const timeStamp = likeHistoryContainer.querySelector('.like-history-timestamp');
 
   // show the clicked button is active while waiting for the server to respond
   event.target.classList.add('active-wait');
@@ -123,13 +134,17 @@ async function changeChoice(event) {
   event.target.classList.remove('active-wait');
 
   if (success) {
+    const likeHistoryContainer = jobBtnsContainer.parentElement;
+    const timeStamp = likeHistoryContainer.querySelector('.like-history-timestamp');
     shared.createToast();
     updateJobBtn(event, jobBtns);
-    timeStamp.textContent = event.target.dataset.answer === 'like'
-      ? 'disliked just now'
-      : 'liked just now';
+    if (event.target.dataset.answer === 'like') {
+      shared.bothLanguages(timeStamp, 'liked just now', "aimé à l'instant"); // french text has single quotes in so string can't be single quote
+    } else {
+      shared.bothLanguages(timeStamp, 'disliked just now', "pas aimé à l'instant"); // french text has single quotes in so string can't be single quote
+    }
   } else {
-    document.querySelector('h1').textContent = 'Something went wrong! Please refresh';
+    shared.errorTitle();
   }
 }
 
@@ -181,6 +196,7 @@ async function submitChoiceChange(event) {
   const response = await postJobChange(userInput);
   if (!response.ok) {
     console.log('Error from server: ' + response.statusText + '. Choice change failed');
+    shared.errorTitle();
   }
   return (response.ok);
 }

@@ -10,7 +10,7 @@ mysql -u $username -p$password -e "
   DROP DATABASE IF EXISTS pontoonapps_jobseeker;"
 echo "create databases and insert data"
 mysql -u $username -p$password -e "
-  SOURCE $(pwd)/server/database/init.sql
-  SOURCE $(pwd)/server/database/data-questions.sql
-  SOURCE $(pwd)/server/database/data-jobs.sql
-  SOURCE $(pwd)/server/database/test-data.sql"
+  SOURCE server/database/init.sql
+  SOURCE server/database/data-questions.sql
+  SOURCE server/database/data-jobs.sql
+  SOURCE server/database/test-data.sql" --default-character-set=utf8

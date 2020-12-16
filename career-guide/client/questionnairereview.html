@@ -4,40 +4,93 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" type="text/css" href="css/index.css">
+  <style>
+    /* style in HTML to prevent flash of wrong language */
+    body.in-english .french { display: none !important; }
+    body.in-french .english { display: none !important; }
+  </style>
   <script async defer src="js/questionnairereview.js" type="module"></script>
   <link rel="icon" type="image/png" sizes="16x16" href="/image/favicon.png">
-  <title>Questionnaire Review</title>
+  <title data-french-title="Revue du questionnaire" data-english-title="Questionnaire Review">Questionnaire Review</title>
 </head>
 
-<body>
+<body class="in-english">
+  <script>
+    // script in HTML to prevent flash of wrong language
+    if (localStorage.getItem('PONTOON_CG_LANG') === 'french') {
+      document.querySelector('body').classList.remove('in-english');
+      document.querySelector('body').classList.add('in-french');
+      const title = document.querySelector('title');
+      title.textContent = title.dataset.frenchTitle;
+    }
+  </script>
   <nav>
     <section id="navbar">
-      <a id="logo-link" href='.'>
+      <a id="logo-link" href=".">
         <img class="navbar-item" id="logo" src="img/pontlogo.png">
       </a>
+      <div id="languageSelectorWrapper">
+        <button id="set-language-english" class="language-selector">
+          <img src="img/english.png"></img>
+        </button>
+        <button id="set-language-french" class="language-selector">
+          <img src="img/french.png"></img>
+        </button>
+      </div>
       <img class="navbar-item" id="nav-btn" src="img/navbtn.svg">
     </section>
-    <p id="guest-notice" style="display: none">Guest Account</p>
+    <p id="guest-notice"  style="display: none">
+      <span class="english">Guest Account</span>
+      <span class="french">Compte invité</span>
+    </p>
     <div id="navbar-slide">
-      <a class="navbar-slide-item" href="nextjob.html">Next Job</a>
-      <a class="navbar-slide-item" href="shortlist.html">Shortlist</a>
-      <a class="navbar-slide-item" href="likehistory.html">Like History</a>
-      <a class="navbar-slide-item" href="questionnairereview.html">Questionnaire Review</a>
-      <a class="navbar-slide-item" href="https://pontoonapps.com/jobsectors.php">Job Sector Guide</a>
+      <a class="navbar-slide-item" href="nextjob.html">
+        <span class="english">Next Job</span>
+        <span class="french">Métier suivant</span>
+      </a>
+      <a class="navbar-slide-item" href="shortlist.html">
+        <span class="english">Shortlist</span>
+        <span class="french">Présélection</span>
+      </a>
+      <a class="navbar-slide-item" href="likehistory.html">
+        <span class="english">Like History</span>
+        <span class="french">Historique des "J'aime"</span>
+      </a>
+      <a class="navbar-slide-item" href="questionnairereview.html">
+        <span class="english">Questionnaire Review</span>
+        <span class="french">Synthèse du questionnaire</span>
+      </a>
+      <a class="navbar-slide-item visible-when-logged-out" href="https://pontoonapps.com/jobsectors.php">
+        <span class="english">Job Sector Guide</span>
+        <span class="french">Guide du secteur du métier</span>
+      </a>
+      <a style="display: none"
+        href="https://pontoonapps.com/login.php"
+        id="navbar-login-prompt"
+        class="navbar-slide-item visible-when-logged-out">
+        <span class="english">Please log in as a job seeker to access these pages</span>
+        <span class="french">Veuillez vous connecter en tant qu'utilisateur pour accéder à ces pages</span>
+      </a>
     </div>
   </nav>
 
   <main>
-    <h1 id="title">Questionnaire Review</h1>
-    <h2 id="empty-page">You haven't answered any questions yet</h2>
+    <h1 id="title">
+      <span class="english">Questionnaire Review</span>
+      <span class="french">Synthèse du questionnaire</span>
+    </h1>
+    <h2 id="empty-page">
+      <span class="english">You haven't answered any questions yet</span>
+      <span class="french">Vous n'avez pas encore répondu aux questions</span>
+    </h2>
   </main>
   <template id="questionnaire-template">
     <section class="list-item-container">
       <h3 class="question-title"></h3>
       <div class="question-answer">
-        <div style="display: none;"></div><!--display none only required if questions have a varying number of answers-->
-        <div style="display: none;"></div>
-        <div style="display: none;"></div>
+        <button style="display: none;"></button><!--display none only required if questions have a varying number of answers-->
+        <button style="display: none;"></button>
+        <button style="display: none;"></button>
       </div>
     </section>
   </template>

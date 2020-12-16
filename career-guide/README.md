@@ -12,6 +12,17 @@ To run the app the database must first be set up.
 
 Create a copy of career-guide/server/config-template.json to career-guide/server/config.json
 
+## Installation
+
+TODO rough but accurate, probably encompasses config and db config
+
+## Design
+
+TODO point to routes-and-auth, give broad-strokes overview, introduce the ERD
+
+#### ERD
+![ERD](docs/images/erd.png)
+
 Set the attributes in the newly created config.json file to match your database and server.
 
 Next run the following sql scripts to initialize the database:
@@ -37,7 +48,7 @@ Next run the following sql scripts to initialize the database:
 │  │  │  ├── init.sql            // creates databases
 │  │  │  ├── reset-db.sh         // script to reset database (drops tables)
 │  │  │  └── test-data.sql       // script containing limited data for testing
-│  │  ├── auth.js  
+│  │  ├── auth.js
 │  │  ├── config-template.json   // template file for requirements specific to deployment
 │  │  ├── server.js              // script containing all routes
 │  │  └── storage.js             // script containing all functions which run SQL

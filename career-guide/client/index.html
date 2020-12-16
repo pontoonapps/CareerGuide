@@ -4,92 +4,190 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" type="text/css" href="css/index.css">
+  <style>
+    /* style in HTML to prevent flash of wrong language */
+    body.in-english .french { display: none !important; }
+    body.in-french .english { display: none !important; }
+  </style>
   <script async defer src="js/index.js" type="module"></script>
   <link rel="icon" type="image/png" sizes="16x16" href="/image/favicon.png">
-  <title>Career Guide</title>
+  <title data-french-title="Guide Carrièrei" data-english-title="Career Guide">Career Guide</title>
 </head>
 
-<body>
+<body class="in-english">
+  <script>
+    // script in HTML to prevent flash of wrong language
+    if (localStorage.getItem('PONTOON_CG_LANG') === 'french') {
+      document.querySelector('body').classList.remove('in-english');
+      document.querySelector('body').classList.add('in-french');
+      const title = document.querySelector('title');
+      title.textContent = title.dataset.frenchTitle;
+    }
+  </script>
   <nav>
     <section id="navbar">
-      <a id="logo-link" href='https://pontoonapps.com/'>
+      <a id="logo-link" href="https://pontoonapps.com/">
         <img class="navbar-item" id="logo" src="img/pontlogo.png">
       </a>
+      <div id="languageSelectorWrapper">
+        <button id="set-language-english" class="language-selector">
+          <img src="img/english.png"></img>
+        </button>
+        <button id="set-language-french" class="language-selector">
+          <img src="img/french.png"></img>
+        </button>
+      </div>
       <img class="navbar-item" id="nav-btn" src="img/navbtn.svg">
     </section>
-    <p id="guest-notice" style="display: none">Guest Account</p>
+    <p id="guest-notice"  style="display: none">
+      <span class="english">Guest Account</span>
+      <span class="french">Compte invité</span>
+    </p>
     <div id="navbar-slide">
-      <a class="navbar-slide-item" href="nextjob.html">Next Job</a>
-      <a class="navbar-slide-item" href="shortlist.html">Shortlist</a>
-      <a class="navbar-slide-item" href="likehistory.html">Like History</a>
-      <a class="navbar-slide-item" href="questionnairereview.html">Questionnaire Review</a>
-      <a class="navbar-slide-item visible-when-logged-out" href="https://pontoonapps.com/jobsectors.php">Job Sector Guide</a>
+      <a class="navbar-slide-item" href="nextjob.html">
+        <span class="english">Next Job</span>
+        <span class="french">Métier suivant</span>
+      </a>
+      <a class="navbar-slide-item" href="shortlist.html">
+        <span class="english">Shortlist</span>
+        <span class="french">Présélection</span>
+      </a>
+      <a class="navbar-slide-item" href="likehistory.html">
+        <span class="english">Like History</span>
+        <span class="french">Historique des "J'aime"</span>
+      </a>
+      <a class="navbar-slide-item" href="questionnairereview.html">
+        <span class="english">Questionnaire Review</span>
+        <span class="french">Synthèse du questionnaire</span>
+      </a>
+      <a class="navbar-slide-item visible-when-logged-out" href="https://pontoonapps.com/jobsectors.php">
+        <span class="english">Job Sector Guide</span>
+        <span class="french">Guide du secteur du métier</span>
+      </a>
       <a style="display: none"
         href="https://pontoonapps.com/login.php"
         id="navbar-login-prompt"
         class="navbar-slide-item visible-when-logged-out">
-        Please log in as a job seeker to access these pages
+        <span class="english">Please log in as a job seeker to access these pages</span>
+        <span class="french">Veuillez vous connecter en tant qu'utilisateur pour accéder à ces pages</span>
       </a>
     </div>
   </nav>
 
   <main>
-    <h1 id="title">Welcome to Career Guide</h1>
+    <h1 id="title">
+      <span class="english">Welcome to Career Guide</span>
+      <span class="french">Bienvenue dans le Guide carrière</span>
+    </h1>
     <div id="login-requester" class="splash" style="display: none">
-      <h3>Please Note</h3>
-      <p>You need to be logged in to use Career Guide.</p>
-      <p>
+      <h3 class="english">Please Note</h3>
+      <h3 class="french">Précisions </h3>
+      <p class="english">You need to be logged in to use Career Guide.</p>
+      <p class="french">Vous devez être connecté pour utiliser le Guide carrière.</p>
+      <p class="english">
         If you already have a PONToonapps account, click Sign in to proceed with your existing
          account. If you do not already have an account, create one with the Sign up button or
          click Login as Guest to proceed with a guest account.
       </p>
+      <p class="french">
+        Si vous avez déjà un compte PONToonapps, cliquez sur Se connecter pour continuer avec
+         votre compte existant. Si vous n'avez pas encore de compte, créez-en un avec le bouton
+         S'inscrire ou cliquez sur Se connecter en tant qu'invité pour ouvrir un compte d'invité.
+      </p>
+
       <p id="login-admin" style="display: none">
-        Note that Admin or Recruiter accounts cannot be used on Career Guide, please <a href="https://pontoonapps.com/recruiters/logout.php">log out</a>.
+        <span class="english">
+          Note that Admin or Recruiter accounts cannot be used on Career Guide, please log in as a job seeker.
+        </span>
+        <span class="french">
+          Veuillez noter que les comptes Administrateur ou Recruteur ne peuvent pas être utilisés
+           sur le Guide des Carrières, veuillez vous connecter en tant qu'utilisateur.&nbsp;
+        </span>
       </p>
       <div id="login-requester-btns">
-        <a id="sign-in" class="btn-3" href="https://pontoonapps.com/login.php">Sign in</a>
-        <a id="sign-up" class="btn-3" href="https://pontoonapps.com/user_signup.php">Sign up</a>
-        <button id="guest-login" class="btn-3">Login as Guest</button>
+        <a id="sign-in" class="btn-3" href="https://pontoonapps.com/login.php">
+          <span class="english">Sign in</span>
+          <span class="french">Se connecter</span>
+        </a>
+        <a id="sign-up" class="btn-3" href="https://pontoonapps.com/user_signup.php">
+          <span class="english">Sign up</span>
+          <span class="french">S'inscrire</span>
+        </a>
+        <button id="guest-login" class="btn-3">
+          <span class="english">Login as guest</span>
+          <span class="french">Connectez-vous en tant qu'invité</span>
+        </button>
       </div>
     </div>
 
     <div id="guest-login-info" style="display: none" class="splash">
-      <h3>You are currently logged in as a guest</h3>
-      <p>
-        A guest account may disappear if you haven't used it for a while, and the data is only
-         available on this computer. If you'd like to keep your data, you can create a PONToonapps
-         account. If you already have one, the answers in a guest account may be lost when you log
+      <h3 class="english">You are currently logged in as a guest</h3>
+      <h3 class="french">Vous êtes actuellement connecté en tant qu'invité</h3>
+      <p class="english">
+        A guest account may disappear if you haven't used it for a while, and the data is only
+         available on this computer. If you'd like to keep your data, you can create a PONToonapps
+         account. If you already have one, the answers in a guest account may be lost when you log
          into your PONToonapps account.
       </p>
+      <p class="french">
+        Un compte invité peut disparaître si vous ne l'avez pas utilisé pendant un certain temps, et les données ne sont que
+         disponible sur cet ordinateur. Si vous souhaitez conserver vos données, vous pouvez créer un PONToonapps
+         Compte. Si vous en avez déjà un, les réponses dans un compte invité peuvent être perdues lorsque vous vous connectez
+         sur votre compte PONToonapps.
+      </p>
       <div id="guest-login-info-btns">
-        <a id="sign-up" class="btn-3" href="https://pontoonapps.com/user_signup.php">Sign up</a>
-        <button id="logout-guest" class="btn-1">Logout</button>
+        <a id="sign-up" class="btn-3" href="https://pontoonapps.com/user_signup.php">
+          <span class="english">Sign up</span>
+          <span class="french">S'inscrire</span>
+        </a>
+        <button id="logout-guest" class="btn-1">
+          <span class="english">Logout</span>
+          <span class="french">Se déconnecter</span>
+        </button>
         <button id="confirm-logout-guest" class="btn-1" style="display: none">
-          Are you sure? This guest account will be lost.
+          <span class="english">Are you sure? This guest account will be lost.</span>
+          <span class="french">Êtes-vous sûr? Votre progrès sera perdu.</span>
         </button>
       </div>
     </div>
 
     <div class="splash">
-      <h3>What is Career Guide?</h3>
-      <p>
+      <h3 class="english">What is Career Guide?</h3>
+      <h3 class="french">Qu'est-ce que Career Guide</h3>
+      <p class="english">
         Build a profile and find the job that is a fit for you. Simple profile building allows you
          to see the jobs you will want to see, and avoid anything that isn’t a fit for you.
         Features:
       </p>
+      <p class="french">
+        Créez un profil et trouvez le métier qui vous convient. La création de profil vous permet
+         de visualiser les métiers que vous souhaitez avoir, et éviter tous les métiers qui ne
+         vous concernent pas.
+        Caractéristiques :
+      </p>
       <ul>
-        <li>Answer questions to build your profile</li>
-        <li>Like and dislike jobs as they are presented</li>
-        <li>Get job ideas based on your profile</li>
-        <li>Browse a selection of over 750 jobs</li>
-        <li>Shortlist jobs you're interested in</li>
-        <li>Learn about jobs that may be a good fit for you</li>
+        <li class="english">Answer questions to build your profile</li>
+        <li class="english">Like and dislike jobs as they are presented</li>
+        <li class="english">Get job ideas based on your profile</li>
+        <li class="english">Browse a selection of over 750 jobs</li>
+        <li class="english">Shortlist jobs you're interested in</li>
+        <li class="english">Learn about jobs that may be a good fit for you</li>
+        <li class="french">Répondez aux questions pour créer votre profil</li>
+        <li class="french">Répondez par "J'aime" ou "Je n'aime pas" aux métiers qui vous sont proposés</li>
+        <li class="french">Obtenez une liste d'idées de métiers en fonction de votre profil</li>
+        <li class="french">Parcourez une sélection de plus de 750 métiers</li>
+        <li class="french">Préselectionner es métiers qui vous intéressent</li>
+        <li class="french">Renseignez-vous sur les métiers qui pourraient vous convenir</li>
       </ul>
-      <a class="btn-3" id="get-started" href="/nextjob.html">Get Started!</a>
+      <a class="btn-3" id="get-started" href="/nextjob.html">
+        <span class="english">Get Started!</span>
+        <span class="french">Commencer !</span>
+      </a>
     </div>
     <div class="splash">
-      <h3>Project PONToon</h3>
-      <p>
+      <h3 class="english">Project PONToon</h3>
+      <h3 class="french">projet PONToon</h3>
+      <p class="english">
         Partnership Opportunity using New Technologies fostering sOcial and ecOnomic inclusioN
          2017-2021, is a 5.8 million euro digital upskilling collaboration between participants
          in Southern England and Northern France. The project is 69% funded by the European
@@ -97,6 +195,10 @@
          11 partners, The University of Portsmouth (lead), Amiens Métropole, Aspex, ADICE, Digital
          Peninsula Network, Devon Mind, Eastleigh Borough Council, GIP-FCIP de l'académie de Caen,
          MEFP, TRAJECTIO and WSX Enterprise.
+        <a href='https://www.pontoonproject.eu'>https://www.pontoonproject.eu</a>
+      </p>
+      <p class="french">
+        Le projet PONToon (Possibilités de Partenariat Utilisant de Nouvelles Technologies Favorisant l'inclusion Sociale et Economique), 2017 - 2021, est un partenariat visant le développement des compétences numériques, regroupant des participants du sud de l'Angleterre et du nord de la France. Le projet (5,8 millions d'euros) est financé à hauteur de 69% par le Fonds européen de développement régional, le programme Interreg France (Manche) Angleterre et est mis en œuvre par 11 partenaires: l'Université de Portsmouth (chef de file), Amiens Métropole, Aspex, ADICE, Digital Peninsula Network, Devon Mind, Eastleigh Conseil d'arrondissement, GIP-FCIP de Normandie, MEFP, TRAJECTIO et WSX Entreprise. https://www.pontoonproject.eu
         <a href='https://www.pontoonproject.eu'>https://www.pontoonproject.eu</a>
       </p>
     </div>

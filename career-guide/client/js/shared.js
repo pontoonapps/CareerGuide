@@ -1,7 +1,7 @@
 export async function createToast() {
   const toastElem = document.createElement('div');
   toastElem.classList.add('toast');
-  toastElem.textContent = 'Saved';
+  bothLanguages(toastElem, 'Saved', 'Sauvegardé');
   document.querySelector('main').appendChild(toastElem);
   await timeoutDelay(3000);
   toastElem.remove();
@@ -10,13 +10,64 @@ export async function createToast() {
 export function initNavbar() {
   document.querySelector('#nav-btn').addEventListener('click', toggleNav);
   document.addEventListener('click', clickOffNav);
+
+  const currentLanguageEnglishBtn = document.querySelector('#set-language-english');
+  const currentLanguageFrenchBtn = document.querySelector('#set-language-french');
+  currentLanguageEnglishBtn.addEventListener('click', changeLanguage);
+  currentLanguageFrenchBtn.addEventListener('click', changeLanguage);
+}
+
+function changeLanguage(event) {
+  // the french title and english titles are kept in the dataset of the title tag
+  // alternatively a global variable could be used in the HTML script tag
+  const title = document.querySelector('title');
+  switch (event.target.id) {
+    case 'set-language-french':
+      // if current language is english, change to french
+      document.querySelector('body').classList.remove('in-english');
+      document.querySelector('body').classList.add('in-french');
+      title.textContent = title.dataset.frenchTitle;
+      localStorage.setItem('PONTOON_CG_LANG', 'french');
+      break;
+    case 'set-language-english':
+      // if current language is french, change to english
+      document.querySelector('body').classList.remove('in-french');
+      document.querySelector('body').classList.add('in-english');
+      title.textContent = title.dataset.englishTitle;
+      localStorage.setItem('PONTOON_CG_LANG', 'english');
+      break;
+  }
+  document.dispatchEvent(new Event('language-changed'));
+}
+
+// set the French and English text in a given container element;
+// this assumes the container only contains this text.
+export function bothLanguages(container, englishText, frenchText) {
+  if (typeof container === 'string') {
+    container = document.querySelector(container);
+  }
+
+  // empty the container
+  container.textContent = '';
+
+  const englishSpan = document.createElement('span');
+  const frenchSpan = document.createElement('span');
+
+  englishSpan.textContent = englishText;
+  frenchSpan.textContent = frenchText;
+
+  englishSpan.classList.add('english');
+  frenchSpan.classList.add('french');
+
+  container.appendChild(englishSpan);
+  container.appendChild(frenchSpan);
 }
 
 export function showLoadingLabel() {
   // hide main content and display loading
   document.querySelector('main').style.display = 'none';
   const loadingLabel = document.createElement('h1');
-  loadingLabel.textContent = 'Loading';
+  bothLanguages(loadingLabel, 'Loading', 'Chargement');
   loadingLabel.id = 'loadingLabel';
   document.querySelector('body').appendChild(loadingLabel);
 }
@@ -74,9 +125,13 @@ export async function getLoginStatus() {
     }
   } else {
     console.error('error getting user information', response);
-    document.querySelector('h1').textContent = 'Something went wrong! Please refresh';
+    errorTitle();
     return false;
   }
+}
+
+export function errorTitle() {
+  bothLanguages('h1', 'Something went wrong! Please refresh', 'Un problème est survenu ! Rechargez la page!');
 }
 
 function showNav() {

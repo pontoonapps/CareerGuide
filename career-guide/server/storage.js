@@ -11,7 +11,9 @@ async function answeredJobs(userId) {
     SELECT
       jobs.id,
       jobs.title_en AS title_en,
+      jobs.title_fr AS title_fr,
       jobs.description_en AS description_en,
+      jobs.description_fr AS description_fr,
       categories.icon_filename AS image,
       likes.type AS answer,
       shortlists.job_id AS shortlist,
@@ -37,9 +39,10 @@ async function answeredQuestions(userId) {
   const query = `
     SELECT
       questions.id AS question_id,
-      questions.title_en AS title_en,
       questions.question_en AS question_en,
+      questions.question_fr AS question_fr,
       options.label_en AS answer_en,
+      options.label_fr AS answer_fr,
       options.option_number AS answer_number,
       answers.option_number AS answered
     FROM pontoonapps_careerguide.questions
@@ -63,14 +66,17 @@ async function answeredQuestions(userId) {
 
       questions.push({
         question_id: row.question_id,
-        title_en: row.title_en,
         question_en: row.question_en,
+        question_fr: row.question_fr,
         answer_number: row.answered,
         options: options,
       });
     }
-    // push the current question's option data
-    options.push({ answer_en: row.answer_en, answer_number: row.answer_number });
+
+    options.push({
+      answer_en: row.answer_en,
+      answer_fr: row.answer_fr,
+      answer_number: row.answer_number });
   }
   return questions;
 }
@@ -118,7 +124,9 @@ function formatNextJobForAPI(job) {
   return {
     id: job.id,
     title_en: job.title_en,
+    title_fr: job.title_fr,
     description_en: job.description_en,
+    description_fr: job.description_fr,
     image: job.image,
   };
 }
@@ -140,7 +148,9 @@ async function getFreshJobs(userId) {
     SELECT
       jobs.id,
       jobs.title_en,
+      jobs.title_fr,
       jobs.description_en,
+      jobs.description_fr,
       categories.icon_filename AS image,
       jobs.teamwork,
       jobs.physical_activity,
@@ -206,8 +216,11 @@ async function getNextQuestion(userId) {
     SELECT
       questions.id AS question_id,
       questions.title_en AS title_en,
+      questions.title_fr AS title_fr,
       questions.question_en AS question_en,
+      questions.question_fr AS question_fr,
       options.label_en AS answer_en,
+      options.label_fr AS answer_fr,
       options.option_number AS answer_number
     FROM pontoonapps_careerguide.questions
     JOIN pontoonapps_careerguide.options
@@ -233,15 +246,22 @@ async function getNextQuestion(userId) {
   // aggregate the options
   const options = [];
   for (const row of questionData) {
-    options.push({ label_en: row.answer_en, option_number: row.answer_number });
+    options.push({
+      label_en: row.answer_en,
+      label_fr: row.answer_fr,
+      option_number: row.answer_number,
+    });
   }
 
   const question = {
     id: questionData[0].question_id,
     options: options,
     question_en: questionData[0].question_en,
+    question_fr: questionData[0].question_fr,
     title_en: questionData[0].title_en,
+    title_fr: questionData[0].title_fr,
   };
+
   return question;
 }
 

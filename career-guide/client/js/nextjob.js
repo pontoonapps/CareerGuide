@@ -14,6 +14,7 @@ async function getNextItem() {
     window.location = './';
   } else {
     console.log('Error from server: ' + response.status + '. Could not get next item');
+    shared.errorTitle();
   }
 }
 
@@ -40,7 +41,7 @@ async function submitItem(event) {
 
   // log if error connecting to server
   if (!response.ok) {
-    document.querySelector('h1').textContent = 'Something went wrong! Please refresh';
+    shared.errorTitle();
     return false;
   }
   return true;
@@ -90,43 +91,46 @@ async function submitAndLoadNext(event) {
 }
 
 function displayNoJobs() {
-  const infoText = document.querySelector('#info-text');
   document.querySelector('#title').textContent = "That's all for now!";
+  shared.bothLanguages('#title', "That's all for now!", "C'est tout pour le moment !");
   document.querySelector('#item-image').src = 'img/question.jpg';
   document.querySelector('#item-image').alt = 'question mark';
 
-  infoText.textContent = '';
-  infoText.append(
-    'Congratulations, you have now seen all the jobs in our system! ',
-    'Check out your likes and dislikes at ',
-    createLink('likehistory.html', 'the like history page'),
-    ', or see ',
-    createLink('shortlist.html', 'what you have shortlisted'),
-    '.',
+  // TODO, get more detailed translations so we know where to put links in French text
+  // and we can put them back in the English text
+  shared.bothLanguages(
+    '#info-text',
+    'Congratulations, you have seen all the jobs in our system! ' +
+    'Check out your likes and dislikes at the like history page' +
+    ', or see what you have shortlisted',
+    'Félicitations, vous avez visionné tous les emplois inscrits dans notre système ! ' +
+    'Consultez vos "j\'aime" et "je n\'aime pas" sur la page dédiée, ou retrouvez les emplois que vous avez sélectionnés. ',
   );
 
   // set main grid height to auto so the text doesn't scroll
   document.documentElement.style.setProperty('--next-job-height', 'auto');
 
-  for (const button of document.querySelectorAll('button')) {
+  for (const button of document.querySelectorAll('main > button')) {
     button.style.display = 'none';
   }
 }
 
-function createLink(href, textContent) {
-  const linkEl = document.createElement('a');
-  linkEl.href = href;
-  linkEl.textContent = textContent;
-  return linkEl;
-}
+// function createLink(href, textContent) {
+//   const linkEl = document.createElement('a');
+//   linkEl.href = href;
+//   linkEl.textContent = textContent;
+//   return linkEl;
+// }
 
 function displayItem(item) {
-  for (const button of document.querySelectorAll('button')) { // hide buttons
+  // hide buttons in <main> (only in <main> to skip language selector in <nav>)
+  for (const button of document.querySelectorAll('main > button')) {
     button.style.display = 'none';
   }
 
   // display info shared by questions and jobs (image and title)
-  displayTitle(item.title_en);
+  shared.bothLanguages('#title', item.title_en, item.title_fr); // sets title text
+  resizeTitle(); // shrinks title font size if overflowing
 
   if (isQuestion(item)) {
     // item without description is a question
@@ -136,10 +140,12 @@ function displayItem(item) {
     for (const option of item.options) {
       const button = document.querySelectorAll('.question')[buttonIndex];
       button.style.display = '';
-      button.textContent = option.label_en;
+      shared.bothLanguages(button, option.label_en, option.label_fr);
       button.dataset.choice = option.option_number;
       buttonIndex += 1;
     }
+
+    shared.bothLanguages('#info-text', item.question_en, item.question_fr);
     displayInfoText(item);
 
     // show question image
@@ -156,6 +162,7 @@ function displayItem(item) {
     document.querySelector('#item-image').alt = 'job icon';
 
     // show job description
+    shared.bothLanguages('#info-text', item.description_en, item.description_fr);
     displayInfoText(item);
   }
 }
@@ -167,9 +174,6 @@ function isQuestion(item) {
 function displayInfoText(item) {
   const infoText = document.querySelector('#info-text');
   const showMore = document.querySelector('#show-more');
-
-  const text = isQuestion(item) ? item.question_en : item.description_en;
-  infoText.textContent = text;
 
   infoText.classList.toggle('question-text', isQuestion(item));
 
@@ -192,15 +196,14 @@ function truncateOverflow(container) {
   container.textContent = cutText;
 }
 
-function displayTitle(titleText) {
+function resizeTitle() {
   const titleEl = document.querySelector('#title');
-  titleEl.textContent = titleText;
 
   // set title then fontsize to 2em, if title overflows decrease font size until no overflow
   let fontEm = 2;
   let overflowing = true;
   document.documentElement.style.setProperty('--title-fontsize', `${fontEm}em`);
-  while (overflowing === true && fontEm > 0) {
+  while (overflowing === true && fontEm > 1) {
     fontEm -= 0.1;
     document.documentElement.style.setProperty('--title-fontsize', `${fontEm}em`);
     if (titleEl.clientHeight === titleEl.scrollHeight &&
@@ -233,13 +236,17 @@ function addEventListeners() {
     #btn-show-later,
     #btn-like,
     #submit-shortlist`;
+
   for (const button of document.querySelectorAll(submitButtonsSelector)) {
     button.addEventListener('click', submitAndLoadNext);
   }
+
   document.querySelector('#btn-shortlist').addEventListener('click', confirmShortlist);
   document.querySelector('#show-more').addEventListener('click', expandInfoText);
   document.querySelector('#show-less').addEventListener('click', collapseInfoText);
   window.addEventListener('resize', () => { displayInfoText(currentItem); });
+
+  document.addEventListener('language-changed', resizeTitle);
 }
 
 async function loadPage() {

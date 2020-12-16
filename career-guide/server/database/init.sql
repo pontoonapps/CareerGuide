@@ -38,6 +38,7 @@ ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 CREATE TABLE IF NOT EXISTS `pontoonapps_careerguide`.`categories` (
   id                INT             PRIMARY KEY AUTO_INCREMENT,
   title_en          VARCHAR(255),
+  title_fr          VARCHAR(255),
   icon_filename     VARCHAR(100)
 )
 ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -46,7 +47,7 @@ CREATE TABLE IF NOT EXISTS `pontoonapps_careerguide`.`jobs` (
   id                INT             PRIMARY KEY AUTO_INCREMENT,
   title_en          VARCHAR(255),
   description_en    TEXT,
-  titre_fr          VARCHAR(255),
+  title_fr          VARCHAR(255),
   description_fr    TEXT,
   category_id       INT             NOT NULL,
 
@@ -90,7 +91,9 @@ ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 CREATE TABLE IF NOT EXISTS `pontoonapps_careerguide`.`questions` (
   id                INT             PRIMARY KEY AUTO_INCREMENT,
   title_en          VARCHAR(255)    NOT NULL,
+  title_fr          VARCHAR(255)    NOT NULL,
   question_en       TEXT            NOT NULL,
+  question_fr       TEXT            NOT NULL,
   jobs_column       ENUM(
     'teamwork', 'physical_activity', 'creativity', 'driving', 'travel',
     'hours_flexibility', 'care_work', 'danger')     NOT NULL
@@ -102,6 +105,7 @@ CREATE TABLE IF NOT EXISTS `pontoonapps_careerguide`.`options` (
   option_number     INT             NOT NULL,
   question_id       INT             NOT NULL,
   label_en          VARCHAR(255)    NOT NULL,
+  label_fr          VARCHAR(255)    NOT NULL,
   min               INT             NOT NULL,
   max               INT             NOT NULL,
 
