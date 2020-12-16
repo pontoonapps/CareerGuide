@@ -20,7 +20,6 @@
     if (localStorage.getItem('PONTOON_CG_LANG') === 'french') {
       document.querySelector('body').classList.remove('in-english');
       document.querySelector('body').classList.add('in-french');
-      // TODO double check this translation as it was taken from "welcome to career guide"
       const title = document.querySelector('title');
       title.textContent = title.dataset.frenchTitle;
     }
