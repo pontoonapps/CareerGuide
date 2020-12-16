@@ -35,7 +35,6 @@ button {
 .btn-container > button {
   width: 40%;
   max-width: 10em;
-  height: 3.5em;
   margin-top: 0.5em;
   min-height: 4em;
 }
