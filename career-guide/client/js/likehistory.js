@@ -139,9 +139,9 @@ async function changeChoice(event) {
     shared.createToast();
     updateJobBtn(event, jobBtns);
     if (event.target.dataset.answer === 'like') {
-      shared.bothLanguages(timeStamp, 'liked just now', `aimé à l'instant`); // french text has single quotes in so string can't be single quote
+      shared.bothLanguages(timeStamp, 'liked just now', "aimé à l'instant"); // french text has single quotes in so string can't be single quote
     } else {
-      shared.bothLanguages(timeStamp, 'disliked just now', `pas aimé à l'instant`); // french text has single quotes in so string can't be single quote
+      shared.bothLanguages(timeStamp, 'disliked just now', "pas aimé à l'instant"); // french text has single quotes in so string can't be single quote
     }
   } else {
     shared.errorTitle();
