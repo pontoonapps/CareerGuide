@@ -1,4 +1,4 @@
-,,-- pontoonapps_careerguide.categories
+-- pontoonapps_careerguide.categories
 UPDATE `pontoonapps_careerguide`.`categories` SET title_fr='Agriculture, horticulture et services auprès des animaux' WHERE id=1;
 UPDATE `pontoonapps_careerguide`.`categories` SET title_fr='Gestion des biens et des installations' WHERE id=2;
 UPDATE `pontoonapps_careerguide`.`categories` SET title_fr='Services financiers' WHERE id=3;
