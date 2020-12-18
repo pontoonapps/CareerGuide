@@ -436,6 +436,10 @@ main {
   margin: 0 auto;
 }
 
+#partner-banner {
+  max-width: 100%;
+}
+
 .list-item-container {
   display: grid;
   grid-template-rows: auto auto auto auto;
