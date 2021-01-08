@@ -62,7 +62,7 @@ const knownDummyUsers = [
   undefined, // no index 0
   'jacek',
   'kane',
-  'pontuz',
+  'nylah',
   'test4',
   'test5',
   'test6',

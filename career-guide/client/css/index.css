@@ -255,6 +255,13 @@ h1 {
   margin: 0.25rem auto;
 }
 
+#interreg-logo {
+  width: 15em;
+  height: 10em;
+  object-fit: scale-down;
+  margin: 0.25rem auto;
+}
+
 #logo-link {
   align-self: center;
 }
@@ -434,6 +441,10 @@ main {
   max-width: max-content;
   width: 100%;
   margin: 0 auto;
+}
+
+#partner-banner {
+  max-width: 100%;
 }
 
 .list-item-container {

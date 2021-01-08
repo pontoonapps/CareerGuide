@@ -3,7 +3,7 @@ INSERT INTO `pontoonapps_jobseeker`.`users`
 VALUES
   (1, 'jacek'),
   (2, 'kane'),
-  (3, 'pontuz'),
+  (3, 'nylah'),
   (4, 'test4'),
   (5, 'test5'),
   (6, 'test6'),
