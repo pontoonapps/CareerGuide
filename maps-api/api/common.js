@@ -17,8 +17,9 @@ function setupAppWithCommonRoutesAndAuth() {
   app.use(checkApiKey);
   app.get('/ping', msg('api key accepted'));
 
-  app.use(authBasic());
+  // authBasic must come last because if we don't have auth then, it will 401
   app.use(authCookie());
+  app.use(authBasic());
 
   return app;
 }
