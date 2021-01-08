@@ -1,8 +1,8 @@
 const express = require('express');
-const basicAuth = require('../lib/express-basic-auth');
 
 const config = require('../config');
-const db = require('../db').common;
+
+const authBasic = require('./auth/basic');
 
 // create an express router that is common for API versions
 function setupAppWithCommonRoutesAndAuth() {
@@ -16,9 +16,7 @@ function setupAppWithCommonRoutesAndAuth() {
   app.use(checkApiKey);
   app.get('/ping', msg('api key accepted'));
 
-  const auth = basicAuth({
-    authorizer: checkDBUser,
-  });
+  const auth = authBasic();
 
   app.use(auth);
 
@@ -47,18 +45,6 @@ function checkApiKey(req, res, next) {
     res.sendStatus(403);
   }
 }
-
-async function checkDBUser(user, pwd, authObj) {
-  const userRole = await db.findUserRole(user, pwd);
-  if (userRole != null) {
-    authObj.id = userRole.id;
-    authObj.role = userRole.role;
-    return true;
-  } else {
-    return false;
-  }
-}
-
 
 module.exports = {
   promiseWrap,
