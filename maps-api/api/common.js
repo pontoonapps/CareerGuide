@@ -3,6 +3,7 @@ const express = require('express');
 const config = require('../config');
 
 const authBasic = require('./auth/basic');
+const authCookie = require('./auth/cookie');
 
 // create an express router that is common for API versions
 function setupAppWithCommonRoutesAndAuth() {
@@ -16,9 +17,8 @@ function setupAppWithCommonRoutesAndAuth() {
   app.use(checkApiKey);
   app.get('/ping', msg('api key accepted'));
 
-  const auth = authBasic();
-
-  app.use(auth);
+  app.use(authBasic());
+  app.use(authCookie());
 
   return app;
 }
