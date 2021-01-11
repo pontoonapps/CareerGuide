@@ -7,7 +7,10 @@ const config = require('./config');
 const rootApp = express();
 
 // allow local testing of pages
-rootApp.use(cors({ origin: 'http://localhost:8080' }));
+rootApp.use(cors({
+  origin: 'http://localhost:8080',
+  credentials: true,
+}));
 
 const api = require('./api');
 
