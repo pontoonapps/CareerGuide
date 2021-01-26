@@ -6,19 +6,25 @@ Career guide is a tool designed to inspire job seekers using a content based rec
 
 To run the app the database must first be set up.
 
-##### TODO Jack please enter installation details for deployment
-
 ### Setting up the database
 
 Create a copy of career-guide/server/config-template.json to career-guide/server/config.json
 
 ## Installation
 
-TODO rough but accurate, probably encompasses config and db config
+* install as a Node.js app: `npm install`
+* to set up a local DB for testing, use `npm reset-db` (requires MySQL); in hosting, set up the database as appropriate using the scripts in `server/database`.
+* copy `server/config-template.json` into `server/config.json` and update
+  * `mysql` is straightforward connection details for the database
+  * `DEPLOYMENT_ROOT` – the path at which the server lives (for testing it can be `/`, at pontoonapps.com it is `/career-guide/`)
+  * `LOGIN_CHECK_URL` – the path to the cookie auth check PHP script (at pontoonapps.com it is `https://pontoonapps.com/is_logged_in.php`)
+* to run, use `npm start`
+
+On pontoonapps.com, the hosting platform does `npm install` and `npm start` for us.
 
 ## Design
 
-TODO point to routes-and-auth, give broad-strokes overview, introduce the ERD
+The API is defined in docs/routes-and-auth.md
 
 #### ERD
 ![ERD](docs/images/erd.png)
