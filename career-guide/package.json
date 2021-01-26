@@ -1,7 +1,7 @@
 {
   "name": "career-guide",
   "version": "1.0.0",
-  "description": "",
+  "description": "Server and client code for PONToon Career Guide",
   "main": "server/server.js",
   "scripts": {
     "lint": "eslint . && stylelint **/*.css",
@@ -11,8 +11,8 @@
     "dev-win": "set TESTING_DUMMY_AUTH=1 & set PORT=8080 & nodemon server/server.js",
     "reset-db": "sh server/database/reset-db.sh"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Jacek Kopecky <jacek@jacek.cz>",
+  "license": "MIT",
   "devDependencies": {
     "eslint": "^6.8.0",
     "eslint-config-portsoc": "^0.6.0",
