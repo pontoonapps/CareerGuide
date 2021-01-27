@@ -64,4 +64,4 @@ Next run the following sql scripts to initialize the database:
 ### Database
 
 #### ERD
-![ERD](docs/images/erd.png)
+![ERD](career-guide/docs/images/erd.png)
