@@ -27,7 +27,7 @@ On pontoonapps.com, the hosting platform does `npm install` and `npm start` for 
 The API is defined in docs/routes-and-auth.md
 
 #### ERD
-![ERD](docs/images/erd.png)
+![ERD](career-guide/docs/images/erd.png)
 
 Set the attributes in the newly created config.json file to match your database and server.
 
