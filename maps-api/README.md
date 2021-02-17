@@ -149,6 +149,11 @@ If your key is ABCDEFGH, you can check the API at https://pontoonapps.com/commun
 Users in the app use their pontoonapps.com account details: the API accepts pontoonapps.com "job seekers" (internally under the role _user_) and "recruiters".
 
 The app uses these account details (email and password) with **HTTP Basic Authentication** in all API requests (except `ping`). Without valid credentials, the API returns 401 Unauthorized.
+The API accepts two forms of credentials: HTTP Basic with email and password, and a PHP session ID in a cookie for web-based login.
+
+1. The main site's PHP session cookie can tie the user to an account. Otherwise, the following auth options apply.
+
+3. The app can get account details (email and password) with **HTTP Basic Authentication** in all API requests (except `ping`). Without valid credentials, the API returns 401 Unauthorized.
 
 Any registered user can request their map pins at `<root>[/v2]/pins`; if they have never submitted any, this will return an empty array.
 
@@ -156,21 +161,10 @@ _NB: The login API call is only for checking role and training centres and is no
 
 #### Guest accounts (read-only users)
 
-Some user accounts (with the internal role of _user_) can be restricted to be read-only, i.e. not allowing and updates. These then serve as _guest accounts_ for the purpose of a public service.
+A _guest account_ is a special set of authentication credentials that represents a read-only user tied to one training centre. This then serves the purpose of a public service.
 
-* an account can be restricted by setting `visible` in the `users` table to `false`
-* we could instead add a column in the `users` table
-* we could extend tables under our control:
-  - `training_centre_assignments` – a user could be marked as restricted when assigned to some training centre
-    * only users assigned to training centres can be restricted
-    * we have to check training centre assignments to authorize any updates
-  - `user_map_pins_v2` – a user could have a special pin that restricts them
-    * any user could be restricted
-    * a user could possibly even restrict themselves
-    * we have to check pins to authorize any updates
-  - add `user_restrictions` – a user could have a restriction in there
-
-* the API /login needs to report a new role: `readonly_user`
+* this is stored in the table `training_centre_features` that tells us whether a training centre has enabled a guest account
+* we would later need a way for a training centre to enable/disable their guest account (by default disabled, enabled manually in the DB for the special user requesting this feature)
 
 
 ## Assumptions
