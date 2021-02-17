@@ -154,7 +154,23 @@ Any registered user can request their map pins at `<root>[/v2]/pins`; if they ha
 
 _NB: The login API call is only for checking role and training centres and is not required; there are no sessions and every API request contains the credentials._
 
+#### Guest accounts (read-only users)
 
+Some user accounts (with the internal role of _user_) can be restricted to be read-only, i.e. not allowing and updates. These then serve as _guest accounts_ for the purpose of a public service.
+
+* an account can be restricted by setting `visible` in the `users` table to `false`
+* we could instead add a column in the `users` table
+* we could extend tables under our control:
+  - `training_centre_assignments` – a user could be marked as restricted when assigned to some training centre
+    * only users assigned to training centres can be restricted
+    * we have to check training centre assignments to authorize any updates
+  - `user_map_pins_v2` – a user could have a special pin that restricts them
+    * any user could be restricted
+    * a user could possibly even restrict themselves
+    * we have to check pins to authorize any updates
+  - add `user_restrictions` – a user could have a restriction in there
+
+* the API /login needs to report a new role: `readonly_user`
 
 
 ## Assumptions
