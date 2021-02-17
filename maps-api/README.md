@@ -28,7 +28,9 @@ The main routes are:
 
 ### Map Pin routes
 
-* GET `<root>/v2/pins` – return array of all pins visible to this user
+Guest accounts only have access to the GET route.
+
+* GET `<root>/v2/pins` – return array of all pins visible to this user or guest account
 * POST `<root>/v2/pins` – add a user pin (accepts JSON)
   * if the JSON includes an ID, this is an update operation (existence of that ID among this user's pins is checked)
   * if the JSON does not include an ID, this is an add operation (creates a new pin)
@@ -45,7 +47,7 @@ The main routes are:
 
 Original (v1) API:
 
-* GET `<root>/pins` – return array of all pins visible to this user
+* GET `<root>/pins` – return array of all pins visible to this user or guest account
 * POST `<root>/pins` – add a user pin (accepts JSON)
   * if the user already has a pin with this name, the pin information is all updated
   * returns 204 No Content on success
@@ -105,7 +107,7 @@ These routes return `403 Forbidden` if the current user is not a training centre
 
 (v1 and v2 APIs are the same, the `/v2` part of the URL is optional)
 
-These routes return `403 Forbidden` if the current user is not a normal user (i.e. if they are a training centre).
+These routes return `403 Forbidden` if the current user is not a normal user (i.e. if they are a training centre or a guest account).
 
 * GET `<root>[/v2]/user/training-centres` – return array of training centres of the given user (same data structure as in `training_centres` at `<root>/login` below)
 * POST `<root>[/v2]/user/training-centres/remove` – remove the calling user from the given training centre (accepts JSON)
@@ -122,7 +124,7 @@ These routes return `403 Forbidden` if the current user is not a normal user (i.
   ```
   {
     role:                "user" or "recruiter" or "guest",
-    training_centres: [
+    training_centres: [  // optional
       {
         email:           String,
         name: {
