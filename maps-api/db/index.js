@@ -412,6 +412,31 @@ async function removeUserFromTrainingCentre(userId, tcEmail) {
   return rows.affectedRows > 0;
 }
 
+/*
+ * finds the training centre identified by the given email
+ * but only if it has guest accounts enabled, then return its ID
+ */
+async function findGuestAccount(email) {
+  try {
+    const sql = await dbConn;
+    const query = `SELECT training_centre_id
+                   FROM recruiters r
+                   JOIN training_centre_features f
+                     ON r.id = f.training_centre_id
+                   WHERE r.email = ?`;
+
+    const [rows] = await sql.query(query, [email]);
+
+    if (rows.length > 0) {
+      return rows[0].id;
+    } else {
+      return null;
+    }
+  } catch (e) {
+    return null;
+  }
+}
+
 module.exports = {
   v1: {
     addUpdateUserPin: addUpdateUserPinV1,
@@ -435,5 +460,6 @@ module.exports = {
   },
   common: {
     findUserRole,
+    findGuestAccount,
   },
 };

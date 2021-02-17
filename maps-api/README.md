@@ -121,7 +121,7 @@ These routes return `403 Forbidden` if the current user is not a normal user (i.
 * GET `<root>[/v2]/login` – (optional) returns information about the user, in the following format:
   ```
   {
-    role:                "user" or "recruiter",
+    role:                "user" or "recruiter" or "guest",
     training_centres: [
       {
         email:           String,
@@ -137,6 +137,7 @@ These routes return `403 Forbidden` if the current user is not a normal user (i.
   - notes
     - in pontoonapps, training centres have "recruiter" role;
     - `training_centres` is there only if the role is "user"; if the user is not assigned to any training centre, it will be an empty array.
+    - `guest` is a user assigned to a training centre who can see the training centre's pins but does not have any pins of their own.
 
 ### Authentication
 
@@ -148,10 +149,13 @@ If your key is ABCDEFGH, you can check the API at https://pontoonapps.com/commun
 
 Users in the app use their pontoonapps.com account details: the API accepts pontoonapps.com "job seekers" (internally under the role _user_) and "recruiters".
 
-The app uses these account details (email and password) with **HTTP Basic Authentication** in all API requests (except `ping`). Without valid credentials, the API returns 401 Unauthorized.
 The API accepts two forms of credentials: HTTP Basic with email and password, and a PHP session ID in a cookie for web-based login.
 
 1. The main site's PHP session cookie can tie the user to an account. Otherwise, the following auth options apply.
+
+2. Special auth credentials for a guest user for a given training centre, sent through HTTP Basic Authentication as discussed below.
+  - username: "guest_account"             
+  - password: _the email address of the training centre_
 
 3. The app can get account details (email and password) with **HTTP Basic Authentication** in all API requests (except `ping`). Without valid credentials, the API returns 401 Unauthorized.
 
