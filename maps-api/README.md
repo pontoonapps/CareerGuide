@@ -11,9 +11,9 @@ If you want to install the API at pontoonapps.com:
 0. create a Node.js application in the cpanel
 1. `npm install` to load all dependencies
 2. make sure there's a MySQL database user available for this API implementation to use
-   * the database must contain the table `users` (as per PONToonapps.com)
-   * the database must contain the table `map_pins` (see `sql-init.sql` to create it)
-   * the database user should be suitably constrained (only select from `users`, select/insert/update/delete in `map_pins`)
+   * the database must contain the tables `users` and `recruiters` (as per PONToonapps.com)
+   * the database must contain the tables defined in `sql-init.sql`
+   * the database user should be suitably constrained (only select from `users` and `recruiters`, select/insert/update/delete in the tables defined in `sql-init.sql`)
 3. edit `config.json` (possibly create one from `config-template.json`)
    * create and give _API keys_ to app developer(s)
 
@@ -27,8 +27,6 @@ The API has two versions: v1 (not indicated in the URL) used pin name to identif
 The main routes are:
 
 ### Map Pin routes
-
-Guest accounts only have access to the GET route.
 
 * GET `<root>/v2/pins` – return array of all pins visible to this user or guest account
 * POST `<root>/v2/pins` – add a user pin (accepts JSON)
@@ -138,30 +136,37 @@ These routes return `403 Forbidden` if the current user is not a normal user (i.
   ```
   - notes
     - in pontoonapps, training centres have "recruiter" role;
-    - `training_centres` is there only if the role is "user"; if the user is not assigned to any training centre, it will be an empty array.
-    - `guest` is a user assigned to a training centre who can see the training centre's pins but does not have any pins of their own.
+    - the `training_centres` array is there only if the role is "user"; if the user is not assigned to any training centre, it will be an empty array.
+    - the role "guest" indicates a user assigned to a training centre who can see the training centre's pins but does not have any pins of their own.
 
 ### Authentication
 
-The API must only be accessed over HTTPS.
+The API must only be accessed over HTTPS. There are two parts to authentication: an API key to identify client software, and user credentials.
+
+#### API Key
 
 The API uses an **API key provided as a URL query parameter** `apiKey`; this key should be kept privately by the developers of the mobile app(s). If a key is found to be misused, it can be revoked. With the wrong key, the API returns 403 Forbidden.
 
 If your key is ABCDEFGH, you can check the API at https://pontoonapps.com/community-api/ping?apiKey=ABCDEFGH
 
+
+#### User credentials
+
 Users in the app use their pontoonapps.com account details: the API accepts pontoonapps.com "job seekers" (internally under the role _user_) and "recruiters".
 
-The API accepts two forms of credentials: HTTP Basic with email and password, and a PHP session ID in a cookie for web-based login.
+The API accepts two forms of credentials: HTTP Basic with email and password (with a special case for guest accounts), and a PHP session ID in a cookie for web-based login; listed below in order of precedence:
 
 1. The main site's PHP session cookie can tie the user to an account. Otherwise, the following auth options apply.
 
-2. Special auth credentials for a guest user for a given training centre, sent through HTTP Basic Authentication as discussed below.
+2. Special auth credentials for a guest user for a given training centre, sent through HTTP Basic Authentication as discussed in the next point.
   - username: "guest_account"             
   - password: _the email address of the training centre_
 
-3. The app can get account details (email and password) with **HTTP Basic Authentication** in all API requests (except `ping`). Without valid credentials, the API returns 401 Unauthorized.
+3. Account details (email and password) with **HTTP Basic Authentication** in all API requests (except `ping`).
 
-Any registered user can request their map pins at `<root>[/v2]/pins`; if they have never submitted any, this will return an empty array.
+Without valid credentials of any of the forms listed above, the API returns 401 Unauthorized.
+
+Any registered PONTOON user can request their map pins at `<root>[/v2]/pins`; if they have never submitted any, this will return an empty array.
 
 _NB: The login API call is only for checking role and training centres and is not required; there are no sessions and every API request contains the credentials._
 
@@ -170,7 +175,6 @@ _NB: The login API call is only for checking role and training centres and is no
 A _guest account_ is a special set of authentication credentials that represents a read-only user tied to one training centre. This then serves the purpose of a public service.
 
 * this is stored in the table `training_centre_features` that tells us whether a training centre has enabled a guest account
-* we would later need a way for a training centre to enable/disable their guest account (by default disabled, enabled manually in the DB for the special user requesting this feature)
 
 
 ## Assumptions
@@ -182,3 +186,4 @@ A _guest account_ is a special set of authentication credentials that represents
 
 * recognized API keys probably could be in the database rather than in the config file
 * check that in cpanel we can't have more fine-grained access control than db-wide privileges
+* we should have a way for a training centre to enable/disable their guest account (by default disabled, enabled manually in the DB for the special user requesting this feature)
