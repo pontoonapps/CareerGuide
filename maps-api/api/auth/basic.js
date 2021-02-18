@@ -18,12 +18,24 @@ module.exports = () => {
 };
 
 async function checkDBUser(user, pwd, authObj) {
-  const userRole = await db.findUserRole(user, pwd);
-  if (userRole != null) {
-    authObj.id = userRole.id;
-    authObj.role = userRole.role;
-    return true;
+  if (user === 'guest_account') {
+    // find whether the password identifies a guest-account-enabled training centre
+    const trainingCentre = await db.findGuestAccount(pwd);
+    if (trainingCentre != null) {
+      authObj.role = 'guest';
+      authObj.trainingCentreID = trainingCentre;
+      return true;
+    } else {
+      return false;
+    }
   } else {
-    return false;
+    const userRole = await db.findUserRole(user, pwd);
+    if (userRole != null) {
+      authObj.id = userRole.id;
+      authObj.role = userRole.role;
+      return true;
+    } else {
+      return false;
+    }
   }
 }

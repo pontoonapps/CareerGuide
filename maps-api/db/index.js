@@ -92,8 +92,20 @@ async function listTrainingCentrePins(tcId) {
   return extractPinInfo(rows);
 }
 
+async function listGuestAccountPins(tcId) {
+  const sql = await dbConn;
+  const query = `SELECT id, name, category, description, phone, website,
+                        email, address_line_1, address_line_2,
+                        postcode, latitude, longitude, notes
+                 FROM training_centre_map_pins_v2
+                 WHERE training_centre_id = ?`;
+  const [rows] = await sql.query(query, [tcId]);
 
-function extractPinInfo(rows) {
+  return extractPinInfo(rows, true);
+}
+
+
+function extractPinInfo(rows, guest = false) {
   const pins = [];
   for (const row of rows) {
     const pin = {};
@@ -117,8 +129,8 @@ function extractPinInfo(rows) {
     if (row.tc_email != null) pin.training_centre_email = row.tc_email;
     /* eslint-enable no-multi-spaces */
 
-    // userPin is always there
-    pin.userPin = row.tc_email == null;
+    // the property userPin is always there
+    pin.userPin = guest ? false : row.tc_email == null;
   }
   return pins;
 }
@@ -412,6 +424,32 @@ async function removeUserFromTrainingCentre(userId, tcEmail) {
   return rows.affectedRows > 0;
 }
 
+/*
+ * finds the training centre identified by the given email
+ * but only if it has guest accounts enabled, then return its ID
+ */
+async function findGuestAccount(email) {
+  try {
+    const sql = await dbConn;
+    const query = `SELECT training_centre_id
+                   FROM recruiters r
+                   JOIN training_centre_features f
+                     ON r.id = f.training_centre_id
+                   WHERE r.email = ?
+                     AND has_guest_account`;
+
+    const [rows] = await sql.query(query, [email]);
+
+    if (rows.length > 0) {
+      return rows[0].training_centre_id;
+    } else {
+      return null;
+    }
+  } catch (e) {
+    return null;
+  }
+}
+
 module.exports = {
   v1: {
     addUpdateUserPin: addUpdateUserPinV1,
@@ -428,6 +466,7 @@ module.exports = {
   v1v2: {
     listUserPins,
     listTrainingCentrePins,
+    listGuestAccountPins,
     findUserTrainingCentres,
     listTrainingCentreUsers,
     updateTrainingCentreUsers,
@@ -435,5 +474,6 @@ module.exports = {
   },
   common: {
     findUserRole,
+    findGuestAccount,
   },
 };
