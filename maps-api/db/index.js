@@ -423,12 +423,13 @@ async function findGuestAccount(email) {
                    FROM recruiters r
                    JOIN training_centre_features f
                      ON r.id = f.training_centre_id
-                   WHERE r.email = ?`;
+                   WHERE r.email = ?
+                     AND has_guest_account`;
 
     const [rows] = await sql.query(query, [email]);
 
     if (rows.length > 0) {
-      return rows[0].id;
+      return rows[0].training_centre_id;
     } else {
       return null;
     }
