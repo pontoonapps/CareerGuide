@@ -27,7 +27,7 @@ async function getUserPins(req, res, next) {
       res.json(await db.listTrainingCentrePins(req.auth.id));
       break;
     case 'guest':
-      res.json(await db.listTrainingCentrePins(req.auth.trainingCentreID));
+      res.json(await db.listGuestAccountPins(req.auth.trainingCentreID));
       break;
     default:
       res.status(403).send('unrecognized user role');
