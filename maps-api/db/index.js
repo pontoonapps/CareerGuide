@@ -450,6 +450,31 @@ async function findGuestAccount(email) {
   }
 }
 
+async function getTrainingCentreGuestAccountState(tcId) {
+  const sql = await dbConn;
+  const query = `SELECT has_guest_account
+                 FROM training_centre_features
+                 WHERE training_centre_id = ?`;
+  const [rows] = await sql.query(query, [tcId]);
+
+  // return true if the training centre has guest account enabled
+  if (rows.length > 0) {
+    return rows[0].has_guest_account !== 0;
+  } else {
+    return false;
+  }
+}
+
+async function setTrainingCentreGuestAccountState(tcId, state) {
+  const sql = await dbConn;
+  const query =
+    `INSERT INTO training_centre_features
+       (training_centre_id, has_guest_account)
+     VALUES (?)
+     ON DUPLICATE KEY UPDATE has_guest_account = ?`;
+  await sql.query(query, [[tcId, state], state]);
+}
+
 module.exports = {
   v1: {
     addUpdateUserPin: addUpdateUserPinV1,
@@ -471,6 +496,8 @@ module.exports = {
     listTrainingCentreUsers,
     updateTrainingCentreUsers,
     removeUserFromTrainingCentre,
+    getTrainingCentreGuestAccountState,
+    setTrainingCentreGuestAccountState,
   },
   common: {
     findUserRole,
