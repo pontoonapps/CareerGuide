@@ -103,7 +103,7 @@ These routes return `403 Forbidden` if the current user is not a training centre
 
 Routes for guest account management:
 
-* GET `<root>[/v2]/training-centre/guest-account` – return `true` or `false`
+* GET `<root>[/v2]/training-centre/guest-account` – return `true` or `false` for whether the guest account is enabled
 * POST `<root>[/v2]/training-centre/guest-account` – enable (`true`) or disable (`false`) guest account for the authenticated training centre
   - the body is an object: `{ "has_guest_account": true or false }`
 
