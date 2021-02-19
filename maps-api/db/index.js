@@ -457,7 +457,7 @@ async function getTrainingCentreGuestAccountState(tcId) {
                  WHERE training_centre_id = ?`;
   const [rows] = await sql.query(query, [tcId]);
 
-  // return true if the training centre has a guest account
+  // return true if the training centre has guest account enabled
   if (rows.length > 0) {
     return rows[0].has_guest_account !== 0;
   } else {
