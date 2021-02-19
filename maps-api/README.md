@@ -101,6 +101,11 @@ These routes return `403 Forbidden` if the current user is not a training centre
   - removing users that were not assigned to the training centre is also ignored;
   - returns the result list of users assigned to the training centre (like the GET method above).
 
+Routes for guest account management:
+
+* GET `<root>[/v2]/training-centre/guest_account` – return `true` or `false`
+* POST `<root>[/v2]/training-centre/guest_account` – enable (`true`) or disable (`false`) guest account for the authenticated training centre
+
 ### User routes:
 
 (v1 and v2 APIs are the same, the `/v2` part of the URL is optional)
