@@ -14,6 +14,9 @@ function setupV1AndV2CommonRoutes(app) {
   app.get('/training-centre/users', promiseWrap(getTrainingCentreUsers));
   app.post('/training-centre/users', express.json(), promiseWrap(updateTrainingCentreUsers));
 
+  app.get('/training-centre/guest_account', promiseWrap(getTrainingCentreGuestAccountState));
+  app.post('/training-centre/guest_account', express.json(), promiseWrap(setTrainingCentreGuestAccountState));
+
   app.get('/user/training-centres', promiseWrap(getUserTrainingCentres));
   app.post('/user/training-centres/remove', express.json(), promiseWrap(removeUserFromTrainingCentre));
 }
@@ -106,6 +109,33 @@ async function removeUserFromTrainingCentre(req, res, next) {
 
   res.sendStatus(204);
 }
+
+async function getTrainingCentreGuestAccountState(req, res, next) {
+  if (req.auth.role !== 'recruiter') {
+    res.sendStatus(403);
+    return;
+  }
+
+  res.json(await db.getTrainingCentreGuestAccountState(req.auth.id));
+}
+
+async function setTrainingCentreGuestAccountState(req, res, next) {
+  if (req.auth.role !== 'recruiter') {
+    res.sendStatus(403);
+    return;
+  }
+
+  const state = req.body;
+
+  if (typeof state !== 'boolean') {
+    res.sendStatus(400);
+    return;
+  }
+
+  await db.setTrainingCentreGuestAccountState(req.auth.id, state);
+  res.sendStatus(204);
+}
+
 
 module.exports = {
   setupV1AndV2CommonRoutes,
