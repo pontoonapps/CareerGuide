@@ -82,3 +82,7 @@ Next run the following sql scripts to initialize the database:
 
 #### ERD
 ![ERD](career-guide/docs/images/erd.png)
+
+## More Information
+
+Visit our website for more information about the [PONToon Project](https://www.pontoonproject.eu/) 
